@@ -6,7 +6,7 @@
   "author": "Karen Frilya Celine <karenfrilya@google.com>",
   "license": "MIT",
   "scripts": {
-    "start:server": "nodemon server/src/index.js"
+    "build": "nodemon src/index.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.1",
