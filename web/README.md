@@ -1,8 +1,14 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Prerequisites
+Install [Node 10](nodejs.org) and [Yarn](classic.yarnpkg.com/en/docs/install/).
+
+## Development
 
 In the project directory, you can run:
+
+### `yarn`
+This will install all of the dependencies you need.
 
 ### `yarn start`
 
@@ -11,6 +17,22 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
+
+### `yarn lint`
+
+Lints and check for formatting problems.
+
+### `yarn fix`
+
+Automatically fixes formatting and linting problems (if possible).
+
+### `yarn clean`
+
+Removes output files
+
+### `yarn compile`
+
+Compiles the source code using TypeScript compiler.
 
 ### `yarn test`
 
