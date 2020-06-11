@@ -4,5 +4,9 @@
   "main": "index.js",
   "repository": "git@github.com:googleinterns/gpay-group-buy.git",
   "author": "Karen Frilya Celine <karenfrilya@google.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2"
+  }
 }
