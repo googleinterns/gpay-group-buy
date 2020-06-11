@@ -1,0 +1,4 @@
+src/serviceWorker.js
+src/react-app-env.d.ts
+**/*.d.ts
+src/**/__tests__/**

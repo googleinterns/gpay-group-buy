@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "./node_modules/gts/",
+    "plugin:react/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "jasmine": true,
+    "jest": true
+  },
+  "rules": {
+    // Permits comparing to null with "==" to check for null or undefined
+    "eqeqeq": [2, "allow-null"]
+  }
+}
