@@ -6,7 +6,9 @@
   "author": "Karen Frilya Celine <karenfrilya@google.com>",
   "license": "MIT",
   "scripts": {
-    "build": "nodemon src/index.js"
+    "start": "nodemon src/index.js",
+    "lint": "gts check",
+    "fix": "gts fix"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.1",
