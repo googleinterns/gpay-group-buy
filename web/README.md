@@ -28,7 +28,7 @@ Automatically fixes formatting and linting problems (if possible).
 
 ### `yarn clean`
 
-Removes output files
+Removes output files.
 
 ### `yarn compile`
 
