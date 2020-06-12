@@ -36,7 +36,7 @@ router.use('/customers', customerRouter);
 router.use('/listings', listingRouter);
 router.use('/commits', commitRouter);
 
-app.use('/api/v1', router);
+app.use('/', router);
 
 const port = process.env.port || 5000;
 app.listen(port);
