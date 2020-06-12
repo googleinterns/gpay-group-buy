@@ -15,22 +15,23 @@ This will install all of the dependencies you need.
 ### `yarn start`
 
 Runs the app in the development mode.<br />
-Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
+Receives REST API requests at [http://localhost:5000](http://localhost:5000).
+You can use [Postman](https://www.postman.com/downloads/) to send REST requests
+and view the responses.<br />
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+The page will reload if you make edits.
 
 ### `yarn lint`
 
-Lints and check for formatting problems.
+Lints and check for formatting problems using Google TypeScript Style (gts).
 
 ### `yarn fix`
 
-Automatically fixes formatting and linting problems (if possible).
+Automatically fixes formatting and linting problems (if possible) using gts.
 
 ### `yarn clean`
 
-Removes output files.
+Removes output files using gts.
 
 ### `yarn compile`
 
