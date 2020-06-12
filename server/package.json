@@ -8,12 +8,19 @@
   "scripts": {
     "start": "nodemon src/index.js",
     "lint": "gts check",
-    "fix": "gts fix"
+    "fix": "gts fix",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "prepare": "yarn run compile",
+    "pretest": "yarn run compile",
+    "posttest": "yarn run lint"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.1",
     "@babel/core": "^7.10.2",
     "gts": "^2.0.2",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "typescript": "^3.8.3",
+    "@types/node": "^13.11.1"
   }
 }
