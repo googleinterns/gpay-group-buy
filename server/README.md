@@ -27,3 +27,11 @@ Lints and check for formatting problems.
 ### `yarn fix`
 
 Automatically fixes formatting and linting problems (if possible).
+
+### `yarn clean`
+
+Removes output files.
+
+### `yarn compile`
+
+Compiles the source code using TypeScript compiler.
