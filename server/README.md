@@ -23,15 +23,17 @@ The page will reload if you make edits.
 
 ### `yarn lint`
 
-Lints and check for formatting problems using Google TypeScript Style (gts).
+Lints and check for formatting problems according to [Google Typescript Style]
+(https://github.com/google/gts).
 
 ### `yarn fix`
 
-Automatically fixes formatting and linting problems (if possible) using gts.
+Automatically fixes formatting and linting problems (if possible) according to
+[Google Typescript Style] (https://github.com/google/gts).
 
 ### `yarn clean`
 
-Removes output files using gts.
+Removes output files.
 
 ### `yarn compile`
 
