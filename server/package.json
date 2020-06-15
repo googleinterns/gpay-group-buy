@@ -1,0 +1,25 @@
+{
+  "name": "gpay-group-buy-server",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "repository": "git@github.com:googleinterns/gpay-group-buy.git",
+  "author": "Karen Frilya Celine",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "lint": "gts check",
+    "fix": "gts fix",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "prepare": "yarn run compile",
+    "pretest": "yarn run compile",
+    "posttest": "yarn run lint"
+  },
+  "devDependencies": {
+    "@types/node": "^13.11.1",
+    "gts": "^2.0.2",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.5"
+  }
+}
