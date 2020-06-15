@@ -16,7 +16,7 @@
 
 /**
  * @fileoverview Handles routing of /merchants endpoints.
- * @author karenfrilya@google.com (Karen Frilya Celine)
+ * @author Karen Frilya Celine
  */
 
 import * as express from 'express';

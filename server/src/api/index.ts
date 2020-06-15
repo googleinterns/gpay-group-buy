@@ -16,7 +16,7 @@
 
 /**
  * @fileoverview Handles routing of the different API routes.
- * @author karenfrilya@google.com (Karen Frilya Celine)
+ * @author Karen Frilya Celine
  */
 
 import { merchantRouter } from './merchants'

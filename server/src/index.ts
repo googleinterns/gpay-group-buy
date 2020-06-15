@@ -16,7 +16,7 @@
 
 /**
  * @fileoverview This file is the main entrypoint for GPay Group Buy server.
- * @author karenfrilya@google.com (Karen Frilya Celine)
+ * @author Karen Frilya Celine
  */
 
 import * as express from 'express';
