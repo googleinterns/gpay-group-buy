@@ -24,6 +24,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "@google-cloud/datastore": "^6.0.0",
     "@types/express": "^4.17.6",
     "express": "^4.17.1"
   }
