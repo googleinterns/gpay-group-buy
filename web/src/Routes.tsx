@@ -1,5 +1,5 @@
-import React, { lazy, Suspense } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, {lazy, Suspense} from 'react';
+import {Switch, Route} from 'react-router-dom';
 import Loading from './components/common/Loading';
 
 // Customer Pages
