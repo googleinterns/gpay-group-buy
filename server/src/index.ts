@@ -19,7 +19,7 @@
  * @author Karen Frilya Celine
  */
 
-import * as express from 'express';
+import express from 'express';
 import {
   commitsRouter,
   customersRouter,

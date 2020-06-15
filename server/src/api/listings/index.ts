@@ -19,7 +19,7 @@
  * @author Karen Frilya Celine
  */
 
-import * as express from 'express';
+import express from 'express';
 const router: express.Router = express.Router();
 
 export const listingsRouter = router;
