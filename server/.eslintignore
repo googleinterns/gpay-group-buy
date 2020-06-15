@@ -1,0 +1,15 @@
+# build artifacts
+build/*
+coverage/*
+
+# data definition files
+**/*.d.ts
+
+# 3rd party libs
+/src/public/
+
+# custom definition files
+/src/types/
+
+# test fixtures
+test/fixtures/

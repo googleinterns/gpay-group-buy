@@ -1,0 +1,19 @@
+language: node_js
+node_js: 10
+cache: yarn
+install:
+  - yarn
+matrix:
+  include:
+    - name: 'Backend'
+      before_install:
+        - cd server
+      script:
+        - yarn lint
+    - name: 'Frontend'
+      before_install:
+        - cd web
+      script:
+        - yarn lint
+        - yarn test
+        - yarn build
