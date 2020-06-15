@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "repository": "git@github.com:googleinterns/gpay-group-buy.git",
-  "author": "Karen Frilya Celine <karenfrilya@google.com>",
+  "author": "Karen Frilya Celine",
   "license": "Apache-2.0",
   "scripts": {
     "start": "nodemon",
@@ -16,8 +16,6 @@
     "posttest": "yarn run lint"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.1",
-    "@babel/core": "^7.10.2",
     "@types/node": "^13.11.1",
     "gts": "^2.0.2",
     "nodemon": "^2.0.4",
