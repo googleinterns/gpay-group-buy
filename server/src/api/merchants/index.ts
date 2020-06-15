@@ -27,4 +27,4 @@ router.get('/', function (req, res, next) {
   res.send('merchants');
 });
 
-export const merchantRouter = router;
+export const merchantsRouter = router;

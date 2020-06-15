@@ -23,4 +23,4 @@ import * as express from 'express';
 const app: express.Application = express();
 const router: express.Router = express.Router();
 
-export const listingRouter = router;
+export const listingsRouter = router;

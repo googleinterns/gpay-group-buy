@@ -25,16 +25,16 @@ const app: express.Application = express();
 const router: express.Router = express.Router();
 
 import {
-  merchantRouter,
-  customerRouter,
-  listingRouter,
-  commitRouter
+  merchantsRouter,
+  customersRouter,
+  listingsRouter,
+  commitsRouter
 } from './api';
 
-router.use('/merchants', merchantRouter);
-router.use('/customers', customerRouter);
-router.use('/listings', listingRouter);
-router.use('/commits', commitRouter);
+router.use('/merchants', merchantsRouter);
+router.use('/customers', customersRouter);
+router.use('/listings', listingsRouter);
+router.use('/commits', commitsRouter);
 
 app.use('/', router);
 
