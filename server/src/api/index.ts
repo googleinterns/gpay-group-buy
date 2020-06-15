@@ -19,14 +19,9 @@
  * @author Karen Frilya Celine
  */
 
-import { merchantsRouter } from './merchants'
-import { customersRouter } from './customers'
-import { listingsRouter } from './listings'
-import { commitsRouter } from './commits'
+import {commitsRouter} from './commits';
+import {customersRouter} from './customers';
+import {listingsRouter} from './listings';
+import {merchantsRouter} from './merchants';
 
-export {
-  merchantsRouter,
-  customersRouter,
-  listingsRouter,
-  commitsRouter
-};
+export {commitsRouter, customersRouter, listingsRouter, merchantsRouter};

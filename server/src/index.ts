@@ -20,24 +20,23 @@
  */
 
 import * as express from 'express';
+import {
+  commitsRouter,
+  customersRouter,
+  listingsRouter,
+  merchantsRouter,
+} from './api';
 
 const app: express.Application = express();
 const router: express.Router = express.Router();
 
-import {
-  merchantsRouter,
-  customersRouter,
-  listingsRouter,
-  commitsRouter
-} from './api';
-
-router.use('/merchants', merchantsRouter);
+router.use('/commits', commitsRouter);
 router.use('/customers', customersRouter);
 router.use('/listings', listingsRouter);
-router.use('/commits', commitsRouter);
+router.use('/merchants', merchantsRouter);
 
 app.use('/', router);
 
 const port = process.env.port || 5000;
 app.listen(port);
-console.log(`Listening on port ${port}`)
+console.log(`Listening on port ${port}`);

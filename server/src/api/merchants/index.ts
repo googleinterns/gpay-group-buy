@@ -20,10 +20,9 @@
  */
 
 import * as express from 'express';
-const app: express.Application = express();
 const router: express.Router = express.Router();
 
-router.get('/', function (req, res, next) {
+router.get('/', (req, res, next) => {
   res.send('merchants');
 });
 
