@@ -15,28 +15,15 @@
  */
 
 /**
- * @fileoverview This file is the main entrypoint for GPay Group Buy server.
+ * @fileoverview Handles routing of /merchants endpoints.
  * @author Karen Frilya Celine
  */
 
 import express from 'express';
-import {
-  commitsRouter,
-  customersRouter,
-  listingsRouter,
-  merchantsRouter,
-} from './api';
-
-const app: express.Application = express();
 const router: express.Router = express.Router();
 
-router.use('/commits', commitsRouter);
-router.use('/customers', customersRouter);
-router.use('/listings', listingsRouter);
-router.use('/merchants', merchantsRouter);
+router.get('/', (req, res, next) => {
+  res.send('merchants');
+});
 
-app.use('/', router);
-
-const port = process.env.port || 5000;
-app.listen(port);
-console.log(`Listening on port ${port}`);
+export const merchantsRouter = router;
