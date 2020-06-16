@@ -35,7 +35,14 @@ router.use('/customers', customersRouter);
 router.use('/listings', listingsRouter);
 router.use('/merchants', merchantsRouter);
 
-app.use('/', router);
+app.use(router);
+app.use((req, res, next) => {
+  console.log('hello');
+  res.status(404).send({
+    status: 404,
+    error: 'Not found',
+  });
+});
 
 const port = process.env.port || 5000;
 app.listen(port);
