@@ -11,5 +11,16 @@
   "rules": {
     // Permits comparing to null with "==" to check for null or undefined
     "eqeqeq": [2, "allow-null"]
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
   }
 }
