@@ -28,7 +28,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "gts check && yarn lint:css",
+    "lint": "yarn lint:code && yarn lint:css",
     "lint:code": "gts check",
     "lint:css": "stylelint ./src/**/*.tsx",
     "clean": "gts clean",
