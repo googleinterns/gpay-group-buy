@@ -1,4 +1,10 @@
-src/serviceWorker.js
-src/react-app-env.d.ts
+# build artifacts
+build/*
+coverage/*
+
+# data definition files
 **/*.d.ts
+
+# test misc
+test/fixtures/
 src/**/__tests__/**
