@@ -24,9 +24,12 @@ import {merchantsService} from 'services';
 
 const router: express.Router = express.Router();
 
-router.get('/', async (req, res, next) => {
-  const merchants = (await merchantsService.getMerchants())[0];
-  res.send(merchants);
+router.get('/', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  try {
+    const merchants = (await merchantsService.getMerchants())[0];
+  } catch (error) {
+    return next(error);
+  }
 });
 
 export const merchantsRouter = router;
