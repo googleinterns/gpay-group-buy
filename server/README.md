@@ -13,9 +13,14 @@ In the project directory, you can run:
 This will install all of the dependencies you need.
 
 ### `yarn start`
+Runs the app compiled using `yarn compile` for production mode.
+To run the most updated version of your code, make sure to run `yarn compile`
+before running `yarn start`.
+
+### `yarn start:dev`
 
 Runs the app in the development mode.<br />
-Receives REST API requests at [http://localhost:5000](http://localhost:5000).
+Receives REST API requests at [http://localhost:8080](http://localhost:8080).
 You can use [Postman](https://www.postman.com/downloads/) to send REST requests
 and view the responses.<br />
 
