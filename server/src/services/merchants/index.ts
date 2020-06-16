@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {merchantsModel} from '../../models';
+import {merchantsModel} from 'models';
 
 async function getMerchants() {
   return await merchantsModel.getMerchants();
