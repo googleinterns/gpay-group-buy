@@ -38,22 +38,31 @@ router.use('/merchants', merchantsRouter);
 app.use(router);
 
 // handles server error
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  res.status(err.status || 500).send({
-    error: {
-      status: err.status || 500,
-      message: err.message || 'Internal Server Error',
-    },
-  });
-});
+app.use(
+  (
+    err: any,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    res.status(err.status || 500).send({
+      error: {
+        status: err.status || 500,
+        message: err.message || 'Internal Server Error',
+      },
+    });
+  }
+);
 
 // handles routing error
-app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-  res.status(404).send({
-    status: 404,
-    error: 'Not Found',
-  });
-});
+app.use(
+  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    res.status(404).send({
+      status: 404,
+      error: 'Not Found',
+    });
+  }
+);
 
 const port = process.env.port || 5000;
 app.listen(port);
