@@ -14,19 +14,9 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Handles routing of /merchants endpoints.
- * @author Karen Frilya Celine
- */
+import {commitsModel} from './commits';
+import {customersModel} from './customers';
+import {listingsModel} from './listings';
+import {merchantsModel} from './merchants';
 
-import express from 'express';
-import {merchantsService} from '../../services';
-
-const router: express.Router = express.Router();
-
-router.get('/', async (req, res, next) => {
-  const merchants = (await merchantsService.getMerchants())[0];
-  res.send(merchants);
-});
-
-export const merchantsRouter = router;
+export {commitsModel, customersModel, listingsModel, merchantsModel};

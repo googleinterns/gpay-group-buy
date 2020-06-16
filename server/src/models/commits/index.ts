@@ -14,19 +14,10 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Handles routing of /merchants endpoints.
- * @author Karen Frilya Celine
- */
+import {Datastore} from '@google-cloud/datastore';
+import {Guid} from "guid-typescript";
 
-import express from 'express';
-import {merchantsService} from '../../services';
+const datastore = new Datastore();
+const KIND = 'Commit';
 
-const router: express.Router = express.Router();
-
-router.get('/', async (req, res, next) => {
-  const merchants = (await merchantsService.getMerchants())[0];
-  res.send(merchants);
-});
-
-export const merchantsRouter = router;
+export const commitsModel = {}
