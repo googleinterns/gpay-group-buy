@@ -15,9 +15,9 @@
  */
 
 import {Datastore} from '@google-cloud/datastore';
-import {Guid} from "guid-typescript";
+import {Guid} from 'guid-typescript';
 
 const datastore = new Datastore();
 const KIND = 'Commit';
 
-export const commitsModel = {}
+export const commitsModel = {};

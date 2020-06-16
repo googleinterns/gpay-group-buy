@@ -21,7 +21,7 @@
  */
 
 import {Datastore} from '@google-cloud/datastore';
-import {Guid} from "guid-typescript";
+import {Guid} from 'guid-typescript';
 
 const datastore = new Datastore();
 const KIND = 'Merchant';
@@ -29,22 +29,22 @@ const KIND = 'Merchant';
 async function getMerchants() {
   const query = datastore.createQuery(KIND);
   return await datastore.runQuery(query);
-};
+}
 
 async function getMerchant(merchantId: string) {
   const key = datastore.key([KIND, merchantId]);
   return await datastore.get(key);
-};
+}
 
 async function addMerchant(merchant: object) {
   return await datastore.insert({
     key: datastore.key([KIND, Guid.raw()]),
     data: merchant,
   });
-};
+}
 
 export const merchantsModel = {
   getMerchants,
   getMerchant,
-  addMerchant
+  addMerchant,
 };

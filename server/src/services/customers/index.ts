@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-import {customersModel} from '../../models'
+import {customersModel} from '../../models';
 
-export const customersService = {}
+export const customersService = {};
