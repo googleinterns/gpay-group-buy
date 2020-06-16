@@ -1,0 +1,10 @@
+runtime: nodejs10
+service: default
+
+handlers:
+  - url: /
+    static_files: build/index.html
+    upload: build/index.html
+
+  - url: /
+    static_dir: build
