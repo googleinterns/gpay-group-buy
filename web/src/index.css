@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
+:root {
+  /* brand fonts */
+  --primary-font: 'Poppins';
+}
+
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--primary-font), 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
