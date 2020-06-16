@@ -5,12 +5,6 @@ coverage/*
 # data definition files
 **/*.d.ts
 
-# 3rd party libs
-/src/public/
-
-# custom definition files
-/src/types/
-
 # test misc
 test/fixtures/
 src/**/__tests__/**
