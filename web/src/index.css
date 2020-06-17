@@ -14,11 +14,27 @@
  * limitations under the License.
  */
 
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
+:root {
+  /* brand colors */
+  --mint: #6BBDAE;
+  --pale-green: #C0E3E0;
+  --green: #009688;
+  --bright-red: #EB5757;
+  --red: #DB4437;
+  --pale-gray: #EFEFEF;
+  --light-gray: #BDBDBD;
+  --gray: #A0A0A0;
+  --dark-gray: #444444;
+
+  /* brand fonts */
+  --primary-font: 'Poppins';
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--primary-font), 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -26,4 +42,8 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+a {
+  color: var(--green);
 }
