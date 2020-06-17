@@ -6,7 +6,7 @@
   "author": "Karen Frilya Celine",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "nodemon -r tsconfig-paths/register",
+    "start": "nodemon",
     "lint": "gts check",
     "fix": "gts fix",
     "clean": "gts clean",
@@ -21,7 +21,6 @@
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
     "ts-node": "^8.10.2",
-    "tsconfig-paths": "^3.9.0",
     "typescript": "^3.8.3"
   },
   "dependencies": {

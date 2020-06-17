@@ -20,7 +20,7 @@
  */
 
 import express from 'express';
-import {merchantsService} from 'services';
+import {merchantsService} from '../../services';
 
 const router: express.Router = express.Router();
 

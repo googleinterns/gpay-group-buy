@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-import {commitsModel} from 'models';
+import {commitsModel} from '../../models';
 
 export const commitsService = {};
