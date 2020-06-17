@@ -47,10 +47,11 @@ Compiles the source code using TypeScript compiler.
 
 ```
 ├── src
-│   ├── api          # Express route controllers for all endpoints
-│   ├── models       # Database models
-│   ├── services     # Business logic handlers
-│   └── index.ts     # Server entry point
+│   ├── api            # Express route controllers for all endpoints
+│   ├── models         # Database models
+│   ├── services       # Business logic handlers
+│   └── constants.ts   # All constants used in the code
+│   └── index.ts       # Server entry point
 ```
 
 ### `api`, `models` and `services` Folder Structure
@@ -58,9 +59,9 @@ Compiles the source code using TypeScript compiler.
 Each of these folders contain the following files:
 
 ```
-├── commits.ts       # Commit-related functions
-├── customers.ts     # Customer-related functions
-├── index.ts         # Entry point to all the functions in this folder
-├── listings.ts      # Listing-related functions
-└── merchants.ts     # Merchant-related functions
+├── commits.ts         # Commit-related functions
+├── customers.ts       # Customer-related functions
+├── index.ts           # Entry point to all the functions in this folder
+├── listings.ts        # Listing-related functions
+└── merchants.ts       # Merchant-related functions
 ```
