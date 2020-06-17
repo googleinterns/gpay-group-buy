@@ -23,8 +23,7 @@
 import {Datastore} from '@google-cloud/datastore';
 import {Guid} from 'guid-typescript';
 
-import {Kinds} from '../constants';
-const MERCHANT_KIND: string = Kinds.MERCHANT_KIND;
+import {MERCHANT_KIND} from '../constants';
 
 const datastore = new Datastore();
 
