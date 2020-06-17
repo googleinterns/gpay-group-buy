@@ -22,4 +22,4 @@
 import express from 'express';
 const router: express.Router = express.Router();
 
-export const commitsRouter = router;
+export const commitsRouter: express.Router = router;
