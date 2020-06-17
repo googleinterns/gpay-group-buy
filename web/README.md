@@ -75,6 +75,17 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 └── public                         # Contains the HTML template of our app
 ```
 
+### Component Folder Structure
+
+Folders `customer`/ and `merchant`/ will have the following folder structure:
+
+```
+└── my-page
+    ├── index.tsx                   # Entry point of the page
+    ├── MyPageComponentA.tsx        # Components that are only used for that page
+    └── ...
+```
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
