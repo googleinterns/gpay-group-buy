@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import {Datastore} from '@google-cloud/datastore';
-import {Guid} from 'guid-typescript';
-
-const datastore = new Datastore();
-
-export const listingsModel = {};
+export namespace Kinds {
+  export const COMMIT_KIND = 'Commit';
+  export const CUSTOMER_KIND = 'Customer';
+  export const LISTING_KIND = 'Listing';
+  export const MERCHANT_KIND = 'Merchant';
+}
