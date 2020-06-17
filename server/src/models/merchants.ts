@@ -28,7 +28,8 @@ const KIND = 'Merchant';
 
 async function getMerchants() {
   const query = datastore.createQuery(KIND);
-  return await datastore.runQuery(query);
+  const [merchants, info] = await datastore.runQuery(query);
+  return merchants;
 }
 
 async function getMerchant(merchantId: string) {
