@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-import {merchantsModel} from '../../models';
+import {customersModel} from '../models';
 
-async function getMerchants() {
-  return await merchantsModel.getMerchants();
-}
-
-export const merchantsService = {
-  getMerchants,
-};
+export const customersService = {};
