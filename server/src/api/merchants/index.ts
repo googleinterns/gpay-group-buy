@@ -33,6 +33,7 @@ router.get(
   ) => {
     try {
       const merchants = (await merchantsService.getMerchants())[0];
+      res.send(merchants);
     } catch (error) {
       return next(error);
     }
