@@ -37,6 +37,6 @@ router.use('/merchants', merchantsRouter);
 
 app.use('/', router);
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 app.listen(port);
 console.log(`Listening on port ${port}`);

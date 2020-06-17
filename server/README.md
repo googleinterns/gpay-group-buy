@@ -20,7 +20,7 @@ before running `yarn start`.
 ### `yarn start:dev`
 
 Runs the app in the development mode.<br />
-Receives REST API requests at [http://localhost:8080](http://localhost:8080).
+Receives REST API requests at [http://localhost:5000](http://localhost:5000).
 You can use [Postman](https://www.postman.com/downloads/) to send REST requests
 and view the responses.<br />
 
