@@ -16,9 +16,7 @@
 
 import {merchantsModel} from '../models';
 
-async function getMerchants() {
-  return await merchantsModel.getMerchants();
-}
+const getMerchants = async () => await merchantsModel.getMerchants();
 
 export const merchantsService = {
   getMerchants,
