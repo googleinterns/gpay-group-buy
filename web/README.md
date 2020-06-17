@@ -28,7 +28,7 @@ Lints code according to [Google Typescript Style](https://github.com/google/gts)
 
 #### `yarn lint:css`
 
-Lints CSS. Run `yarn lint:css --fix`  to fix lint errors automatically (if possible).
+Lints CSS in styled components.
 
 ### `yarn fix`
 
