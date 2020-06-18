@@ -24,12 +24,6 @@ import ListingPrice from 'components/common/ListingPrice';
 const CardContent = styled.div`
   display: flex;
   flex-direction: column;
-
-  padding: 0.8em;
-
-  & > * {
-    margin: 0;
-  }
 `;
 
 const Date = styled.span`

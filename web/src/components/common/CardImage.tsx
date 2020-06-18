@@ -27,11 +27,10 @@ interface CardContainerProps {
   height?: string;
 }
 
-const CardContainer = styled.div`
+const ImageContainer = styled.div`
   width: ${({width}: CardContainerProps) => width || '100%'};
-  min-height: DEFAULT_IMG_HEIGHT;
-  height: ${({height}: CardContainerProps) => height || MIN_IMG_HEIGHT};
-  overflow: hidden;
+  min-height: ${MIN_IMG_HEIGHT};
+  height: ${({ height }: CardContainerProps) => height || MIN_IMG_HEIGHT};
 `;
 
 const StyledCardImage = styled.img`
@@ -48,9 +47,9 @@ interface CardImageProps {
 }
 
 const CardImage: React.FC<CardImageProps> = ({img, width, height}) => (
-  <CardContainer width={width} height={height}>
+  <ImageContainer width={width} height={height}>
     <StyledCardImage src={img.url} alt={img.alt || 'Card Image'} />
-  </CardContainer>
+  </ImageContainer>
 );
 
 export default CardImage;

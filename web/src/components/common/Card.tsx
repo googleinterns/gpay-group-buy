@@ -37,6 +37,15 @@ const CardContainer = styled.div`
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
 `;
 
+const ImageContainer = styled.div`
+  flex-shrink: 0;
+`;
+
+const CardContent = styled.div`
+  padding: 0.8em;
+  flex-grow: 1;
+`;
+
 interface CardProps {
   img?: Image;
   imgLeft?: boolean;
@@ -45,9 +54,15 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({img, imgLeft, children}) => (
   <CardContainer imgLeft={imgLeft}>
     {img !== undefined && (
-      <CardImage img={img} width={imgLeft ? '150px' : undefined} />
+      <ImageContainer>
+        <CardImage
+          img={img}
+          width={imgLeft ? '150px' : undefined}
+          height={imgLeft ? '100%' : undefined}
+        />
+      </ImageContainer>
     )}
-    {children}
+    <CardContent>{children}</CardContent>
   </CardContainer>
 );
 
