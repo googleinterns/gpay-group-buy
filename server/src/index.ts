@@ -38,7 +38,7 @@ router.use('/merchants', merchantRouter);
 
 app.use(router);
 
-// handles server error
+// This handles server errors.
 app.use(
   (
     err: any,
@@ -55,7 +55,7 @@ app.use(
   }
 );
 
-// handles routing error
+// This handles routing errors.
 app.use(
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
     res.status(404).send({
