@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
-import {listingStorage} from '../storage';
-
-export const listingService = {};
+export const COMMIT_KIND = 'Commit';
+export const CUSTOMER_KIND = 'Customer';
+export const LISTING_KIND = 'Listing';
+export const MERCHANT_KIND = 'Merchant';

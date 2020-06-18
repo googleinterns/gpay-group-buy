@@ -20,22 +20,50 @@
  */
 
 import express from 'express';
+
 import {
-  commitsRouter,
-  customersRouter,
-  listingsRouter,
-  merchantsRouter,
+  commitRouter,
+  customerRouter,
+  listingRouter,
+  merchantRouter,
 } from './api';
 
 const app: express.Application = express();
 const router: express.Router = express.Router();
 
-router.use('/commits', commitsRouter);
-router.use('/customers', customersRouter);
-router.use('/listings', listingsRouter);
-router.use('/merchants', merchantsRouter);
+router.use('/commits', commitRouter);
+router.use('/customers', customerRouter);
+router.use('/listings', listingRouter);
+router.use('/merchants', merchantRouter);
 
-app.use('/', router);
+app.use(router);
+
+// This handles server errors.
+app.use(
+  (
+    err: any,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    res.status(err.status || 500).send({
+      error: {
+        status: err.status || 500,
+        message: err.message || 'Internal Server Error',
+      },
+    });
+  }
+);
+
+// This handles routing errors.
+app.use(
+  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    res.status(404).send({
+      status: 404,
+      error: 'Not Found',
+    });
+  }
+);
 
 const port = process.env.PORT || 5000;
 app.listen(port);

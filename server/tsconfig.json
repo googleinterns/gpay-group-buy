@@ -12,6 +12,7 @@
     "outDir": "build",
     "skipLibCheck": true,
     "strict": true,
+    "baseUrl": "./src/"
   },
   "include": [
     "src/**/*.ts",

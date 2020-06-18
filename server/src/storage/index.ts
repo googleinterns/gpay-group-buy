@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
-import {listingStorage} from '../storage';
+import {commitStorage} from './commits';
+import {customerStorage} from './customers';
+import {listingStorage} from './listings';
+import {merchantStorage} from './merchants';
 
-export const listingService = {};
+export {commitStorage, customerStorage, listingStorage, merchantStorage};

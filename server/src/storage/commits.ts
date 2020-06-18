@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
-import {listingStorage} from '../storage';
+import {Datastore} from '@google-cloud/datastore';
+import {Guid} from 'guid-typescript';
 
-export const listingService = {};
+const datastore = new Datastore();
+
+export const commitStorage = {};

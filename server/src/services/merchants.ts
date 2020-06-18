@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import {merchantsModel} from '../models';
+import {merchantStorage} from '../storage';
 
-const getMerchants = async () => await merchantsModel.getMerchants();
+const getAllMerchants = async () => await merchantStorage.getAllMerchants();
 
-export const merchantsService = {
-  getMerchants,
+export const merchantService = {
+  getAllMerchants,
 };
