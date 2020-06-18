@@ -24,7 +24,7 @@ Lints and checks TypeScript code for formatting problems according to [Google Ty
 
 #### `yarn lint:code`
 
-Lints code according to [Google Typescript Style](https://github.com/google/gts) only.
+Lints and checks TypeScript code for formatting problems according to [Google Typescript Style](https://github.com/google/gts) only.
 
 #### `yarn lint:css`
 
