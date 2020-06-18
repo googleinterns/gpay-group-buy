@@ -20,6 +20,7 @@
  */
 
 import express from 'express';
+
 import {merchantService} from '../services';
 
 const router: express.Router = express.Router();
