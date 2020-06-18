@@ -32,8 +32,12 @@ router.get(
     res: express.Response,
     next: express.NextFunction
   ) => {
-    const merchants = await merchantService.getAllMerchants();
-    res.send(merchants);
+    try {
+      const merchants = await merchantService.getAllMerchants();
+      res.send(merchants);
+    } catch (error) {
+      return next(error);
+    }
   }
 );
 
