@@ -46,12 +46,12 @@ Compiles the source code using TypeScript compiler.
 ## Project Structure
 
 ```
-├── src
-│   ├── api            # Express route controllers for all endpoints
-│   ├── models         # Database models
-│   ├── services       # Business logic handlers
-│   └── constants.ts   # All constants used in the code
-│   └── index.ts       # Server entry point
+└── src
+    ├── api            # Express route controllers for all endpoints
+    ├── models         # Database models
+    ├── services       # Business logic handlers
+    ├── constants.ts   # All constants used in the code
+    └── index.ts       # Server entry point
 ```
 
 ### `api`, `models` and `services` Folder Structure
