@@ -28,7 +28,7 @@ Lints and checks TypeScript code for formatting problems according to [Google Ty
 
 #### `yarn lint:css`
 
-Lints CSS in styled components.
+Lints CSS in styled components using [stylelint](https://stylelint.io/) with the [standard config rules](https://github.com/stylelint/stylelint-config-standard).
 
 ### `yarn fix`
 
