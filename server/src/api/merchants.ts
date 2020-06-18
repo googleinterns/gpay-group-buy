@@ -15,13 +15,26 @@
  */
 
 /**
- * @fileoverview Handles routing of the different API routes.
+ * @fileoverview Handles routing of /merchants endpoints.
  * @author Karen Frilya Celine
  */
 
-import {commitRouter} from './commits';
-import {customerRouter} from './customers';
-import {listingRouter} from './listings';
-import {merchantRouter} from './merchants';
+import express from 'express';
 
-export {commitRouter, customerRouter, listingRouter, merchantRouter};
+import {merchantService} from '../services';
+
+const router: express.Router = express.Router();
+
+router.get(
+  '/',
+  async (
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    const merchants = await merchantService.getAllMerchants();
+    res.send(merchants);
+  }
+);
+
+export const merchantRouter: express.Router = router;

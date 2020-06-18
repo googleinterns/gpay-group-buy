@@ -14,16 +14,9 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Handles routing of /merchants endpoints.
- * @author Karen Frilya Celine
- */
+import {Datastore} from '@google-cloud/datastore';
+import {Guid} from 'guid-typescript';
 
-import express from 'express';
-const router: express.Router = express.Router();
+const datastore = new Datastore();
 
-router.get('/', (req, res, next) => {
-  res.send('merchants');
-});
-
-export const merchantsRouter = router;
+export const listingStorage = {};

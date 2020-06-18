@@ -15,13 +15,11 @@
  */
 
 /**
- * @fileoverview Handles routing of the different API routes.
+ * @fileoverview Handles routing of /customers endpoints.
  * @author Karen Frilya Celine
  */
 
-import {commitRouter} from './commits';
-import {customerRouter} from './customers';
-import {listingRouter} from './listings';
-import {merchantRouter} from './merchants';
+import express from 'express';
+const router: express.Router = express.Router();
 
-export {commitRouter, customerRouter, listingRouter, merchantRouter};
+export const customerRouter: express.Router = router;

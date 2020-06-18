@@ -14,14 +14,9 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Handles routing of the different API routes.
- * @author Karen Frilya Celine
- */
+import {commitService} from './commits';
+import {customerService} from './customers';
+import {listingService} from './listings';
+import {merchantService} from './merchants';
 
-import {commitRouter} from './commits';
-import {customerRouter} from './customers';
-import {listingRouter} from './listings';
-import {merchantRouter} from './merchants';
-
-export {commitRouter, customerRouter, listingRouter, merchantRouter};
+export {commitService, customerService, listingService, merchantService};

@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Handles routing of /listings endpoints.
- * @author Karen Frilya Celine
- */
+import {merchantStorage} from '../storage';
 
-import express from 'express';
-const router: express.Router = express.Router();
+const getAllMerchants = async () => await merchantStorage.getAllMerchants();
 
-export const listingsRouter = router;
+export const merchantService = {
+  getAllMerchants,
+};

@@ -14,14 +14,7 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Handles routing of the different API routes.
- * @author Karen Frilya Celine
- */
-
-import {commitRouter} from './commits';
-import {customerRouter} from './customers';
-import {listingRouter} from './listings';
-import {merchantRouter} from './merchants';
-
-export {commitRouter, customerRouter, listingRouter, merchantRouter};
+export const COMMIT_KIND = 'Commit';
+export const CUSTOMER_KIND = 'Customer';
+export const LISTING_KIND = 'Listing';
+export const MERCHANT_KIND = 'Merchant';
