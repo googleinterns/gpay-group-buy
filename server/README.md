@@ -42,3 +42,31 @@ Removes output files.
 ### `yarn compile`
 
 Compiles the source code using TypeScript compiler.
+
+## Project Structure
+
+```
+└── src
+    ├── api            # Express route controllers for all endpoints
+    ├── constants      # All constants used in the code
+    ├── models         # Database models
+    ├── services       # Business logic handlers
+    └── index.ts       # Server entry point
+```
+
+### `api`, `models` and `services` Folder Structure
+
+Each of these folders contain the following files:
+
+```
+├── commits.ts         # Commit-related functions
+├── customers.ts       # Customer-related functions
+├── index.ts           # Entry point to all the functions in this folder
+├── listings.ts        # Listing-related functions
+└── merchants.ts       # Merchant-related functions
+```
+
+### `constants` Folder Structure
+
+Each file in this folder contains a group of constants that are closely related. 
+The file name specifies the constants inside it.
