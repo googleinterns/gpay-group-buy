@@ -23,12 +23,14 @@ import {Switch, Route} from 'react-router-dom';
 const CustomerExplorePage = lazy(() => import('components/customer/explore'));
 // Merchant Pages
 const MerchantLandingPage = lazy(() => import('components/merchant/landing'));
+const MerchantSignUpPage = lazy(() => import('components/merchant/sign-up'));
 
 const Routes: React.FC = () => (
   <Suspense fallback={<Loading />}>
     <Switch>
       <Route exact path="/" component={CustomerExplorePage} />
       <Route exact path="/merchant" component={MerchantLandingPage} />
+      <Route exact path="/merchant/sign-up" component={MerchantSignUpPage} />
     </Switch>
   </Suspense>
 );
