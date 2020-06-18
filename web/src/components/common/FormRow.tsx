@@ -25,20 +25,21 @@ const StyledRow = styled(Row)`
   align-items: center;
   justify-content: center;
 
-  margin: 30px 0;
+  margin: 20px 0;
 `;
 
 const Label = styled.label`
-  width: 130px;
-  font-size: 18px;
+  width: 100px;
+  font-size: 14px;
+  margin-right: 20px;
 `;
 
 const Input = styled.input`
-  height: 40px;
-  font-size: 18px;
-  padding: 0 20px;
+  height: 30px;
+  font-size: 14px;
+  padding: 0 15px;
 
-  border-radius: 20px;
+  border-radius: 15px;
   border: none;
   box-shadow: 4px 2px 4px rgba(0, 0, 0, 0.25);
 

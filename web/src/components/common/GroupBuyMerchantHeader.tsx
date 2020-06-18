@@ -27,13 +27,13 @@ const HeaderContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 124px;
+  width: 80px;
 `;
 
 const Header = styled.h1`
-  font-size: 48px;
+  font-size: 32px;
   font-weight: normal;
-  line-height: 72px;
+  line-height: 48px;
   margin: 0;
 `;
 

@@ -30,7 +30,7 @@ const CardContainer: React.FC = styled.div`
   background: var(--pale-gray);
   border-radius: 30px;
   max-width: 670px;
-  padding: 80px;
+  padding: 40px;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
 `;
 
@@ -40,22 +40,22 @@ const StyledRow = styled(Row)`
   align-items: center;
   justify-content: center;
 
-  margin: 30px 0;
+  margin: 15px 0;
 `;
 
 const SubmitButton = styled.input`
-  height: 60px;
-  width: 300px;
-  border-radius: 30px;
+  height: 40px;
+  width: 200px;
+  border-radius: 20px;
   border: none;
 
   background: var(--dark-gray);
   color: white;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bolder;
   text-transform: uppercase;
 
-  margin-top: 80px;
+  margin-top: 30px;
 
   &:hover {
     cursor: pointer;
