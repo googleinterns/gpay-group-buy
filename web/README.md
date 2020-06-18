@@ -59,6 +59,33 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+## Project Structure
+
+```
+├── src
+│   ├── assets                     # Project assets, eg. icons, illustrations
+│   ├── components
+│   │   ├── common                 # Reusable components
+│   │   ├── customer               # Customer related pages and its components
+│   │   └── merchant               # Merchant related pages and its components
+│   ├── App.tsx                    # App entry point
+│   ├── index.tsx                  # JavaScript entry point
+│   ├── Routes.tsx                 # App routing component
+│   └── serviceWorker.ts
+└── public                         # Contains the HTML template of our app
+```
+
+### Component Folder Structure
+
+Folders `customer`/ and `merchant`/ will have the following folder structure:
+
+```
+└── my-page
+    ├── index.tsx                   # Entry point of the page
+    ├── MyPageComponentA.tsx        # Components that are only used for that page
+    └── ...
+```
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
