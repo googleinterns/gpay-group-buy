@@ -48,9 +48,9 @@ Compiles the source code using TypeScript compiler.
 ```
 └── src
     ├── api            # Express route controllers for all endpoints
+    ├── constants      # All constants used in the code
     ├── models         # Database models
     ├── services       # Business logic handlers
-    ├── constants.ts   # All constants used in the code
     └── index.ts       # Server entry point
 ```
 
@@ -65,3 +65,8 @@ Each of these folders contain the following files:
 ├── listings.ts        # Listing-related functions
 └── merchants.ts       # Merchant-related functions
 ```
+
+### `constants` Folder Structure
+
+Each file in this folder contains a group of constants that are closely related. 
+The file name specifies the constants inside it.
