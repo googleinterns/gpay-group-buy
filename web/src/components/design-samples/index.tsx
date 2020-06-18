@@ -16,11 +16,10 @@
 
 import React from 'react';
 
-import Container from 'muicss/lib/react/container';
-
 import Card from 'components/common/Card';
-import StrippedCol from 'components/common/StrippedCol';
 import ListingCard from 'components/common/ListingCard';
+import StrippedCol from 'components/common/StrippedCol';
+import Container from 'muicss/lib/react/container';
 
 const SAMPLE_IMG_URL = 'https://picsum.photos/seed/picsum/200/300';
 
@@ -35,7 +34,8 @@ const DesignSamplesPage: React.FC = () => (
           alt: 'Random Image',
         }}
       >
-        Card with image on top. Risus quis varius quam quisque id diam vel quam elementum pulvinar etiam.
+        Card with image on top. Risus quis varius quam quisque id diam vel quam
+        elementum pulvinar etiam.
       </Card>
     </StrippedCol>
     <StrippedCol xs={6}>
@@ -69,14 +69,14 @@ const DesignSamplesPage: React.FC = () => (
         }}
         imgLeft
       >
-        Card with image on left. Risus quis varius quam quisque id diam vel quam elementum pulvinar etiam
-        non quam lacus est pellentesque elit.
+        Card with image on left. Risus quis varius quam quisque id diam vel quam
+        elementum pulvinar etiam non quam lacus est pellentesque elit.
       </Card>
     </StrippedCol>
     <StrippedCol xs={12}>
       <Card>
-        Card with no image. Risus quis varius quam quisque id diam vel quam elementum pulvinar etiam
-        non quam lacus est pellentesque elit.
+        Card with no image. Risus quis varius quam quisque id diam vel quam
+        elementum pulvinar etiam non quam lacus est pellentesque elit.
       </Card>
     </StrippedCol>
   </Container>

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import styled from 'styled-components';
 import Col from 'muicss/lib/react/col';
+import styled from 'styled-components';
 
 const StrippedCol = styled(Col)`
   padding: 0;

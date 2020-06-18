@@ -16,9 +16,8 @@
 
 import React from 'react';
 
-import styled from 'styled-components';
-
 import {Image} from 'interfaces';
+import styled from 'styled-components';
 
 const MIN_IMG_HEIGHT = '120px';
 
@@ -30,7 +29,7 @@ interface CardContainerProps {
 const ImageContainer = styled.div`
   width: ${({width}: CardContainerProps) => width || '100%'};
   min-height: ${MIN_IMG_HEIGHT};
-  height: ${({ height }: CardContainerProps) => height || MIN_IMG_HEIGHT};
+  height: ${({height}: CardContainerProps) => height || MIN_IMG_HEIGHT};
 `;
 
 const StyledCardImage = styled.img`

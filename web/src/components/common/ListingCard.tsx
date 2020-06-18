@@ -16,10 +16,9 @@
 
 import React from 'react';
 
-import styled from 'styled-components';
-
 import Card from 'components/common/Card';
 import ListingPrice from 'components/common/ListingPrice';
+import styled from 'styled-components';
 
 const CardContent = styled.div`
   display: flex;

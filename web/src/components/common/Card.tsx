@@ -16,10 +16,9 @@
 
 import React from 'react';
 
-import styled from 'styled-components';
-
 import CardImage from 'components/common/CardImage';
 import {Image} from 'interfaces';
+import styled from 'styled-components';
 
 interface CardContainerProps {
   imgLeft?: boolean;
