@@ -14,14 +14,9 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Handles routing of the different API routes.
- * @author Karen Frilya Celine
- */
+import {Datastore} from '@google-cloud/datastore';
+import {Guid} from 'guid-typescript';
 
-import {commitRouter} from './commits';
-import {customerRouter} from './customers';
-import {listingRouter} from './listings';
-import {merchantRouter} from './merchants';
+const datastore = new Datastore();
 
-export {commitRouter, customerRouter, listingRouter, merchantRouter};
+export const commitStorage = {};
