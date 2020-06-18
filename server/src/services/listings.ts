@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-import {listingsModel} from '../models';
+import {listingsStorage} from '../storage';
 
 export const listingsService = {};

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import {merchantsModel} from '../models';
+import {merchantsStorage} from '../storage';
 
-const getMerchants = async () => await merchantsModel.getMerchants();
+const getMerchants = async () => await merchantsStorage.getMerchants();
 
 export const merchantsService = {
   getMerchants,

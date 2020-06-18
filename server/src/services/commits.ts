@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-import {commitsModel} from '../models';
+import {commitsStorage} from '../storage';
 
 export const commitsService = {};
