@@ -15,6 +15,7 @@
  */
 
 import React from 'react';
+
 import Row from 'muicss/lib/react/row';
 import styled from 'styled-components';
 
@@ -51,7 +52,7 @@ interface FormRowProps {
   inputType: string;
 }
 
-const FormRow: React.FC<FormRowProps> =  ({label, inputType}) => (
+const FormRow: React.FC<FormRowProps> = ({label, inputType}) => (
   <StyledRow>
     <Label>{label}</Label>
     <Input type={inputType}></Input>

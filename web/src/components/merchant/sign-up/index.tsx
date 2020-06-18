@@ -15,10 +15,10 @@
  */
 
 import React from 'react';
-import Container from 'muicss/lib/react/container';
-import styled from 'styled-components';
 
 import OnboardingCard from 'components/merchant/sign-up/OnboardingCard';
+import Container from 'muicss/lib/react/container';
+import styled from 'styled-components';
 
 const PageContainer = styled(Container)`
   min-height: 100vh;
@@ -32,9 +32,9 @@ const PageContainer = styled(Container)`
 `;
 
 const MerchantSignUpPage: React.FC = () => (
-    <PageContainer>
-      <OnboardingCard />
-    </PageContainer>
+  <PageContainer>
+    <OnboardingCard />
+  </PageContainer>
 );
 
 export default MerchantSignUpPage;

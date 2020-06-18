@@ -15,12 +15,12 @@
  */
 
 import React from 'react';
+
+import FormRow from 'components/common/FormRow';
+import GroupBuyMerchantHeader from 'components/common/GroupBuyMerchantHeader';
 import Form from 'muicss/lib/react/form';
 import Row from 'muicss/lib/react/row';
 import styled from 'styled-components';
-
-import GroupBuyMerchantHeader from 'components/common/GroupBuyMerchantHeader';
-import FormRow from 'components/common/FormRow';
 
 const CardContainer: React.FC = styled.div`
   display: flex;
@@ -66,7 +66,7 @@ const SubmitButton = styled.input`
   }
 `;
 
-const OnboardingCard: React.FC =  () => (
+const OnboardingCard: React.FC = () => (
   <CardContainer>
     <GroupBuyMerchantHeader />
     <Form>
@@ -79,7 +79,9 @@ const OnboardingCard: React.FC =  () => (
         <SubmitButton type="submit" value="Sign Up" />
       </StyledRow>
     </Form>
-    <div>Already have an account? <a href="/sign-in">Sign in</a> now!</div>
+    <div>
+      Already have an account? <a href="/sign-in">Sign in</a> now!
+    </div>
   </CardContainer>
 );
 

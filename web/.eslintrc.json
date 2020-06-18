@@ -38,7 +38,9 @@
           "caseInsensitive": true
         }
       }
-    ]
+    ],
+    // TypeScript lints this for us
+    "react/prop-types": "off"
   },
   "settings": {
     "react": {

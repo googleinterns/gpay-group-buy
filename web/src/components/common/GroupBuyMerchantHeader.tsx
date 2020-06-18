@@ -15,6 +15,7 @@
  */
 
 import React from 'react';
+
 import styled from 'styled-components';
 
 import GPayLogo from 'assets/gpay-logo.svg';
@@ -36,11 +37,12 @@ const Header = styled.h1`
   margin: 0;
 `;
 
-const GroupBuyMerchantHeader: React.FC =  () => (
+const GroupBuyMerchantHeader: React.FC = () => (
   <HeaderContainer>
     <Logo src={GPayLogo} alt="GPay" />
     <Header>
-      Group Buy<br />
+      Group Buy
+      <br />
       <b>Merchant</b>
     </Header>
   </HeaderContainer>
