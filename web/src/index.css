@@ -15,6 +15,7 @@
  */
 
 @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+@import url("//cdn.muicss.com/mui-0.10.1/css/mui.min.css");
 
 :root {
   /* brand colors */
@@ -24,8 +25,9 @@
   --bright-red: #EB5757;
   --red: #DB4437;
   --pale-gray: #EFEFEF;
-  --light-gray: #BDBDBD;
-  --gray: #A0A0A0;
+  --pale-gray: #BDBDBD;
+  --light-gray: #A0A0A0;
+  --gray: #3C3C3C;
   --dark-gray: #444444;
 
   /* brand fonts */
