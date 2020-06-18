@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-import {Datastore} from '@google-cloud/datastore';
-import {Guid} from 'guid-typescript';
+/**
+ * @fileoverview Handles routing of /customers endpoints.
+ * @author Karen Frilya Celine
+ */
 
-const datastore = new Datastore();
-const KIND = 'Listing';
+import express from 'express';
+const router: express.Router = express.Router();
 
-export const listingsModel = {};
+export const customerRouter: express.Router = router;

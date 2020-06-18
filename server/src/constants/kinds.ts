@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import {commitService} from './commits';
-import {customerService} from './customers';
-import {listingService} from './listings';
-import {merchantService} from './merchants';
-
-export {commitService, customerService, listingService, merchantService};
+export const COMMIT_KIND = 'Commit';
+export const CUSTOMER_KIND = 'Customer';
+export const LISTING_KIND = 'Listing';
+export const MERCHANT_KIND = 'Merchant';

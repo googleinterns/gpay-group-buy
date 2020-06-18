@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Handles routing of /commits endpoints.
- * @author Karen Frilya Celine
- */
+import {Datastore} from '@google-cloud/datastore';
+import {Guid} from 'guid-typescript';
 
-import express from 'express';
-const router: express.Router = express.Router();
+const datastore = new Datastore();
 
-export const commitsRouter = router;
+export const customerStorage = {};

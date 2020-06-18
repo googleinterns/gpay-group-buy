@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
-import {commitsModel} from 'models';
+import {merchantStorage} from '../storage';
 
-export const commitsService = {};
+const getAllMerchants = async () => await merchantStorage.getAllMerchants();
+
+export const merchantService = {
+  getAllMerchants,
+};

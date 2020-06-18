@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Handles routing of /listings endpoints.
- * @author Karen Frilya Celine
- */
+import {commitStorage} from './commits';
+import {customerStorage} from './customers';
+import {listingStorage} from './listings';
+import {merchantStorage} from './merchants';
 
-import express from 'express';
-const router: express.Router = express.Router();
-
-export const listingsRouter = router;
+export {commitStorage, customerStorage, listingStorage, merchantStorage};

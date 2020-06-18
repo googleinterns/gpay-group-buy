@@ -20,7 +20,8 @@
  */
 
 import express from 'express';
-import {merchantsService} from 'services';
+
+import {merchantService} from '../services';
 
 const router: express.Router = express.Router();
 
@@ -32,7 +33,7 @@ router.get(
     next: express.NextFunction
   ) => {
     try {
-      const merchants = (await merchantsService.getMerchants())[0];
+      const merchants = await merchantService.getAllMerchants();
       res.send(merchants);
     } catch (error) {
       return next(error);
@@ -40,4 +41,4 @@ router.get(
   }
 );
 
-export const merchantsRouter = router;
+export const merchantRouter: express.Router = router;

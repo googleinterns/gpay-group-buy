@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-import {commitsModel} from './commits';
-import {customersModel} from './customers';
-import {listingsModel} from './listings';
-import {merchantsModel} from './merchants';
+import {commitStorage} from '../storage';
 
-export {commitsModel, customersModel, listingsModel, merchantsModel};
+export const commitService = {};

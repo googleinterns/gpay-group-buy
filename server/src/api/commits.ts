@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
-import {customersModel} from 'models';
+/**
+ * @fileoverview Handles routing of /commits endpoints.
+ * @author Karen Frilya Celine
+ */
 
-export const customersService = {};
+import express from 'express';
+const router: express.Router = express.Router();
+
+export const commitRouter: express.Router = router;
