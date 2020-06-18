@@ -27,7 +27,7 @@ import {MERCHANT_KIND} from '../constants/kinds';
 
 const datastore = new Datastore();
 
-async function getMerchants() {
+async function getAllMerchants() {
   const query = datastore.createQuery(MERCHANT_KIND);
   const [merchants, info] = await datastore.runQuery(query);
   return merchants;
@@ -46,7 +46,7 @@ async function addMerchant(merchant: object) {
 }
 
 export const merchantStorage = {
-  getMerchants,
+  getAllMerchants,
   getMerchant,
   addMerchant,
 };

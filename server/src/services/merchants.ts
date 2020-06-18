@@ -16,8 +16,8 @@
 
 import {merchantStorage} from '../storage';
 
-const getMerchants = async () => await merchantStorage.getMerchants();
+const getAllMerchants = async () => await merchantStorage.getAllMerchants();
 
 export const merchantService = {
-  getMerchants,
+  getAllMerchants,
 };

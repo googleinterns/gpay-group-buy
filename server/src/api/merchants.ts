@@ -32,7 +32,7 @@ router.get(
     res: express.Response,
     next: express.NextFunction
   ) => {
-    const merchants = await merchantService.getMerchants();
+    const merchants = await merchantService.getAllMerchants();
     res.send(merchants);
   }
 );
