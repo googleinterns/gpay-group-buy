@@ -15,8 +15,9 @@
  */
 
 import React, {lazy, Suspense} from 'react';
-import {Switch, Route} from 'react-router-dom';
+
 import Loading from 'components/common/Loading';
+import {Switch, Route} from 'react-router-dom';
 
 // Customer Pages
 const CustomerExplorePage = lazy(() => import('components/customer/explore'));
