@@ -20,7 +20,15 @@ You will also see any lint errors in the console.
 
 ### `yarn lint`
 
-Lints and check for formatting problems according to [Google Typescript Style](https://github.com/google/gts).
+Lints and checks TypeScript code for formatting problems according to [Google Typescript Style](https://github.com/google/gts), and lints CSS in styled components using [stylelint](https://stylelint.io/) with the [standard config rules](https://github.com/stylelint/stylelint-config-standard).
+
+#### `yarn lint:code`
+
+Lints and checks TypeScript code for formatting problems according to [Google Typescript Style](https://github.com/google/gts) only.
+
+#### `yarn lint:css`
+
+Lints CSS in styled components using [stylelint](https://stylelint.io/) with the [standard config rules](https://github.com/stylelint/stylelint-config-standard).
 
 ### `yarn fix`
 

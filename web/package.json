@@ -28,7 +28,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "gts check",
+    "lint": "yarn lint:code && yarn lint:css",
+    "lint:code": "gts check",
+    "lint:css": "stylelint ./src/**/*.tsx",
     "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
@@ -54,7 +56,11 @@
   "devDependencies": {
     "eslint-plugin-react": "^7.20.0",
     "gts": "^2.0.2",
-    "husky": "^4.2.5"
+    "husky": "^4.2.5",
+    "stylelint": "^13.6.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.10.0"
   },
   "husky": {
     "hooks": {
