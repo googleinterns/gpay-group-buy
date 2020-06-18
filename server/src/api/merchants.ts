@@ -20,7 +20,7 @@
  */
 
 import express from 'express';
-import {merchantsService} from '../services';
+import {merchantService} from '../services';
 
 const router: express.Router = express.Router();
 
@@ -31,9 +31,9 @@ router.get(
     res: express.Response,
     next: express.NextFunction
   ) => {
-    const merchants = await merchantsService.getMerchants();
+    const merchants = await merchantService.getMerchants();
     res.send(merchants);
   }
 );
 
-export const merchantsRouter: express.Router = router;
+export const merchantRouter: express.Router = router;

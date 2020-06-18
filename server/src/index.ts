@@ -22,19 +22,19 @@
 import express from 'express';
 
 import {
-  commitsRouter,
-  customersRouter,
-  listingsRouter,
-  merchantsRouter,
+  commitRouter,
+  customerRouter,
+  listingRouter,
+  merchantRouter,
 } from './api';
 
 const app: express.Application = express();
 const router: express.Router = express.Router();
 
-router.use('/commits', commitsRouter);
-router.use('/customers', customersRouter);
-router.use('/listings', listingsRouter);
-router.use('/merchants', merchantsRouter);
+router.use('/commits', commitRouter);
+router.use('/customers', customerRouter);
+router.use('/listings', listingRouter);
+router.use('/merchants', merchantRouter);
 
 app.use('/', router);
 

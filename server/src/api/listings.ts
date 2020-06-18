@@ -22,4 +22,4 @@
 import express from 'express';
 const router: express.Router = express.Router();
 
-export const listingsRouter: express.Router = router;
+export const listingRouter: express.Router = router;

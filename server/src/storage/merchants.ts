@@ -45,7 +45,7 @@ async function addMerchant(merchant: object) {
   });
 }
 
-export const merchantsStorage = {
+export const merchantStorage = {
   getMerchants,
   getMerchant,
   addMerchant,

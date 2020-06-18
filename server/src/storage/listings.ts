@@ -19,4 +19,4 @@ import {Guid} from 'guid-typescript';
 
 const datastore = new Datastore();
 
-export const listingsStorage = {};
+export const listingStorage = {};

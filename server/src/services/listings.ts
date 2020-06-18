@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-import {listingsStorage} from '../storage';
+import {listingStorage} from '../storage';
 
-export const listingsService = {};
+export const listingService = {};
