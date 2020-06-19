@@ -84,7 +84,7 @@ const SignUpCard: React.FC = () => (
       </StyledRow>
     </Form>
     <div>
-      Already have an account? <a href="/merchant/sign-in">Sign in</a> now!
+      Already have an account? <Link to="/merchant/sign-in">Sign in</Link> now!
     </div>
   </CardContainer>
 );
