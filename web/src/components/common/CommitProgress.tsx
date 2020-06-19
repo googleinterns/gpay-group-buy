@@ -19,14 +19,9 @@ import React from 'react';
 import {Line} from 'rc-progress';
 import styled from 'styled-components';
 
-/**
- * Position of the commit text relative to the progress bar.
- */
-enum CommitTextPos {
-  NONE = 0,
-  TOP,
-  BOTTOM,
-}
+const DEFAULT_HEIGHT = 10;
+
+type CommitTextPos = 'none' | 'top' | 'bottom';
 
 interface CommitProgressContainerProps {
   textPos?: CommitTextPos;
@@ -36,9 +31,9 @@ const CommitProgressContainer = styled.div`
   display: flex;
   flex-direction: ${({textPos}: CommitProgressContainerProps) => {
     switch (textPos) {
-      case CommitTextPos.TOP:
+      case 'top':
         return 'column';
-      case CommitTextPos.BOTTOM:
+      case 'bottom':
         return 'column-reverse';
       default:
         return 'column';
@@ -48,6 +43,14 @@ const CommitProgressContainer = styled.div`
   font-size: 0.8em;
 `;
 
+const StyledLine = styled(Line)`
+  /* Hack to force Line to be a certain height without being scaled,
+   because it is an svg under the hood. */
+  min-height: ${DEFAULT_HEIGHT}px;
+  max-height: ${DEFAULT_HEIGHT}px;
+  border-radius: ${DEFAULT_HEIGHT / 2}px;
+`;
+
 const CommitCount = styled.span`
   font-weight: bold;
 `;
@@ -55,8 +58,8 @@ const CommitCount = styled.span`
 interface CommitProgressProps {
   numCommits: number;
   minCommits: number;
-  strokeWidth?: number;
   textPos?: CommitTextPos;
+  thicker?: boolean;
 }
 
 /**
@@ -66,14 +69,13 @@ interface CommitProgressProps {
 const CommitProgress: React.FC<CommitProgressProps> = ({
   numCommits,
   minCommits,
-  strokeWidth = 5,
-  textPos = CommitTextPos.BOTTOM,
+  textPos = 'bottom',
 }) => {
   const percent = Math.min(100, (numCommits / minCommits) * 100);
 
   return (
     <CommitProgressContainer textPos={textPos}>
-      {textPos && (
+      {textPos !== 'none' && (
         <div>
           <span>Commiters: </span>
           <CommitCount>
@@ -81,16 +83,14 @@ const CommitProgress: React.FC<CommitProgressProps> = ({
           </CommitCount>
         </div>
       )}
-      <Line
+      <StyledLine
         percent={percent}
-        strokeWidth={strokeWidth}
-        trailWidth={strokeWidth}
         strokeColor="var(--green)"
         trailColor="var(--pale-green)"
+        strokeLinecap="square"
       />
     </CommitProgressContainer>
   );
 };
 
 export default CommitProgress;
-export {CommitTextPos};
