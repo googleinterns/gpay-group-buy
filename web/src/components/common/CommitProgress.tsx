@@ -19,6 +19,9 @@ import React from 'react';
 import {Line} from 'rc-progress';
 import styled from 'styled-components';
 
+/**
+ * Position of the commit text relative to the progress bar.
+ */
 enum CommitTextPos {
   NONE = 0,
   TOP,
@@ -45,6 +48,10 @@ const CommitProgressContainer = styled.div`
   font-size: 0.8em;
 `;
 
+const CommitCount = styled.span`
+  font-weight: bold;
+`;
+
 interface CommitProgressProps {
   numCommits: number;
   minCommits: number;
@@ -52,22 +59,26 @@ interface CommitProgressProps {
   textPos?: CommitTextPos;
 }
 
+/**
+ * Returns a progress bar indicating the number of Commiters aginst
+ * the min number of commits needed.
+ */
 const CommitProgress: React.FC<CommitProgressProps> = ({
   numCommits,
   minCommits,
   strokeWidth = 5,
   textPos = CommitTextPos.BOTTOM,
 }) => {
-  const percent = (numCommits / minCommits) * 100;
+  const percent = Math.min(100, (numCommits / minCommits) * 100);
 
   return (
     <CommitProgressContainer textPos={textPos}>
       {textPos && (
         <div>
-          Commiters:{' '}
-          <b>
+          <span>Commiters: </span>
+          <CommitCount>
             {numCommits}/{minCommits}
-          </b>
+          </CommitCount>
         </div>
       )}
       <Line
