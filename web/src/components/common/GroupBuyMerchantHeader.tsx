@@ -37,6 +37,10 @@ const Header = styled.h1`
   margin: 0;
 `;
 
+/**
+ * This is a header for the Merchant app. It consists of the GPay logo, followed
+ * by the words 'Group Buy Merchant'.
+ */
 const GroupBuyMerchantHeader: React.FC = () => (
   <HeaderContainer>
     <Logo src={GPayLogo} alt="GPay" />

@@ -53,6 +53,13 @@ interface FormRowProps {
   inputType: string;
 }
 
+/**
+ * This is a row in a form, consisting of a label and an input field shown
+ * side by side.
+ *
+ * @param {string} label - The word or phrase you want shown in the label.
+ * @param {string} inputType - The type attribute of the HTML input element.
+ */
 const FormRow: React.FC<FormRowProps> = ({label, inputType}) => (
   <StyledRow>
     <Label>{label}</Label>
