@@ -16,7 +16,7 @@
 
 import React from 'react';
 
-import OnboardingCard from 'components/merchant/sign-up/OnboardingCard';
+import SignUpCard from 'components/merchant/sign-up/SignUpCard';
 import Container from 'muicss/lib/react/container';
 import styled from 'styled-components';
 
@@ -33,7 +33,7 @@ const PageContainer = styled(Container)`
 
 const MerchantSignUpPage: React.FC = () => (
   <PageContainer>
-    <OnboardingCard />
+    <SignUpCard />
   </PageContainer>
 );
 

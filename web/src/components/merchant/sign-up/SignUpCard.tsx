@@ -70,7 +70,7 @@ const SubmitButton = styled.input`
  * This is the card containing the sign up form for the Merchant app.
  * It is displayed in the Sign Up page.
  */
-const OnboardingCard: React.FC = () => (
+const SignUpCard: React.FC = () => (
   <CardContainer>
     <GroupBuyMerchantHeader />
     <Form>
@@ -89,4 +89,4 @@ const OnboardingCard: React.FC = () => (
   </CardContainer>
 );
 
-export default OnboardingCard;
+export default SignUpCard;
