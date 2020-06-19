@@ -9,6 +9,10 @@ Install [Node 10](nodejs.org) and [Yarn](classic.yarnpkg.com/en/docs/install/).
 
 In the project directory, you can run:
 
+### `gcloud auth application-default login`
+This will ask you to log in to your google account.
+Log in to enable access to the database from your local machine.
+
 ### `yarn`
 This will install all of the dependencies you need.
 
@@ -68,5 +72,5 @@ Each of these folders contain the following files:
 
 ### `constants` Folder Structure
 
-Each file in this folder contains a group of constants that are closely related. 
+Each file in this folder contains a group of constants that are closely related.
 The file name specifies the constants inside it.
