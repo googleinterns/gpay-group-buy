@@ -36,7 +36,7 @@ const Date = styled.span`
 const ListingName = styled.span`
   font-size: 0.8rem;
   text-transform: uppercase;
-  color: var(--gray);
+  color: var(--dark-gray);
 `;
 
 interface ListingCardProps {
