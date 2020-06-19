@@ -35,6 +35,7 @@ const Header = styled.h1`
   font-weight: normal;
   line-height: 48px;
   margin: 0;
+  text-align: center;
 `;
 
 /**
