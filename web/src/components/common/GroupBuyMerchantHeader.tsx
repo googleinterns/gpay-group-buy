@@ -18,7 +18,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import GPayLogo from 'assets/gpay-logo.svg';
+import { ReactComponent as GPayLogo } from 'assets/gpay-logo.svg';
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const HeaderContainer = styled.div`
   align-items: center;
 `;
 
-const Logo = styled.img`
+const Logo = styled(GPayLogo)`
   width: 80px;
 `;
 
@@ -43,7 +43,7 @@ const Header = styled.h1`
  */
 const GroupBuyMerchantHeader: React.FC = () => (
   <HeaderContainer>
-    <Logo src={GPayLogo} alt="GPay" />
+    <Logo />
     <Header>
       Group Buy
       <br />
