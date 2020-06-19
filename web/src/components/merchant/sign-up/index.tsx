@@ -31,10 +31,10 @@ const PageContainer = styled(Container)`
   align-items: center;
 `;
 
-const MerchantSignUpPage: React.FC = () => (
+const SignUpPage: React.FC = () => (
   <PageContainer>
     <SignUpCard />
   </PageContainer>
 );
 
-export default MerchantSignUpPage;
+export default SignUpPage;

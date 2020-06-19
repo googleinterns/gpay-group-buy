@@ -16,6 +16,6 @@
 
 import React from 'react';
 
-const MerchantLandingPage: React.FC = () => <div>Merchant Landing Page</div>;
+const LandingPage: React.FC = () => <div>Merchant Landing Page</div>;
 
-export default MerchantLandingPage;
+export default LandingPage;
