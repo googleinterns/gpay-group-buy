@@ -17,6 +17,9 @@
 import Col from 'muicss/lib/react/col';
 import styled from 'styled-components';
 
+/**
+ * Column component with no padding.
+ */
 const StrippedCol = styled(Col)`
   padding: 0;
 `;

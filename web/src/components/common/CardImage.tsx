@@ -45,6 +45,9 @@ interface CardImageProps {
   height?: string;
 }
 
+/**
+ * Image component for cards.
+ */
 const CardImage: React.FC<CardImageProps> = ({img, width, height}) => (
   <ImageContainer width={width} height={height}>
     <StyledCardImage src={img.url} alt={img.alt || 'Card Image'} />

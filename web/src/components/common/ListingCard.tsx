@@ -48,6 +48,10 @@ interface ListingCardProps {
   horizontal?: boolean;
 }
 
+/**
+ * Listing card component that displays basic listing details.
+ * Can be either horizontal or vertical.
+ */
 const ListingCard: React.FC<ListingCardProps> = ({
   listingName,
   price,

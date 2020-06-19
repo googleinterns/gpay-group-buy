@@ -39,6 +39,9 @@ interface ListingPriceProps {
   oldPrice?: number;
 }
 
+/**
+ * Listing price component that shows the current price and its previous price.
+ */
 const ListingPrice: React.FC<ListingPriceProps> = ({price, oldPrice}) => (
   <PriceContainer>
     <Price>${price}</Price>

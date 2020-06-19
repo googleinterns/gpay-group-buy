@@ -20,6 +20,8 @@ import CardImage from 'components/common/CardImage';
 import {Image} from 'interfaces';
 import styled from 'styled-components';
 
+const DEFAULT_IMG_WIDTH = '150px';
+
 interface CardContainerProps {
   imgLeft?: boolean;
 }
@@ -50,6 +52,9 @@ interface CardProps {
   imgLeft?: boolean;
 }
 
+/**
+ * A base Card component that takes in images.
+ */
 const Card: React.FC<CardProps> = ({img, imgLeft, children}) => (
   <CardContainer imgLeft={imgLeft}>
     {img !== undefined && (
