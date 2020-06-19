@@ -21,8 +21,8 @@ import Container from 'muicss/lib/react/container';
 import styled from 'styled-components';
 
 const PageContainer = styled(Container)`
-  max-height: 800px;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   width: 100%;
 
   display: flex;
