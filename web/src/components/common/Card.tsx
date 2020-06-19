@@ -53,7 +53,7 @@ interface CardProps {
 }
 
 /**
- * A base Card component that takes in images.
+ * A base Card component that can also display images.
  */
 const Card: React.FC<CardProps> = ({img, horizontal, children}) => (
   <CardContainer horizontal={horizontal}>
