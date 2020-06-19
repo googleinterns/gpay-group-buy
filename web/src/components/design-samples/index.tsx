@@ -20,6 +20,7 @@ import Card from 'components/common/Card';
 import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
 import Container from 'muicss/lib/react/container';
+import CommitProgress from 'components/common/CommitProgress';
 
 const SAMPLE_IMG_URL = 'https://picsum.photos/seed/picsum/200/300';
 
@@ -46,7 +47,11 @@ const DesignSamplesPage: React.FC = () => (
         endDate="2d Left"
         imgUrl={SAMPLE_IMG_URL}
       >
-        Progress bar here
+        <CommitProgress
+          numCommits={70}
+          minCommits={100}
+          textPos="none"
+        />
       </ListingCard>
     </StrippedCol>
     <StrippedCol xs={12}>
@@ -58,7 +63,10 @@ const DesignSamplesPage: React.FC = () => (
         imgUrl={SAMPLE_IMG_URL}
         horizontal
       >
-        Progress bar here
+        <CommitProgress
+          numCommits={70}
+          minCommits={100}
+        />
       </ListingCard>
     </StrippedCol>
     <StrippedCol xs={12}>
