@@ -48,3 +48,11 @@ code {
 a {
   color: var(--green);
 }
+
+a:hover {
+  cursor: pointer;
+}
+
+input:focus {
+  outline: none;
+}

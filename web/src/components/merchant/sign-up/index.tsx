@@ -16,6 +16,25 @@
 
 import React from 'react';
 
-const LandingPage: React.FC = () => <div>Merchant Landing Page</div>;
+import SignUpCard from 'components/merchant/sign-up/SignUpCard';
+import Container from 'muicss/lib/react/container';
+import styled from 'styled-components';
 
-export default LandingPage;
+const PageContainer = styled(Container)`
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SignUpPage: React.FC = () => (
+  <PageContainer>
+    <SignUpCard />
+  </PageContainer>
+);
+
+export default SignUpPage;
