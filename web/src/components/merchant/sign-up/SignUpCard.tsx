@@ -18,6 +18,7 @@ import React from 'react';
 
 import FormRow from 'components/common/FormRow';
 import GroupBuyMerchantHeader from 'components/common/GroupBuyMerchantHeader';
+import Button from 'muicss/lib/react/button';
 import Form from 'muicss/lib/react/form';
 import Row from 'muicss/lib/react/row';
 import {Link} from 'react-router-dom';
@@ -44,7 +45,7 @@ const StyledRow = styled(Row)`
   margin: 15px 0;
 `;
 
-const SubmitButton = styled.input`
+const StyledButton = styled(Button)`
   height: 40px;
   width: 200px;
   border-radius: 20px;
@@ -57,14 +58,6 @@ const SubmitButton = styled.input`
   text-transform: uppercase;
 
   margin-top: 30px;
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  &:focus {
-    outline: none;
-  }
 `;
 
 /**
@@ -81,7 +74,7 @@ const SignUpCard: React.FC = () => (
       <FormRow label="Confirm Password" inputType="password" />
       <FormRow label="VPA" inputType="email" />
       <StyledRow>
-        <SubmitButton type="submit" value="Sign Up" />
+        <StyledButton>Sign Up</StyledButton>
       </StyledRow>
     </Form>
     <div>
