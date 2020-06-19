@@ -47,13 +47,14 @@ const Input = styled.input`
 interface FormRowProps {
   label: string;
   inputType: string;
+  onChange: React.EventHandler<React.FormEvent<HTMLInputElement>>;
 }
 
 /**
  * This is a row in a form, consisting of a label and an input field shown
  * side by side.
  */
-const FormRow: React.FC<FormRowProps> = ({label, inputType}) => (
+const FormRow: React.FC<FormRowProps> = ({label, inputType, onChange}) => (
   <StyledRow>
     <Label>{label}</Label>
     <Input
@@ -63,6 +64,7 @@ const FormRow: React.FC<FormRowProps> = ({label, inputType}) => (
         .replace(/\s(.)/g, a => a.toUpperCase())
         .replace(/\s/g, '')
         .replace(/^(.)/, a => a.toLowerCase())}
+      onChange={onChange}
     />
   </StyledRow>
 );

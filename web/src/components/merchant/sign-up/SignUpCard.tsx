@@ -36,13 +36,18 @@ const CardContainer: React.FC = styled.div`
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
 `;
 
-const StyledRow = styled(Row)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
+const StyledForm = styled(Form)`
   margin: 15px 0;
+`;
+
+const StyledRow = styled(Row)`
+  height: 40px;
+  display: block;
+  line-height: 40px;
+`;
+
+const ErrorContainer = styled.div`
+  color: var(--bright-red);
 `;
 
 const StyledButton = styled(Button)`
@@ -56,31 +61,95 @@ const StyledButton = styled(Button)`
   font-size: 18px;
   font-weight: bolder;
   text-transform: uppercase;
-
-  margin-top: 30px;
+  margin: 0;
 `;
+
+interface SignUpState {
+  name?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  vpa?: string;
+  errorMessage?: string;
+}
 
 /**
  * This is the card containing the sign up form for the Merchant app.
  * It is displayed in the Sign Up page.
  */
-const SignUpCard: React.FC = () => (
-  <CardContainer>
-    <GroupBuyMerchantHeader />
-    <Form>
-      <FormRow label="Name" inputType="text" />
-      <FormRow label="Email" inputType="email" />
-      <FormRow label="Password" inputType="password" />
-      <FormRow label="Confirm Password" inputType="password" />
-      <FormRow label="VPA" inputType="email" />
-      <StyledRow>
-        <StyledButton>Sign Up</StyledButton>
-      </StyledRow>
-    </Form>
-    <div>
-      Already have an account? <Link to="/merchant/sign-in">Sign in</Link> now!
-    </div>
-  </CardContainer>
-);
+class SignUpCard extends React.Component<{}, SignUpState> {
+  constructor(props: Readonly<{}>) {
+    super(props);
+    this.state = {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      vpa: '',
+      errorMessage: '',
+    };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const name: string = event.target.name;
+    const value: string = event.target.value;
+
+    this.setState({
+      [name]: value,
+      errorMessage: ''
+    });
+  }
+
+  handleSubmit() {
+    const name: string | undefined = this.state.name;
+    const email: string | undefined = this.state.email;
+    const password: string | undefined = this.state.password;
+    const confirmPassword: string | undefined = this.state.confirmPassword;
+    const vpa: string | undefined = this.state.vpa;
+
+    if (!(name && email && password && confirmPassword && vpa)) {
+      this.setState({
+        errorMessage: 'Please fill in all of the fields.'
+      });
+      console.log(this.state);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      this.setState({
+        errorMessage: 'Passwords do not match.'
+      });
+      console.log(this.state);
+      return;
+    }
+  }
+
+  render() {
+    return (
+      <CardContainer>
+        <GroupBuyMerchantHeader />
+        <StyledForm>
+          <FormRow label="Name" inputType="text" onChange={this.handleInputChange} />
+          <FormRow label="Email" inputType="email" onChange={this.handleInputChange} />
+          <FormRow label="Password" inputType="password" onChange={this.handleInputChange} />
+          <FormRow label="Confirm Password" inputType="password" onChange={this.handleInputChange} />
+          <FormRow label="VPA" inputType="text" onChange={this.handleInputChange} />
+        </StyledForm>
+        <StyledRow>
+          <ErrorContainer>{this.state.errorMessage}</ErrorContainer>
+        </StyledRow>
+        <StyledRow>
+          <StyledButton onClick={this.handleSubmit}>Sign Up</StyledButton>
+        </StyledRow>
+        <StyledRow>
+          Already have an account? <Link to="/merchant/sign-in">Sign in</Link>{' '}
+          now!
+        </StyledRow>
+      </CardContainer>
+    );
+  }
+}
 
 export default SignUpCard;
