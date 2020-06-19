@@ -113,7 +113,6 @@ class SignUpCard extends React.Component<{}, SignUpState> {
       this.setState({
         errorMessage: 'Please fill in all of the fields.'
       });
-      console.log(this.state);
       return;
     }
 
@@ -121,7 +120,6 @@ class SignUpCard extends React.Component<{}, SignUpState> {
       this.setState({
         errorMessage: 'Passwords do not match.'
       });
-      console.log(this.state);
       return;
     }
   }
