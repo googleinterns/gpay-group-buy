@@ -15,8 +15,14 @@
  */
 
 import {Datastore} from '@google-cloud/datastore';
-import {Guid} from 'guid-typescript';
+
+import {CUSTOMER_KIND} from '../constants/kinds';
 
 const datastore = new Datastore();
 
-export const customerStorage = {};
+const getCustomer = async (customerId: string) => {
+  const key = datastore.key([CUSTOMER_KIND, datastore.int(customerId)]);
+  return await datastore.get(key);
+};
+
+export default {getCustomer};

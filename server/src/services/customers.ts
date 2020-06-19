@@ -16,4 +16,7 @@
 
 import {customerStorage} from '../storage';
 
-export const customerService = {};
+const getCustomer = async (customerId: string) =>
+  await customerStorage.getCustomer(customerId);
+
+export default {getCustomer};

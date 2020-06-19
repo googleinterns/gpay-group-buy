@@ -16,10 +16,30 @@
 
 /**
  * @fileoverview Handles routing of /customers endpoints.
- * @author Karen Frilya Celine
  */
 
 import express from 'express';
-const router: express.Router = express.Router();
 
-export const customerRouter: express.Router = router;
+import {customerService} from '../services';
+
+const customerRouter = express.Router();
+
+customerRouter.get(
+  '/:customerId',
+  async (
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    const {customerId} = req.params;
+
+    try {
+      const customer = await customerService.getCustomer(customerId);
+      res.send(customer);
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+export default customerRouter;

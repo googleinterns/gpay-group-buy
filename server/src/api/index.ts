@@ -20,7 +20,7 @@
  */
 
 import {commitRouter} from './commits';
-import {customerRouter} from './customers';
+import customerRouter from './customers';
 import {listingRouter} from './listings';
 import {merchantRouter} from './merchants';
 
