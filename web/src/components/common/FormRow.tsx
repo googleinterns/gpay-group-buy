@@ -56,7 +56,14 @@ interface FormRowProps {
 const FormRow: React.FC<FormRowProps> = ({label, inputType}) => (
   <StyledRow>
     <Label>{label}</Label>
-    <Input type={inputType}></Input>
+    <Input
+      type={inputType}
+      name={label
+        .toLowerCase()
+        .replace(/\s(.)/g, a => a.toUpperCase())
+        .replace(/\s/g, '')
+        .replace(/^(.)/, a => a.toLowerCase())}
+    />
   </StyledRow>
 );
 
