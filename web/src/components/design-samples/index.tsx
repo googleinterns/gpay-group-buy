@@ -67,7 +67,7 @@ const DesignSamplesPage: React.FC = () => (
           url: SAMPLE_IMG_URL,
           alt: 'Random Image',
         }}
-        imgLeft
+        horizontal
       >
         Card with image on left. Risus quis varius quam quisque id diam vel quam
         elementum pulvinar etiam non quam lacus est pellentesque elit.

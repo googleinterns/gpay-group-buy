@@ -23,13 +23,13 @@ import styled from 'styled-components';
 const DEFAULT_IMG_WIDTH = '150px';
 
 interface CardContainerProps {
-  imgLeft?: boolean;
+  horizontal?: boolean;
 }
 
 const CardContainer = styled.div`
   display: flex;
-  flex-direction: ${({imgLeft}: CardContainerProps) =>
-    imgLeft ? 'row' : 'column'};
+  flex-direction: ${({horizontal}: CardContainerProps) =>
+    horizontal ? 'row' : 'column'};
 
   background: white;
   margin: 0.6em;
@@ -49,20 +49,20 @@ const CardContent = styled.div`
 
 interface CardProps {
   img?: Image;
-  imgLeft?: boolean;
+  horizontal?: boolean;
 }
 
 /**
  * A base Card component that takes in images.
  */
-const Card: React.FC<CardProps> = ({img, imgLeft, children}) => (
-  <CardContainer imgLeft={imgLeft}>
+const Card: React.FC<CardProps> = ({img, horizontal, children}) => (
+  <CardContainer horizontal={horizontal}>
     {img !== undefined && (
       <ImageContainer>
         <CardImage
           img={img}
-          width={imgLeft ? '150px' : undefined}
-          height={imgLeft ? '100%' : undefined}
+          width={horizontal ? DEFAULT_IMG_WIDTH : undefined}
+          height={horizontal ? '100%' : undefined}
         />
       </ImageContainer>
     )}

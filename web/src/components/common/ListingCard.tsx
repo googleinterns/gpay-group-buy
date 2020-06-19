@@ -66,7 +66,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
       url: imgUrl,
       alt: `Image of ${listingName}`,
     }}
-    imgLeft={horizontal}
+    horizontal={horizontal}
   >
     <CardContent>
       <Date>{endDate}</Date>
