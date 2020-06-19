@@ -16,6 +16,8 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^5.1.5",
     "@types/styled-components": "^5.1.0",
+    "autobind-decorator": "^2.4.0",
+    "firebase": "^7.15.2",
     "muicss": "^0.10.2",
     "rc-progress": "^3.0.0",
     "react": "^16.13.1",

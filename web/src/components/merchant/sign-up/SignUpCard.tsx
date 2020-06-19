@@ -16,8 +16,10 @@
 
 import React from 'react';
 
+import autobind from 'autobind-decorator';
 import FormRow from 'components/common/FormRow';
 import GroupBuyMerchantHeader from 'components/common/GroupBuyMerchantHeader';
+import firebase from 'firebase';
 import Button from 'muicss/lib/react/button';
 import Form from 'muicss/lib/react/form';
 import Row from 'muicss/lib/react/row';
@@ -77,6 +79,7 @@ interface SignUpState {
  * This is the card containing the sign up form for the Merchant app.
  * It is displayed in the Sign Up page.
  */
+@autobind
 class SignUpCard extends React.Component<{}, SignUpState> {
   constructor(props: Readonly<{}>) {
     super(props);
@@ -88,8 +91,6 @@ class SignUpCard extends React.Component<{}, SignUpState> {
       vpa: '',
       errorMessage: '',
     };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -98,7 +99,7 @@ class SignUpCard extends React.Component<{}, SignUpState> {
 
     this.setState({
       [name]: value,
-      errorMessage: ''
+      errorMessage: '',
     });
   }
 
@@ -111,17 +112,47 @@ class SignUpCard extends React.Component<{}, SignUpState> {
 
     if (!(name && email && password && confirmPassword && vpa)) {
       this.setState({
-        errorMessage: 'Please fill in all of the fields.'
+        errorMessage: 'Please fill in all of the fields.',
       });
       return;
     }
 
     if (password !== confirmPassword) {
       this.setState({
-        errorMessage: 'Passwords do not match.'
+        errorMessage: 'Passwords do not match.',
       });
       return;
     }
+
+    // Add a new user account to Firebase.
+    if (!firebase.apps.length) {
+      firebase.initializeApp({
+        apiKey: process.env.API_KEY,
+        authDomain: process.env.AUTH_DOMAIN,
+      });
+    }
+
+    const setState = this.setState.bind(this);
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .catch(error => {
+        const errorCode = error.code;
+        let errorMessage = error.message;
+        if (errorCode === 'auth/invalid-email') {
+          errorMessage = 'Please input a valid email address.';
+        } else if (errorCode === 'auth/weak-password') {
+          errorMessage = 'Password should be at least 6 characters.';
+        } else if (errorCode === 'auth/email-already-in-use') {
+          errorMessage =
+            'The email address is already in use by another account.';
+        } else if (errorCode === 'auth/operation-not-allowed') {
+          errorMessage = 'Oops, something is wrong. Please try again later!';
+        }
+        setState({
+          errorMessage,
+        });
+      });
   }
 
   render() {
@@ -129,11 +160,31 @@ class SignUpCard extends React.Component<{}, SignUpState> {
       <CardContainer>
         <GroupBuyMerchantHeader />
         <StyledForm>
-          <FormRow label="Name" inputType="text" onChange={this.handleInputChange} />
-          <FormRow label="Email" inputType="email" onChange={this.handleInputChange} />
-          <FormRow label="Password" inputType="password" onChange={this.handleInputChange} />
-          <FormRow label="Confirm Password" inputType="password" onChange={this.handleInputChange} />
-          <FormRow label="VPA" inputType="text" onChange={this.handleInputChange} />
+          <FormRow
+            label="Name"
+            inputType="text"
+            onChange={this.handleInputChange}
+          />
+          <FormRow
+            label="Email"
+            inputType="email"
+            onChange={this.handleInputChange}
+          />
+          <FormRow
+            label="Password"
+            inputType="password"
+            onChange={this.handleInputChange}
+          />
+          <FormRow
+            label="Confirm Password"
+            inputType="password"
+            onChange={this.handleInputChange}
+          />
+          <FormRow
+            label="VPA"
+            inputType="text"
+            onChange={this.handleInputChange}
+          />
         </StyledForm>
         <StyledRow>
           <ErrorContainer>{this.state.errorMessage}</ErrorContainer>
