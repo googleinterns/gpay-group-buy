@@ -24,7 +24,6 @@ import {
 
 import React, {useState} from 'react';
 
-import autobind from 'autobind-decorator';
 import FormRow from 'components/common/FormRow';
 import GroupBuyMerchantHeader from 'components/common/GroupBuyMerchantHeader';
 import firebase from 'firebase';
