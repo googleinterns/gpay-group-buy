@@ -18,8 +18,7 @@ import {CUSTOMER_KIND} from '../constants/kinds';
 import {CustomerResponse} from '../interfaces';
 import {getWithId} from './datastore';
 
-const getCustomer = async (customerId: string): Promise<CustomerResponse> => {
-  return getWithId(CUSTOMER_KIND, customerId);
-};
+const getCustomer = async (customerId: string): Promise<CustomerResponse> =>
+  getWithId(CUSTOMER_KIND, customerId);
 
 export default {getCustomer};

@@ -18,6 +18,11 @@ import {Datastore} from '@google-cloud/datastore';
 
 const datastore = new Datastore();
 
+/**
+ * A Datastore wrapper that gets a particular entity with the specified Kind and id.
+ * @param kind The Kind that is being queried
+ * @param id The id of the Entity being queried
+ */
 const getWithId = async (kind: string, id: string) => {
   const key = datastore.key([kind, datastore.int(id)]);
   const [res] = await datastore.get(key);
