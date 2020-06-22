@@ -14,32 +14,12 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Handles routing of /customers endpoints.
- */
+export interface CustomerPayload {
+  gpayId: string;
+  contactNumber: string;
+  address: string;
+};
 
-import {Router, Request, Response, NextFunction} from 'express';
-
-import {customerService} from '../services';
-
-const customerRouter = Router();
-
-customerRouter.get(
-  '/:customerId',
-  async (
-    req: Request,
-		res: Response,
-    next: NextFunction
-  ) => {
-    const {customerId} = req.params;
-
-    try {
-      const customer = await customerService.getCustomer(customerId);
-      res.send(customer);
-    } catch (error) {
-      return next(error);
-    }
-  }
-);
-
-export default customerRouter;
+export interface CustomerResponse extends CustomerPayload {
+  id: number;
+};

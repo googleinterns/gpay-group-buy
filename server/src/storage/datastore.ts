@@ -14,32 +14,20 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Handles routing of /customers endpoints.
- */
+// @ts-nocheck
+import {Datastore} from '@google-cloud/datastore';
 
-import {Router, Request, Response, NextFunction} from 'express';
+const datastore = new Datastore();
 
-import {customerService} from '../services';
-
-const customerRouter = Router();
-
-customerRouter.get(
-  '/:customerId',
-  async (
-    req: Request,
-		res: Response,
-    next: NextFunction
-  ) => {
-    const {customerId} = req.params;
-
-    try {
-      const customer = await customerService.getCustomer(customerId);
-      res.send(customer);
-    } catch (error) {
-      return next(error);
-    }
+const getWithId = async (kind: string, id: string) => {
+  const key = datastore.key([kind, datastore.int(id)]);
+  const keySymbol = datastore.KEY;
+  const [res] = await datastore.get(key);
+  const {[keySymbol]: _, ...properties } = res;
+  return {
+    ...properties,
+    id: key.id,
   }
-);
+};
 
-export default customerRouter;
+export {getWithId};

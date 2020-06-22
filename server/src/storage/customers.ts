@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-import {Datastore} from '@google-cloud/datastore';
-
 import {CUSTOMER_KIND} from '../constants/kinds';
+import { CustomerResponse } from '../interfaces';
+import {getWithId} from './datastore';
 
-const datastore = new Datastore();
-
-const getCustomer = async (customerId: string) => {
-  const key = datastore.key([CUSTOMER_KIND, datastore.int(customerId)]);
-  return await datastore.get(key);
+const getCustomer = async (customerId: string): Promise<CustomerResponse> => {
+  return getWithId(CUSTOMER_KIND, customerId);
 };
 
 export default {getCustomer};
