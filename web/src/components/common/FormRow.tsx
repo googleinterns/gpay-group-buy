@@ -16,22 +16,32 @@
 
 import React from 'react';
 
+import Col from 'muicss/lib/react/col';
 import Row from 'muicss/lib/react/row';
 import styled from 'styled-components';
 
 const StyledRow = styled(Row)`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: top;
   justify-content: center;
 
-  margin: 20px 0;
+  margin: 10px 0;
+`;
+
+const StyledCol = styled(Col)`
+  display: flex;
+  flex-direction: column;
+  align-items: left;
 `;
 
 const Label = styled.label`
   width: 100px;
-  font-size: 14px;
+  height: 30px;
   margin-right: 20px;
+
+  font-size: 14px;
+  vertical-align: middle;
 `;
 
 const Input = styled.input`
@@ -44,28 +54,50 @@ const Input = styled.input`
   box-shadow: 4px 2px 4px rgba(0, 0, 0, 0.25);
 `;
 
+const ErrorContainer = styled.div`
+  height: 10px;
+  margin-left: 15px;
+  margin-top: 5px;
+
+
+  font-size: 10px;
+  line-height: 10px;
+  color: var(--bright-red);
+`;
+
 interface FormRowProps {
   label: string;
   inputType: string;
   onChange: React.EventHandler<React.FormEvent<HTMLInputElement>>;
+  error: string;
 }
 
 /**
  * This is a row in a form, consisting of a label and an input field shown
  * side by side.
  */
-const FormRow: React.FC<FormRowProps> = ({label, inputType, onChange}) => (
+const FormRow: React.FC<FormRowProps> = ({
+  label,
+  inputType,
+  onChange,
+  error,
+}) => (
   <StyledRow>
-    <Label>{label}</Label>
-    <Input
-      type={inputType}
-      name={label
-        .toLowerCase()
-        .replace(/\s(.)/g, a => a.toUpperCase())
-        .replace(/\s/g, '')
-        .replace(/^(.)/, a => a.toLowerCase())}
-      onChange={onChange}
-    />
+    <StyledCol>
+      <Label>{label}</Label>
+    </StyledCol>
+    <StyledCol>
+      <Input
+        type={inputType}
+        name={label
+          .toLowerCase()
+          .replace(/\s(.)/g, a => a.toUpperCase())
+          .replace(/\s/g, '')
+          .replace(/^(.)/, a => a.toLowerCase())}
+        onChange={onChange}
+      />
+      <ErrorContainer>{error}</ErrorContainer>
+    </StyledCol>
   </StyledRow>
 );
 
