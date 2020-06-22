@@ -42,6 +42,10 @@ const Label = styled.label`
 
   font-size: 14px;
   vertical-align: middle;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const Input = styled.input`
