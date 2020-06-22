@@ -55,11 +55,11 @@ const Input = styled.input`
 `;
 
 const ErrorContainer = styled.div`
-  height: 10px;
+  height: 12px;
   margin-left: 15px;
   margin-top: 5px;
 
-  font-size: 10px;
+  font-size: 12px;
   line-height: 10px;
   color: var(--bright-red);
 `;
