@@ -26,7 +26,7 @@ export interface CustomerPayload {
 
 /**
  * CustomerResponse Interface that contains the fields of the Response that
- * client side would recieve.
+ * client side would receive.
  */
 export interface CustomerResponse extends CustomerPayload {
   id: number;
