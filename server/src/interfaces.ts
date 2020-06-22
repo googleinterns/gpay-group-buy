@@ -31,3 +31,30 @@ export interface CustomerPayload {
 export interface CustomerResponse extends CustomerPayload {
   id: number;
 }
+
+/**
+ * ListingPayload Interface that contains the fields of the payload that
+ * would be sent to create a Listing Entity.
+ */
+export interface ListingPayload {
+  merchantId: number;
+  deadline: string;
+  minCommits: number;
+  numCommits: number;
+  numPaid: number;
+  numCompleted: number;
+  listingStatus:
+    | 'ongoing'
+    | 'successful'
+    | 'paid'
+    | 'completed'
+    | 'unsuccessful';
+}
+
+/**
+ * ListingResponse Interface that contains the fields of the Response that
+ * client side would recieve.
+ */
+export interface ListingResponse extends ListingPayload {
+  id: number;
+}

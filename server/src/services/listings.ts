@@ -16,4 +16,6 @@
 
 import {listingStorage} from '../storage';
 
-export const listingService = {};
+const getAllListings = async () => await listingStorage.getAllListings();
+
+export default {getAllListings};
