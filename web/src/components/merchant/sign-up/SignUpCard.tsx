@@ -147,11 +147,11 @@ const SignUpCard: React.FC = () => {
       .createUserWithEmailAndPassword(email, password)
       .catch(error => {
         if (error.code === 'auth/invalid-email') {
-          setErrorMessage(Errors.INVALID_EMAIL);
+          setEmailError(Errors.INVALID_EMAIL);
         } else if (error.code === 'auth/weak-password') {
-          setErrorMessage(Errors.WEAK_PASSWORD);
+          setPasswordError(Errors.WEAK_PASSWORD);
         } else if (error.code === 'auth/email-already-in-use') {
-          setErrorMessage(Errors.EMAIL_ALREADY_IN_USE);
+          setEmailError(Errors.EMAIL_ALREADY_IN_USE);
         } else {
           setErrorMessage(Errors.SERVER_ERROR);
         }
