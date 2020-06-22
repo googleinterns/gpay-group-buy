@@ -59,7 +59,7 @@ export interface ListingPayload {
 
 /**
  * ListingResponse Interface that contains the fields of the Response that
- * client side would recieve.
+ * client side would receive.
  */
 export interface ListingResponse extends ListingPayload {
   id: number;
