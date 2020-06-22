@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
+import {Datastore} from '@google-cloud/datastore';
+
+const datastore = new Datastore();
+
 /**
- * @fileoverview Handles routing of the different API routes.
- * @author Karen Frilya Celine
+ * A Datastore wrapper that gets a particular entity with the specified Kind and id.
+ * @param kind The Kind that is being queried
+ * @param id The id of the Entity being queried
  */
+const getWithId = async (kind: string, id: string) => {
+  const key = datastore.key([kind, datastore.int(id)]);
+  const [res] = await datastore.get(key);
+  const {[datastore.KEY]: _, ...properties} = res;
+  return {
+    ...properties,
+    id: key.id,
+  };
+};
 
-import {commitRouter} from './commits';
-import customerRouter from './customers';
-import {listingRouter} from './listings';
-import {merchantRouter} from './merchants';
-
-export {commitRouter, customerRouter, listingRouter, merchantRouter};
+export {getWithId};
