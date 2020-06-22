@@ -75,6 +75,13 @@ interface FormRowProps {
   error: string;
 }
 
+const toCamelCase = (phrase: string) =>
+  phrase
+    .toLowerCase()
+    .replace(/\s(.)/g, a => a.toUpperCase())
+    .replace(/\s/g, '')
+    .replace(/^(.)/, a => a.toLowerCase());
+
 /**
  * This is a row in a form, consisting of a label and an input field shown
  * side by side.
@@ -90,15 +97,7 @@ const FormRow: React.FC<FormRowProps> = ({
       <Label>{label}</Label>
     </StyledCol>
     <StyledCol>
-      <Input
-        type={inputType}
-        name={label
-          .toLowerCase()
-          .replace(/\s(.)/g, a => a.toUpperCase())
-          .replace(/\s/g, '')
-          .replace(/^(.)/, a => a.toLowerCase())}
-        onChange={onChange}
-      />
+      <Input type={inputType} name={toCamelCase(label)} onChange={onChange} />
       <ErrorContainer>{error}</ErrorContainer>
     </StyledCol>
   </StyledRow>
