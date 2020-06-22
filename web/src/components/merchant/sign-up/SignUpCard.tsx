@@ -92,8 +92,6 @@ const SignUpCard: React.FC = () => {
   const [vpa, setVpa] = useState('');
   const [vpaError, setVpaError] = useState('');
 
-  const [errorMessage, setErrorMessage] = useState('');
-
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.target.value ? setNameError('') : setNameError(NAME_EMPTY);
     setName(event.target.value);
@@ -172,9 +170,6 @@ const SignUpCard: React.FC = () => {
           error={vpaError}
         />
       </StyledForm>
-      <StyledRow>
-        <ErrorContainer>{errorMessage}</ErrorContainer>
-      </StyledRow>
       <StyledRow>
         <StyledButton onClick={handleSubmit}>Sign Up</StyledButton>
       </StyledRow>
