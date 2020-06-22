@@ -72,15 +72,6 @@ const StyledButton = styled(Button)`
   margin: 0;
 `;
 
-interface SignUpState {
-  name?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-  vpa?: string;
-  errorMessage?: string;
-}
-
 /**
  * This is the card containing the sign up form for the Merchant app.
  * It is displayed in the Sign Up page.
