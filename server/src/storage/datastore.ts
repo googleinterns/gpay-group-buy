@@ -33,6 +33,10 @@ const getWithId = async (kind: string, id: string) => {
   };
 };
 
+/**
+ * A Datastore wrapper that gets all entities of a specified Kind.
+ * @param kind The Kind that is being queried
+ */
 const getAllWithId = async (kind: string) => {
   const query = datastore.createQuery(kind);
   const [res] = await datastore.runQuery(query);
