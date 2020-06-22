@@ -55,6 +55,9 @@ const StyledRow = styled(Row)`
   display: block;
   line-height: 40px;
 `;
+const ErrorContainer = styled.div`
+  color: var(--bright-red);
+`;
 
 const StyledButton = styled(Button)`
   height: 40px;
@@ -208,6 +211,9 @@ const SignUpCard: React.FC = () => {
           error={vpaError}
         />
       </StyledForm>
+      <StyledRow>
+        <ErrorContainer>{errorMessage}</ErrorContainer>
+      </StyledRow>
       <StyledRow>
         <StyledButton onClick={handleSubmit}>Sign Up</StyledButton>
       </StyledRow>
