@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
+import Errors from 'constants/sign-up-errors';
+
 import React, {useState} from 'react';
 
 import FormRow from 'components/common/FormRow';
 import GroupBuyMerchantHeader from 'components/common/GroupBuyMerchantHeader';
-import Errors from 'constants/sign-up-errors';
 import firebaseAuth from 'firebase-auth';
 import Button from 'muicss/lib/react/button';
 import Form from 'muicss/lib/react/form';

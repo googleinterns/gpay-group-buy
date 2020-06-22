@@ -23,7 +23,8 @@ const PASSWORDS_DO_NOT_MATCH = 'Passwords do no match.';
 
 const INVALID_EMAIL = 'Please input a valid email address.';
 const WEAK_PASSWORD = 'Password should be at least 6 characters.';
-const EMAIL_ALREADY_IN_USE = 'The email address is already in use by another account.';
+const EMAIL_ALREADY_IN_USE =
+  'The email address is already in use by another account.';
 
 const SERVER_ERROR = 'Oops, something is wrong. Please try again later!';
 
@@ -36,5 +37,5 @@ export default {
   INVALID_EMAIL,
   WEAK_PASSWORD,
   EMAIL_ALREADY_IN_USE,
-  SERVER_ERROR
+  SERVER_ERROR,
 };
