@@ -15,7 +15,7 @@
  */
 
 import {CUSTOMER_KIND} from '../constants/kinds';
-import { CustomerResponse } from '../interfaces';
+import {CustomerResponse} from '../interfaces';
 import {getWithId} from './datastore';
 
 const getCustomer = async (customerId: string): Promise<CustomerResponse> => {

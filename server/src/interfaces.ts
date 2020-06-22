@@ -18,8 +18,8 @@ export interface CustomerPayload {
   gpayId: string;
   contactNumber: string;
   address: string;
-};
+}
 
 export interface CustomerResponse extends CustomerPayload {
   id: number;
-};
+}
