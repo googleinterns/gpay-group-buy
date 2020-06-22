@@ -84,7 +84,8 @@ const toCamelCase = (phrase: string) =>
 
 /**
  * This is a row in a form, consisting of a label and an input field shown
- * side by side.
+ * side by side. This also contains a container for error message which is
+ * displayed below the input field where applicable.
  */
 const FormRow: React.FC<FormRowProps> = ({
   label,
