@@ -16,12 +16,13 @@
 
 import firebase from 'firebase';
 
-// Add a new user account to Firebase.
+const config = {
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+};
+
 if (!firebase.apps.length) {
-  firebase.initializeApp({
-    apiKey: process.env.REACT_APP_API_KEY,
-    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-  });
+  firebase.initializeApp(config);
 }
 
 const firebaseAuth = firebase.auth();
