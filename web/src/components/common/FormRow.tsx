@@ -59,7 +59,6 @@ const ErrorContainer = styled.div`
   margin-left: 15px;
   margin-top: 5px;
 
-
   font-size: 10px;
   line-height: 10px;
   color: var(--bright-red);
