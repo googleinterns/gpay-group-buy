@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import {CustomerResponse} from '../interfaces';
 import {customerStorage} from '../storage';
 
-export const customerService = {};
+const getCustomer = async (customerId: string): Promise<CustomerResponse> =>
+  await customerStorage.getCustomer(customerId);
+
+export default {getCustomer};
