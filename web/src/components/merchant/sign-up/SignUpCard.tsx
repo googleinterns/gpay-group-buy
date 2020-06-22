@@ -137,7 +137,14 @@ const SignUpCard: React.FC = () => {
     setVpa(event.target.value);
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    if (!name) setNameError(NAME_EMPTY);
+    if (!email) setEmailError(EMAIL_EMPTY);
+    if (!password) setPasswordError(PASSWORD_EMPTY);
+    if (password !== confirmPassword)
+      setConfirmPasswordError(PASSWORDS_DO_NOT_MATCH);
+    if (!vpa) setVpaError(VPA_EMPTY);
+  };
 
   return (
     <CardContainer>
