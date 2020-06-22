@@ -40,7 +40,7 @@ const getAllWithId = async (kind: string) => {
     const {[datastore.KEY]: key, ...properties} = item;
     return {
       ...properties,
-      id: key.id,
+      id: Number(key.id),
     };
   });
   return resWithId;
