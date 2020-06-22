@@ -14,18 +14,11 @@
  * limitations under the License.
  */
 
-import {
-  NAME_EMPTY,
-  EMAIL_EMPTY,
-  PASSWORD_EMPTY,
-  PASSWORDS_DO_NOT_MATCH,
-  VPA_EMPTY,
-} from 'constants/sign-up-errors';
-
 import React, {useState} from 'react';
 
 import FormRow from 'components/common/FormRow';
 import GroupBuyMerchantHeader from 'components/common/GroupBuyMerchantHeader';
+import Errors from 'constants/sign-up-errors';
 import firebaseAuth from 'firebase-auth';
 import Button from 'muicss/lib/react/button';
 import Form from 'muicss/lib/react/form';
@@ -95,24 +88,24 @@ const SignUpCard: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.target.value ? setNameError('') : setNameError(NAME_EMPTY);
+    event.target.value ? setNameError('') : setNameError(Errors.NAME_EMPTY);
     setName(event.target.value);
   };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.target.value ? setEmailError('') : setEmailError(EMAIL_EMPTY);
+    event.target.value ? setEmailError('') : setEmailError(Errors.EMAIL_EMPTY);
     setEmail(event.target.value);
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.target.value
       ? setPasswordError('')
-      : setPasswordError(PASSWORD_EMPTY);
+      : setPasswordError(Errors.PASSWORD_EMPTY);
     // We don't check that passwords match if user hasn't filled in
     // 'Confirm Password' yet.
     !confirmPassword || event.target.value === confirmPassword
       ? setConfirmPasswordError('')
-      : setConfirmPasswordError(PASSWORDS_DO_NOT_MATCH);
+      : setConfirmPasswordError(Errors.PASSWORDS_DO_NOT_MATCH);
     setPassword(event.target.value);
   };
 
@@ -124,24 +117,24 @@ const SignUpCard: React.FC = () => {
     // If both passwords are empty we show PASSWORD_EMPTY.
     event.target.value === password
       ? setConfirmPasswordError('')
-      : setConfirmPasswordError(PASSWORDS_DO_NOT_MATCH);
+      : setConfirmPasswordError(Errors.PASSWORDS_DO_NOT_MATCH);
     setConfirmPassword(event.target.value);
   };
 
   const handleVpaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.target.value ? setVpaError('') : setVpaError(VPA_EMPTY);
+    event.target.value ? setVpaError('') : setVpaError(Errors.VPA_EMPTY);
     setVpa(event.target.value);
   };
 
   const handleSubmit = () => {
     // These checks are needed because empty error in the handleChange is shown
     // only if user already fills in the field and then deletes it.
-    if (!name) setNameError(NAME_EMPTY);
-    if (!email) setEmailError(EMAIL_EMPTY);
-    if (!password) setPasswordError(PASSWORD_EMPTY);
+    if (!name) setNameError(Errors.NAME_EMPTY);
+    if (!email) setEmailError(Errors.EMAIL_EMPTY);
+    if (!password) setPasswordError(Errors.PASSWORD_EMPTY);
     if (password !== confirmPassword)
-      setConfirmPasswordError(PASSWORDS_DO_NOT_MATCH);
-    if (!vpa) setVpaError(VPA_EMPTY);
+      setConfirmPasswordError(Errors.PASSWORDS_DO_NOT_MATCH);
+    if (!vpa) setVpaError(Errors.VPA_EMPTY);
 
     if (!name || !email || !password || password !== confirmPassword || !vpa) {
       return;
@@ -151,15 +144,13 @@ const SignUpCard: React.FC = () => {
       .createUserWithEmailAndPassword(email, password)
       .catch(error => {
         if (error.code === 'auth/invalid-email') {
-          setErrorMessage('Please input a valid email address.');
+          setErrorMessage(Errors.INVALID_EMAIL);
         } else if (error.code === 'auth/weak-password') {
-          setErrorMessage('Password should be at least 6 characters.');
+          setErrorMessage(Errors.WEAK_PASSWORD);
         } else if (error.code === 'auth/email-already-in-use') {
-          setErrorMessage(
-            'The email address is already in use by another account.'
-          );
+          setErrorMessage(Errors.EMAIL_ALREADY_IN_USE);
         } else {
-          setErrorMessage('Oops, something is wrong. Please try again later!');
+          setErrorMessage(Errors.SERVER_ERROR);
         }
       });
   };
