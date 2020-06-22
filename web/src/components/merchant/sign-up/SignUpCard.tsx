@@ -141,6 +141,10 @@ const SignUpCard: React.FC = () => {
       setConfirmPasswordError(PASSWORDS_DO_NOT_MATCH);
     if (!vpa) setVpaError(VPA_EMPTY);
 
+    if (!name || !email || !password || password !== confirmPassword || !vpa) {
+      return;
+    }
+
     // Add a new user account to Firebase.
     if (!firebase.apps.length) {
       firebase.initializeApp({
