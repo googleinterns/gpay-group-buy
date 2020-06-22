@@ -27,13 +27,13 @@ const HeaderContainer = styled.div`
 `;
 
 const Logo = styled(GPayLogo)`
-  width: 80px;
+  width: 70px;
 `;
 
 const Header = styled.h1`
-  font-size: 32px;
+  font-size: 28px;
   font-weight: normal;
-  line-height: 48px;
+  line-height: 42px;
   margin: 0;
   text-align: center;
 `;

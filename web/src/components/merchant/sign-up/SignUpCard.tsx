@@ -14,7 +14,15 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import {
+  NAME_EMPTY,
+  EMAIL_EMPTY,
+  PASSWORD_EMPTY,
+  PASSWORDS_DO_NOT_MATCH,
+  VPA_EMPTY,
+} from 'constants/sign-up-errors';
+
+import React, {useState} from 'react';
 
 import autobind from 'autobind-decorator';
 import FormRow from 'components/common/FormRow';
@@ -48,10 +56,6 @@ const StyledRow = styled(Row)`
   line-height: 40px;
 `;
 
-const ErrorContainer = styled.div`
-  color: var(--bright-red);
-`;
-
 const StyledButton = styled(Button)`
   height: 40px;
   width: 200px;
@@ -66,63 +70,74 @@ const StyledButton = styled(Button)`
   margin: 0;
 `;
 
-interface SignUpState {
-  name?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-  vpa?: string;
-  errorMessage?: string;
-}
-
 /**
  * This is the card containing the sign up form for the Merchant app.
  * It is displayed in the Sign Up page.
  */
-@autobind
-class SignUpCard extends React.Component<{}, SignUpState> {
-  constructor(props: Readonly<{}>) {
-    super(props);
-    this.state = {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      vpa: '',
-      errorMessage: '',
-    };
-  }
+const SignUpCard: React.FC = () => {
+  const [name, setName] = useState('');
+  const [nameError, setNameError] = useState('');
 
-  handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const name: string = event.target.name;
-    const value: string = event.target.value;
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
 
-    this.setState({
-      [name]: value,
-      errorMessage: '',
-    });
-  }
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
-  handleSubmit() {
-    const name: string | undefined = this.state.name;
-    const email: string | undefined = this.state.email;
-    const password: string | undefined = this.state.password;
-    const confirmPassword: string | undefined = this.state.confirmPassword;
-    const vpa: string | undefined = this.state.vpa;
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
-    if (!(name && email && password && confirmPassword && vpa)) {
-      this.setState({
-        errorMessage: 'Please fill in all of the fields.',
-      });
-      return;
-    }
+  const [vpa, setVpa] = useState('');
+  const [vpaError, setVpaError] = useState('');
 
-    if (password !== confirmPassword) {
-      this.setState({
-        errorMessage: 'Passwords do not match.',
-      });
-      return;
-    }
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.target.value ? setNameError('') : setNameError(NAME_EMPTY);
+    setName(event.target.value);
+  };
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.target.value ? setEmailError('') : setEmailError(EMAIL_EMPTY);
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.target.value
+      ? setPasswordError('')
+      : setPasswordError(PASSWORD_EMPTY);
+    // We don't check that passwords match if user hasn't filled in
+    // 'Confirm Password' yet.
+    !confirmPassword || event.target.value === confirmPassword
+      ? setConfirmPasswordError('')
+      : setConfirmPasswordError(PASSWORDS_DO_NOT_MATCH);
+    setPassword(event.target.value);
+  };
+
+  const handleConfirmPasswordChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    // We don't have to check if 'Confirm Password' is empty. If 'Password' is
+    // is not empty and 'Confirm Password' is empty, we show PASSWORDS_DO_NOT_MATCH.
+    // If both passwords are empty we show PASSWORD_EMPTY.
+    event.target.value === password
+      ? setConfirmPasswordError('')
+      : setConfirmPasswordError(PASSWORDS_DO_NOT_MATCH);
+    setConfirmPassword(event.target.value);
+  };
+
+  const handleVpaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.target.value ? setVpaError('') : setVpaError(VPA_EMPTY);
+    setVpa(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    // These checks are needed because empty error in the handleChange is shown
+    // only if user already fills in the field and then deletes it.
+    if (!name) setNameError(NAME_EMPTY);
+    if (!email) setEmailError(EMAIL_EMPTY);
+    if (!password) setPasswordError(PASSWORD_EMPTY);
+    if (password !== confirmPassword)
+      setConfirmPasswordError(PASSWORDS_DO_NOT_MATCH);
+    if (!vpa) setVpaError(VPA_EMPTY);
 
     // Add a new user account to Firebase.
     if (!firebase.apps.length) {
@@ -153,52 +168,52 @@ class SignUpCard extends React.Component<{}, SignUpState> {
           errorMessage,
         });
       });
-  }
+  };
 
-  render() {
-    return (
-      <CardContainer>
-        <GroupBuyMerchantHeader />
-        <StyledForm>
-          <FormRow
-            label="Name"
-            inputType="text"
-            onChange={this.handleInputChange}
-          />
-          <FormRow
-            label="Email"
-            inputType="email"
-            onChange={this.handleInputChange}
-          />
-          <FormRow
-            label="Password"
-            inputType="password"
-            onChange={this.handleInputChange}
-          />
-          <FormRow
-            label="Confirm Password"
-            inputType="password"
-            onChange={this.handleInputChange}
-          />
-          <FormRow
-            label="VPA"
-            inputType="text"
-            onChange={this.handleInputChange}
-          />
-        </StyledForm>
-        <StyledRow>
-          <ErrorContainer>{this.state.errorMessage}</ErrorContainer>
-        </StyledRow>
-        <StyledRow>
-          <StyledButton onClick={this.handleSubmit}>Sign Up</StyledButton>
-        </StyledRow>
-        <StyledRow>
-          Already have an account? <Link to="/merchant/sign-in">Sign in</Link>{' '}
-          now!
-        </StyledRow>
-      </CardContainer>
-    );
-  }
-}
+  return (
+    <CardContainer>
+      <GroupBuyMerchantHeader />
+      <StyledForm>
+        <FormRow
+          label="Name"
+          inputType="text"
+          onChange={handleNameChange}
+          error={nameError}
+        />
+        <FormRow
+          label="Email"
+          inputType="email"
+          onChange={handleEmailChange}
+          error={emailError}
+        />
+        <FormRow
+          label="Password"
+          inputType="password"
+          onChange={handlePasswordChange}
+          error={passwordError}
+        />
+        <FormRow
+          label="Confirm Password"
+          inputType="password"
+          onChange={handleConfirmPasswordChange}
+          error={confirmPasswordError}
+        />
+        <FormRow
+          label="VPA"
+          inputType="text"
+          onChange={handleVpaChange}
+          error={vpaError}
+        />
+      </StyledForm>
+      <StyledRow>
+        <StyledButton onClick={handleSubmit}>Sign Up</StyledButton>
+      </StyledRow>
+      <StyledRow>
+        Already have an account? <Link to="/merchant/sign-in">Sign in</Link>{' '}
+        now!
+      </StyledRow>
+    </CardContainer>
+  );
+};
 
 export default SignUpCard;
