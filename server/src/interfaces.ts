@@ -14,12 +14,20 @@
  * limitations under the License.
  */
 
+/**
+ * CustomerPayload Interface that contains the fields of the payload that
+ * would be sent to create a Customer Entity.
+ */
 export interface CustomerPayload {
   gpayId: string;
   contactNumber: string;
   address: string;
 }
 
+/**
+ * CustomerResponse Interface that contains the fields of the Response that
+ * client side would recieve.
+ */
 export interface CustomerResponse extends CustomerPayload {
   id: number;
 }
