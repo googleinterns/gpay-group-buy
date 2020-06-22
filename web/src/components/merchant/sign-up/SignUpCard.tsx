@@ -102,6 +102,8 @@ const SignUpCard: React.FC = () => {
     event.target.value
       ? setPasswordError('')
       : setPasswordError(PASSWORD_EMPTY);
+    // We don't check that passwords match if user hasn't filled in
+    // 'Confirm Password' yet.
     !confirmPassword || event.target.value === confirmPassword
       ? setConfirmPasswordError('')
       : setConfirmPasswordError(PASSWORDS_DO_NOT_MATCH);
@@ -111,6 +113,9 @@ const SignUpCard: React.FC = () => {
   const handleConfirmPasswordChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
+    // We don't have to check if 'Confirm Password' is empty. If 'Password' is
+    // is not empty and 'Confirm Password' is empty, we show PASSWORDS_DO_NOT_MATCH.
+    // If both passwords are empty we show PASSWORD_EMPTY.
     event.target.value === password
       ? setConfirmPasswordError('')
       : setConfirmPasswordError(PASSWORDS_DO_NOT_MATCH);
@@ -123,6 +128,8 @@ const SignUpCard: React.FC = () => {
   };
 
   const handleSubmit = () => {
+    // These checks are needed because empty error in the handleChange is shown
+    // only if user already fills in the field and then deletes it.
     if (!name) setNameError(NAME_EMPTY);
     if (!email) setEmailError(EMAIL_EMPTY);
     if (!password) setPasswordError(PASSWORD_EMPTY);
