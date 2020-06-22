@@ -54,10 +54,6 @@ const StyledRow = styled(Row)`
   line-height: 40px;
 `;
 
-const ErrorContainer = styled.div`
-  color: var(--bright-red);
-`;
-
 const StyledButton = styled(Button)`
   height: 40px;
   width: 200px;
