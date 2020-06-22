@@ -90,6 +90,8 @@ const SignUpCard: React.FC = () => {
   const [vpa, setVpa] = useState('');
   const [vpaError, setVpaError] = useState('');
 
+  const [errorMessage, setErrorMessage] = useState('');
+
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.target.value ? setNameError('') : setNameError(NAME_EMPTY);
     setName(event.target.value);
@@ -147,7 +149,6 @@ const SignUpCard: React.FC = () => {
       });
     }
 
-    const setState = this.setState.bind(this);
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -164,9 +165,7 @@ const SignUpCard: React.FC = () => {
         } else if (errorCode === 'auth/operation-not-allowed') {
           errorMessage = 'Oops, something is wrong. Please try again later!';
         }
-        setState({
-          errorMessage,
-        });
+        setErrorMessage(errorMessage);
       });
   };
 
