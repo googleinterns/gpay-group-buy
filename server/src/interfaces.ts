@@ -38,6 +38,12 @@ export interface CustomerResponse extends CustomerPayload {
  */
 export interface ListingPayload {
   merchantId: number;
+  name: string;
+  price: string;
+  oldPrice: string;
+  currency: string;
+  imgUrl: string;
+  description: string;
   deadline: string;
   minCommits: number;
   numCommits: number;
