@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-// @ts-nocheck
 import {Datastore} from '@google-cloud/datastore';
 
 const datastore = new Datastore();
 
 const getWithId = async (kind: string, id: string) => {
   const key = datastore.key([kind, datastore.int(id)]);
-  const keySymbol = datastore.KEY;
   const [res] = await datastore.get(key);
-  const {[keySymbol]: _, ...properties } = res;
+  const { [datastore.KEY]: _, ...properties } = res;
   return {
     ...properties,
     id: key.id,
