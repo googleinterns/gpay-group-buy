@@ -144,8 +144,8 @@ const SignUpCard: React.FC = () => {
     // Add a new user account to Firebase.
     if (!firebase.apps.length) {
       firebase.initializeApp({
-        apiKey: process.env.API_KEY,
-        authDomain: process.env.AUTH_DOMAIN,
+        apiKey: process.env.REACT_APP_API_KEY,
+        authDomain: process.env.REACT_APP_AUTH_DOMAIN,
       });
     }
 
