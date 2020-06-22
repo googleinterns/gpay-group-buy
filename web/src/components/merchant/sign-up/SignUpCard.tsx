@@ -98,7 +98,7 @@ class SignUpCard extends React.Component<{}, SignUpState> {
 
     this.setState({
       [name]: value,
-      errorMessage: ''
+      errorMessage: '',
     });
   }
 
@@ -111,14 +111,14 @@ class SignUpCard extends React.Component<{}, SignUpState> {
 
     if (!(name && email && password && confirmPassword && vpa)) {
       this.setState({
-        errorMessage: 'Please fill in all of the fields.'
+        errorMessage: 'Please fill in all of the fields.',
       });
       return;
     }
 
     if (password !== confirmPassword) {
       this.setState({
-        errorMessage: 'Passwords do not match.'
+        errorMessage: 'Passwords do not match.',
       });
       return;
     }
@@ -129,11 +129,31 @@ class SignUpCard extends React.Component<{}, SignUpState> {
       <CardContainer>
         <GroupBuyMerchantHeader />
         <StyledForm>
-          <FormRow label="Name" inputType="text" onChange={this.handleInputChange} />
-          <FormRow label="Email" inputType="email" onChange={this.handleInputChange} />
-          <FormRow label="Password" inputType="password" onChange={this.handleInputChange} />
-          <FormRow label="Confirm Password" inputType="password" onChange={this.handleInputChange} />
-          <FormRow label="VPA" inputType="text" onChange={this.handleInputChange} />
+          <FormRow
+            label="Name"
+            inputType="text"
+            onChange={this.handleInputChange}
+          />
+          <FormRow
+            label="Email"
+            inputType="email"
+            onChange={this.handleInputChange}
+          />
+          <FormRow
+            label="Password"
+            inputType="password"
+            onChange={this.handleInputChange}
+          />
+          <FormRow
+            label="Confirm Password"
+            inputType="password"
+            onChange={this.handleInputChange}
+          />
+          <FormRow
+            label="VPA"
+            inputType="text"
+            onChange={this.handleInputChange}
+          />
         </StyledForm>
         <StyledRow>
           <ErrorContainer>{this.state.errorMessage}</ErrorContainer>
