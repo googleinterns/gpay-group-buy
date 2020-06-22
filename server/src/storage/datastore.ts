@@ -36,14 +36,14 @@ const getWithId = async (kind: string, id: string) => {
 const getAllWithId = async (kind: string) => {
   const query = datastore.createQuery(kind);
   const [res] = await datastore.runQuery(query);
-  res.forEach(item => {
+  const resWithId = res.map(item => {
     const {[datastore.KEY]: key, ...properties} = item;
     return {
       ...properties,
       id: key.id,
     };
   });
-  return res;
+  return resWithId;
 };
 
 export {getWithId, getAllWithId};

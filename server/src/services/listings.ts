@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
+import {ListingResponse} from 'interfaces';
+
 import {listingStorage} from '../storage';
 
-const getAllListings = async () => await listingStorage.getAllListings();
+const getAllListings = async (): Promise<ListingResponse[]> =>
+  await listingStorage.getAllListings();
 
 export default {getAllListings};
