@@ -26,7 +26,7 @@ import React, {useState} from 'react';
 
 import FormRow from 'components/common/FormRow';
 import GroupBuyMerchantHeader from 'components/common/GroupBuyMerchantHeader';
-import firebase from 'firebase';
+import firebaseAuth from 'firebase-auth';
 import Button from 'muicss/lib/react/button';
 import Form from 'muicss/lib/react/form';
 import Row from 'muicss/lib/react/row';
@@ -147,31 +147,20 @@ const SignUpCard: React.FC = () => {
       return;
     }
 
-    // Add a new user account to Firebase.
-    if (!firebase.apps.length) {
-      firebase.initializeApp({
-        apiKey: process.env.REACT_APP_API_KEY,
-        authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-      });
-    }
-
-    firebase
-      .auth()
+    firebaseAuth
       .createUserWithEmailAndPassword(email, password)
       .catch(error => {
-        const errorCode = error.code;
-        let errorMessage = error.message;
-        if (errorCode === 'auth/invalid-email') {
-          errorMessage = 'Please input a valid email address.';
-        } else if (errorCode === 'auth/weak-password') {
-          errorMessage = 'Password should be at least 6 characters.';
-        } else if (errorCode === 'auth/email-already-in-use') {
-          errorMessage =
-            'The email address is already in use by another account.';
-        } else if (errorCode === 'auth/operation-not-allowed') {
-          errorMessage = 'Oops, something is wrong. Please try again later!';
+        if (error.code === 'auth/invalid-email') {
+          setErrorMessage('Please input a valid email address.');
+        } else if (error.code === 'auth/weak-password') {
+          setErrorMessage('Password should be at least 6 characters.');
+        } else if (error.code === 'auth/email-already-in-use') {
+          setErrorMessage(
+            'The email address is already in use by another account.'
+          );
+        } else {
+          setErrorMessage('Oops, something is wrong. Please try again later!');
         }
-        setErrorMessage(errorMessage);
       });
   };
 
