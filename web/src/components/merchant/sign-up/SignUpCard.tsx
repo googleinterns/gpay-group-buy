@@ -14,6 +14,14 @@
  * limitations under the License.
  */
 
+import {
+  NAME_EMPTY,
+  EMAIL_EMPTY,
+  PASSWORD_EMPTY,
+  PASSWORDS_DO_NOT_MATCH,
+  VPA_EMPTY,
+} from 'constants/sign-up-errors';
+
 import React, {useState} from 'react';
 
 import FormRow from 'components/common/FormRow';
@@ -96,26 +104,22 @@ const SignUpCard: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.target.value
-      ? setNameError('')
-      : setNameError('Name cannot be empty.');
+    event.target.value ? setNameError('') : setNameError(NAME_EMPTY);
     setName(event.target.value);
   };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.target.value
-      ? setEmailError('')
-      : setEmailError('Email cannot be empty.');
+    event.target.value ? setEmailError('') : setEmailError(EMAIL_EMPTY);
     setEmail(event.target.value);
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.target.value
       ? setPasswordError('')
-      : setPasswordError('Password cannot be empty.');
-    (!confirmPassword || event.target.value === confirmPassword)
+      : setPasswordError(PASSWORD_EMPTY);
+    !confirmPassword || event.target.value === confirmPassword
       ? setConfirmPasswordError('')
-      : setConfirmPasswordError('Passwords do no match.');
+      : setConfirmPasswordError(PASSWORDS_DO_NOT_MATCH);
     setPassword(event.target.value);
   };
 
@@ -124,12 +128,12 @@ const SignUpCard: React.FC = () => {
   ) => {
     event.target.value === password
       ? setConfirmPasswordError('')
-      : setConfirmPasswordError('Passwords do no match.');
+      : setConfirmPasswordError(PASSWORDS_DO_NOT_MATCH);
     setConfirmPassword(event.target.value);
   };
 
   const handleVpaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.target.value ? setVpaError('') : setVpaError('VPA cannot be empty.');
+    event.target.value ? setVpaError('') : setVpaError(VPA_EMPTY);
     setVpa(event.target.value);
   };
 
