@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-import {Datastore} from '@google-cloud/datastore';
-import {Guid} from 'guid-typescript';
+import {CUSTOMER_KIND} from '../constants/kinds';
+import {CustomerResponse} from '../interfaces';
+import {getWithId} from './datastore';
 
-const datastore = new Datastore();
+const getCustomer = async (customerId: string): Promise<CustomerResponse> =>
+  getWithId(CUSTOMER_KIND, customerId);
 
-export const customerStorage = {};
+export default {getCustomer};

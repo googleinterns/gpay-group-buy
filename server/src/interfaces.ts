@@ -15,13 +15,19 @@
  */
 
 /**
- * @fileoverview Handles routing of the different API routes.
- * @author Karen Frilya Celine
+ * CustomerPayload Interface that contains the fields of the payload that
+ * would be sent to create a Customer Entity.
  */
+export interface CustomerPayload {
+  gpayId: string;
+  contactNumber: string;
+  address: string;
+}
 
-import {commitRouter} from './commits';
-import customerRouter from './customers';
-import {listingRouter} from './listings';
-import {merchantRouter} from './merchants';
-
-export {commitRouter, customerRouter, listingRouter, merchantRouter};
+/**
+ * CustomerResponse Interface that contains the fields of the Response that
+ * client side would receive.
+ */
+export interface CustomerResponse extends CustomerPayload {
+  id: number;
+}

@@ -19,7 +19,7 @@ const EMAIL_EMPTY = 'Email cannot be empty.';
 const PASSWORD_EMPTY = 'Password cannot be empty.';
 const VPA_EMPTY = 'VPA cannot be empty.';
 
-const PASSWORDS_DO_NOT_MATCH = 'Passwords do no match.';
+const PASSWORDS_DO_NOT_MATCH = 'Passwords do not match.';
 
 const INVALID_EMAIL = 'Please input a valid email address.';
 const WEAK_PASSWORD = 'Password should be at least 6 characters.';

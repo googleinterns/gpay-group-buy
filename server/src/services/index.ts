@@ -15,7 +15,7 @@
  */
 
 import {commitService} from './commits';
-import {customerService} from './customers';
+import customerService from './customers';
 import {listingService} from './listings';
 import {merchantService} from './merchants';
 

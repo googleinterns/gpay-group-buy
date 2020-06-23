@@ -76,6 +76,10 @@ interface FormRowProps {
   error: string;
 }
 
+/**
+ * This converts a space-separated string to camelCase e.g. 'Confirm Password'
+ * to 'confirmPassword' and 'VPA' to 'vpa'.
+ */
 const toCamelCase = (phrase: string) =>
   phrase
     .toLowerCase()
