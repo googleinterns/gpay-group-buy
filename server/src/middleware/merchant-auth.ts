@@ -19,7 +19,11 @@ import admin from 'firebase-admin';
 
 admin.initializeApp();
 
-const merchantAuth = async (req: Request, res: Response, next: NextFunction) => {
+const merchantAuth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     if (!req.headers.authorization) throw new Error('Unauthorized');
 
