@@ -11,4 +11,8 @@ handlers:
 
   - url: /.*
     static_files: build/index.html
-    upload: build/index.html
+    upload: build/index.html\
+
+env_variables:
+  REACT_APP_API_KEY: '<API_KEY>'
+  REACT_APP_AUTH_DOMAIN: '<AUTH_DOMAIN>'
