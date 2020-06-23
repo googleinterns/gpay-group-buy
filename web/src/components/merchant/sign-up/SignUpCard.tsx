@@ -141,6 +141,10 @@ const SignUpCard: React.FC = () => {
       return;
     }
 
+    handleFirebaseSignUp();
+  };
+
+  const handleFirebaseSignUp = () => {
     // Add a new user account to Firebase so that user can be signed in with
     // Firebase Authentication in the future.
     firebaseAuth
