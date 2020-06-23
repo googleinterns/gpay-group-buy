@@ -17,21 +17,14 @@
 /**
  * @fileoverview This file contains the database operations related to Merchant
  * entities.
- * @author Karen Frilya Celine
  */
 
-import {Datastore} from '@google-cloud/datastore';
-import {Guid} from 'guid-typescript';
-
 import {MERCHANT_KIND} from '../constants/kinds';
+import {MerchantPayload} from '../interfaces';
+import {add} from './datastore';
 
-const datastore = new Datastore();
-
-async function addMerchant(merchant: object) {
-  return await datastore.insert({
-    key: datastore.key([MERCHANT_KIND, Guid.raw()]),
-    data: merchant,
-  });
+async function addMerchant(merchant: MerchantPayload) {
+  await add(MERCHANT_KIND, merchant);
 }
 
 export const merchantStorage = {

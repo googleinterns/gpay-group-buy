@@ -44,4 +44,4 @@ const add = async (kind: string, data: object) => {
   await datastore.insert(entity);
 };
 
-export {getWithId};
+export {getWithId, add};
