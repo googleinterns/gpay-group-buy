@@ -144,22 +144,22 @@ const SignUpCard: React.FC = () => {
     handleFirebaseSignUp();
   };
 
-  const handleFirebaseSignUp = () => {
+  const handleFirebaseSignUp = async () => {
     // Add a new user account to Firebase so that user can be signed in with
     // Firebase Authentication in the future.
-    firebaseAuth
-      .createUserWithEmailAndPassword(email, password)
-      .catch(error => {
-        if (error.code === 'auth/invalid-email') {
-          setEmailError(Errors.INVALID_EMAIL);
-        } else if (error.code === 'auth/weak-password') {
-          setPasswordError(Errors.WEAK_PASSWORD);
-        } else if (error.code === 'auth/email-already-in-use') {
-          setEmailError(Errors.EMAIL_ALREADY_IN_USE);
-        } else {
-          setErrorMessage(Errors.SERVER_ERROR);
-        }
-      });
+    try {
+      await firebaseAuth.createUserWithEmailAndPassword(email, password);
+    } catch (error) {
+      if (error.code === 'auth/invalid-email') {
+        setEmailError(Errors.INVALID_EMAIL);
+      } else if (error.code === 'auth/weak-password') {
+        setPasswordError(Errors.WEAK_PASSWORD);
+      } else if (error.code === 'auth/email-already-in-use') {
+        setEmailError(Errors.EMAIL_ALREADY_IN_USE);
+      } else {
+        setErrorMessage(Errors.SERVER_ERROR);
+      }
+    }
   };
 
   return (
