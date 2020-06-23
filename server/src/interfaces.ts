@@ -44,7 +44,7 @@ export type CommitStatus =
   | 'unsuccessful';
 
 /**
- * ListingPayload Interface that contains the fields of the payload that
+ * CommitPayload Interface that contains the fields of the payload that
  * would be sent to create a Listing Entity.
  */
 export interface CommitPayload {
@@ -55,7 +55,7 @@ export interface CommitPayload {
 }
 
 /**
- * ListingResponse Interface that contains the fields of the Response that
+ * CommitResponse Interface that contains the fields of the Response that
  * client side would receive.
  */
 export interface CommitResponse extends CommitPayload {
