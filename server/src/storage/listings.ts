@@ -19,8 +19,7 @@ import {ListingResponse} from 'interfaces';
 import {LISTING_KIND} from '../constants/kinds';
 import {getAllWithId} from './datastore';
 
-const getAllListings = async (): Promise<ListingResponse[]> => {
-  return getAllWithId(LISTING_KIND);
-};
+const getAllListings = async (): Promise<ListingResponse[]> =>
+  getAllWithId(LISTING_KIND);
 
 export default {getAllListings};
