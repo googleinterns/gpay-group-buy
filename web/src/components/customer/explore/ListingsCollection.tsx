@@ -42,7 +42,7 @@ const SingleListing: React.FC<ListingProps> = ({
       listingName={name}
       price={Number(price)}
       oldPrice={Number(oldPrice)}
-      endDate="2d Left"
+      endDate={deadline}
       imgUrl={imgUrl}
     >
       <CommitProgress
