@@ -24,20 +24,13 @@ import {merchantService} from '../services';
 
 const router: Router = Router();
 
-router.get(
-  '/',
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const merchants = await merchantService.getAllMerchants();
-      res.send(merchants);
-    } catch (error) {
-      return next(error);
-    }
+router.get('/', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const merchants = await merchantService.getAllMerchants();
+    res.send(merchants);
+  } catch (error) {
+    return next(error);
   }
-);
+});
 
 export const merchantRouter: Router = router;
