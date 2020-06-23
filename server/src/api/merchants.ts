@@ -20,17 +20,22 @@
 
 import {Router, Request, Response, NextFunction} from 'express';
 
+import {MerchantPayload} from '../interfaces';
 import {merchantService} from '../services';
 
 const merchantRouter: Router = Router();
 
-merchantRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const merchants = await merchantService.getAllMerchants();
-    res.send(merchants);
-  } catch (error) {
-    return next(error);
+merchantRouter.post(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const merchant: MerchantPayload = req.body;
+      await merchantService.addMerchant(merchant);
+      res.sendStatus(200);
+    } catch (error) {
+      return next(error);
+    }
   }
-});
+);
 
 export default merchantRouter;

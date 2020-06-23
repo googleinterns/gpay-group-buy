@@ -38,7 +38,9 @@ export interface CustomerResponse extends CustomerPayload {
  */
 export interface MerchantPayload {
   name: string;
+  email: string;
   vpa: string;
+  uid: string;
 }
 
 /**

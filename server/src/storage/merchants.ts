@@ -21,10 +21,10 @@
 
 import {MERCHANT_KIND} from '../constants/kinds';
 import {MerchantPayload} from '../interfaces';
-import datastore from './datastore';
+import {add} from './datastore';
 
 async function addMerchant(merchant: MerchantPayload) {
-  await datastore.add(MERCHANT_KIND, merchant);
+  await add(MERCHANT_KIND, merchant);
 }
 
 export default {addMerchant};
