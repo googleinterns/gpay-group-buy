@@ -144,9 +144,11 @@ const SignUpCard: React.FC = () => {
     handleFirebaseSignUp();
   };
 
+  /**
+   * This adds a new user account to Firebase so that user can be signed in with
+   * Firebase Authentication in the future.
+   */
   const handleFirebaseSignUp = async () => {
-    // Add a new user account to Firebase so that user can be signed in with
-    // Firebase Authentication in the future.
     try {
       await firebaseAuth.createUserWithEmailAndPassword(email, password);
     } catch (error) {
