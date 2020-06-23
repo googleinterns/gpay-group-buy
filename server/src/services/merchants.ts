@@ -18,6 +18,6 @@ import {MerchantPayload} from '../interfaces';
 import {merchantStorage} from '../storage';
 
 const addMerchant = async (merchant: MerchantPayload) =>
-  await merchantStorage.addMerchant(merchant);
+  merchantStorage.addMerchant(merchant);
 
 export default {addMerchant};
