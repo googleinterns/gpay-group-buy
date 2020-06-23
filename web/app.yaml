@@ -11,7 +11,7 @@ handlers:
 
   - url: /.*
     static_files: build/index.html
-    upload: build/index.html\
+    upload: build/index.html
 
 env_variables:
   # Replace with API key and authentication domain before deployment
