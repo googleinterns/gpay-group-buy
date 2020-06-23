@@ -33,4 +33,15 @@ const getWithId = async (kind: string, id: string) => {
   };
 };
 
+/**
+ * A Datastore wrapper that inserts a particular entity with the specified Kind.
+ * @param kind The Kind of the Entity
+ * @param data The data of the Entity to be added
+ */
+const add = async (kind: string, data: object) => {
+  const key = datastore.key(kind);
+  const entity = {key, data};
+  await datastore.insert(entity);
+};
+
 export {getWithId};
