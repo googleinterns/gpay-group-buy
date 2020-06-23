@@ -36,9 +36,11 @@ router.use('/customers', customerRouter);
 router.use('/listings', listingRouter);
 router.use('/merchants', merchantRouter);
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 app.use(router);
 
 // This handles server errors.
