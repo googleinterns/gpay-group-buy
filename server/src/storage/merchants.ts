@@ -27,8 +27,4 @@ async function addMerchant(merchant: MerchantPayload) {
   await add(MERCHANT_KIND, merchant);
 }
 
-export const merchantStorage = {
-  getAllMerchants,
-  getMerchant,
-  addMerchant,
-};
+export default {addMerchant};
