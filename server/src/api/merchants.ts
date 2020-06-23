@@ -16,21 +16,20 @@
 
 /**
  * @fileoverview Handles routing of /merchants endpoints.
- * @author Karen Frilya Celine
  */
 
-import express from 'express';
+import {Router, Request, Response, NextFunction} from 'express';
 
 import {merchantService} from '../services';
 
-const router: express.Router = express.Router();
+const router: Router = Router();
 
 router.get(
   '/',
   async (
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
   ) => {
     try {
       const merchants = await merchantService.getAllMerchants();
@@ -41,4 +40,4 @@ router.get(
   }
 );
 
-export const merchantRouter: express.Router = router;
+export const merchantRouter: Router = router;
