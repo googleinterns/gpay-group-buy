@@ -27,17 +27,6 @@ import {MERCHANT_KIND} from '../constants/kinds';
 
 const datastore = new Datastore();
 
-async function getAllMerchants() {
-  const query = datastore.createQuery(MERCHANT_KIND);
-  const [merchants, info] = await datastore.runQuery(query);
-  return merchants;
-}
-
-async function getMerchant(merchantId: string) {
-  const key = datastore.key([MERCHANT_KIND, merchantId]);
-  return await datastore.get(key);
-}
-
 async function addMerchant(merchant: object) {
   return await datastore.insert({
     key: datastore.key([MERCHANT_KIND, Guid.raw()]),
