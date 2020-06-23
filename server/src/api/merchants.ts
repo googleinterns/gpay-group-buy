@@ -22,9 +22,9 @@ import {Router, Request, Response, NextFunction} from 'express';
 
 import {merchantService} from '../services';
 
-const router: Router = Router();
+const merchantRouter: Router = Router();
 
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
+merchantRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const merchants = await merchantService.getAllMerchants();
     res.send(merchants);
@@ -33,4 +33,4 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-export const merchantRouter: Router = router;
+export default merchantRouter;
