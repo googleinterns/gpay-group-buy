@@ -35,6 +35,6 @@ const getCustomer = async (customerId: string): Promise<CustomerResponse> => {
     ...customer,
     numCommits: commits.length,
   };
-}
+};
 
 export default {getCustomer};
