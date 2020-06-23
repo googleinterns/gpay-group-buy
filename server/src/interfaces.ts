@@ -31,3 +31,20 @@ export interface CustomerPayload {
 export interface CustomerResponse extends CustomerPayload {
   id: number;
 }
+
+/**
+ * MerchantPayload Interface that contains the fields of the payload that
+ * would be sent to create a Merchant Entity.
+ */
+export interface MerchantPayload {
+  name: string;
+  vpa: string;
+}
+
+/**
+ * MerchantResponse Interface that contains the fields of the Response that
+ * client side would receive.
+ */
+export interface MerchantResponse extends MerchantPayload {
+  id: number;
+}
