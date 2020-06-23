@@ -38,7 +38,6 @@ export interface CustomerResponse extends CustomerPayload {
 export type ListingStatus =
   | 'ongoing'
   | 'successful'
-  | 'paid'
   | 'completed'
   | 'unsuccessful';
 
