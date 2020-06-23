@@ -71,5 +71,14 @@ app.use(
 );
 
 const port = process.env.PORT || 5000;
-app.listen(port);
-console.log(`Listening on port ${port}`);
+app.listen(port, () => console.log(`Listening on port ${port}`));
+
+const onStopSignal = () => {
+  console.log('Termination signal received, exiting process..');
+  process.exit(1); // eslint-disable-line no-process-exit
+};
+
+process.on('SIGTERM', onStopSignal);
+process.on('SIGINT', onStopSignal);
+process.on('SIGHUP', onStopSignal);
+process.on('SIGUSR2', onStopSignal); // Nodemon uses this
