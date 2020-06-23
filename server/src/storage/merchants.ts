@@ -17,36 +17,6 @@
 /**
  * @fileoverview This file contains the database operations related to Merchant
  * entities.
- * @author Karen Frilya Celine
  */
 
-import {Datastore} from '@google-cloud/datastore';
-import {Guid} from 'guid-typescript';
-
-import {MERCHANT_KIND} from '../constants/kinds';
-
-const datastore = new Datastore();
-
-async function getAllMerchants() {
-  const query = datastore.createQuery(MERCHANT_KIND);
-  const [merchants, info] = await datastore.runQuery(query);
-  return merchants;
-}
-
-async function getMerchant(merchantId: string) {
-  const key = datastore.key([MERCHANT_KIND, merchantId]);
-  return await datastore.get(key);
-}
-
-async function addMerchant(merchant: object) {
-  return await datastore.insert({
-    key: datastore.key([MERCHANT_KIND, Guid.raw()]),
-    data: merchant,
-  });
-}
-
-export const merchantStorage = {
-  getAllMerchants,
-  getMerchant,
-  addMerchant,
-};
+export const merchantStorage = {};

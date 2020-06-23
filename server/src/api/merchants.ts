@@ -16,7 +16,6 @@
 
 /**
  * @fileoverview Handles routing of /merchants endpoints.
- * @author Karen Frilya Celine
  */
 
 import express from 'express';
@@ -24,21 +23,5 @@ import express from 'express';
 import {merchantService} from '../services';
 
 const router: express.Router = express.Router();
-
-router.get(
-  '/',
-  async (
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) => {
-    try {
-      const merchants = await merchantService.getAllMerchants();
-      res.send(merchants);
-    } catch (error) {
-      return next(error);
-    }
-  }
-);
 
 export const merchantRouter: express.Router = router;
