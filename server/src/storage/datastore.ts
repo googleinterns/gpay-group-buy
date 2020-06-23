@@ -18,7 +18,7 @@ import {Datastore} from '@google-cloud/datastore';
 import {google} from '@google-cloud/datastore/build/protos/protos';
 import {Entity} from '@google-cloud/datastore/build/src/entity';
 
-import {ResponseId} from '../interfaces';
+import {Filter, ResponseId} from './interfaces';
 
 const datastore = new Datastore();
 
@@ -50,9 +50,16 @@ const getWithId = async (kind: string, id: string) => {
 /**
  * A Datastore wrapper that gets all entities of a specified Kind.
  * @param kind The Kind that is being queried
+ * @param filters Any filters that will be applied to the query
  */
-const getAllWithId = async (kind: string) => {
-  const query = datastore.createQuery(kind);
+const getAllWithId = async (kind: string, filters?: Filter[]) => {
+  let query = datastore.createQuery(kind);
+  if (filters) {
+    filters.forEach((filter) => {
+      query = query.filter(filter.property, filter.value)
+    });
+  }
+
   const [res] = await datastore.runQuery(query);
   const resWithId = res.map(item => extractAndAppendId(item));
   return resWithId;

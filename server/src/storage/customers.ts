@@ -14,11 +14,27 @@
  * limitations under the License.
  */
 
-import {CUSTOMER_KIND} from '../constants/kinds';
-import {CustomerResponse} from '../interfaces';
-import {getWithId} from './datastore';
+import {CUSTOMER_KIND, COMMIT_KIND} from '../constants/kinds';
+import {CustomerResponse, CommitResponse} from '../interfaces';
+import {getWithId, getAllWithId} from './datastore';
 
-const getCustomer = async (customerId: string): Promise<CustomerResponse> =>
-  getWithId(CUSTOMER_KIND, customerId);
+const getCustomer = async (customerId: string): Promise<CustomerResponse> => {
+  const customer = await getWithId(CUSTOMER_KIND, customerId);
+  const commits: CommitResponse[] = await getAllWithId(COMMIT_KIND, [
+    {
+      property: 'customerId',
+      value: 5634161670881280,
+    },
+    {
+      property: 'commitStatus',
+      value: 'ongoing',
+    },
+  ]);
+
+  return {
+    ...customer,
+    numCommits: commits.length,
+  };
+}
 
 export default {getCustomer};
