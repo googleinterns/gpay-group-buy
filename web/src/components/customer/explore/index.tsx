@@ -17,11 +17,10 @@
 import React, {useState, useEffect} from 'react';
 
 import {getAllListings} from 'api';
-import CommitProgress from 'components/common/CommitProgress';
-import ListingCard from 'components/common/ListingCard';
-import StrippedCol from 'components/common/StrippedCol';
 import {Listing} from 'interfaces';
 import Container from 'muicss/lib/react/container';
+
+import ListingsCollection from './ListingsCollection';
 
 const CustomerExplorePage: React.FC = () => {
   const [listings, setListings] = useState<Listing[]>([]);
@@ -38,35 +37,7 @@ const CustomerExplorePage: React.FC = () => {
   return (
     <Container>
       <h1>Explore</h1>
-      {listings &&
-        listings.map(
-          ({
-            id,
-            name,
-            price,
-            oldPrice,
-            deadline,
-            numCommits,
-            minCommits,
-            imgUrl,
-          }) => (
-            <StrippedCol xs={6} key={id}>
-              <ListingCard
-                listingName={name}
-                price={Number(price)}
-                oldPrice={Number(oldPrice)}
-                endDate="2d Left"
-                imgUrl={imgUrl}
-              >
-                <CommitProgress
-                  numCommits={numCommits}
-                  minCommits={minCommits}
-                  textPos="none"
-                />
-              </ListingCard>
-            </StrippedCol>
-          )
-        )}
+      <ListingsCollection listings={listings} />
     </Container>
   );
 };
