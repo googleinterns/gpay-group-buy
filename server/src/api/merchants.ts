@@ -21,15 +21,21 @@
 import {Router, Request, Response, NextFunction} from 'express';
 
 import {MerchantPayload} from '../interfaces';
+import merchantAuth from '../middleware/merchant-auth';
 import {merchantService} from '../services';
 
 const merchantRouter: Router = Router();
 
 merchantRouter.post(
   '/',
+  merchantAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const merchant: MerchantPayload = req.body;
+      const {uid} = req.decoded;
+      const merchant: MerchantPayload = {
+        uid,
+        ...req.body,
+      };
       await merchantService.addMerchant(merchant);
       res.sendStatus(200);
     } catch (error) {
