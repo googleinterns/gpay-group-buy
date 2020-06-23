@@ -14,29 +14,12 @@
  * limitations under the License.
  */
 
-export interface Image {
-  url: string;
-  alt?: string;
-}
+import {Listing} from 'interfaces';
 
-export interface Listing {
-  id: number;
-  merchantId: number;
-  name: string;
-  price: string;
-  oldPrice: string;
-  currency: string;
-  imgUrl: string;
-  description: string;
-  deadline: string;
-  minCommits: number;
-  numCommits: number;
-  numPaid: number;
-  numCompleted: number;
-  listingStatus:
-    | 'ongoing'
-    | 'successful'
-    | 'paid'
-    | 'completed'
-    | 'unsuccessful';
-}
+/**
+ * Fetches all Listings.
+ */
+export const getAllListings = async (): Promise<Listing[]> => {
+  const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/listings`);
+  return await res.json();
+};

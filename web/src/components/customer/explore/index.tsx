@@ -14,8 +14,61 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
-const CustomerExplorePage: React.FC = () => <div>Customer Explore Page</div>;
+import {getAllListings} from 'api';
+import CommitProgress from 'components/common/CommitProgress';
+import ListingCard from 'components/common/ListingCard';
+import StrippedCol from 'components/common/StrippedCol';
+import {Listing} from 'interfaces';
+import Container from 'muicss/lib/react/container';
+
+const CustomerExplorePage: React.FC = () => {
+  const [listings, setListings] = useState<Listing[]>([]);
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      const listings = await getAllListings();
+      console.log(listings);
+      setListings(listings);
+    };
+    fetchListings();
+  }, []);
+
+  return (
+    <Container>
+      <h1>Explore</h1>
+      {listings &&
+        listings.map(
+          ({
+            id,
+            name,
+            price,
+            oldPrice,
+            deadline,
+            numCommits,
+            minCommits,
+            imgUrl,
+          }) => (
+            <StrippedCol xs={6} key={id}>
+              <ListingCard
+                listingName={name}
+                price={Number(price)}
+                oldPrice={Number(oldPrice)}
+                endDate="2d Left"
+                imgUrl={imgUrl}
+              >
+                <CommitProgress
+                  numCommits={numCommits}
+                  minCommits={minCommits}
+                  textPos="none"
+                />
+              </ListingCard>
+            </StrippedCol>
+          )
+        )}
+    </Container>
+  );
+};
 
 export default CustomerExplorePage;
