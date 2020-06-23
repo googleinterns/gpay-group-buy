@@ -33,6 +33,16 @@ export interface CustomerResponse extends CustomerPayload {
 }
 
 /**
+ * ListingStatus type contains the different states of a Listing.
+ */
+export type ListingStatus =
+  | 'ongoing'
+  | 'successful'
+  | 'paid'
+  | 'completed'
+  | 'unsuccessful';
+
+/**
  * ListingPayload Interface that contains the fields of the payload that
  * would be sent to create a Listing Entity.
  */
@@ -49,12 +59,7 @@ export interface ListingPayload {
   numCommits: number;
   numPaid: number;
   numCompleted: number;
-  listingStatus:
-    | 'ongoing'
-    | 'successful'
-    | 'paid'
-    | 'completed'
-    | 'unsuccessful';
+  listingStatus: ListingStatus;
 }
 
 /**
