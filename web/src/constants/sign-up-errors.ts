@@ -17,5 +17,5 @@
 export const NAME_EMPTY = 'Name cannot be empty.';
 export const EMAIL_EMPTY = 'Email cannot be empty.';
 export const PASSWORD_EMPTY = 'Password cannot be empty.';
-export const PASSWORDS_DO_NOT_MATCH = 'Passwords do no match.';
+export const PASSWORDS_DO_NOT_MATCH = 'Passwords do not match.';
 export const VPA_EMPTY = 'VPA cannot be empty.';
