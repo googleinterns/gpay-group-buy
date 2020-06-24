@@ -47,14 +47,10 @@ const add = async (kind: string, data: object) => {
 };
 
 /**
- * Unpacks id of inserted object from CommitResponse object received from Datastore.
+ * Unpacks id of modified object from CommitResponse object received from Datastore.
  */
 const getIdFromCommitResponse = (res: google.datastore.v1.ICommitResponse) => {
-  const mutationResult = res.mutationResults && res.mutationResults[0];
-  const resultKey = mutationResult && mutationResult.key;
-  const path = resultKey && resultKey.path;
-  const pathElement = path && path[0];
-  return pathElement ? pathElement.id : null;
+  return res.mutationResults?.[0]?.key?.path?.[0]?.id;
 };
 
 export {getWithId, add};
