@@ -37,7 +37,7 @@ interface ListingCardProps {
   listingName: string;
   price: Money;
   oldPrice: Money;
-  endDate: Date;
+  endDate: string;
   imgUrl: string;
   horizontal?: boolean;
 }

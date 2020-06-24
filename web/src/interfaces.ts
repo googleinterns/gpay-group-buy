@@ -48,7 +48,7 @@ export interface Listing {
   oldPrice: Money;
   imgUrl: string;
   description: string;
-  deadline: Date;
+  deadline: string; // RFC 3339 string
   minCommits: number;
   numCommits: number;
   numPaid: number;

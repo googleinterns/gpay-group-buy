@@ -32,7 +32,7 @@ const RedText = styled.span`
 `;
 
 interface DeadlineTagProps {
-  deadline: Date;
+  deadline: string;
 }
 
 /**
@@ -42,11 +42,12 @@ interface DeadlineTagProps {
  * Displays number of days since deadline if listing has ended.
  */
 const DeadlineTag: React.FC<DeadlineTagProps> = ({deadline}) => {
-  const tag = formatDistanceToNowStrict(deadline, {unit: 'day'});
+  const deadlineDate = new Date(deadline);
+  const tag = formatDistanceToNowStrict(deadlineDate, {unit: 'day'});
   return (
     <StyledDeadline>
-      {isPast(deadline) && <>Ended {tag} ago</>}
-      {!isPast(deadline) && <RedText>{tag} left</RedText>}
+      {isPast(deadlineDate) && <>Ended {tag} ago</>}
+      {!isPast(deadlineDate) && <RedText>{tag} left</RedText>}
     </StyledDeadline>
   );
 };
