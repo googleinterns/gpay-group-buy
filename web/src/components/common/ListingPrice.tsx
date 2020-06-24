@@ -22,8 +22,12 @@ import {formatMoney} from 'utils/price';
 
 const PriceContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   align-items: baseline;
+
+  & > * {
+    word-break: break-word;
+  }
 `;
 
 const Price = styled.div`
