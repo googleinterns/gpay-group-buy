@@ -18,12 +18,12 @@ import {CUSTOMER_KIND, COMMIT_KIND} from '../constants/kinds';
 import {CustomerResponse, CommitResponse} from '../interfaces';
 import {getWithId, getAllWithId} from './datastore';
 
-const getCustomer = async (customerId: string): Promise<CustomerResponse> => {
+const getCustomer = async (customerId: number): Promise<CustomerResponse> => {
   const customer = await getWithId(CUSTOMER_KIND, customerId);
   const commits: CommitResponse[] = await getAllWithId(COMMIT_KIND, [
     {
       property: 'customerId',
-      value: 5634161670881280,
+      value: customerId,
     },
     {
       property: 'commitStatus',

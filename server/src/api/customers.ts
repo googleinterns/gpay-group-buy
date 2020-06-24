@@ -30,7 +30,7 @@ customerRouter.get(
     const {customerId} = req.params;
 
     try {
-      const customer = await customerService.getCustomer(customerId);
+      const customer = await customerService.getCustomer(Number(customerId));
       res.send(customer);
     } catch (error) {
       return next(error);

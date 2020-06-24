@@ -41,8 +41,8 @@ const extractAndAppendId = (res: Entity) => {
  * @param kind The Kind that is being queried
  * @param id The id of the Entity being queried
  */
-const getWithId = async (kind: string, id: string) => {
-  const key = datastore.key([kind, datastore.int(id)]);
+const getWithId = async (kind: string, id: number) => {
+  const key = datastore.key([kind, id]);
   const [res] = await datastore.get(key);
   return extractAndAppendId(res);
 };
