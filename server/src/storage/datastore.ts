@@ -16,8 +16,23 @@
 
 import {Datastore} from '@google-cloud/datastore';
 import {google} from '@google-cloud/datastore/build/protos/protos';
+import {Entity} from '@google-cloud/datastore/build/src/entity';
 
 const datastore = new Datastore();
+
+/**
+ * Strips the key from the datastore response object, extracts the id,
+ * and append the id to the object.
+ * Returns an object with its id.
+ * @param res The response object from datastore
+ */
+const extractAndAppendId = (res: Entity) => {
+  const {[datastore.KEY]: key, ...properties} = res;
+  return {
+    ...properties,
+    id: Number(key.id),
+  };
+};
 
 /**
  * A Datastore wrapper that gets a particular entity with the specified Kind and id.
@@ -27,11 +42,18 @@ const datastore = new Datastore();
 const getWithId = async (kind: string, id: string) => {
   const key = datastore.key([kind, datastore.int(id)]);
   const [res] = await datastore.get(key);
-  const {[datastore.KEY]: _, ...properties} = res;
-  return {
-    ...properties,
-    id: key.id,
-  };
+  return extractAndAppendId(res);
+};
+
+/**
+ * A Datastore wrapper that gets all entities of a specified Kind.
+ * @param kind The Kind that is being queried
+ */
+const getAllWithId = async (kind: string) => {
+  const query = datastore.createQuery(kind);
+  const [res] = await datastore.runQuery(query);
+  const resWithId = res.map(item => extractAndAppendId(item));
+  return resWithId;
 };
 
 /**
@@ -68,4 +90,4 @@ const getIdFromMutationResult = (
   return Number(mutationResult?.key?.path?.[0]?.id);
 };
 
-export {getWithId, add};
+export {getWithId, getAllWithId, add};

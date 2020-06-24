@@ -14,12 +14,24 @@
  * limitations under the License.
  */
 
-import {ListingResponse} from 'interfaces';
+import React from 'react';
 
-import {LISTING_KIND} from '../constants/kinds';
-import {getAllWithId} from './datastore';
+import {useInView} from 'react-hook-inview';
 
-const getAllListings = async (): Promise<ListingResponse[]> =>
-  getAllWithId(LISTING_KIND);
+interface LazyWrapperProps {
+  rootMargin?: string; // Refer to https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/rootMargin
+}
 
-export default {getAllListings};
+const LazyWrapper: React.FC<LazyWrapperProps> = ({
+  rootMargin = '30px',
+  children,
+}) => {
+  const [ref, isInView] = useInView({
+    unobserveOnEnter: true,
+    rootMargin,
+  });
+
+  return <div ref={ref}>{isInView && children}</div>;
+};
+
+export default LazyWrapper;

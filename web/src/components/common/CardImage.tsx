@@ -16,6 +16,7 @@
 
 import React from 'react';
 
+import LazyWrapper from 'components/common/LazyWrapper';
 import {Image} from 'interfaces';
 import styled from 'styled-components';
 
@@ -49,9 +50,11 @@ interface CardImageProps {
  * Image component for cards.
  */
 const CardImage: React.FC<CardImageProps> = ({img, width, height}) => (
-  <ImageContainer width={width} height={height}>
-    <StyledCardImage src={img.url} alt={img.alt || 'Card Image'} />
-  </ImageContainer>
+  <LazyWrapper>
+    <ImageContainer width={width} height={height}>
+      <StyledCardImage src={img.url} alt={img.alt || 'Card Image'} />
+    </ImageContainer>
+  </LazyWrapper>
 );
 
 export default CardImage;
