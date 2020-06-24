@@ -33,6 +33,15 @@ export interface CustomerResponse extends CustomerPayload {
 }
 
 /**
+ * Money Interface that represents an amount of money with its currency type.
+ */
+export interface Money {
+  currency: string; // The 3-letter currency code defined in ISO 4217
+  dollars: number;
+  cents: number;
+}
+
+/**
  * ListingStatus type contains the different states of a Listing.
  */
 export type ListingStatus =
@@ -48,9 +57,8 @@ export type ListingStatus =
 export interface ListingPayload {
   merchantId: number;
   name: string;
-  price: string;
-  oldPrice: string;
-  currency: string;
+  price: Money;
+  oldPrice: Money;
   imgUrl: string;
   description: string;
   deadline: Date;
