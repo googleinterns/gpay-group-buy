@@ -19,6 +19,6 @@ import {ListingResponse} from 'interfaces';
 import {listingStorage} from '../storage';
 
 const getAllListings = async (): Promise<ListingResponse[]> =>
-  await listingStorage.getAllListings();
+  listingStorage.getAllListings();
 
 export default {getAllListings};
