@@ -25,5 +25,6 @@ import {add} from './datastore';
 
 const addMerchant = async (merchant: MerchantPayload) =>
   add(MERCHANT_KIND, merchant);
+// TODO(#67): Add checks to prevent adding multiple merchants with the same Firebase UID.
 
 export default {addMerchant};

@@ -15,6 +15,7 @@
  */
 
 import {Datastore} from '@google-cloud/datastore';
+import {google} from '@google-cloud/datastore/build/protos/protos';
 
 const datastore = new Datastore();
 
@@ -42,8 +43,13 @@ const add = async (kind: string, data: object) => {
   const key = datastore.key(kind);
   const entity = {key, data};
   const [res] = await datastore.insert(entity);
+  return getIdFromCommitResponse(res);
+};
 
-  // Unpacks id of inserted object from CommitResponse object received from Datastore.
+/**
+ * Unpacks id of inserted object from CommitResponse object received from Datastore.
+ */
+const getIdFromCommitResponse = (res: google.datastore.v1.ICommitResponse) => {
   const mutationResult = res.mutationResults && res.mutationResults[0];
   const resultKey = mutationResult && mutationResult.key;
   const path = resultKey && resultKey.path;
