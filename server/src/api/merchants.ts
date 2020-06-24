@@ -31,9 +31,9 @@ merchantRouter.post(
   merchantAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const {uid} = req.decoded;
+      const firebaseUid = req.decoded.uid;
       const merchant: MerchantPayload = {
-        uid,
+        firebaseUid,
         ...req.body,
       };
       const id = await merchantService.addMerchant(merchant);
