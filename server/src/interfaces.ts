@@ -53,7 +53,7 @@ export interface ListingPayload {
   currency: string;
   imgUrl: string;
   description: string;
-  deadline: string;
+  deadline: Date;
   minCommits: number;
   numCommits: number;
   numPaid: number;
