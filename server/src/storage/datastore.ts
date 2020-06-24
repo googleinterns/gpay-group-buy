@@ -41,7 +41,14 @@ const getWithId = async (kind: string, id: string) => {
 const add = async (kind: string, data: object) => {
   const key = datastore.key(kind);
   const entity = {key, data};
-  await datastore.insert(entity);
+  const [res] = await datastore.insert(entity);
+
+  // Unpacks id of inserted object from CommitResponse object received from Datastore.
+  const mutationResult = res.mutationResults && res.mutationResults[0];
+  const resultKey = mutationResult && mutationResult.key;
+  const path = resultKey && resultKey.path;
+  const pathElement = path && path[0];
+  return pathElement ? pathElement.id : null;
 };
 
 export {getWithId, add};

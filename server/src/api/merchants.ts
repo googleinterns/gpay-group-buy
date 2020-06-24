@@ -30,8 +30,8 @@ merchantRouter.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const merchant: MerchantPayload = req.body;
-      await merchantService.addMerchant(merchant);
-      res.sendStatus(200);
+      const id = await merchantService.addMerchant(merchant);
+      res.status(201).send({id});
     } catch (error) {
       return next(error);
     }
