@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {formatMoney} from './price';
+import {formatMoney} from 'utils/money';
 
 describe('formatMoney', () => {
   test('it should format money accurately', () => {
