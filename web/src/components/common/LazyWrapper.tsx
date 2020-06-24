@@ -18,10 +18,17 @@ import React from 'react';
 
 import {useInView} from 'react-hook-inview';
 
-const LazyWrapper: React.FC = ({children}) => {
+interface LazyWrapperProps {
+  rootMargin?: string; // Refer to https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/rootMargin
+}
+
+const LazyWrapper: React.FC<LazyWrapperProps> = ({
+  rootMargin = '30px',
+  children,
+}) => {
   const [ref, isInView] = useInView({
     unobserveOnEnter: true,
-    rootMargin: '30px',
+    rootMargin,
   });
 
   return <div ref={ref}>{isInView && children}</div>;
