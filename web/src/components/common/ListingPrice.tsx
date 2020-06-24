@@ -47,7 +47,7 @@ interface ListingPriceProps {
 const ListingPrice: React.FC<ListingPriceProps> = ({price, oldPrice}) => (
   <PriceContainer>
     <Price>{formatMoney(price)}</Price>
-    {oldPrice && <OldPrice>was: {formatMoney(oldPrice)}</OldPrice>}
+    {oldPrice && <OldPrice>{formatMoney(oldPrice)}</OldPrice>}
   </PriceContainer>
 );
 
