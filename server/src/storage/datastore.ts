@@ -61,18 +61,14 @@ const getAllWithId = async (kind: string) => {
  */
 const getIdFromMutationResult = (
   mutationResult: google.datastore.v1.IMutationResult
-): number => {
-  return Number(mutationResult?.key?.path?.[0]?.id);
-};
+): number => Number(mutationResult?.key?.path?.[0]?.id);
 
 /**
  * Unpacks ids of modified objects from CommitResponse object received from Datastore.
  */
 const getIdsFromCommitResponse = (
   res: google.datastore.v1.ICommitResponse
-): number[] | undefined => {
-  return res.mutationResults?.map(getIdFromMutationResult);
-};
+): number[] | undefined => res.mutationResults?.map(getIdFromMutationResult);
 
 /**
  * A Datastore wrapper that inserts a particular entity with the specified Kind.
