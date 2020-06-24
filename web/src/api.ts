@@ -20,6 +20,6 @@ import {Listing} from 'interfaces';
  * Fetches all Listings.
  */
 export const getAllListings = async (): Promise<Listing[]> => {
-  const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/listings`);
-  return await res.json();
+  const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/listings`);
+  return res.json();
 };
