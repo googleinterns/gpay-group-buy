@@ -18,7 +18,7 @@ import React from 'react';
 
 import {Money} from 'interfaces';
 import styled from 'styled-components';
-import {formatMoney} from 'utils/price';
+import {formatMoney} from 'utils/money';
 
 const PriceContainer = styled.div`
   display: flex;
