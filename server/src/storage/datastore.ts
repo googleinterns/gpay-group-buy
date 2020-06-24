@@ -57,6 +57,24 @@ const getAllWithId = async (kind: string) => {
 };
 
 /**
+ * Unpacks id of modified object from MutationResult object.
+ */
+const getIdFromMutationResult = (
+  mutationResult: google.datastore.v1.IMutationResult
+): number => {
+  return Number(mutationResult?.key?.path?.[0]?.id);
+};
+
+/**
+ * Unpacks ids of modified objects from CommitResponse object received from Datastore.
+ */
+const getIdsFromCommitResponse = (
+  res: google.datastore.v1.ICommitResponse
+): number[] | undefined => {
+  return res.mutationResults?.map(getIdFromMutationResult);
+};
+
+/**
  * A Datastore wrapper that inserts a particular entity with the specified Kind.
  * @param kind The Kind of the Entity
  * @param data The data of the Entity to be added
@@ -70,24 +88,6 @@ const add = async (kind: string, data: object): Promise<number> => {
     throw new Error(`Failed to add ${kind}.`);
   }
   return ids[0];
-};
-
-/**
- * Unpacks ids of modified objects from CommitResponse object received from Datastore.
- */
-const getIdsFromCommitResponse = (
-  res: google.datastore.v1.ICommitResponse
-): number[] | undefined => {
-  return res.mutationResults?.map(getIdFromMutationResult);
-};
-
-/**
- * Unpacks id of modified object from MutationResult object.
- */
-const getIdFromMutationResult = (
-  mutationResult: google.datastore.v1.IMutationResult
-): number => {
-  return Number(mutationResult?.key?.path?.[0]?.id);
 };
 
 export {getWithId, getAllWithId, add};
