@@ -9906,6 +9906,11 @@ react-feather@^2.0.8:
   dependencies:
     prop-types "^15.7.2"
 
+react-hook-inview@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-hook-inview/-/react-hook-inview-4.2.0.tgz#264478f9248e25927b3a273c4782dc0f769335f0"
+  integrity sha512-A3/3kT8/GdQpenQS4ok8M7c1f2JgLo/reNOuo+awY6+nYSD5/lTOKGsSkhRCofUgiCMu0vcvsahlA3DXCO7ZIw==
+
 react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
