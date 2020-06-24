@@ -26,7 +26,7 @@ type PosType = 'absolute' | 'static';
 const AbsolutePosStyle = css`
   position: absolute;
   top: 20px;
-  right: 30px;
+  right: 15px;
   z-index: 999; /* Ensure always on top */
 `;
 
@@ -49,6 +49,7 @@ const CommitBadgeContainer = styled.div`
   text-align: center;
   font-size: 0.9em;
 
+  /* stylelint-disable value-keyword-case */
   ${({pos}: CommitsBadgeProps) => {
     switch (pos) {
       case 'absolute':
@@ -60,6 +61,7 @@ const CommitBadgeContainer = styled.div`
     }
   }};
   ${({visible}: CommitsBadgeProps) => !visible && 'visibility: hidden;'};
+  /* stylelint-enable value-keyword-case */
 `;
 
 const CommitCount = styled.span`
