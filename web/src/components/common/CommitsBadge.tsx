@@ -59,7 +59,7 @@ const CommitBadgeContainer = styled.div`
         return StaticPosStyle;
     }
   }};
-  ${({visible}: CommitsBadgeProps) => !visible && 'visibility: hidden;'}};
+  ${({visible}: CommitsBadgeProps) => !visible && 'visibility: hidden;'};
 `;
 
 const CommitCount = styled.span`
