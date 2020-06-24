@@ -16,11 +16,11 @@
 
 import React from 'react';
 
+import {getCustomer} from 'api';
+import CommitsBadge from 'components/common/CommitsBadge';
+import {useCommitCountContext} from 'components/customer/contexts/CommitCountContext';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
-import CommitsBadge from 'components/common/CommitsBadge';
-import { useCommitCountContext } from 'components/customer/contexts/CommitCountContext';
-import { getCustomer } from 'api';
 import styled from 'styled-components';
 
 const SAMPLE_CUSTOMER_ID = 5634161670881280;
@@ -37,7 +37,7 @@ const CommitsBadgeContainer = styled.div`
 `;
 
 const CustomerExplorePage: React.FC = () => {
-  const { setNumCommits } = useCommitCountContext();
+  const {setNumCommits} = useCommitCountContext();
 
   const handleGetSampleCustomer = async () => {
     const {numCommits} = await getCustomer(SAMPLE_CUSTOMER_ID);
@@ -46,9 +46,13 @@ const CustomerExplorePage: React.FC = () => {
 
   return (
     <PageContainer>
-      <CommitsBadgeContainer><CommitsBadge /></CommitsBadgeContainer>
+      <CommitsBadgeContainer>
+        <CommitsBadge />
+      </CommitsBadgeContainer>
       <h1>Explore</h1>
-      <Button color="primary" onClick={handleGetSampleCustomer}>Click for commit info of sample customer</Button>
+      <Button color="primary" onClick={handleGetSampleCustomer}>
+        Click for commit info of sample customer
+      </Button>
     </PageContainer>
   );
 };

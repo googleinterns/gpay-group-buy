@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
+import {MAX_NUM_COMMITS} from 'constants/business';
+
 import React from 'react';
 
-import styled, { css } from 'styled-components';
-import { useCommitCountContext } from 'components/customer/contexts/CommitCountContext';
-import { MAX_NUM_COMMITS } from 'constants/business';
+import {useCommitCountContext} from 'components/customer/contexts/CommitCountContext';
+import styled, {css} from 'styled-components';
 
 type PosType = 'absolute' | 'static';
 
@@ -29,8 +30,7 @@ const AbsolutePosStyle = css`
   z-index: 999; /* Ensure always on top */
 `;
 
-const StaticPosStyle = css`
-`;
+const StaticPosStyle = css``;
 
 interface CommitsBadgeProps {
   pos?: PosType;
@@ -49,7 +49,7 @@ const CommitBadgeContainer = styled.div`
   text-align: center;
   font-size: 0.9em;
 
-  ${({ pos }: CommitsBadgeProps) => {
+  ${({pos}: CommitsBadgeProps) => {
     switch (pos) {
       case 'absolute':
         return AbsolutePosStyle;
@@ -59,9 +59,7 @@ const CommitBadgeContainer = styled.div`
         return StaticPosStyle;
     }
   }};
-  ${({ visible }: CommitsBadgeProps) => (!visible &&
-    'visibility: hidden;'
-  )}};
+  ${({visible}: CommitsBadgeProps) => !visible && 'visibility: hidden;'}};
 `;
 
 const CommitCount = styled.span`
@@ -79,19 +77,15 @@ interface CommitsBadgeProps {
  * A CommitsBadge component indicating the number of commits the customer
  * has left.
  */
-const CommitsBadge: React.FC<CommitsBadgeProps> = ({
-  pos = 'static',
-}) => {
-  const { numCommits } = useCommitCountContext();
+const CommitsBadge: React.FC<CommitsBadgeProps> = ({pos = 'static'}) => {
+  const {numCommits} = useCommitCountContext();
 
   return (
     <CommitBadgeContainer pos={pos} visible={numCommits !== undefined}>
       <>
         Commits Left:
         <CommitCount>
-          {numCommits &&
-            <>{MAX_NUM_COMMITS - numCommits}</>
-          }
+          {numCommits && <>{MAX_NUM_COMMITS - numCommits}</>}
         </CommitCount>
         out of {MAX_NUM_COMMITS}
       </>

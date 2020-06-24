@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-import React, { useContext, useState, Dispatch, SetStateAction } from 'react';
+import React, {useContext, useState, Dispatch, SetStateAction} from 'react';
 
 type NumCommitsType = number | undefined;
 
-type ContextType = {
-  numCommits: NumCommitsType;
-  setNumCommits: Dispatch<SetStateAction<NumCommitsType>>;
-} | undefined;
+type ContextType =
+  | {
+      numCommits: NumCommitsType;
+      setNumCommits: Dispatch<SetStateAction<NumCommitsType>>;
+    }
+  | undefined;
 
 const CommitCountContext = React.createContext<ContextType>(undefined);
 
@@ -31,7 +33,9 @@ const CommitCountContext = React.createContext<ContextType>(undefined);
 const useCommitCountContext = () => {
   const context = useContext(CommitCountContext);
   if (context === undefined) {
-    throw new Error('useCommitCountContext must be used within a CommitCountProvider');
+    throw new Error(
+      'useCommitCountContext must be used within a CommitCountProvider'
+    );
   }
   return context;
 };
@@ -39,9 +43,9 @@ const useCommitCountContext = () => {
 /**
  * CommitCountContext provider with stateful numCommits and setNumCommits as its value.
  */
-const CommitCountProvider: React.FC = ({ children }) => {
+const CommitCountProvider: React.FC = ({children}) => {
   const [numCommits, setNumCommits] = useState<NumCommitsType>(undefined);
-  const value = { numCommits, setNumCommits };
+  const value = {numCommits, setNumCommits};
   return (
     <CommitCountContext.Provider value={value}>
       {children}
@@ -50,4 +54,4 @@ const CommitCountProvider: React.FC = ({ children }) => {
 };
 
 export default CommitCountProvider;
-export { useCommitCountContext };
+export {useCommitCountContext};
