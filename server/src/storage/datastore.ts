@@ -51,9 +51,7 @@ const getWithId = async (kind: string, id: string) => {
 const getAllWithId = async (kind: string) => {
   const query = datastore.createQuery(kind);
   const [res] = await datastore.runQuery(query);
-  const resWithId = res.map(item => {
-    return extractAndAppendId(item);
-  });
+  const resWithId = res.map(item => extractAndAppendId(item));
   return resWithId;
 };
 
