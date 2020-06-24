@@ -39,18 +39,33 @@ const getWithId = async (kind: string, id: string) => {
  * @param kind The Kind of the Entity
  * @param data The data of the Entity to be added
  */
-const add = async (kind: string, data: object) => {
+const add = async (kind: string, data: object): Promise<number> => {
   const key = datastore.key(kind);
   const entity = {key, data};
   const [res] = await datastore.insert(entity);
-  return getIdFromCommitResponse(res);
+  const ids = getIdsFromCommitResponse(res);
+  if (ids === undefined || ids.length < 1 || Number.isNaN(ids[0])) {
+    throw new Error(`Failed to add ${kind}.`);
+  }
+  return ids[0];
 };
 
 /**
- * Unpacks id of modified object from CommitResponse object received from Datastore.
+ * Unpacks ids of modified objects from CommitResponse object received from Datastore.
  */
-const getIdFromCommitResponse = (res: google.datastore.v1.ICommitResponse) => {
-  return res.mutationResults?.[0]?.key?.path?.[0]?.id;
+const getIdsFromCommitResponse = (
+  res: google.datastore.v1.ICommitResponse
+): number[] | undefined => {
+  return res.mutationResults?.map(getIdFromMutationResult);
+};
+
+/**
+ * Unpacks id of modified object from MutationResult object.
+ */
+const getIdFromMutationResult = (
+  mutationResult: google.datastore.v1.IMutationResult
+): number => {
+  return Number(mutationResult?.key?.path?.[0]?.id);
 };
 
 export {getWithId, add};
