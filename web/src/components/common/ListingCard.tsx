@@ -19,6 +19,7 @@ import React from 'react';
 import Card from 'components/common/Card';
 import DeadlineTag from 'components/common/DeadlineTag';
 import ListingPrice from 'components/common/ListingPrice';
+import {Money} from 'interfaces';
 import styled from 'styled-components';
 
 const CardContent = styled.div`
@@ -34,9 +35,9 @@ const ListingName = styled.span`
 
 interface ListingCardProps {
   listingName: string;
-  price: number;
-  oldPrice: number;
-  endDate: string;
+  price: Money;
+  oldPrice: Money;
+  endDate: Date;
   imgUrl: string;
   horizontal?: boolean;
 }

@@ -19,24 +19,39 @@ export interface Image {
   alt?: string;
 }
 
+/**
+ * Money Interface that represents an amount of money with its currency type.
+ */
+export interface Money {
+  currency: string; // The 3-letter currency code defined in ISO 4217
+  dollars: number;
+  cents: number;
+}
+
+/**
+ * ListingStatus type contains the different states of a Listing.
+ */
+export type ListingStatus =
+  | 'ongoing'
+  | 'successful'
+  | 'completed'
+  | 'unsuccessful';
+
+/**
+ * Listing Interface that contains the fields of a Lisiting,
+ */
 export interface Listing {
   id: number;
   merchantId: number;
   name: string;
-  price: string;
-  oldPrice: string;
-  currency: string;
+  price: Money;
+  oldPrice: Money;
   imgUrl: string;
   description: string;
-  deadline: string;
+  deadline: Date;
   minCommits: number;
   numCommits: number;
   numPaid: number;
   numCompleted: number;
-  listingStatus:
-    | 'ongoing'
-    | 'successful'
-    | 'paid'
-    | 'completed'
-    | 'unsuccessful';
+  listingStatus: ListingStatus;
 }

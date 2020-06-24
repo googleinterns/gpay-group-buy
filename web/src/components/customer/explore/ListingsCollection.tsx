@@ -40,8 +40,8 @@ const SingleListing: React.FC<ListingProps> = ({
   <StrippedCol xs={6} key={id}>
     <ListingCard
       listingName={name}
-      price={Number(price)}
-      oldPrice={Number(oldPrice)}
+      price={price}
+      oldPrice={oldPrice}
       endDate={deadline}
       imgUrl={imgUrl}
     >

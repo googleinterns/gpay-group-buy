@@ -16,7 +16,9 @@
 
 import React from 'react';
 
+import {Money} from 'interfaces';
 import styled from 'styled-components';
+import {formatMoney} from 'utils/price';
 
 const PriceContainer = styled.div`
   display: flex;
@@ -35,8 +37,8 @@ const OldPrice = styled.div`
 `;
 
 interface ListingPriceProps {
-  price: number;
-  oldPrice?: number;
+  price: Money;
+  oldPrice?: Money;
 }
 
 /**
@@ -44,8 +46,8 @@ interface ListingPriceProps {
  */
 const ListingPrice: React.FC<ListingPriceProps> = ({price, oldPrice}) => (
   <PriceContainer>
-    <Price>${price}</Price>
-    {oldPrice && <OldPrice>was: ${oldPrice}</OldPrice>}
+    <Price>{formatMoney(price)}</Price>
+    {oldPrice && <OldPrice>was: {formatMoney(oldPrice)}</OldPrice>}
   </PriceContainer>
 );
 
