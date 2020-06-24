@@ -26,7 +26,7 @@ const datastore = new Datastore();
  * @param res The response object from datastore
  */
 const extractAndAppendId = (res: Entity) => {
-  const {[datastore.KEY]: key, ...properties } = res;
+  const {[datastore.KEY]: key, ...properties} = res;
   return {
     ...properties,
     id: Number(key.id),
