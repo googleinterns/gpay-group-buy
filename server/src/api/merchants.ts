@@ -37,7 +37,7 @@ merchantRouter.post(
         ...req.body,
       };
       const id = await merchantService.addMerchant(merchant);
-      res.location(`/merchants/${id}`);
+      res.location(`${process.env.SERVER_URL}/merchants/${id}`);
       res.sendStatus(201);
     } catch (error) {
       return next(error);
