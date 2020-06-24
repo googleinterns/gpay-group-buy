@@ -40,7 +40,7 @@ export interface MerchantPayload {
   name: string;
   email: string;
   vpa: string;
-  uid: string;
+  firebaseUid: string;
 }
 
 /**
