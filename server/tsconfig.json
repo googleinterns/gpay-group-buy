@@ -14,7 +14,7 @@
     "strict": true,
     "baseUrl": "./src/",
     "typeRoots": [
-      "./custom_typings"
+      "./src/custom-typings"
     ],
   },
   "include": [
