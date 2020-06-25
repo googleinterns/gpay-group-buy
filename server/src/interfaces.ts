@@ -50,7 +50,7 @@ export type CommitStatus =
 export interface CommitPayload {
   customerId: number;
   listingId: number;
-  createdAt: string;
+  createdAt: Date;
   commitStatus: CommitStatus;
 }
 

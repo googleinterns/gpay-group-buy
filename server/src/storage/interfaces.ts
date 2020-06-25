@@ -20,8 +20,7 @@
 export type ResponseId = number | Long | string | null;
 
 /**
- * Filter Interface that contains the fields of the payload that
- * would be sent to create a Customer Entity.
+ * Filter Interface that contains the fields of a filter query for datastore.
  */
 export interface Filter {
   property: string;
