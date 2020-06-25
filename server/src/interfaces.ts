@@ -15,6 +15,11 @@
  */
 
 /**
+ * ResponseId type is the union.type of datastore's built-in id.
+ */
+export type ResponseId = number | Long | string | null;
+
+/**
  * CustomerPayload Interface that contains the fields of the payload that
  * would be sent to create a Customer Entity.
  */

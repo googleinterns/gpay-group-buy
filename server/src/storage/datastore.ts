@@ -18,6 +18,8 @@ import {Datastore} from '@google-cloud/datastore';
 import {google} from '@google-cloud/datastore/build/protos/protos';
 import {Entity} from '@google-cloud/datastore/build/src/entity';
 
+import {ResponseId} from '../interfaces';
+
 const datastore = new Datastore();
 
 /**
@@ -61,7 +63,7 @@ const getAllWithId = async (kind: string) => {
  */
 const getIdFromMutationResult = (
   mutationResult: google.datastore.v1.IMutationResult
-): number | Long | string | null | undefined =>
+): ResponseId | undefined =>
   mutationResult?.key?.path?.[0]?.id;
 
 /**
@@ -69,7 +71,7 @@ const getIdFromMutationResult = (
  */
 const getIdsFromCommitResponse = (
   res: google.datastore.v1.ICommitResponse
-): (number | Long | string | null | undefined)[] | undefined =>
+): (ResponseId | undefined)[] | undefined =>
   res.mutationResults?.map(getIdFromMutationResult);
 
 /**
