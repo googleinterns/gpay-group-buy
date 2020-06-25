@@ -16,6 +16,7 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^5.1.5",
     "@types/styled-components": "^5.1.0",
+    "@types/to-camel-case": "^1.0.0",
     "muicss": "^0.10.2",
     "rc-progress": "^3.0.0",
     "react": "^16.13.1",
@@ -25,6 +26,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "styled-components": "^5.1.1",
+    "to-camel-case": "^1.0.0",
     "typescript": "~3.7.2"
   },
   "scripts": {

@@ -20,6 +20,7 @@ import React from 'react';
 import Col from 'muicss/lib/react/col';
 import Row from 'muicss/lib/react/row';
 import styled from 'styled-components';
+import toCamelCase from 'to-camel-case';
 
 const StyledRow = styled(Row)`
   display: flex;
@@ -90,17 +91,6 @@ interface FormRowProps {
   forwardedRef: (ref: HTMLInputElement) => void;
   error: ReactHookFormErrorMessage;
 }
-
-/**
- * This converts a space-separated string to camelCase e.g. 'Confirm Password'
- * to 'confirmPassword' and 'VPA' to 'vpa'.
- */
-const toCamelCase = (phrase: string) =>
-  phrase
-    .toLowerCase()
-    .replace(/\s(.)/g, a => a.toUpperCase())
-    .replace(/\s/g, '')
-    .replace(/^(.)/, a => a.toLowerCase());
 
 /**
  * This is a row in a form, consisting of a label and an input field shown
