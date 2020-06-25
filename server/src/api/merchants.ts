@@ -21,15 +21,21 @@
 import {Router, Request, Response, NextFunction} from 'express';
 
 import {MerchantPayload} from '../interfaces';
+import merchantAuth from '../middleware/merchant-auth';
 import {merchantService} from '../services';
 
 const merchantRouter: Router = Router();
 
 merchantRouter.post(
   '/',
+  merchantAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const merchant: MerchantPayload = req.body;
+      const firebaseUid = req.decoded.uid;
+      const merchant: MerchantPayload = {
+        firebaseUid,
+        ...req.body,
+      };
       const id = await merchantService.addMerchant(merchant);
       res.location(`${process.env.SERVER_URL}/merchants/${id}`);
       res.sendStatus(201);
