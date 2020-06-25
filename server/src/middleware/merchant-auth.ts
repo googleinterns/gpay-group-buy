@@ -28,7 +28,9 @@ const merchantAuth = async (
     if (!req.headers.authorization) throw new Error('Unauthorized');
 
     const [_, firebaseIdToken] = req.headers.authorization.split(' ');
-    const decodedFirebaseIdToken = await admin.auth().verifyIdToken(firebaseIdToken);
+    const decodedFirebaseIdToken = await admin
+      .auth()
+      .verifyIdToken(firebaseIdToken);
     req.decoded = decodedFirebaseIdToken;
     next();
   } catch (error) {
