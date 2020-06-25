@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import {Component, ReactElement} from 'react';
 import React from 'react';
 
 import Col from 'muicss/lib/react/col';
@@ -26,7 +27,7 @@ const StyledRow = styled(Row)`
   align-items: top;
   justify-content: center;
 
-  margin: 10px 0;
+  margin: 5px 0;
 `;
 
 const StyledCol = styled(Col)`
@@ -68,11 +69,26 @@ const ErrorContainer = styled.div`
   color: var(--bright-red);
 `;
 
+type ReactHookFormErrorMessage =
+  | string
+  | React.ReactElement<
+      any,
+      | string
+      | ((
+          props: any
+        ) => React.ReactElement<
+          any,
+          string | any | (new (props: any) => React.Component<any, any, any>)
+        > | null)
+      | (new (props: any) => React.Component<any, any, any>)
+    >
+  | undefined;
+
 interface FormRowProps {
   label: string;
   inputType: string;
-  onChange: React.EventHandler<React.FormEvent<HTMLInputElement>>;
-  error: string;
+  forwardedRef: (ref: HTMLInputElement) => void;
+  error: ReactHookFormErrorMessage;
 }
 
 /**
@@ -94,7 +110,7 @@ const toCamelCase = (phrase: string) =>
 const FormRow: React.FC<FormRowProps> = ({
   label,
   inputType,
-  onChange,
+  forwardedRef,
   error,
 }) => (
   <StyledRow>
@@ -102,7 +118,7 @@ const FormRow: React.FC<FormRowProps> = ({
       <Label>{label}</Label>
     </StyledCol>
     <StyledCol>
-      <Input type={inputType} name={toCamelCase(label)} onChange={onChange} />
+      <Input type={inputType} name={toCamelCase(label)} ref={forwardedRef} />
       <ErrorContainer>{error}</ErrorContainer>
     </StyledCol>
   </StyledRow>

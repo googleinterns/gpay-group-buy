@@ -16,6 +16,9 @@
 
 export const NAME_EMPTY = 'Name cannot be empty.';
 export const EMAIL_EMPTY = 'Email cannot be empty.';
+export const EMAIL_INVALID = 'Please input a valid email address.';
 export const PASSWORD_EMPTY = 'Password cannot be empty.';
+export const PASSWORD_WEAK = 'Password must have at least 8 characters.';
 export const PASSWORDS_DO_NOT_MATCH = 'Passwords do not match.';
 export const VPA_EMPTY = 'VPA cannot be empty.';
+export const VPA_INVALID = 'Please input a valid VPA.';
