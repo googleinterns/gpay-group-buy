@@ -63,8 +63,7 @@ const getAllWithId = async (kind: string) => {
  */
 const getIdFromMutationResult = (
   mutationResult: google.datastore.v1.IMutationResult
-): ResponseId | undefined =>
-  mutationResult?.key?.path?.[0]?.id;
+): ResponseId | undefined => mutationResult?.key?.path?.[0]?.id;
 
 /**
  * Unpacks ids of modified objects from CommitResponse object received from Datastore.
