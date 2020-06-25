@@ -61,14 +61,16 @@ const getAllWithId = async (kind: string) => {
  */
 const getIdFromMutationResult = (
   mutationResult: google.datastore.v1.IMutationResult
-): number => Number(mutationResult?.key?.path?.[0]?.id);
+): number | Long | string | null | undefined =>
+  mutationResult?.key?.path?.[0]?.id;
 
 /**
  * Unpacks ids of modified objects from CommitResponse object received from Datastore.
  */
 const getIdsFromCommitResponse = (
   res: google.datastore.v1.ICommitResponse
-): number[] | undefined => res.mutationResults?.map(getIdFromMutationResult);
+): (number | Long | string | null | undefined)[] | undefined =>
+  res.mutationResults?.map(getIdFromMutationResult);
 
 /**
  * A Datastore wrapper that inserts a particular entity with the specified Kind.
@@ -80,10 +82,11 @@ const add = async (kind: string, data: object): Promise<number> => {
   const entity = {key, data};
   const [res] = await datastore.insert(entity);
   const ids = getIdsFromCommitResponse(res);
-  if (ids === undefined || ids.length < 1 || Number.isNaN(ids[0])) {
+  const id = ids?.[0];
+  if (id === null || id === undefined) {
     throw new Error(`Failed to add ${kind}.`);
   }
-  return ids[0];
+  return Number(id);
 };
 
 export {getWithId, getAllWithId, add};
