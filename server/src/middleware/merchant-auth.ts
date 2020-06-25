@@ -25,7 +25,8 @@ const merchantAuth = async (
   next: NextFunction
 ) => {
   try {
-    if (!req.headers.authorization) throw new Error('Unauthorized');
+    if (!req.headers.authorization)
+      throw new Error('Missing Authorization header.');
 
     const [_, firebaseIdToken] = req.headers.authorization.split(' ');
     const decodedFirebaseIdToken = await admin
