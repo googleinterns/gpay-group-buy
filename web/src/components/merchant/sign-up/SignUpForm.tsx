@@ -62,7 +62,9 @@ type SignUpData = {
 };
 
 const SignUpForm = () => {
-  const {handleSubmit, register, watch, errors} = useForm<SignUpData>({
+  const {handleSubmit, register, watch, errors, formState} = useForm<
+    SignUpData
+  >({
     mode: 'onChange',
   });
   const onSubmit = (values: SignUpData) => console.log(values);
@@ -122,7 +124,12 @@ const SignUpForm = () => {
         })}
         error={errors?.vpa?.message}
       />
-      <StyledButton onClick={handleSubmit(onSubmit)}>Sign Up</StyledButton>
+      <StyledButton
+        onClick={handleSubmit(onSubmit)}
+        disabled={!formState.isValid}
+      >
+        Sign Up
+      </StyledButton>
     </StyledForm>
   );
 };
