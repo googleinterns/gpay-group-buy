@@ -19,7 +19,22 @@
  * @author Karen Frilya Celine
  */
 
-import express from 'express';
-const router: express.Router = express.Router();
+import {Router, Request, Response, NextFunction} from 'express';
 
-export const listingRouter: express.Router = router;
+import {listingService} from '../services';
+
+const listingRouter = Router();
+
+listingRouter.get(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const listings = await listingService.getAllListings();
+      res.send(listings);
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+export default listingRouter;

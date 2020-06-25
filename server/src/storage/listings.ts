@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-import {Datastore} from '@google-cloud/datastore';
-import {Guid} from 'guid-typescript';
+import {ListingResponse} from 'interfaces';
 
-const datastore = new Datastore();
+import {LISTING_KIND} from '../constants/kinds';
+import {getAllWithId} from './datastore';
 
-export const listingStorage = {};
+const getAllListings = async (): Promise<ListingResponse[]> =>
+  getAllWithId(LISTING_KIND);
+
+export default {getAllListings};

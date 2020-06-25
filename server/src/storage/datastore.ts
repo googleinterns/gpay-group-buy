@@ -16,8 +16,25 @@
 
 import {Datastore} from '@google-cloud/datastore';
 import {google} from '@google-cloud/datastore/build/protos/protos';
+import {Entity} from '@google-cloud/datastore/build/src/entity';
+
+import {ResponseId} from '../interfaces';
 
 const datastore = new Datastore();
+
+/**
+ * Strips the key from the datastore response object, extracts the id,
+ * and append the id to the object.
+ * Returns an object with its id.
+ * @param res The response object from datastore
+ */
+const extractAndAppendId = (res: Entity) => {
+  const {[datastore.KEY]: key, ...properties} = res;
+  return {
+    ...properties,
+    id: Number(key.id),
+  };
+};
 
 /**
  * A Datastore wrapper that gets a particular entity with the specified Kind and id.
@@ -27,34 +44,50 @@ const datastore = new Datastore();
 const getWithId = async (kind: string, id: string) => {
   const key = datastore.key([kind, datastore.int(id)]);
   const [res] = await datastore.get(key);
-  const {[datastore.KEY]: _, ...properties} = res;
-  return {
-    ...properties,
-    id: key.id,
-  };
+  return extractAndAppendId(res);
 };
+
+/**
+ * A Datastore wrapper that gets all entities of a specified Kind.
+ * @param kind The Kind that is being queried
+ */
+const getAllWithId = async (kind: string) => {
+  const query = datastore.createQuery(kind);
+  const [res] = await datastore.runQuery(query);
+  const resWithId = res.map(item => extractAndAppendId(item));
+  return resWithId;
+};
+
+/**
+ * Unpacks id of modified object from MutationResult object.
+ */
+const getIdFromMutationResult = (
+  mutationResult: google.datastore.v1.IMutationResult
+): ResponseId | undefined => mutationResult?.key?.path?.[0]?.id;
+
+/**
+ * Unpacks ids of modified objects from CommitResponse object received from Datastore.
+ */
+const getIdsFromCommitResponse = (
+  res: google.datastore.v1.ICommitResponse
+): (ResponseId | undefined)[] | undefined =>
+  res.mutationResults?.map(getIdFromMutationResult);
 
 /**
  * A Datastore wrapper that inserts a particular entity with the specified Kind.
  * @param kind The Kind of the Entity
  * @param data The data of the Entity to be added
  */
-const add = async (kind: string, data: object) => {
+const add = async (kind: string, data: object): Promise<number> => {
   const key = datastore.key(kind);
   const entity = {key, data};
   const [res] = await datastore.insert(entity);
-  return getIdFromCommitResponse(res);
+  const ids = getIdsFromCommitResponse(res);
+  const id = ids?.[0];
+  if (id === null || id === undefined) {
+    throw new Error(`Failed to add ${kind}.`);
+  }
+  return Number(id);
 };
 
-/**
- * Unpacks id of inserted object from CommitResponse object received from Datastore.
- */
-const getIdFromCommitResponse = (res: google.datastore.v1.ICommitResponse) => {
-  const mutationResult = res.mutationResults && res.mutationResults[0];
-  const resultKey = mutationResult && mutationResult.key;
-  const path = resultKey && resultKey.path;
-  const pathElement = path && path[0];
-  return pathElement ? pathElement.id : null;
-};
-
-export {getWithId, add};
+export {getWithId, getAllWithId, add};

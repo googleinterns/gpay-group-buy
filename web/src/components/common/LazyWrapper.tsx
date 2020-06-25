@@ -14,17 +14,24 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview This file contains the database operations related to Merchant
- * entities.
- */
+import React from 'react';
 
-import {MERCHANT_KIND} from '../constants/kinds';
-import {MerchantPayload} from '../interfaces';
-import {add} from './datastore';
+import {useInView} from 'react-hook-inview';
 
-const addMerchant = async (merchant: MerchantPayload): Promise<number> =>
-  add(MERCHANT_KIND, merchant);
-// TODO(#67): Add checks to prevent adding multiple merchants with the same Firebase UID.
+interface LazyWrapperProps {
+  rootMargin?: string; // Refer to https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/rootMargin
+}
 
-export default {addMerchant};
+const LazyWrapper: React.FC<LazyWrapperProps> = ({
+  rootMargin = '30px',
+  children,
+}) => {
+  const [ref, isInView] = useInView({
+    unobserveOnEnter: true,
+    rootMargin,
+  });
+
+  return <div ref={ref}>{isInView && children}</div>;
+};
+
+export default LazyWrapper;

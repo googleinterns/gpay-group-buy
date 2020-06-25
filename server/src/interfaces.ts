@@ -15,6 +15,11 @@
  */
 
 /**
+ * ResponseId type is the union.type of datastore's built-in id.
+ */
+export type ResponseId = number | Long | string | null;
+
+/**
  * CustomerPayload Interface that contains the fields of the payload that
  * would be sent to create a Customer Entity.
  */
@@ -29,6 +34,51 @@ export interface CustomerPayload {
  * client side would receive.
  */
 export interface CustomerResponse extends CustomerPayload {
+  id: number;
+}
+
+/**
+ * Money Interface that represents an amount of money with its currency type.
+ */
+export interface Money {
+  currency: string; // The 3-letter currency code defined in ISO 4217
+  dollars: number;
+  cents: number;
+}
+
+/**
+ * ListingStatus type contains the different states of a Listing.
+ */
+export type ListingStatus =
+  | 'ongoing'
+  | 'successful'
+  | 'completed'
+  | 'unsuccessful';
+
+/**
+ * ListingPayload Interface that contains the fields of the payload that
+ * would be sent to create a Listing Entity.
+ */
+export interface ListingPayload {
+  merchantId: number;
+  name: string;
+  price: Money;
+  oldPrice: Money;
+  imgUrl: string;
+  description: string;
+  deadline: Date;
+  minCommits: number;
+  numCommits: number;
+  numPaid: number;
+  numCompleted: number;
+  listingStatus: ListingStatus;
+}
+
+/**
+ * ListingResponse Interface that contains the fields of the Response that
+ * client side would receive.
+ */
+export interface ListingResponse extends ListingPayload {
   id: number;
 }
 
