@@ -18,10 +18,25 @@
  * @fileoverview Handles routing of /merchants endpoints.
  */
 
-import express from 'express';
+import {Router, Request, Response, NextFunction} from 'express';
 
+import {MerchantPayload} from '../interfaces';
 import {merchantService} from '../services';
 
-const router: express.Router = express.Router();
+const merchantRouter: Router = Router();
 
-export const merchantRouter: express.Router = router;
+merchantRouter.post(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const merchant: MerchantPayload = req.body;
+      const id = await merchantService.addMerchant(merchant);
+      res.location(`${process.env.SERVER_URL}/merchants/${id}`);
+      res.sendStatus(201);
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+export default merchantRouter;

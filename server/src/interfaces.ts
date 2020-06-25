@@ -15,6 +15,11 @@
  */
 
 /**
+ * ResponseId type is the union.type of datastore's built-in id.
+ */
+export type ResponseId = number | Long | string | null;
+
+/**
  * CustomerPayload Interface that contains the fields of the payload that
  * would be sent to create a Customer Entity.
  */
@@ -74,5 +79,24 @@ export interface ListingPayload {
  * client side would receive.
  */
 export interface ListingResponse extends ListingPayload {
+  id: number;
+}
+
+/**
+ * MerchantPayload Interface that contains the fields of the payload that
+ * would be sent to create a Merchant Entity.
+ */
+export interface MerchantPayload {
+  name: string;
+  email: string;
+  vpa: string;
+  firebaseUid: string;
+}
+
+/**
+ * MerchantResponse Interface that contains the fields of the Response that
+ * client side would receive.
+ */
+export interface MerchantResponse extends MerchantPayload {
   id: number;
 }

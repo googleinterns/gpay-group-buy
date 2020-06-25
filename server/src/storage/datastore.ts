@@ -15,7 +15,10 @@
  */
 
 import {Datastore} from '@google-cloud/datastore';
+import {google} from '@google-cloud/datastore/build/protos/protos';
 import {Entity} from '@google-cloud/datastore/build/src/entity';
+
+import {ResponseId} from '../interfaces';
 
 const datastore = new Datastore();
 
@@ -55,4 +58,36 @@ const getAllWithId = async (kind: string) => {
   return resWithId;
 };
 
-export {getWithId, getAllWithId};
+/**
+ * Unpacks id of modified object from MutationResult object.
+ */
+const getIdFromMutationResult = (
+  mutationResult: google.datastore.v1.IMutationResult
+): ResponseId | undefined => mutationResult?.key?.path?.[0]?.id;
+
+/**
+ * Unpacks ids of modified objects from CommitResponse object received from Datastore.
+ */
+const getIdsFromCommitResponse = (
+  res: google.datastore.v1.ICommitResponse
+): (ResponseId | undefined)[] | undefined =>
+  res.mutationResults?.map(getIdFromMutationResult);
+
+/**
+ * A Datastore wrapper that inserts a particular entity with the specified Kind.
+ * @param kind The Kind of the Entity
+ * @param data The data of the Entity to be added
+ */
+const add = async (kind: string, data: object): Promise<number> => {
+  const key = datastore.key(kind);
+  const entity = {key, data};
+  const [res] = await datastore.insert(entity);
+  const ids = getIdsFromCommitResponse(res);
+  const id = ids?.[0];
+  if (id === null || id === undefined) {
+    throw new Error(`Failed to add ${kind}.`);
+  }
+  return Number(id);
+};
+
+export {getWithId, getAllWithId, add};
