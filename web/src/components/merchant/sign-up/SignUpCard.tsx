@@ -14,18 +14,11 @@
  * limitations under the License.
  */
 
-import {
-  NAME_EMPTY,
-  EMAIL_EMPTY,
-  PASSWORD_EMPTY,
-  PASSWORDS_DO_NOT_MATCH,
-  VPA_EMPTY,
-} from 'constants/sign-up-errors';
-
-import React, {useState} from 'react';
+import React from 'react';
 
 import FormRow from 'components/common/FormRow';
 import GroupBuyMerchantHeader from 'components/common/GroupBuyMerchantHeader';
+import useMerchantSignUpForm from 'hooks/merchant/sign-up';
 import Button from 'muicss/lib/react/button';
 import Form from 'muicss/lib/react/form';
 import Row from 'muicss/lib/react/row';
@@ -73,70 +66,19 @@ const StyledButton = styled(Button)`
  * It is displayed in the Sign Up page.
  */
 const SignUpCard: React.FC = () => {
-  const [name, setName] = useState('');
-  const [nameError, setNameError] = useState('');
-
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState('');
-
-  const [password, setPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState('');
-
-  const [vpa, setVpa] = useState('');
-  const [vpaError, setVpaError] = useState('');
-
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.target.value ? setNameError('') : setNameError(NAME_EMPTY);
-    setName(event.target.value);
-  };
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.target.value ? setEmailError('') : setEmailError(EMAIL_EMPTY);
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.target.value
-      ? setPasswordError('')
-      : setPasswordError(PASSWORD_EMPTY);
-    // We don't check that passwords match if user hasn't filled in
-    // 'Confirm Password' yet.
-    !confirmPassword || event.target.value === confirmPassword
-      ? setConfirmPasswordError('')
-      : setConfirmPasswordError(PASSWORDS_DO_NOT_MATCH);
-    setPassword(event.target.value);
-  };
-
-  const handleConfirmPasswordChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    // We don't have to check if 'Confirm Password' is empty. If 'Password' is
-    // is not empty and 'Confirm Password' is empty, we show PASSWORDS_DO_NOT_MATCH.
-    // If both passwords are empty we show PASSWORD_EMPTY.
-    event.target.value === password
-      ? setConfirmPasswordError('')
-      : setConfirmPasswordError(PASSWORDS_DO_NOT_MATCH);
-    setConfirmPassword(event.target.value);
-  };
-
-  const handleVpaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.target.value ? setVpaError('') : setVpaError(VPA_EMPTY);
-    setVpa(event.target.value);
-  };
-
-  const handleSubmit = () => {
-    // These checks are needed because empty error in the handleChange is shown
-    // only if user already fills in the field and then deletes it.
-    if (!name) setNameError(NAME_EMPTY);
-    if (!email) setEmailError(EMAIL_EMPTY);
-    if (!password) setPasswordError(PASSWORD_EMPTY);
-    if (password !== confirmPassword)
-      setConfirmPasswordError(PASSWORDS_DO_NOT_MATCH);
-    if (!vpa) setVpaError(VPA_EMPTY);
-  };
+  const {
+    handleNameChange,
+    nameError,
+    handleEmailChange,
+    emailError,
+    handlePasswordChange,
+    passwordError,
+    handleConfirmPasswordChange,
+    confirmPasswordError,
+    handleVpaChange,
+    vpaError,
+    handleSubmit,
+  } = useMerchantSignUpForm();
 
   return (
     <CardContainer>
