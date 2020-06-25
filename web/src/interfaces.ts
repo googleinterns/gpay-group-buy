@@ -5,7 +5,7 @@ export interface Image {
 
 export interface Customer {
   id: number;
-  gpayId: string;
+  gpayId: string; // E164 format
   contactNumber: string;
   address: string;
   numCommits: number;

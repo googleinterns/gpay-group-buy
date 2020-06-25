@@ -23,6 +23,7 @@ import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
 import styled from 'styled-components';
 
+// This will be removed once we have our customer signin flow ready
 const SAMPLE_CUSTOMER_ID = 5634161670881280;
 
 const PageContainer = styled(Container)`

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {MAX_NUM_COMMITS} from 'constants/business';
+import {MAX_NUM_COMMITS} from 'constants/customer';
 
 import React from 'react';
 
@@ -87,7 +87,7 @@ const CommitsBadge: React.FC<CommitsBadgeProps> = ({pos = 'static'}) => {
       <>
         Commits Left:
         <CommitCount>
-          {numCommits && <>{MAX_NUM_COMMITS - numCommits}</>}
+          {numCommits && <>{Math.max(MAX_NUM_COMMITS - numCommits, 0)}</>}
         </CommitCount>
         out of {MAX_NUM_COMMITS}
       </>

@@ -20,7 +20,7 @@
  */
 export interface CustomerPayload {
   gpayId: string;
-  contactNumber: string;
+  contactNumber: string; // E164 format
   address: string;
 }
 
