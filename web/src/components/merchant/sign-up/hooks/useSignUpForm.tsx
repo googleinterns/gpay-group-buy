@@ -77,7 +77,9 @@ const useSignUpForm = () => {
     }),
   };
   const disabled = !formState.isValid;
-  const onSubmit = handleSubmit((values: SignUpData) => console.log(values));
+  const onSubmit = handleSubmit((values: SignUpData) => {
+    // TODO(#72): Send Merchant Sign Up form data to Add Merchant API endpoint.
+  });
 
   return {
     disabled,
