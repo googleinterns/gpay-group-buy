@@ -40,7 +40,7 @@ listingRouter.get(
 listingRouter.get(
   '/:listingId',
   async (req: Request, res: Response, next: NextFunction) => {
-    const { listingId: listingIdStr } = req.params;
+    const {listingId: listingIdStr} = req.params;
     const listingId = Number(listingIdStr);
 
     try {
