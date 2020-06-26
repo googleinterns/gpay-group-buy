@@ -14,4 +14,10 @@
  * limitations under the License.
  */
 
-export const merchantService = {};
+import {MerchantPayload} from '../interfaces';
+import {merchantStorage} from '../storage';
+
+const addMerchant = async (merchant: MerchantPayload): Promise<number> =>
+  merchantStorage.addMerchant(merchant);
+
+export default {addMerchant};

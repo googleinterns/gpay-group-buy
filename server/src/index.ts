@@ -16,9 +16,9 @@
 
 /**
  * @fileoverview This file is the main entrypoint for GPay Group Buy server.
- * @author Karen Frilya Celine
  */
 
+import bodyParser from 'body-parser';
 import express from 'express';
 
 import {
@@ -36,6 +36,11 @@ router.use('/customers', customerRouter);
 router.use('/listings', listingRouter);
 router.use('/merchants', merchantRouter);
 
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 app.use(router);
 
 // This handles server errors.

@@ -56,3 +56,11 @@ export interface Listing {
   numCompleted: number;
   listingStatus: ListingStatus;
 }
+
+export interface Customer {
+  id: number;
+  gpayId: string; // E164 format
+  contactNumber: string;
+  address: string;
+  numCommits: number;
+}

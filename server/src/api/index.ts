@@ -22,6 +22,6 @@
 import {commitRouter} from './commits';
 import customerRouter from './customers';
 import listingRouter from './listings';
-import {merchantRouter} from './merchants';
+import merchantRouter from './merchants';
 
 export {commitRouter, customerRouter, listingRouter, merchantRouter};

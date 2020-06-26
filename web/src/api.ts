@@ -14,7 +14,17 @@
  * limitations under the License.
  */
 
-import {Listing} from 'interfaces';
+import {Customer, Listing} from 'interfaces';
+
+/**
+ * Fetches a particular customer with the specified customerId.
+ */
+export const getCustomer = async (customerId: number): Promise<Customer> => {
+  const res = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/customers/${customerId}`
+  );
+  return res.json();
+};
 
 /**
  * Fetches all Listings.

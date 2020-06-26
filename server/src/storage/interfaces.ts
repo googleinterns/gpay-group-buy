@@ -15,16 +15,14 @@
  */
 
 /**
- * @fileoverview This file contains the database operations related to Merchant
- * entities.
+ * ResponseId type is the union type of datastore's built-in id.
  */
+export type ResponseId = number | Long | string | null;
 
-import {MERCHANT_KIND} from '../constants/kinds';
-import {MerchantPayload} from '../interfaces';
-import {add} from './datastore';
-
-const addMerchant = async (merchant: MerchantPayload): Promise<number> =>
-  add(MERCHANT_KIND, merchant);
-// TODO(#67): Add checks to prevent adding multiple merchants with the same Firebase UID.
-
-export default {addMerchant};
+/**
+ * Filter Interface that contains the fields of a filter query for datastore.
+ */
+export interface Filter {
+  property: string;
+  value: any;
+}

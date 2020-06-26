@@ -12,7 +12,10 @@
     "outDir": "build",
     "skipLibCheck": true,
     "strict": true,
-    "baseUrl": "./src/"
+    "baseUrl": "./src/",
+    "typeRoots": [
+      "./src/custom-typings"
+    ],
   },
   "include": [
     "src/**/*.ts",
