@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
+import {getAllListings} from 'api';
 import CommitProgress from 'components/common/CommitProgress';
 import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
@@ -54,17 +55,23 @@ const ListingItem: React.FC<ListingProps> = ({
   </StrippedCol>
 );
 
-interface ListingCollectionProps {
-  listings: Listing[];
-}
+const ListingCollection: React.FC = () => {
+  const [listings, setListings] = useState<Listing[]>([]);
 
-const ListingCollection: React.FC<ListingCollectionProps> = ({listings}) => {
+  useEffect(() => {
+    const fetchListings = async () => {
+      const listings = await getAllListings();
+      setListings(listings);
+    };
+    fetchListings();
+  }, []);
+
   return (
-    <>
+    <div>
       {listings?.map(listing => (
         <ListingItem listing={listing} key={listing.id} />
       ))}
-    </>
+    </div>
   );
 };
 

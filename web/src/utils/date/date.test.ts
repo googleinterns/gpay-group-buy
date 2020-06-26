@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {addDays, subDays, addHours, differenceInCalendarDays} from 'date-fns';
+import {addDays, subDays, addHours} from 'date-fns';
 import {formatDeadlineFromNowText} from 'utils/date';
 
 describe('formatDeadlineFromNowText', () => {

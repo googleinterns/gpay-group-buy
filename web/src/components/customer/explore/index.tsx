@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 
-import {getAllListings, getCustomer} from 'api';
+import {getCustomer} from 'api';
 import CommitsBadge from 'components/common/CommitsBadge';
-import ListingCollection from 'components/customer/explore/ListingCollection';
 import {useCommitCountContext} from 'components/customer/contexts/CommitCountContext';
-import {Listing} from 'interfaces';
+import ListingCollection from 'components/customer/explore/ListingCollection';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
 import styled from 'styled-components';
@@ -40,16 +39,7 @@ const CommitsBadgeContainer = styled.div`
 `;
 
 const CustomerExplorePage: React.FC = () => {
-  const [listings, setListings] = useState<Listing[]>([]);
   const {setNumCommits} = useCommitCountContext();
-
-  useEffect(() => {
-    const fetchListings = async () => {
-      const listings = await getAllListings();
-      setListings(listings);
-    };
-    fetchListings();
-  }, []);
 
   const handleGetSampleCustomer = async () => {
     const {numCommits} = await getCustomer(SAMPLE_CUSTOMER_ID);
@@ -62,7 +52,7 @@ const CustomerExplorePage: React.FC = () => {
         <CommitsBadge />
       </CommitsBadgeContainer>
       <h1>Explore</h1>
-      <ListingCollection listings={listings} />
+      <ListingCollection />
       <Button color="primary" onClick={handleGetSampleCustomer}>
         Click for commit info of sample customer
       </Button>
