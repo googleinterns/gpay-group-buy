@@ -41,7 +41,7 @@ const extractAndAppendId = (res: Entity) => {
  * @param kind The Kind that is being queried
  * @param id The id of the Entity being queried
  */
-const getWithId = async (kind: string, id: number) => {
+const get = async (kind: string, id: number) => {
   const key = datastore.key([kind, id]);
   const [res] = await datastore.get(key);
   return extractAndAppendId(res);
@@ -52,7 +52,7 @@ const getWithId = async (kind: string, id: number) => {
  * @param kind The Kind that is being queried
  * @param filters Any filters that will be applied to the query
  */
-const getAllWithId = async (kind: string, filters?: Filter[]) => {
+const getAll = async (kind: string, filters?: Filter[]) => {
   let query = datastore.createQuery(kind);
   filters?.forEach(filter => {
     query = query.filter(filter.property, filter.value);
@@ -95,4 +95,4 @@ const add = async (kind: string, data: object): Promise<number> => {
   return Number(id);
 };
 
-export {getWithId, getAllWithId, add};
+export { get, getAll, add};
