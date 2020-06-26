@@ -20,7 +20,7 @@ import BackButton from 'components/common/BackButton';
 import {getListing} from 'api';
 import ListingDetails from 'components/customer/listing-details/ListingDetails';
 import {Listing} from 'interfaces';
-import {RouteComponentProps, Link} from 'react-router-dom';
+import {Link, useHistory, useParams, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import CommitsBadge from 'components/common/CommitsBadge';
 
@@ -30,14 +30,18 @@ const PageContainer = styled.div`
 `;
 
 interface ListingParams {
-  listingId?: string;
+  listingId: string;
 }
 
-const ListingDetailsPage: React.FC<RouteComponentProps<ListingParams>> = ({
-  match: {
-    params: {listingId},
-  },
-}) => {
+interface ListingLocation {
+  fromExplore: boolean;
+}
+
+const ListingDetailsPage: React.FC = () => {
+  const history = useHistory();
+  const location = useLocation<ListingLocation>();
+  const {listingId} = useParams<ListingParams>();
+
   const [listing, setListing] = useState<Listing>();
 
   useEffect(() => {
@@ -46,13 +50,16 @@ const ListingDetailsPage: React.FC<RouteComponentProps<ListingParams>> = ({
       setListing(listing);
     };
     fetchListings();
-  }, []);
+  }, [listingId]);
+
+  const handleBack = () =>
+    location.state?.fromExplore
+      ? history.goBack()
+      : history.push('/');
 
   return (
     <PageContainer>
-      <Link to="/">
-        <BackButton pos="absolute" />
-      </Link>
+      <BackButton pos="absolute" onClick={handleBack} />
       <CommitsBadge pos="absolute" />
       {listing && <ListingDetails listing={listing} />}
     </PageContainer>

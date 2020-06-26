@@ -40,7 +40,12 @@ const ListingItem: React.FC<ListingProps> = ({
   },
 }) => (
   <StrippedCol xs={6} key={id}>
-    <Link to={`/listing/${id}`}>
+    <Link to={{
+      pathname: `/listing/${id}`,
+      state: {
+        fromExplore: true
+      }
+    }}>
       <ListingCard
         listingName={name}
         price={price}
