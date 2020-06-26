@@ -15,11 +15,6 @@
  */
 
 /**
- * ResponseId type is the union.type of datastore's built-in id.
- */
-export type ResponseId = number | Long | string | null;
-
-/**
  * CustomerPayload Interface that contains the fields of the payload that
  * would be sent to create a Customer Entity.
  */
@@ -34,6 +29,36 @@ export interface CustomerPayload {
  * client side would receive.
  */
 export interface CustomerResponse extends CustomerPayload {
+  id: number;
+  numOngoingCommits: number;
+}
+
+/**
+ * CommitStatus type contains the different states of a Commit.
+ */
+export type CommitStatus =
+  | 'ongoing'
+  | 'successful'
+  | 'paid'
+  | 'completed'
+  | 'unsuccessful';
+
+/**
+ * CommitPayload Interface that contains the fields of the payload that
+ * would be sent to create a Listing Entity.
+ */
+export interface CommitPayload {
+  customerId: number;
+  listingId: number;
+  createdAt: Date;
+  commitStatus: CommitStatus;
+}
+
+/**
+ * CommitResponse Interface that contains the fields of the Response that
+ * client side would receive.
+ */
+export interface CommitResponse extends CommitPayload {
   id: number;
 }
 

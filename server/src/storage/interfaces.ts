@@ -15,28 +15,14 @@
  */
 
 /**
- * @fileoverview Handles routing of /customers endpoints.
+ * ResponseId type is the union type of datastore's built-in id.
  */
+export type ResponseId = number | Long | string | null;
 
-import {Router, Request, Response, NextFunction} from 'express';
-
-import {customerService} from '../services';
-
-const customerRouter = Router();
-
-customerRouter.get(
-  '/:customerId',
-  async (req: Request, res: Response, next: NextFunction) => {
-    const {customerId: customerIdStr} = req.params;
-    const customerId = Number(customerIdStr);
-
-    try {
-      const customer = await customerService.getCustomer(customerId);
-      res.send(customer);
-    } catch (error) {
-      return next(error);
-    }
-  }
-);
-
-export default customerRouter;
+/**
+ * Filter Interface that contains the fields of a filter query for datastore.
+ */
+export interface Filter {
+  property: string;
+  value: any;
+}
