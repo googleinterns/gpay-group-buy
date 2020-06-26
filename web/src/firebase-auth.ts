@@ -21,7 +21,7 @@ const config = {
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
 };
 
-if (!firebase.apps.length) {
+if (firebase.apps.length > 0) {
   firebase.initializeApp(config);
 }
 
