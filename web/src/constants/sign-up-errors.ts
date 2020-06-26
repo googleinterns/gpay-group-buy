@@ -14,28 +14,31 @@
  * limitations under the License.
  */
 
-const NAME_EMPTY = 'Name cannot be empty.';
-const EMAIL_EMPTY = 'Email cannot be empty.';
-const PASSWORD_EMPTY = 'Password cannot be empty.';
-const VPA_EMPTY = 'VPA cannot be empty.';
+export const NAME_EMPTY = 'Name cannot be empty.';
 
-const PASSWORDS_DO_NOT_MATCH = 'Passwords do not match.';
-
-const INVALID_EMAIL = 'Please input a valid email address.';
-const WEAK_PASSWORD = 'Password should be at least 6 characters.';
-const EMAIL_ALREADY_IN_USE =
+export const EMAIL_ALREADY_IN_USE =
   'The email address is already in use by another account.';
+export const EMAIL_EMPTY = 'Email cannot be empty.';
+export const EMAIL_INVALID = 'Please input a valid email address.';
 
-const SERVER_ERROR = 'Oops, something is wrong. Please try again later!';
+export const PASSWORD_EMPTY = 'Password cannot be empty.';
+export const PASSWORD_WEAK = 'Password must have at least 8 characters.';
+export const PASSWORDS_DO_NOT_MATCH = 'Passwords do not match.';
+
+export const VPA_EMPTY = 'VPA cannot be empty.';
+export const VPA_INVALID = 'Please input a valid VPA.';
+
+export const SERVER_ERROR = 'Oops, something is wrong. Please try again later!';
 
 export default {
   NAME_EMPTY,
-  EMAIL_EMPTY,
-  PASSWORD_EMPTY,
-  VPA_EMPTY,
-  PASSWORDS_DO_NOT_MATCH,
-  INVALID_EMAIL,
-  WEAK_PASSWORD,
   EMAIL_ALREADY_IN_USE,
+  EMAIL_EMPTY,
+  EMAIL_INVALID,
+  PASSWORD_EMPTY,
+  PASSWORD_WEAK,
+  PASSWORDS_DO_NOT_MATCH,
+  VPA_EMPTY,
+  VPA_INVALID,
   SERVER_ERROR,
 };
