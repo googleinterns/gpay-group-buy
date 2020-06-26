@@ -21,6 +21,7 @@ import CommitProgress from 'components/common/CommitProgress';
 import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
 import {Listing} from 'interfaces';
+import { Link } from 'react-router-dom';
 
 interface ListingProps {
   listing: Listing;
@@ -39,19 +40,21 @@ const ListingItem: React.FC<ListingProps> = ({
   },
 }) => (
   <StrippedCol xs={6} key={id}>
-    <ListingCard
-      listingName={name}
-      price={price}
-      oldPrice={oldPrice}
-      endDate={deadline}
-      imgUrl={imgUrl}
-    >
-      <CommitProgress
-        numCommits={numCommits}
-        minCommits={minCommits}
-        textPos="none"
-      />
-    </ListingCard>
+    <Link to={`/listing/${id}`}>
+      <ListingCard
+        listingName={name}
+        price={price}
+        oldPrice={oldPrice}
+        endDate={deadline}
+        imgUrl={imgUrl}
+      >
+        <CommitProgress
+          numCommits={numCommits}
+          minCommits={minCommits}
+          textPos="none"
+        />
+      </ListingCard>
+    </Link>
   </StrippedCol>
 );
 

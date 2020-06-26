@@ -31,10 +31,6 @@ const AbsolutePosStyle = css`
 
 const StaticPosStyle = css``;
 
-interface CommitsBadgeProps {
-  pos?: PosType;
-}
-
 const StyledBackButton = styled(Button)`
   display: flex;
   flex-flow: row;
@@ -54,7 +50,7 @@ const StyledBackButton = styled(Button)`
   }
 
   /* stylelint-disable value-keyword-case */
-  ${({ pos }: CommitsBadgeProps) => {
+  ${({ pos }: BackButtonProps) => {
     switch (pos) {
       case 'absolute':
         return AbsolutePosStyle;
