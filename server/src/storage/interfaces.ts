@@ -15,8 +15,8 @@
  */
 
 /**
-* ResponseId type is the union type of datastore's built-in id.
-*/
+ * ResponseId type is the union type of datastore's built-in id.
+ */
 export type ResponseId = number | Long | string | null;
 
 /**

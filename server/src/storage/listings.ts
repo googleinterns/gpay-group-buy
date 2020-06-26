@@ -20,6 +20,6 @@ import {LISTING_KIND} from '../constants/kinds';
 import {getAll} from './datastore';
 
 const getAllListings = async (): Promise<ListingResponse[]> =>
-    getAll(LISTING_KIND);
+  getAll(LISTING_KIND);
 
 export default {getAllListings};

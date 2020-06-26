@@ -95,4 +95,4 @@ const add = async (kind: string, data: object): Promise<number> => {
   return Number(id);
 };
 
-export { get, getAll, add};
+export {get, getAll, add};
