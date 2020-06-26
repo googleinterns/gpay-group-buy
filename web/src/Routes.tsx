@@ -22,6 +22,9 @@ import {Switch, Route} from 'react-router-dom';
 
 // Customer Pages
 const CustomerExplorePage = lazy(() => import('components/customer/explore'));
+const CustomerListingDetailsPage = lazy(() =>
+  import('components/customer/listing-details')
+);
 // Merchant Pages
 const MerchantLandingPage = lazy(() => import('components/merchant/landing'));
 const MerchantSignUpPage = lazy(() => import('components/merchant/sign-up'));
@@ -31,6 +34,13 @@ const DesignSamplesPage = lazy(() => import('components/design-samples'));
 const Routes: React.FC = () => (
   <Suspense fallback={<Loading />}>
     <Switch>
+      <CustomerCommitCountProvider>
+        <Route exact path="/" component={CustomerExplorePage} />
+        <Route
+          path="/listing/:listingId"
+          component={CustomerListingDetailsPage}
+        />
+      </CustomerCommitCountProvider>
       <Route exact path="/merchant" component={MerchantLandingPage} />
       <Route exact path="/merchant/sign-up" component={MerchantSignUpPage} />
       <Route exact path="/design-samples" component={DesignSamplesPage} />
