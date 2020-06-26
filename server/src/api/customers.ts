@@ -27,10 +27,11 @@ const customerRouter = Router();
 customerRouter.get(
   '/:customerId',
   async (req: Request, res: Response, next: NextFunction) => {
-    const {customerId} = req.params;
+    const {customerIdStr} = req.params;
+    const customerId = Number(customerIdStr);
 
     try {
-      const customer = await customerService.getCustomer(Number(customerId));
+      const customer = await customerService.getCustomer(customerId);
       res.send(customer);
     } catch (error) {
       return next(error);
