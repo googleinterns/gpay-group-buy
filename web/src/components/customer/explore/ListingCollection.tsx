@@ -25,7 +25,7 @@ interface ListingProps {
   listing: Listing;
 }
 
-const SingleListing: React.FC<ListingProps> = ({
+const ListingItem: React.FC<ListingProps> = ({
   listing: {
     id,
     name,
@@ -54,19 +54,20 @@ const SingleListing: React.FC<ListingProps> = ({
   </StrippedCol>
 );
 
-interface ListingsCollectionProps {
+interface ListingCollectionProps {
   listings: Listing[];
 }
 
-const ListingsCollection: React.FC<ListingsCollectionProps> = ({listings}) => {
+const ListingCollection: React.FC<ListingCollectionProps> = ({listings}) => {
   return (
     <>
-      {listings &&
-        listings.map(listing => (
-          <SingleListing listing={listing} key={listing.id} />
-        ))}
+      {
+        listings?.map(listing => (
+          <ListingItem listing={listing} key={listing.id} />
+        ))
+      }
     </>
   );
 };
 
-export default ListingsCollection;
+export default ListingCollection;

@@ -20,7 +20,7 @@ import {getAllListings} from 'api';
 import {Listing} from 'interfaces';
 import Container from 'muicss/lib/react/container';
 
-import ListingsCollection from './ListingsCollection';
+import ListingCollection from 'components/customer/explore/ListingCollection';
 
 const CustomerExplorePage: React.FC = () => {
   const [listings, setListings] = useState<Listing[]>([]);
@@ -36,7 +36,7 @@ const CustomerExplorePage: React.FC = () => {
   return (
     <Container>
       <h1>Explore</h1>
-      <ListingsCollection listings={listings} />
+      <ListingCollection listings={listings} />
     </Container>
   );
 };
