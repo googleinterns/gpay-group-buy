@@ -37,14 +37,18 @@ const handleFirebaseSignUp = async (email: string, password: string, setError: (
   try {
     await firebaseAuth.createUserWithEmailAndPassword(email, password);
   } catch (error) {
-    if (error.code === 'auth/invalid-email') {
-      setError("email", "pattern", Errors.EMAIL_INVALID);
-    } else if (error.code === 'auth/weak-password') {
-      setError("password", "minLength", Errors.PASSWORD_WEAK);
-    } else if (error.code === 'auth/email-already-in-use') {
-      setError("email", "unique", Errors.EMAIL_ALREADY_IN_USE);
-    } else {
-      throw error;
+    switch (error.code)  {
+      case 'auth/invalid-email':
+        setError("email", "pattern", Errors.EMAIL_INVALID);
+        break;
+      case 'auth/weak-password':
+        setError("password", "minLength", Errors.PASSWORD_WEAK);
+        break;
+      case 'auth/email-already-in-use':
+        setError("email", "unique", Errors.EMAIL_ALREADY_IN_USE);
+        break;
+      default:
+        throw error;
     }
   }
 };
