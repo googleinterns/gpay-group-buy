@@ -30,7 +30,7 @@ export interface CustomerPayload {
  */
 export interface CustomerResponse extends CustomerPayload {
   id: number;
-  numCommits: number;
+  numOngoingCommits: number;
 }
 
 /**

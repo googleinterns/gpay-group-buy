@@ -33,7 +33,7 @@ const getCustomer = async (customerId: number): Promise<CustomerResponse> => {
 
   return {
     ...customer,
-    numCommits: commits.length,
+    numOngoingCommits: commits.length,
   };
 };
 
