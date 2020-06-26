@@ -16,9 +16,9 @@
 
 /**
  * @fileoverview This file is the main entrypoint for GPay Group Buy server.
- * @author Karen Frilya Celine
  */
 
+import bodyParser from 'body-parser';
 import express from 'express';
 
 import {
@@ -36,6 +36,11 @@ router.use('/customers', customerRouter);
 router.use('/listings', listingRouter);
 router.use('/merchants', merchantRouter);
 
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 app.use(router);
 
 // This handles server errors.
@@ -66,5 +71,14 @@ app.use(
 );
 
 const port = process.env.PORT || 5000;
-app.listen(port);
-console.log(`Listening on port ${port}`);
+app.listen(port, () => console.log(`Listening on port ${port}`));
+
+const onStopSignal = () => {
+  console.log('Termination signal received, exiting process..');
+  process.exit(1); // eslint-disable-line no-process-exit
+};
+
+process.on('SIGTERM', onStopSignal);
+process.on('SIGINT', onStopSignal);
+process.on('SIGHUP', onStopSignal);
+process.on('SIGUSR2', onStopSignal); // Nodemon uses this

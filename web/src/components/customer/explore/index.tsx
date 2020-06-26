@@ -16,6 +16,46 @@
 
 import React from 'react';
 
-const CustomerExplorePage: React.FC = () => <div>Customer Explore Page</div>;
+import {getCustomer} from 'api';
+import CommitsBadge from 'components/common/CommitsBadge';
+import {useCommitCountContext} from 'components/customer/contexts/CommitCountContext';
+import Button from 'muicss/lib/react/button';
+import Container from 'muicss/lib/react/container';
+import styled from 'styled-components';
+
+// This will be removed once we have our customer signin flow ready
+const SAMPLE_CUSTOMER_ID = 5634161670881280;
+
+const PageContainer = styled(Container)`
+  padding-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+`;
+
+const CommitsBadgeContainer = styled.div`
+  align-self: flex-end;
+`;
+
+const CustomerExplorePage: React.FC = () => {
+  const {setNumCommits} = useCommitCountContext();
+
+  const handleGetSampleCustomer = async () => {
+    const {numCommits} = await getCustomer(SAMPLE_CUSTOMER_ID);
+    setNumCommits(numCommits);
+  };
+
+  return (
+    <PageContainer>
+      <CommitsBadgeContainer>
+        <CommitsBadge />
+      </CommitsBadgeContainer>
+      <h1>Explore</h1>
+      <Button color="primary" onClick={handleGetSampleCustomer}>
+        Click for commit info of sample customer
+      </Button>
+    </PageContainer>
+  );
+};
 
 export default CustomerExplorePage;

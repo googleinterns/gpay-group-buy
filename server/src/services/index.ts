@@ -16,7 +16,7 @@
 
 import {commitService} from './commits';
 import customerService from './customers';
-import {listingService} from './listings';
-import {merchantService} from './merchants';
+import listingService from './listings';
+import merchantService from './merchants';
 
 export {commitService, customerService, listingService, merchantService};

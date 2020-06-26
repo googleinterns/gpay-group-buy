@@ -1,2 +1,4 @@
 runtime: nodejs10
 service: api
+env_variables:
+  SERVERL_URL: "https://api-dot-gpay-group-buy.an.r.appspot.com"

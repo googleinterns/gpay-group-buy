@@ -20,7 +20,7 @@
  */
 export interface CustomerPayload {
   gpayId: string;
-  contactNumber: string;
+  contactNumber: string; // E164 format
   address: string;
 }
 
@@ -29,5 +29,99 @@ export interface CustomerPayload {
  * client side would receive.
  */
 export interface CustomerResponse extends CustomerPayload {
+  id: number;
+  numOngoingCommits: number;
+}
+
+/**
+ * CommitStatus type contains the different states of a Commit.
+ */
+export type CommitStatus =
+  | 'ongoing'
+  | 'successful'
+  | 'paid'
+  | 'completed'
+  | 'unsuccessful';
+
+/**
+ * CommitPayload Interface that contains the fields of the payload that
+ * would be sent to create a Listing Entity.
+ */
+export interface CommitPayload {
+  customerId: number;
+  listingId: number;
+  createdAt: Date;
+  commitStatus: CommitStatus;
+}
+
+/**
+ * CommitResponse Interface that contains the fields of the Response that
+ * client side would receive.
+ */
+export interface CommitResponse extends CommitPayload {
+  id: number;
+}
+
+/**
+ * Money Interface that represents an amount of money with its currency type.
+ */
+export interface Money {
+  currency: string; // The 3-letter currency code defined in ISO 4217
+  dollars: number;
+  cents: number;
+}
+
+/**
+ * ListingStatus type contains the different states of a Listing.
+ */
+export type ListingStatus =
+  | 'ongoing'
+  | 'successful'
+  | 'completed'
+  | 'unsuccessful';
+
+/**
+ * ListingPayload Interface that contains the fields of the payload that
+ * would be sent to create a Listing Entity.
+ */
+export interface ListingPayload {
+  merchantId: number;
+  name: string;
+  price: Money;
+  oldPrice: Money;
+  imgUrl: string;
+  description: string;
+  deadline: Date;
+  minCommits: number;
+  numCommits: number;
+  numPaid: number;
+  numCompleted: number;
+  listingStatus: ListingStatus;
+}
+
+/**
+ * ListingResponse Interface that contains the fields of the Response that
+ * client side would receive.
+ */
+export interface ListingResponse extends ListingPayload {
+  id: number;
+}
+
+/**
+ * MerchantPayload Interface that contains the fields of the payload that
+ * would be sent to create a Merchant Entity.
+ */
+export interface MerchantPayload {
+  name: string;
+  email: string;
+  vpa: string;
+  firebaseUid: string;
+}
+
+/**
+ * MerchantResponse Interface that contains the fields of the Response that
+ * client side would receive.
+ */
+export interface MerchantResponse extends MerchantPayload {
   id: number;
 }

@@ -17,6 +17,7 @@
 import React from 'react';
 
 import Card from 'components/common/Card';
+import LazyWrapper from 'components/common/LazyWrapper';
 import ListingPrice from 'components/common/ListingPrice';
 import styled from 'styled-components';
 
@@ -61,20 +62,22 @@ const ListingCard: React.FC<ListingCardProps> = ({
   horizontal,
   children,
 }) => (
-  <Card
-    img={{
-      url: imgUrl,
-      alt: `Image of ${listingName}`,
-    }}
-    horizontal={horizontal}
-  >
-    <CardContent>
-      <Date>{endDate}</Date>
-      <ListingName>{listingName}</ListingName>
-      <ListingPrice price={price} oldPrice={oldPrice} />
-      {children}
-    </CardContent>
-  </Card>
+  <LazyWrapper>
+    <Card
+      img={{
+        url: imgUrl,
+        alt: `Image of ${listingName}`,
+      }}
+      horizontal={horizontal}
+    >
+      <CardContent>
+        <Date>{endDate}</Date>
+        <ListingName>{listingName}</ListingName>
+        <ListingPrice price={price} oldPrice={oldPrice} />
+        {children}
+      </CardContent>
+    </Card>
+  </LazyWrapper>
 );
 
 export default ListingCard;

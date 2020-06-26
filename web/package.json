@@ -23,6 +23,7 @@
     "react-dom": "^16.13.1",
     "react-feather": "^2.0.8",
     "react-hook-form": "^5.7.2",
+    "react-hook-inview": "^4.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "styled-components": "^5.1.1",
