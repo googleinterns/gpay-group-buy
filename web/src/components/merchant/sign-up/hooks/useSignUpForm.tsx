@@ -33,19 +33,29 @@ type FormValues = FieldValues;
  * This adds a new user account to Firebase so that user can be signed in with
  * Firebase Authentication in the future.
  */
-const handleFirebaseSignUp = async (email: string, password: string, setError: (name: IsFlatObject<FormValues> extends true ? Extract<keyof FormValues, string> : "email" | "password" | "name" | "confirmPassword" | "vpa", type: string, message?: Message) => void ): Promise<void> => {
+const handleFirebaseSignUp = async (
+  email: string,
+  password: string,
+  setError: (
+    name: IsFlatObject<FormValues> extends true
+      ? Extract<keyof FormValues, string>
+      : 'email' | 'password' | 'name' | 'confirmPassword' | 'vpa',
+    type: string,
+    message?: Message
+  ) => void
+): Promise<void> => {
   try {
     await firebaseAuth.createUserWithEmailAndPassword(email, password);
   } catch (error) {
-    switch (error.code)  {
+    switch (error.code) {
       case 'auth/invalid-email':
-        setError("email", "pattern", Errors.EMAIL_INVALID);
+        setError('email', 'pattern', Errors.EMAIL_INVALID);
         break;
       case 'auth/weak-password':
-        setError("password", "minLength", Errors.PASSWORD_WEAK);
+        setError('password', 'minLength', Errors.PASSWORD_WEAK);
         break;
       case 'auth/email-already-in-use':
-        setError("email", "unique", Errors.EMAIL_ALREADY_IN_USE);
+        setError('email', 'unique', Errors.EMAIL_ALREADY_IN_USE);
         break;
       default:
         throw error;
@@ -79,7 +89,8 @@ const useSignUpForm = () => {
       },
     }),
     confirmPassword: register({
-      validate: value => value === watch('password') || Errors.PASSWORDS_DO_NOT_MATCH,
+      validate: value =>
+        value === watch('password') || Errors.PASSWORDS_DO_NOT_MATCH,
     }),
     vpa: register({
       required: Errors.VPA_EMPTY,
@@ -92,7 +103,7 @@ const useSignUpForm = () => {
   const disabled = !formState.isValid;
   const onSubmit = handleSubmit((values: SignUpData) => {
     const {email, password} = values;
-    handleFirebaseSignUp(email, password, setError)
+    handleFirebaseSignUp(email, password, setError);
   });
 
   return {
