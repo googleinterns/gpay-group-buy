@@ -16,8 +16,9 @@
 
 import React from 'react';
 
-import {formatDistanceToNowStrict, isPast} from 'date-fns';
+import {isPast} from 'date-fns';
 import styled from 'styled-components';
+import {formatDeadlineFromNowText} from 'utils/date';
 
 const StyledDeadline = styled.span`
   display: flex;
@@ -43,11 +44,11 @@ interface DeadlineTagProps {
  */
 const DeadlineTag: React.FC<DeadlineTagProps> = ({deadline}) => {
   const deadlineDate = new Date(deadline);
-  const tag = formatDistanceToNowStrict(deadlineDate, {unit: 'day'});
+  const tag = formatDeadlineFromNowText(deadlineDate);
   return (
     <StyledDeadline>
-      {isPast(deadlineDate) && <>Ended {tag} ago</>}
-      {!isPast(deadlineDate) && <RedText>{tag} left</RedText>}
+      {isPast(deadlineDate) && <>{tag}</>}
+      {!isPast(deadlineDate) && <RedText>{tag}</RedText>}
     </StyledDeadline>
   );
 };
