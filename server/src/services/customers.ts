@@ -17,7 +17,7 @@
 import {CustomerResponse} from '../interfaces';
 import {customerStorage} from '../storage';
 
-const getCustomer = async (customerId: string): Promise<CustomerResponse> =>
+const getCustomer = async (customerId: number): Promise<CustomerResponse> =>
   await customerStorage.getCustomer(customerId);
 
 export default {getCustomer};

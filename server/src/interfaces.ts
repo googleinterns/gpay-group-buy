@@ -30,6 +30,36 @@ export interface CustomerPayload {
  */
 export interface CustomerResponse extends CustomerPayload {
   id: number;
+  numOngoingCommits: number;
+}
+
+/**
+ * CommitStatus type contains the different states of a Commit.
+ */
+export type CommitStatus =
+  | 'ongoing'
+  | 'successful'
+  | 'paid'
+  | 'completed'
+  | 'unsuccessful';
+
+/**
+ * CommitPayload Interface that contains the fields of the payload that
+ * would be sent to create a Listing Entity.
+ */
+export interface CommitPayload {
+  customerId: number;
+  listingId: number;
+  createdAt: Date;
+  commitStatus: CommitStatus;
+}
+
+/**
+ * CommitResponse Interface that contains the fields of the Response that
+ * client side would receive.
+ */
+export interface CommitResponse extends CommitPayload {
+  id: number;
 }
 
 /**
@@ -74,5 +104,24 @@ export interface ListingPayload {
  * client side would receive.
  */
 export interface ListingResponse extends ListingPayload {
+  id: number;
+}
+
+/**
+ * MerchantPayload Interface that contains the fields of the payload that
+ * would be sent to create a Merchant Entity.
+ */
+export interface MerchantPayload {
+  name: string;
+  email: string;
+  vpa: string;
+  firebaseUid: string;
+}
+
+/**
+ * MerchantResponse Interface that contains the fields of the Response that
+ * client side would receive.
+ */
+export interface MerchantResponse extends MerchantPayload {
   id: number;
 }
