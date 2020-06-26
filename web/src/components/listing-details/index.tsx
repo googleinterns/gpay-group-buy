@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import React, {lazy, Suspense} from 'react';
+import React, {Suspense} from 'react';
 
 import Loading from 'components/common/Loading';
 import CustomerListingDetailsPage from 'components/customer/listing-details';

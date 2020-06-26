@@ -16,13 +16,13 @@
 
 import React, {useState, useEffect} from 'react';
 
-import BackButton from 'components/common/BackButton';
 import {getListing} from 'api';
+import BackButton from 'components/common/BackButton';
+import CommitsBadge from 'components/common/CommitsBadge';
 import ListingDetails from 'components/customer/listing-details/ListingDetails';
 import {Listing} from 'interfaces';
-import {Link, useHistory, useParams, useLocation} from 'react-router-dom';
+import {useHistory, useParams, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
-import CommitsBadge from 'components/common/CommitsBadge';
 
 const PageContainer = styled.div`
   display: flex;
@@ -53,9 +53,7 @@ const ListingDetailsPage: React.FC = () => {
   }, [listingId]);
 
   const handleBack = () =>
-    location.state?.fromExplore
-      ? history.goBack()
-      : history.push('/');
+    location.state?.fromExplore ? history.goBack() : history.push('/');
 
   return (
     <PageContainer>

@@ -39,17 +39,15 @@ interface ListingDetailsProps {
 /**
  * ListingDetailsSection that contains full listing details.
  */
-const ListingDetails: React.FC<ListingDetailsProps> = ({
-  listing,
-}) => {
+const ListingDetails: React.FC<ListingDetailsProps> = ({listing}) => {
   const {name, imgUrl} = listing;
 
   return (
     <>
       <ListingImage src={imgUrl} alt={`Image of ${name}`} />
-			<SectionContainer>
+      <SectionContainer>
         <ListingDescription listing={listing} />
-			</SectionContainer>
+      </SectionContainer>
     </>
   );
 };

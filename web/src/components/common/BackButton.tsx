@@ -17,9 +17,9 @@
 import React from 'react';
 
 import Button from 'muicss/lib/react/button';
-import { ChevronLeft } from 'react-feather';
-import styled, { css } from 'styled-components';
-import { ButtonProps } from 'muicss/react';
+import {ButtonProps} from 'muicss/react';
+import {ChevronLeft} from 'react-feather';
+import styled, {css} from 'styled-components';
 
 type PosType = 'absolute' | 'static';
 
@@ -51,7 +51,7 @@ const StyledBackButton = styled(Button)`
   }
 
   /* stylelint-disable value-keyword-case */
-  ${({ pos }: BackButtonProps) => {
+  ${({pos}: BackButtonProps) => {
     switch (pos) {
       case 'absolute':
         return AbsolutePosStyle;
@@ -71,7 +71,10 @@ interface BackButtonProps extends ButtonProps {
 /**
  * BackButton component with either static or absolute position.
  */
-const BackButton: React.FC<BackButtonProps> = ({ pos = 'static', ...buttonProps }) => (
+const BackButton: React.FC<BackButtonProps> = ({
+  pos = 'static',
+  ...buttonProps
+}) => (
   <StyledBackButton variant="flat" pos={pos} {...buttonProps}>
     <ChevronLeft />
     Back
