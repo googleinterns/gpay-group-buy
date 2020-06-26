@@ -17,10 +17,9 @@
 import React, {useState, useEffect} from 'react';
 
 import {getAllListings} from 'api';
+import ListingCollection from 'components/customer/explore/ListingCollection';
 import {Listing} from 'interfaces';
 import Container from 'muicss/lib/react/container';
-
-import ListingCollection from 'components/customer/explore/ListingCollection';
 
 const CustomerExplorePage: React.FC = () => {
   const [listings, setListings] = useState<Listing[]>([]);

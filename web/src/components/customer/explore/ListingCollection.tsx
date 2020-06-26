@@ -61,11 +61,9 @@ interface ListingCollectionProps {
 const ListingCollection: React.FC<ListingCollectionProps> = ({listings}) => {
   return (
     <>
-      {
-        listings?.map(listing => (
-          <ListingItem listing={listing} key={listing.id} />
-        ))
-      }
+      {listings?.map(listing => (
+        <ListingItem listing={listing} key={listing.id} />
+      ))}
     </>
   );
 };

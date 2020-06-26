@@ -18,28 +18,32 @@ import {formatMoney} from 'utils/money';
 
 describe('formatMoney', () => {
   test('it should format money accurately', () => {
-    const moneyInput = {
-      currency: 'USD',
-      dollars: 400,
-      cents: 39,
-    };
-    const expectedValue = '$400.39';
-
-    expect(formatMoney(moneyInput)).toBe(expectedValue);
-  });
-
-  test('it should be round money to nearest 2 decimal places', () => {
     const moneyInputs = [
       {
         currency: 'USD',
-        dollars: 89,
-        cents: 2020,
+        dollars: 400,
+        cents: 39,
       },
       {
         currency: 'USD',
-        dollars: 89,
-        cents: 2999,
+        dollars: 0,
+        cents: 2000,
       },
+      {
+        currency: 'USD',
+        dollars: 1,
+        cents: 2001,
+      },
+    ];
+    const expectedValues = ['$400.39', '$20.00', '$21.01'];
+
+    moneyInputs.forEach((moneyInput, idx) => {
+      expect(formatMoney(moneyInput)).toBe(expectedValues[idx]);
+    });
+  });
+
+  test('it should format money to 2 decimal places', () => {
+    const moneyInputs = [
       {
         currency: 'USD',
         dollars: 400,
@@ -51,7 +55,7 @@ describe('formatMoney', () => {
         cents: 0,
       },
     ];
-    const expectedValues = ['$89.20', '$89.30', '$400.01', '$400.00'];
+    const expectedValues = ['$400.01', '$400.00'];
 
     moneyInputs.forEach((moneyInput, idx) => {
       expect(formatMoney(moneyInput)).toBe(expectedValues[idx]);

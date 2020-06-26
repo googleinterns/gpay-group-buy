@@ -21,13 +21,7 @@ import {Money} from 'interfaces';
  * @param money
  */
 export const formatMoney = ({currency, dollars, cents}: Money): string => {
-  let amount;
-  if (cents < 10) {
-    amount = Number(`${dollars}.0${cents}`);
-  } else {
-    amount = Number(`${dollars}.${cents}`);
-  }
-
+  const amount = dollars + cents / 100;
   return new Intl.NumberFormat('en-US', {style: 'currency', currency}).format(
     amount
   );
