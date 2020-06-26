@@ -35,6 +35,11 @@ type SignUpData = {
   vpa: string;
 };
 
+/**
+ * This custom hook handles all the logic related to Merchant Sign Up Form.
+ * This includes validating form inputs, disabling submit button when there are
+ * invalid inputs and signing up merchant upon clicking 'SIGN UP' button.
+ */
 const useSignUpForm = () => {
   const {errors, formState, handleSubmit, register, watch} = useForm<
     SignUpData

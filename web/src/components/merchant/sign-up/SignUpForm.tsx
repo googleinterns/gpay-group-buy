@@ -42,6 +42,10 @@ const StyledButton = styled(Button)`
   margin-top: 20px;
 `;
 
+/**
+ * This form contains all the fields to be filled in by a new merchant to sign
+ * up and a button to submit the data.
+ */
 const SignUpForm = () => {
   const {disabled, errors, onSubmit, validations} = useSignUpForm();
   return (
