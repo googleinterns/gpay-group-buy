@@ -14,23 +14,12 @@
  * limitations under the License.
  */
 
-import {
-  NAME_EMPTY,
-  EMAIL_EMPTY,
-  EMAIL_INVALID,
-  PASSWORD_EMPTY,
-  PASSWORD_WEAK,
-  PASSWORDS_DO_NOT_MATCH,
-  VPA_EMPTY,
-  VPA_INVALID,
-} from 'constants/sign-up-errors';
-
 import React from 'react';
 
 import FormRow from 'components/common/FormRow';
+import useSignUpForm from 'components/merchant/sign-up/hooks/useSignUpForm';
 import Button from 'muicss/lib/react/button';
 import Form from 'muicss/lib/react/form';
-import {useForm} from 'react-hook-form';
 import styled from 'styled-components';
 
 const StyledForm = styled(Form)`
@@ -53,81 +42,41 @@ const StyledButton = styled(Button)`
   margin-top: 20px;
 `;
 
-type SignUpData = {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  vpa: string;
-};
-
 const SignUpForm = () => {
-  const {handleSubmit, register, watch, errors, formState} = useForm<
-    SignUpData
-  >({
-    mode: 'onChange',
-  });
-  const onSubmit = (values: SignUpData) => console.log(values);
-
+  const {disabled, errors, onSubmit, validations} = useSignUpForm();
   return (
     <StyledForm>
       <FormRow
         label="Name"
         inputType="text"
-        forwardedRef={register({
-          required: NAME_EMPTY,
-        })}
+        forwardedRef={validations.name}
         error={errors?.name?.message}
       />
       <FormRow
         label="Email"
         inputType="email"
-        forwardedRef={register({
-          required: EMAIL_EMPTY,
-          pattern: {
-            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-            message: EMAIL_INVALID,
-          },
-        })}
+        forwardedRef={validations.email}
         error={errors?.email?.message}
       />
       <FormRow
         label="Password"
         inputType="password"
-        forwardedRef={register({
-          required: PASSWORD_EMPTY,
-          minLength: {
-            value: 8,
-            message: PASSWORD_WEAK,
-          },
-        })}
+        forwardedRef={validations.password}
         error={errors?.password?.message}
       />
       <FormRow
         label="Confirm Password"
         inputType="password"
-        forwardedRef={register({
-          validate: value =>
-            value === watch('password') || PASSWORDS_DO_NOT_MATCH,
-        })}
+        forwardedRef={validations.confirmPassword}
         error={errors?.confirmPassword?.message}
       />
       <FormRow
         label="VPA"
         inputType="text"
-        forwardedRef={register({
-          required: VPA_EMPTY,
-          pattern: {
-            value: /^[A-Z0-9]+@[A-Z0-9]+/i,
-            message: VPA_INVALID,
-          },
-        })}
+        forwardedRef={validations.vpa}
         error={errors?.vpa?.message}
       />
-      <StyledButton
-        onClick={handleSubmit(onSubmit)}
-        disabled={!formState.isValid}
-      >
+      <StyledButton onClick={onSubmit} disabled={disabled}>
         Sign Up
       </StyledButton>
     </StyledForm>
