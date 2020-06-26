@@ -37,4 +37,19 @@ listingRouter.get(
   }
 );
 
+listingRouter.get(
+  '/:listingId',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { listingId: listingIdStr } = req.params;
+    const listingId = Number(listingIdStr);
+
+    try {
+      const listings = await listingService.getListing(listingId);
+      res.send(listings);
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
 export default listingRouter;
