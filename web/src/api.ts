@@ -21,7 +21,7 @@ import {Customer, Listing} from 'interfaces';
  */
 export const getCustomer = async (customerId: number): Promise<Customer> => {
   const res = await fetch(
-    `${process.env.REACT_APP_BACKEND_URL}/customers/${customerId}`
+    `${process.env.REACT_APP_SERVER_URL}/customers/${customerId}`
   );
   return res.json();
 };

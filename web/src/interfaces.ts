@@ -62,5 +62,5 @@ export interface Customer {
   gpayId: string; // E164 format
   contactNumber: string;
   address: string;
-  numCommits: number;
+  numOngoingCommits: number;
 }

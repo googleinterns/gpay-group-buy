@@ -42,8 +42,8 @@ const CustomerExplorePage: React.FC = () => {
   const {setNumCommits} = useCommitCountContext();
 
   const handleGetSampleCustomer = async () => {
-    const {numCommits} = await getCustomer(SAMPLE_CUSTOMER_ID);
-    setNumCommits(numCommits);
+    const {numOngoingCommits} = await getCustomer(SAMPLE_CUSTOMER_ID);
+    setNumCommits(numOngoingCommits);
   };
 
   return (
