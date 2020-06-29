@@ -47,8 +47,7 @@ const DeadlineTag: React.FC<DeadlineTagProps> = ({deadline}) => {
   const tag = formatDeadlineFromNowText(deadlineDate);
   return (
     <StyledDeadline>
-      {isPast(deadlineDate) && <>{tag}</>}
-      {!isPast(deadlineDate) && <RedText>{tag}</RedText>}
+      {isPast(deadlineDate) ? <>{tag}</> : <RedText>{tag}</RedText>}
     </StyledDeadline>
   );
 };

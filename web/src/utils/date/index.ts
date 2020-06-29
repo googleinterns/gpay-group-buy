@@ -14,23 +14,19 @@
  * limitations under the License.
  */
 
-import {
-  differenceInCalendarDays,
-  formatDistanceToNowStrict,
-  isPast,
-} from 'date-fns';
+import {isToday, formatDistanceToNowStrict, isPast} from 'date-fns';
 
 /**
  * Formats a Date object into a formatted deadline string.
  * @param date The date of the deadline
  */
 export const formatDeadlineFromNowText = (date: Date): string => {
-  const now = new Date();
   const distanceInDays = formatDistanceToNowStrict(date, {unit: 'day'});
   if (isPast(date)) {
     return `Ended ${distanceInDays} ago`;
+  } else if (isToday(date)) {
+    return 'Last day!';
+  } else {
+    return `${distanceInDays} left`;
   }
-  return differenceInCalendarDays(date, now) > 0
-    ? `${distanceInDays} left`
-    : 'Last day!';
 };
