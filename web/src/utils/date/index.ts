@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-import {Customer, Listing} from 'interfaces';
+import {isToday, formatDistanceToNowStrict, isPast} from 'date-fns';
 
 /**
- * Fetches a particular customer with the specified customerId.
+ * Formats a Date object into a formatted deadline string.
+ * @param date The date of the deadline
  */
-export const getCustomer = async (customerId: number): Promise<Customer> => {
-  const res = await fetch(
-    `${process.env.REACT_APP_SERVER_URL}/customers/${customerId}`
-  );
-  return res.json();
-};
-
-/**
- * Fetches all Listings.
- */
-export const getAllListings = async (): Promise<Listing[]> => {
-  const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/listings`);
-  return res.json();
+export const formatDeadlineFromNowText = (date: Date): string => {
+  const distanceInDays = formatDistanceToNowStrict(date, {unit: 'day'});
+  if (isPast(date)) {
+    return `Ended ${distanceInDays} ago`;
+  } else if (isToday(date)) {
+    return 'Last day!';
+  } else {
+    return `${distanceInDays} left`;
+  }
 };

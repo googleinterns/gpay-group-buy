@@ -14,22 +14,15 @@
  * limitations under the License.
  */
 
-import {Customer, Listing} from 'interfaces';
+import {Money} from 'interfaces';
 
 /**
- * Fetches a particular customer with the specified customerId.
+ * Formats a money object into a formatted currency string.
+ * @param money
  */
-export const getCustomer = async (customerId: number): Promise<Customer> => {
-  const res = await fetch(
-    `${process.env.REACT_APP_SERVER_URL}/customers/${customerId}`
+export const formatMoney = ({currency, dollars, cents}: Money): string => {
+  const amount = dollars + cents / 100;
+  return new Intl.NumberFormat('en-US', {style: 'currency', currency}).format(
+    amount
   );
-  return res.json();
-};
-
-/**
- * Fetches all Listings.
- */
-export const getAllListings = async (): Promise<Listing[]> => {
-  const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/listings`);
-  return res.json();
 };

@@ -64,11 +64,12 @@ export interface CommitResponse extends CommitPayload {
 
 /**
  * Money Interface that represents an amount of money with its currency type.
+ * Value = dollars + (cents / 100)
  */
 export interface Money {
   currency: string; // The 3-letter currency code defined in ISO 4217
   dollars: number;
-  cents: number;
+  cents: number; // A value of the range 0~99
 }
 
 /**

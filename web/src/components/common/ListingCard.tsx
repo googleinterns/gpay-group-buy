@@ -17,21 +17,15 @@
 import React from 'react';
 
 import Card from 'components/common/Card';
+import DeadlineTag from 'components/common/DeadlineTag';
 import LazyWrapper from 'components/common/LazyWrapper';
 import ListingPrice from 'components/common/ListingPrice';
+import {Money} from 'interfaces';
 import styled from 'styled-components';
 
 const CardContent = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const Date = styled.span`
-  display: flex;
-  justify-content: flex-end;
-
-  font-size: 0.8rem;
-  color: var(--red);
 `;
 
 const ListingName = styled.span`
@@ -42,8 +36,8 @@ const ListingName = styled.span`
 
 interface ListingCardProps {
   listingName: string;
-  price: number;
-  oldPrice: number;
+  price: Money;
+  oldPrice: Money;
   endDate: string;
   imgUrl: string;
   horizontal?: boolean;
@@ -71,7 +65,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
       horizontal={horizontal}
     >
       <CardContent>
-        <Date>{endDate}</Date>
+        <DeadlineTag deadline={endDate} />
         <ListingName>{listingName}</ListingName>
         <ListingPrice price={price} oldPrice={oldPrice} />
         {children}
