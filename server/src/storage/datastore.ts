@@ -41,7 +41,7 @@ const extractAndAppendId = (res: Entity) => {
  * @param kind The Kind that is being queried
  * @param id The id of the Entity being queried
  */
-const get = async (kind: string, id: number) => {
+export const get = async (kind: string, id: number) => {
   const key = datastore.key([kind, id]);
   const [res] = await datastore.get(key);
   return extractAndAppendId(res);
@@ -52,7 +52,7 @@ const get = async (kind: string, id: number) => {
  * @param kind The Kind that is being queried
  * @param filters Any filters that will be applied to the query
  */
-const getAll = async (kind: string, filters?: Filter[]) => {
+export const getAll = async (kind: string, filters?: Filter[]) => {
   let query = datastore.createQuery(kind);
   filters?.forEach(filter => {
     query = query.filter(filter.property, filter.value);
@@ -83,7 +83,7 @@ const getIdsFromCommitResponse = (
  * @param kind The Kind of the Entity
  * @param data The data of the Entity to be added
  */
-const add = async (kind: string, data: object): Promise<number> => {
+export const add = async (kind: string, data: object): Promise<number> => {
   const key = datastore.key(kind);
   const entity = {key, data};
   const [res] = await datastore.insert(entity);
@@ -94,5 +94,3 @@ const add = async (kind: string, data: object): Promise<number> => {
   }
   return Number(id);
 };
-
-export {get, getAll, add};
