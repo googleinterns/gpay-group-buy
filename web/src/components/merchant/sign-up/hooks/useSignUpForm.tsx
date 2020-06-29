@@ -85,25 +85,7 @@ const useSignUpForm = () => {
     email: string,
     password: string
   ): Promise<UserCredential | null> => {
-    let userCredential: UserCredential | null = null;
-    try {
-      userCredential = await firebaseAuth.createUserWithEmailAndPassword(email, password);
-    } catch (err) {
-      switch (err.code) {
-        case 'auth/invalid-email':
-          setError('email', 'pattern', Errors.EMAIL_INVALID);
-          break;
-        case 'auth/weak-password':
-          setError('password', 'minLength', Errors.PASSWORD_WEAK);
-          break;
-        case 'auth/email-already-in-use':
-          setError('email', 'unique', Errors.EMAIL_ALREADY_IN_USE);
-          break;
-        default:
-          setGeneralError(err);
-      }
-    }
-    return userCredential;
+    return firebaseAuth.createUserWithEmailAndPassword(email, password);
   };
 
   const onSubmit = handleSubmit(async (values: SignUpData) => {
@@ -118,8 +100,19 @@ const useSignUpForm = () => {
       setMerchantId(id);
       setToOngoingListings(true);
     } catch (err) {
-      console.log(err);
-      setGeneralError(err);
+      switch (err.code) {
+        case 'auth/invalid-email':
+          setError('email', 'pattern', Errors.EMAIL_INVALID);
+          break;
+        case 'auth/weak-password':
+          setError('password', 'minLength', Errors.PASSWORD_WEAK);
+          break;
+        case 'auth/email-already-in-use':
+          setError('email', 'unique', Errors.EMAIL_ALREADY_IN_USE);
+          break;
+        default:
+          setGeneralError(err);
+      }
     }
   });
 
