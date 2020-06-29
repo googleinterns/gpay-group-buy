@@ -15,8 +15,8 @@
  */
 
 import {CUSTOMER_KIND, COMMIT_KIND} from '../constants/kinds';
-import {CustomerResponse, CommitResponse} from '../interfaces';
-import {get, getAll} from './datastore';
+import {CustomerResponse, CommitResponse, CustomerPayload} from '../interfaces';
+import {get, getAll, add} from './datastore';
 
 const getCustomer = async (customerId: number): Promise<CustomerResponse> => {
   const customer = await get(CUSTOMER_KIND, customerId);
@@ -37,4 +37,12 @@ const getCustomer = async (customerId: number): Promise<CustomerResponse> => {
   };
 };
 
-export default {getCustomer};
+/**
+ * Adds a customer with the specified data to datastore.
+ * @param customer Data of the customer to be added
+ */
+const addCustomer = async(customer: CustomerPayload): Promise<number> => {
+  return add(CUSTOMER_KIND, customer);
+};
+
+export default {addCustomer, getCustomer};

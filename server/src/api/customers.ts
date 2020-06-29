@@ -21,6 +21,7 @@
 import {Router, Request, Response, NextFunction} from 'express';
 
 import {customerService} from '../services';
+import { CustomerPayload } from 'interfaces';
 
 const customerRouter = Router();
 
@@ -33,6 +34,21 @@ customerRouter.get(
     try {
       const customer = await customerService.getCustomer(customerId);
       res.send(customer);
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+customerRouter.post(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const customerData: CustomerPayload = req.body;
+
+    try {
+      const createdCustomer = await customerService.signUpCustomer(customerData);
+      res.location(`${process.env.SERVER_URL}/customers/${createdCustomer.id}`);
+      res.status(201).send(createdCustomer);
     } catch (error) {
       return next(error);
     }

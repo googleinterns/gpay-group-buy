@@ -20,15 +20,15 @@
  */
 export interface CustomerPayload {
   gpayId: string;
-  contactNumber: string; // E164 format
-  address: string;
+  contactNumber?: string; // E164 format
+  address?: string;
 }
 
 /**
  * CustomerResponse Interface that contains the fields of the Response that
  * client side would receive.
  */
-export interface CustomerResponse extends CustomerPayload {
+export interface CustomerResponse extends Required<CustomerPayload> {
   id: number;
   numOngoingCommits: number;
 }
