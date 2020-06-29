@@ -63,6 +63,11 @@ const handleFirebaseSignUp = async (
   }
 };
 
+/**
+ * This custom hook handles all the logic related to Merchant Sign Up Form.
+ * This includes validating form inputs, disabling submit button when there are
+ * invalid inputs and signing up merchant upon clicking 'SIGN UP' button.
+ */
 const useSignUpForm = () => {
   const {errors, formState, handleSubmit, register, setError, watch} = useForm<
     SignUpData
@@ -104,6 +109,7 @@ const useSignUpForm = () => {
   const onSubmit = handleSubmit((values: SignUpData) => {
     const {email, password} = values;
     handleFirebaseSignUp(email, password, setError);
+    // TODO(#72): Send Merchant Sign Up form data to Add Merchant API endpoint.
   });
 
   return {

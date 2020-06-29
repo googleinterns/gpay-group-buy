@@ -19,6 +19,7 @@ import React from 'react';
 
 import Col from 'muicss/lib/react/col';
 import Row from 'muicss/lib/react/row';
+import {FieldError, NestDataObject} from 'react-hook-form';
 import styled from 'styled-components';
 import toCamelCase from 'to-camel-case';
 
@@ -73,17 +74,7 @@ const ErrorContainer = styled.div`
 
 type ReactHookFormErrorMessage =
   | string
-  | React.ReactElement<
-      any,
-      | string
-      | ((
-          props: any
-        ) => React.ReactElement<
-          any,
-          string | any | (new (props: any) => React.Component<any, any, any>)
-        > | null)
-      | (new (props: any) => React.Component<any, any, any>)
-    >
+  | NestDataObject<any, FieldError>
   | undefined;
 
 interface FormRowProps {

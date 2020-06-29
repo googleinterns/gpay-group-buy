@@ -14,17 +14,4 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview This file contains the database operations related to Merchant
- * entities.
- */
-
-import {MERCHANT_KIND} from '../constants/kinds';
-import {MerchantPayload} from '../interfaces';
-import {add} from './datastore';
-
-const addMerchant = async (merchant: MerchantPayload): Promise<number> =>
-  add(MERCHANT_KIND, merchant);
-// TODO(#67): Add checks to prevent adding multiple merchants with the same Firebase UID.
-
-export default {addMerchant};
+export const MAX_NUM_COMMITS = 3;

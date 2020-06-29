@@ -17,6 +17,7 @@
 import React, {lazy, Suspense} from 'react';
 
 import Loading from 'components/common/Loading';
+import CustomerCommitCountProvider from 'components/customer/contexts/CommitCountContext';
 import {Switch, Route} from 'react-router-dom';
 
 // Customer Pages
@@ -30,10 +31,12 @@ const DesignSamplesPage = lazy(() => import('components/design-samples'));
 const Routes: React.FC = () => (
   <Suspense fallback={<Loading />}>
     <Switch>
-      <Route exact path="/" component={CustomerExplorePage} />
       <Route exact path="/merchant" component={MerchantLandingPage} />
       <Route exact path="/merchant/sign-up" component={MerchantSignUpPage} />
       <Route exact path="/design-samples" component={DesignSamplesPage} />
+      <CustomerCommitCountProvider>
+        <Route exact path="/" component={CustomerExplorePage} />
+      </CustomerCommitCountProvider>
     </Switch>
   </Suspense>
 );

@@ -42,6 +42,10 @@ const StyledButton = styled(Button)`
   margin-top: 20px;
 `;
 
+/**
+ * This form contains all the fields to be filled in by a new merchant to sign
+ * up and a button to submit the data.
+ */
 const SignUpForm = () => {
   const {disabled, errors, onSubmit, validations} = useSignUpForm();
   return (
@@ -50,31 +54,31 @@ const SignUpForm = () => {
         label="Name"
         inputType="text"
         forwardedRef={validations.name}
-        error={errors?.name?.message}
+        error={errors.name?.message}
       />
       <FormRow
         label="Email"
         inputType="email"
         forwardedRef={validations.email}
-        error={errors?.email?.message}
+        error={errors.email?.message}
       />
       <FormRow
         label="Password"
         inputType="password"
         forwardedRef={validations.password}
-        error={errors?.password?.message}
+        error={errors.password?.message}
       />
       <FormRow
         label="Confirm Password"
         inputType="password"
         forwardedRef={validations.confirmPassword}
-        error={errors?.confirmPassword?.message}
+        error={errors.confirmPassword?.message}
       />
       <FormRow
         label="VPA"
         inputType="text"
         forwardedRef={validations.vpa}
-        error={errors?.vpa?.message}
+        error={errors.vpa?.message}
       />
       <StyledButton onClick={onSubmit} disabled={disabled}>
         Sign Up

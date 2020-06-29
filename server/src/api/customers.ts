@@ -27,7 +27,8 @@ const customerRouter = Router();
 customerRouter.get(
   '/:customerId',
   async (req: Request, res: Response, next: NextFunction) => {
-    const {customerId} = req.params;
+    const {customerId: customerIdStr} = req.params;
+    const customerId = Number(customerIdStr);
 
     try {
       const customer = await customerService.getCustomer(customerId);
