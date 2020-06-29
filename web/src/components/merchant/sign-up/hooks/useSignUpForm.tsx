@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-import Errors from 'constants/sign-up-errors';
+import {useState} from 'react';
 
+import {addMerchant} from 'api';
+import Errors from 'constants/sign-up-errors';
 import firebaseAuth from 'firebase-auth';
-import {useForm, FieldValues, IsFlatObject, Message} from 'react-hook-form';
+import {getFirebaseIdToken, UserCredential} from 'firebase-auth';
+import {useForm} from 'react-hook-form';
 
 type SignUpData = {
   name: string;
@@ -27,53 +30,20 @@ type SignUpData = {
   vpa: string;
 };
 
-type FormValues = FieldValues;
-
-/**
- * This adds a new user account to Firebase so that user can be signed in with
- * Firebase Authentication in the future.
- */
-const handleFirebaseSignUp = async (
-  email: string,
-  password: string,
-  setError: (
-    name: IsFlatObject<FormValues> extends true
-      ? Extract<keyof FormValues, string>
-      : 'email' | 'password' | 'name' | 'confirmPassword' | 'vpa',
-    type: string,
-    message?: Message
-  ) => void
-): Promise<void> => {
-  try {
-    await firebaseAuth.createUserWithEmailAndPassword(email, password);
-  } catch (error) {
-    switch (error.code) {
-      case 'auth/invalid-email':
-        setError('email', 'pattern', Errors.EMAIL_INVALID);
-        break;
-      case 'auth/weak-password':
-        setError('password', 'minLength', Errors.PASSWORD_WEAK);
-        break;
-      case 'auth/email-already-in-use':
-        setError('email', 'unique', Errors.EMAIL_ALREADY_IN_USE);
-        break;
-      default:
-        throw error;
-    }
-  }
-};
-
 /**
  * This custom hook handles all the logic related to Merchant Sign Up Form.
  * This includes validating form inputs, disabling submit button when there are
  * invalid inputs and signing up merchant upon clicking 'SIGN UP' button.
  */
 const useSignUpForm = () => {
-  const {errors, formState, handleSubmit, register, setError, watch} = useForm<
+  const {errors: formErrors, formState, handleSubmit, register, setError, watch} = useForm<
     SignUpData
   >({
     mode: 'onChange',
   });
+  const [generalError, setGeneralError] = useState();
+  const [merchantId, setMerchantId] = useState();
+  const [toOngoingListings, setToOngoingListings] = useState(false);
 
   const validations = {
     name: register({
@@ -106,16 +76,62 @@ const useSignUpForm = () => {
     }),
   };
   const disabled = !formState.isValid;
-  const onSubmit = handleSubmit((values: SignUpData) => {
-    const {email, password} = values;
-    handleFirebaseSignUp(email, password, setError);
-    // TODO(#72): Send Merchant Sign Up form data to Add Merchant API endpoint.
+
+  /**
+   * This adds a new user account to Firebase so that user can be signed in with
+   * Firebase Authentication in the future.
+   */
+  const handleFirebaseSignUp = async (
+    email: string,
+    password: string
+  ): Promise<UserCredential | null> => {
+    let userCredential: UserCredential | null = null;
+    try {
+      userCredential = await firebaseAuth.createUserWithEmailAndPassword(email, password);
+    } catch (err) {
+      switch (err.code) {
+        case 'auth/invalid-email':
+          setError('email', 'pattern', Errors.EMAIL_INVALID);
+          break;
+        case 'auth/weak-password':
+          setError('password', 'minLength', Errors.PASSWORD_WEAK);
+          break;
+        case 'auth/email-already-in-use':
+          setError('email', 'unique', Errors.EMAIL_ALREADY_IN_USE);
+          break;
+        default:
+          setGeneralError(err);
+      }
+    }
+    return userCredential;
+  };
+
+  const onSubmit = handleSubmit(async (values: SignUpData) => {
+    setGeneralError(null);
+    try {
+      const {name, email, password, vpa} = values;
+      await handleFirebaseSignUp(email, password);
+
+      const firebaseIdToken = await getFirebaseIdToken();
+      const id = await addMerchant({name, email, vpa}, firebaseIdToken);
+
+      setMerchantId(id);
+      setToOngoingListings(true);
+    } catch (err) {
+      console.log(err);
+      setGeneralError(err);
+    }
   });
 
   return {
     disabled,
-    errors,
+    errors: {
+      form: formErrors,
+      general: generalError
+    },
+    merchantId,
     onSubmit,
+    toOngoingListings,
     validations,
   };
 };
