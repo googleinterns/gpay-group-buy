@@ -26,7 +26,7 @@ type PosType = 'absolute' | 'static';
 const AbsolutePosStyle = css`
   position: absolute;
   top: 15px;
-  left: 0px;
+  left: 0;
   z-index: 999; /* Ensure always on top */
 `;
 
