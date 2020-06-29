@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import {Customer} from 'interfaces';
+import Errors from 'constants/sign-up-errors';
+import {Customer, MerchantPayload} from 'interfaces';
 
 /**
  * Fetches a particular customer with the specified customerId.
@@ -24,4 +25,34 @@ export const getCustomer = async (customerId: number): Promise<Customer> => {
     `${process.env.REACT_APP_BACKEND_URL}/customers/${customerId}`
   );
   return res.json();
+};
+
+/**
+ * Stores new merchant into the database.
+ */
+export const addMerchant = async (merchant: MerchantPayload, idToken: string): Promise<number> => {
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${idToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(merchant)
+  };
+  const res = await fetch(
+    `${process.env.REACT_APP_SERVER_URL}/merchants`,
+    requestOptions
+  );
+
+  if (res.status !== 201) {
+    throw new Error(Errors.SERVER_ERROR);
+  }
+
+  const location = res.headers.get('Location');
+  const merchantId = location?.substring(location?.lastIndexOf('/') + 1);
+  console.log(res);
+  if (!merchantId)
+    throw new Error(Errors.SERVER_ERROR);
+
+  return Number(merchantId);
 };
