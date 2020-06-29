@@ -25,7 +25,11 @@ import CommitProgress from './CommitProgress';
 
 const Container = styled.div`
   & > * {
-    margin: 5px 0;
+    padding: 5px 0;
+
+    :first-child {
+      margin-top: 10px;
+    }
   }
 `;
 
@@ -37,6 +41,7 @@ const ListingName = styled.span`
 
 const Description = styled.p`
   color: var(--dark-gray);
+  margin: 0;
 `;
 
 interface ListingDescriptionProps {
