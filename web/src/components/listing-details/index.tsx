@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-import React, {Suspense} from 'react';
+import React from 'react';
 
-import Loading from 'components/common/Loading';
 import CustomerListingDetailsPage from 'components/customer/listing-details';
-import {Switch, Route} from 'react-router-dom';
 
 const ListingDetailsRoutes: React.FC = () => (
-  <Suspense fallback={<Loading />}>
-    <Switch>
-      <Route exact path="/" component={CustomerListingDetailsPage} />
-    </Switch>
-  </Suspense>
+  // TODO: In this file, do a check for whether vistor is a merchant or not.
+  // If visitor is a merchant, redirect to merchant listing endpoint: /merchant/listing/:id
+  // Else, show them the customer facing listing details page.
+  <CustomerListingDetailsPage />
 );
 
 export default ListingDetailsRoutes;
