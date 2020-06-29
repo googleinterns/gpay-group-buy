@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import {Component, ReactElement} from 'react';
 import React from 'react';
 
 import Col from 'muicss/lib/react/col';
