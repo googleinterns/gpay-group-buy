@@ -58,14 +58,15 @@ const ListingDescription: React.FC<ListingDescriptionProps> = ({
   },
 }) => (
   <Container>
-    <DeadlineTag deadline={deadline} />
+    <DeadlineTag deadline={deadline} largerFont />
     <ListingName>{name}</ListingName>
-    <ListingPrice price={price} oldPrice={oldPrice} />
+    <ListingPrice price={price} oldPrice={oldPrice} largerFont />
     <Description>{description}</Description>
     <CommitProgress
       minCommits={minCommits}
       numCommits={numCommits}
       textPos="top"
+      largerFont
     />
   </Container>
 );

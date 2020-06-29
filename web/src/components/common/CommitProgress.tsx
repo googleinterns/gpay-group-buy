@@ -25,6 +25,7 @@ type CommitTextPos = 'none' | 'top' | 'bottom';
 
 interface CommitProgressContainerProps {
   textPos?: CommitTextPos;
+  largerFont?: boolean;
 }
 
 const CommitProgressContainer = styled.div`
@@ -39,8 +40,10 @@ const CommitProgressContainer = styled.div`
         return 'column';
     }
   }};
+
   text-align: right;
-  font-size: 0.8em;
+  font-size: ${({ largerFont }: CommitProgressContainerProps) =>
+    largerFont ? '1em' : '0.8em'};
 `;
 
 const StyledLine = styled(Line)`
@@ -60,6 +63,7 @@ interface CommitProgressProps {
   minCommits: number;
   textPos?: CommitTextPos;
   thicker?: boolean;
+  largerFont?: boolean;
 }
 
 /**
@@ -70,11 +74,12 @@ const CommitProgress: React.FC<CommitProgressProps> = ({
   numCommits,
   minCommits,
   textPos = 'bottom',
+  largerFont,
 }) => {
   const percent = Math.min(100, (numCommits / minCommits) * 100);
 
   return (
-    <CommitProgressContainer textPos={textPos}>
+    <CommitProgressContainer textPos={textPos} largerFont={largerFont} >
       {textPos !== 'none' && (
         <div>
           <span>Commiters: </span>
