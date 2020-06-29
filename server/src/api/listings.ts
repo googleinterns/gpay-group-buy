@@ -16,7 +16,6 @@
 
 /**
  * @fileoverview Handles routing of /listings endpoints.
- * @author Karen Frilya Celine
  */
 
 import {Router, Request, Response, NextFunction} from 'express';
@@ -29,8 +28,8 @@ listingRouter.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const listings = await listingService.getAllListings();
-      res.send(listings);
+      const listing = await listingService.getAllListings();
+      res.send(listing);
     } catch (error) {
       return next(error);
     }
