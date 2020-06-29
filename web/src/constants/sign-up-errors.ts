@@ -17,7 +17,7 @@
 export const NAME_EMPTY = 'Name cannot be empty.';
 
 export const EMAIL_ALREADY_IN_USE =
-  'The email address is already in use by another account.';
+  'This email address is already in use by another account.';
 export const EMAIL_EMPTY = 'Email cannot be empty.';
 export const EMAIL_INVALID = 'Please input a valid email address.';
 
