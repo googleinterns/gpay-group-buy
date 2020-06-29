@@ -29,7 +29,7 @@ const StyledDeadline = styled.span`
   justify-content: flex-end;
 
   color: var(--dark-gray);
-  font-size: ${({ largerFont }: StyledDeadlineProps) =>
+  font-size: ${({largerFont}: StyledDeadlineProps) =>
     largerFont ? '1em' : '0.9em'};
 `;
 

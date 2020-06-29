@@ -35,8 +35,7 @@ interface PriceProps {
 }
 
 const Price = styled.div`
-  font-size: ${({ largerFont }: PriceProps) =>
-    largerFont ? '2.3em' : '1.7em'};
+  font-size: ${({largerFont}: PriceProps) => (largerFont ? '2.3em' : '1.7em')};
   padding-right: 5px;
 `;
 
@@ -54,7 +53,11 @@ interface ListingPriceProps {
 /**
  * Listing price component that shows the current price and its previous price.
  */
-const ListingPrice: React.FC<ListingPriceProps> = ({price, oldPrice, largerFont}) => (
+const ListingPrice: React.FC<ListingPriceProps> = ({
+  price,
+  oldPrice,
+  largerFont,
+}) => (
   <PriceContainer>
     <Price largerFont={largerFont}>{formatMoney(price)}</Price>
     {oldPrice && <OldPrice>{formatMoney(oldPrice)}</OldPrice>}

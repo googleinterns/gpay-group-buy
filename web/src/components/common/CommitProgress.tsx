@@ -42,7 +42,7 @@ const CommitProgressContainer = styled.div`
   }};
 
   text-align: right;
-  font-size: ${({ largerFont }: CommitProgressContainerProps) =>
+  font-size: ${({largerFont}: CommitProgressContainerProps) =>
     largerFont ? '1em' : '0.8em'};
 `;
 
@@ -79,7 +79,7 @@ const CommitProgress: React.FC<CommitProgressProps> = ({
   const percent = Math.min(100, (numCommits / minCommits) * 100);
 
   return (
-    <CommitProgressContainer textPos={textPos} largerFont={largerFont} >
+    <CommitProgressContainer textPos={textPos} largerFont={largerFont}>
       {textPos !== 'none' && (
         <div>
           <span>Commiters: </span>
