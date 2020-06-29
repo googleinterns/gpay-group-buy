@@ -31,12 +31,12 @@ const DesignSamplesPage = lazy(() => import('components/design-samples'));
 const Routes: React.FC = () => (
   <Suspense fallback={<Loading />}>
     <Switch>
-      <CustomerCommitCountProvider>
-        <Route exact path="/" component={CustomerExplorePage} />
-      </CustomerCommitCountProvider>
       <Route exact path="/merchant" component={MerchantLandingPage} />
       <Route exact path="/merchant/sign-up" component={MerchantSignUpPage} />
       <Route exact path="/design-samples" component={DesignSamplesPage} />
+      <CustomerCommitCountProvider>
+        <Route exact path="/" component={CustomerExplorePage} />
+      </CustomerCommitCountProvider>
     </Switch>
   </Suspense>
 );

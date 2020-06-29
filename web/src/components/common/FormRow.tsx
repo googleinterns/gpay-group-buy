@@ -16,26 +16,43 @@
 
 import React from 'react';
 
+import Col from 'muicss/lib/react/col';
 import Row from 'muicss/lib/react/row';
+import {FieldError, NestDataObject} from 'react-hook-form';
 import styled from 'styled-components';
+import toCamelCase from 'to-camel-case';
 
 const StyledRow = styled(Row)`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: top;
   justify-content: center;
 
-  margin: 20px 0;
+  margin: 5px 0;
+`;
+
+const StyledCol = styled(Col)`
+  display: flex;
+  flex-direction: column;
+  align-items: left;
 `;
 
 const Label = styled.label`
   width: 100px;
-  font-size: 14px;
+  height: 30px;
   margin-right: 20px;
+
+  font-size: 14px;
+  vertical-align: middle;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const Input = styled.input`
   height: 30px;
+  width: 350px;
   font-size: 14px;
   padding: 0 15px;
 
@@ -44,19 +61,47 @@ const Input = styled.input`
   box-shadow: 4px 2px 4px rgba(0, 0, 0, 0.25);
 `;
 
+const ErrorContainer = styled.div`
+  height: 12px;
+  margin-left: 15px;
+  margin-top: 5px;
+
+  font-size: 12px;
+  line-height: 10px;
+  color: var(--bright-red);
+`;
+
+type ReactHookFormErrorMessage =
+  | string
+  | NestDataObject<any, FieldError>
+  | undefined;
+
 interface FormRowProps {
   label: string;
   inputType: string;
+  forwardedRef: (ref: HTMLInputElement) => void;
+  error: ReactHookFormErrorMessage;
 }
 
 /**
  * This is a row in a form, consisting of a label and an input field shown
- * side by side.
+ * side by side. This also contains a container for error message which is
+ * displayed below the input field where applicable.
  */
-const FormRow: React.FC<FormRowProps> = ({label, inputType}) => (
+const FormRow: React.FC<FormRowProps> = ({
+  label,
+  inputType,
+  forwardedRef,
+  error,
+}) => (
   <StyledRow>
-    <Label>{label}</Label>
-    <Input type={inputType}></Input>
+    <StyledCol>
+      <Label>{label}</Label>
+    </StyledCol>
+    <StyledCol>
+      <Input type={inputType} name={toCamelCase(label)} ref={forwardedRef} />
+      <ErrorContainer>{error}</ErrorContainer>
+    </StyledCol>
   </StyledRow>
 );
 
