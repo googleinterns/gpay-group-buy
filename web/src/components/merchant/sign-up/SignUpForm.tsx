@@ -55,12 +55,7 @@ const ErrorContainer = styled.div`
  * up and a button to submit the data.
  */
 const SignUpForm = () => {
-  const {
-    disabled,
-    errors,
-    onSubmit,
-    validations,
-  } = useSignUpForm();
+  const {disabled, errors, onSubmit, validations} = useSignUpForm();
   return (
     <StyledForm>
       <FormRow

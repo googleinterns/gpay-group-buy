@@ -91,7 +91,6 @@ const useSignUpForm = () => {
       const firebaseIdToken = await getFirebaseIdToken();
       const merchantId = await addMerchant({name, email, vpa}, firebaseIdToken);
       history.push(`/merchant/${merchantId}`);
-      
     } catch (err) {
       switch (err.code) {
         case 'auth/invalid-email':
