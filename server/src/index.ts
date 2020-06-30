@@ -19,6 +19,7 @@
  */
 
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import express from 'express';
 
 import {
@@ -39,6 +40,13 @@ router.use('/merchants', merchantRouter);
 app.use(
   bodyParser.urlencoded({
     extended: true,
+  })
+);
+app.use(bodyParser.json());
+app.use(
+  cors({
+    origin: process.env.WEB_URL,
+    exposedHeaders: ['Location'],
   })
 );
 app.use(router);
