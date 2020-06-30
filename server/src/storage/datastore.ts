@@ -17,17 +17,9 @@
 import {Datastore} from '@google-cloud/datastore';
 import {Entity} from '@google-cloud/datastore/build/src/entity';
 
-import {Filter, ResponseId} from './interfaces';
+import {Filter} from './interfaces';
 
 const datastore = new Datastore();
-
-/**
- * Extracts the id from an Entity.
- */
-const extractId = (res: Entity): number => {
-  const {[datastore.KEY]: key} = res;
-  return key.id;
-};
 
 /**
  * Strips the key from the datastore response object, extracts the id,
