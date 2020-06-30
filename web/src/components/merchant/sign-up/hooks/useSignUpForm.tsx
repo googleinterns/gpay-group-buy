@@ -22,6 +22,7 @@ import {addMerchant} from 'api';
 import firebaseAuth from 'firebase-auth';
 import {getFirebaseIdToken} from 'firebase-auth';
 import {useForm} from 'react-hook-form';
+import {useHistory} from 'react-router-dom';
 
 type SignUpData = {
   name: string;
@@ -48,8 +49,7 @@ const useSignUpForm = () => {
     mode: 'onChange',
   });
   const [generalError, setGeneralError] = useState();
-  const [merchantId, setMerchantId] = useState();
-  const [toOngoingListings, setToOngoingListings] = useState(false);
+  const history = useHistory();
 
   const validations = {
     name: register({
@@ -88,12 +88,10 @@ const useSignUpForm = () => {
     try {
       const {name, email, password, vpa} = values;
       await firebaseAuth.createUserWithEmailAndPassword(email, password);
-
       const firebaseIdToken = await getFirebaseIdToken();
-      const id = await addMerchant({name, email, vpa}, firebaseIdToken);
-
-      setMerchantId(id);
-      setToOngoingListings(true);
+      const merchantId = await addMerchant({name, email, vpa}, firebaseIdToken);
+      history.push(`/merchant/${merchantId}`);
+      
     } catch (err) {
       switch (err.code) {
         case 'auth/invalid-email':
@@ -119,9 +117,7 @@ const useSignUpForm = () => {
       form: formErrors,
       general: generalError,
     },
-    merchantId,
     onSubmit,
-    toOngoingListings,
     validations,
   };
 };

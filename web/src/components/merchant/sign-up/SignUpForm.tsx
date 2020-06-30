@@ -20,7 +20,6 @@ import FormRow from 'components/common/FormRow';
 import useSignUpForm from 'components/merchant/sign-up/hooks/useSignUpForm';
 import Button from 'muicss/lib/react/button';
 import Form from 'muicss/lib/react/form';
-import {Redirect} from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledForm = styled(Form)`
@@ -59,14 +58,11 @@ const SignUpForm = () => {
   const {
     disabled,
     errors,
-    merchantId,
     onSubmit,
-    toOngoingListings,
     validations,
   } = useSignUpForm();
   return (
     <StyledForm>
-      {toOngoingListings && <Redirect to={`/merchant/${merchantId}`} />}
       <FormRow
         label="Name"
         inputType="text"
