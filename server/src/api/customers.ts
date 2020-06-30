@@ -19,9 +19,9 @@
  */
 
 import {Router, Request, Response, NextFunction} from 'express';
+import {CustomerPayload} from 'interfaces';
 
 import {customerService} from '../services';
-import { CustomerPayload } from 'interfaces';
 
 const customerRouter = Router();
 
@@ -40,15 +40,18 @@ customerRouter.get(
   }
 );
 
+/**
+ * Create a customer if they do not already exist.
+ */
 customerRouter.post(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
     const customerData: CustomerPayload = req.body;
 
     try {
-      const createdCustomer = await customerService.signUpCustomer(customerData);
-      res.location(`${process.env.SERVER_URL}/customers/${createdCustomer.id}`);
-      res.status(201).send(createdCustomer);
+      const customer = await customerService.addCustomer(customerData);
+      res.status(201).send(customer);
+      // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);
     }

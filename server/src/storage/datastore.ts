@@ -15,12 +15,19 @@
  */
 
 import {Datastore} from '@google-cloud/datastore';
-import {google} from '@google-cloud/datastore/build/protos/protos';
 import {Entity} from '@google-cloud/datastore/build/src/entity';
 
 import {Filter, ResponseId} from './interfaces';
 
 const datastore = new Datastore();
+
+/**
+ * Extracts the id from an Entity.
+ */
+const extractId = (res: Entity): number => {
+  const {[datastore.KEY]: key} = res;
+  return key.id;
+};
 
 /**
  * Strips the key from the datastore response object, extracts the id,
@@ -64,31 +71,66 @@ export const getAll = async (kind: string, filters?: Filter[]) => {
 };
 
 /**
- * Unpacks id of modified object from MutationResult object.
+ * A Datastore wrapper that inserts a particular entity with the specified Kind if another
+ * entity with the same value for the specified unique property does not already exist.
+ * An error is thrown if an entity with the same unique property value already exists.
+ * @param kind The Kind of the Entity
+ * @param entity The Entity to be added
+ * @param uniqueProperty The property that should be unique for the specified kind
  */
-const getIdFromMutationResult = (
-  mutationResult: google.datastore.v1.IMutationResult
-): ResponseId | undefined => mutationResult?.key?.path?.[0]?.id;
+const insertUniqueEntity = async (
+  kind: string,
+  entity: Entity,
+  uniqueProperty: Filter
+): Promise<Entity | undefined> => {
+  const transaction = datastore.transaction();
+  const query = transaction
+    .createQuery(kind)
+    .filter(uniqueProperty.property, uniqueProperty.value);
+
+  try {
+    await transaction.run();
+    const [queryRes] = await transaction.runQuery(query);
+    if (queryRes && queryRes.length > 0) {
+      // An entity with the unqiue property already exists
+      await transaction.rollback();
+      throw new Error(
+        `Another entity with the same ${uniqueProperty.property} already exists.`
+      );
+    }
+    // Create the entity
+    transaction.insert(entity);
+    await transaction.commit();
+    return;
+  } catch (err) {
+    await transaction.rollback();
+    throw new Error(`Failed to add ${kind}. ${err}`);
+  }
+};
 
 /**
- * Unpacks ids of modified objects from CommitResponse object received from Datastore.
- */
-const getIdsFromCommitResponse = (
-  res: google.datastore.v1.ICommitResponse
-): (ResponseId | undefined)[] | undefined =>
-  res.mutationResults?.map(getIdFromMutationResult);
-
-/**
- * A Datastore wrapper that inserts a particular entity with the specified Kind.
+ * A Datastore wrapper that inserts a particular entity with the specified Kind and returns
+ * the id of the inserted entity.
+ * If uniqueProperty is specified, the entity would not be added if another entity with the same unique property value already exists.
  * @param kind The Kind of the Entity
  * @param data The data of the Entity to be added
+ * @param uniqueProperty The property that should be unique for the specified kind
  */
-export const add = async (kind: string, data: object): Promise<number> => {
+export const add = async (
+  kind: string,
+  data: object,
+  uniqueProperty?: Filter
+): Promise<number> => {
   const key = datastore.key(kind);
   const entity = {key, data};
-  const [res] = await datastore.insert(entity);
-  const ids = getIdsFromCommitResponse(res);
-  const id = ids?.[0];
+
+  if (uniqueProperty !== undefined) {
+    await insertUniqueEntity(kind, entity, uniqueProperty);
+  } else {
+    await datastore.insert(entity);
+  }
+
+  const id = key.id;
   if (id === null || id === undefined) {
     throw new Error(`Failed to add ${kind}.`);
   }

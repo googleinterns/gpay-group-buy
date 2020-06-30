@@ -14,23 +14,26 @@
  * limitations under the License.
  */
 
+import {DEFAULT_CUSTOMER_PAYLOAD} from '../constants/default-payload';
 import {CustomerResponse, CustomerPayload} from '../interfaces';
 import {customerStorage} from '../storage';
-import { DEFAULT_CUSTOMER_PAYLOAD } from '../constants/default-payload';
 
 const getCustomer = async (customerId: number): Promise<CustomerResponse> =>
   await customerStorage.getCustomer(customerId);
 
 /**
- * Signs up a customer if the customer is not already registered, and returns customer information.
+ * Creates a customer if the customer is not already registered, and returns customer information.
+ * Returns existing customer information otherwise.
  * @param customer Data of the customer to be added
  */
-const signUpCustomer = async (customer: CustomerPayload): Promise<CustomerResponse> => {
+const addCustomer = async (
+  customer: CustomerPayload
+): Promise<CustomerResponse> => {
   const customerId = await customerStorage.addCustomer({
     ...DEFAULT_CUSTOMER_PAYLOAD,
-    ...customer
+    ...customer,
   });
   return getCustomer(customerId);
-}
+};
 
-export default {getCustomer, signUpCustomer};
+export default {getCustomer, addCustomer};

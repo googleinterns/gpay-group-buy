@@ -41,8 +41,11 @@ const getCustomer = async (customerId: number): Promise<CustomerResponse> => {
  * Adds a customer with the specified data to datastore.
  * @param customer Data of the customer to be added
  */
-const addCustomer = async(customer: CustomerPayload): Promise<number> => {
-  return add(CUSTOMER_KIND, customer);
+const addCustomer = async (customer: CustomerPayload): Promise<number> => {
+  return add(CUSTOMER_KIND, customer, {
+    property: 'gpayId',
+    value: customer.gpayId,
+  });
 };
 
 export default {addCustomer, getCustomer};
