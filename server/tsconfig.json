@@ -14,11 +14,11 @@
     "strict": true,
     "baseUrl": "./src/",
     "typeRoots": [
-      "./src/custom-typings"
+      "./src/custom-typings",
+      "node_modules/@types"
     ],
   },
   "include": [
-    "src/**/*.ts",
-    "test/**/*.ts"
+    "src"
   ]
 }
