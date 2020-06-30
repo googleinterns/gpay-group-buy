@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import {ListingResponse} from 'interfaces';
+import {Money} from 'interfaces';
 
-import {LISTING_KIND} from '../constants/kinds';
-import {getAll, get} from './datastore';
-
-const getAllListings = async (): Promise<ListingResponse[]> =>
-  getAll(LISTING_KIND);
-
-const getListing = async (listingId: number): Promise<ListingResponse> =>
-  get(LISTING_KIND, listingId);
-
-export default {getAllListings, getListing};
+/**
+ * Formats a money object into a formatted currency string.
+ * @param money
+ */
+export const formatMoney = ({currency, dollars, cents}: Money): string => {
+  const amount = dollars + cents / 100;
+  return new Intl.NumberFormat('en-US', {style: 'currency', currency}).format(
+    amount
+  );
+};

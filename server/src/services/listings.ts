@@ -21,4 +21,7 @@ import {listingStorage} from '../storage';
 const getAllListings = async (): Promise<ListingResponse[]> =>
   listingStorage.getAllListings();
 
-export default {getAllListings};
+const getListing = async (listingId: number): Promise<ListingResponse> =>
+  listingStorage.getListing(listingId);
+
+export default {getAllListings, getListing};

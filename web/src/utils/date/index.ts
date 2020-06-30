@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-import {ListingResponse} from 'interfaces';
+import {isToday, formatDistanceToNowStrict, isPast} from 'date-fns';
 
-import {LISTING_KIND} from '../constants/kinds';
-import {getAll, get} from './datastore';
-
-const getAllListings = async (): Promise<ListingResponse[]> =>
-  getAll(LISTING_KIND);
-
-const getListing = async (listingId: number): Promise<ListingResponse> =>
-  get(LISTING_KIND, listingId);
-
-export default {getAllListings, getListing};
+/**
+ * Formats a Date object into a formatted deadline string.
+ * @param date The date of the deadline
+ */
+export const formatDeadlineFromNowText = (date: Date): string => {
+  const distanceInDays = formatDistanceToNowStrict(date, {unit: 'day'});
+  if (isPast(date)) {
+    return `Ended ${distanceInDays} ago`;
+  } else if (isToday(date)) {
+    return 'Last day!';
+  } else {
+    return `${distanceInDays} left`;
+  }
+};

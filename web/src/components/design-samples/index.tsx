@@ -20,9 +20,22 @@ import Card from 'components/common/Card';
 import CommitProgress from 'components/common/CommitProgress';
 import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
+import {formatRFC3339} from 'date-fns';
+import {Money} from 'interfaces';
 import Container from 'muicss/lib/react/container';
 
 const SAMPLE_IMG_URL = 'https://picsum.photos/seed/picsum/200/300';
+const SAMPLE_END_DATE = formatRFC3339(new Date('2020-07-10T23:59:59Z'));
+const SAMPLE_PRICE: Money = {
+  currency: 'USD',
+  dollars: 85,
+  cents: 0,
+};
+const SAMPLE_OLD_PRICE: Money = {
+  currency: 'USD',
+  dollars: 121,
+  cents: 0,
+};
 
 const DesignSamplesPage: React.FC = () => (
   <Container>
@@ -43,9 +56,9 @@ const DesignSamplesPage: React.FC = () => (
       <StrippedCol xs={6}>
         <ListingCard
           listingName="Some Listing"
-          price={85}
-          oldPrice={121}
-          endDate="2d Left"
+          price={SAMPLE_PRICE}
+          oldPrice={SAMPLE_OLD_PRICE}
+          endDate={SAMPLE_END_DATE}
           imgUrl={SAMPLE_IMG_URL}
         >
           <CommitProgress numCommits={70} minCommits={100} textPos="none" />
@@ -54,9 +67,9 @@ const DesignSamplesPage: React.FC = () => (
       <StrippedCol xs={12}>
         <ListingCard
           listingName="Some Listing"
-          price={85}
-          oldPrice={121}
-          endDate="2d Left"
+          price={SAMPLE_PRICE}
+          oldPrice={SAMPLE_OLD_PRICE}
+          endDate={SAMPLE_END_DATE}
           imgUrl={SAMPLE_IMG_URL}
           horizontal
         >
