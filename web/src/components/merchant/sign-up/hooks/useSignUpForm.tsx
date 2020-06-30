@@ -109,6 +109,8 @@ const useSignUpForm = () => {
           break;
         case 'auth/email-already-in-use':
           setError('email', 'unique', Errors.EMAIL_ALREADY_IN_USE);
+          // TODO: Check if email is also already in database. If not, delete
+          // this user and retry.
           break;
         default:
           setGeneralError(err);
