@@ -29,9 +29,9 @@ const firebaseAuth = firebase.auth();
 
 export const getFirebaseIdToken = (): Promise<string> => {
   return new Promise((resolve, reject) => {
-    firebaseAuth.onAuthStateChanged(async (user) => {
+    firebaseAuth.onAuthStateChanged(async user => {
       if (!user) {
-        reject(new Error(`User not logged in`));
+        reject(new Error('User not logged in'));
         return;
       }
 

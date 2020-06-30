@@ -15,6 +15,7 @@
  */
 
 import Errors from 'constants/sign-up-errors';
+
 import {Customer, MerchantPayload} from 'interfaces';
 
 /**
@@ -30,14 +31,17 @@ export const getCustomer = async (customerId: number): Promise<Customer> => {
 /**
  * Stores new merchant into the database.
  */
-export const addMerchant = async (merchant: MerchantPayload, idToken: string): Promise<number> => {
+export const addMerchant = async (
+  merchant: MerchantPayload,
+  idToken: string
+): Promise<number> => {
   const requestOptions = {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${idToken}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${idToken}`,
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(merchant)
+    body: JSON.stringify(merchant),
   };
   const res = await fetch(
     `${process.env.REACT_APP_SERVER_URL}/merchants`,
@@ -51,8 +55,7 @@ export const addMerchant = async (merchant: MerchantPayload, idToken: string): P
   const location = res.headers.get('Location');
   const merchantId = location?.substring(location?.lastIndexOf('/') + 1);
   console.log(res);
-  if (!merchantId)
-    throw new Error(Errors.SERVER_ERROR);
+  if (!merchantId) throw new Error(Errors.SERVER_ERROR);
 
   return Number(merchantId);
 };

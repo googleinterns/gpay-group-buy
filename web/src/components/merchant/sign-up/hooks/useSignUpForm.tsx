@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
+import Errors from 'constants/sign-up-errors';
+
 import {useState} from 'react';
 
 import {addMerchant} from 'api';
-import Errors from 'constants/sign-up-errors';
 import firebaseAuth from 'firebase-auth';
 import {getFirebaseIdToken} from 'firebase-auth';
 import {useForm} from 'react-hook-form';
@@ -36,9 +37,14 @@ type SignUpData = {
  * invalid inputs and signing up merchant upon clicking 'SIGN UP' button.
  */
 const useSignUpForm = () => {
-  const {errors: formErrors, formState, handleSubmit, register, setError, watch} = useForm<
-    SignUpData
-  >({
+  const {
+    errors: formErrors,
+    formState,
+    handleSubmit,
+    register,
+    setError,
+    watch,
+  } = useForm<SignUpData>({
     mode: 'onChange',
   });
   const [generalError, setGeneralError] = useState();
@@ -97,9 +103,9 @@ const useSignUpForm = () => {
           setError('password', 'minLength', Errors.PASSWORD_WEAK);
           break;
         case 'auth/email-already-in-use':
-          setError('email', 'unique', Errors.EMAIL_ALREADY_IN_USE);
           // TODO: Check if email is also already in database. If not, delete
           // this user and retry.
+          setError('email', 'unique', Errors.EMAIL_ALREADY_IN_USE);
           break;
         default:
           setGeneralError(err);
@@ -111,7 +117,7 @@ const useSignUpForm = () => {
     disabled,
     errors: {
       form: formErrors,
-      general: generalError
+      general: generalError,
     },
     merchantId,
     onSubmit,
