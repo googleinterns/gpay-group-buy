@@ -19,7 +19,7 @@ import {useState} from 'react';
 import {addMerchant} from 'api';
 import Errors from 'constants/sign-up-errors';
 import firebaseAuth from 'firebase-auth';
-import {getFirebaseIdToken, UserCredential} from 'firebase-auth';
+import {getFirebaseIdToken} from 'firebase-auth';
 import {useForm} from 'react-hook-form';
 
 type SignUpData = {
@@ -77,22 +77,11 @@ const useSignUpForm = () => {
   };
   const disabled = !formState.isValid;
 
-  /**
-   * This adds a new user account to Firebase so that user can be signed in with
-   * Firebase Authentication in the future.
-   */
-  const handleFirebaseSignUp = async (
-    email: string,
-    password: string
-  ): Promise<UserCredential | null> => {
-    return firebaseAuth.createUserWithEmailAndPassword(email, password);
-  };
-
   const onSubmit = handleSubmit(async (values: SignUpData) => {
     setGeneralError(null);
     try {
       const {name, email, password, vpa} = values;
-      await handleFirebaseSignUp(email, password);
+      await firebaseAuth.createUserWithEmailAndPassword(email, password);
 
       const firebaseIdToken = await getFirebaseIdToken();
       const id = await addMerchant({name, email, vpa}, firebaseIdToken);

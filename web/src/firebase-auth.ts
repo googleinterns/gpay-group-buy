@@ -27,8 +27,6 @@ if (firebase.apps.length === 0) {
 
 const firebaseAuth = firebase.auth();
 
-export type UserCredential = firebase.auth.UserCredential;
-
 export const getFirebaseIdToken = (): Promise<string> => {
   return new Promise((resolve, reject) => {
     firebaseAuth.onAuthStateChanged(async (user) => {
@@ -42,6 +40,5 @@ export const getFirebaseIdToken = (): Promise<string> => {
     });
   });
 };
-
 
 export default firebaseAuth;
