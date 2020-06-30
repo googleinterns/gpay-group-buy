@@ -18,11 +18,14 @@
  * @fileoverview Handles routing of /merchants endpoints.
  */
 
+import dotenv from 'dotenv';
 import {Router, Request, Response, NextFunction} from 'express';
 
 import {MerchantPayload} from '../interfaces';
 import merchantAuth from '../middleware/merchant-auth';
 import {merchantService} from '../services';
+
+dotenv.config();
 
 const merchantRouter: Router = Router();
 
