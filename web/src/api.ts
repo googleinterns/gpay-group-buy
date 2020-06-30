@@ -54,7 +54,6 @@ export const addMerchant = async (
 
   const location = res.headers.get('Location');
   const merchantId = location?.substring(location?.lastIndexOf('/') + 1);
-  console.log(res);
   if (!merchantId) throw new Error(Errors.SERVER_ERROR);
 
   return Number(merchantId);
