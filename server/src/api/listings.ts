@@ -28,8 +28,8 @@ listingRouter.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const listing = await listingService.getAllListings();
-      res.send(listing);
+      const listings = await listingService.getAllListings();
+      res.send(listings);
     } catch (error) {
       return next(error);
     }
@@ -43,8 +43,8 @@ listingRouter.get(
     const listingId = Number(listingIdStr);
 
     try {
-      const listings = await listingService.getListing(listingId);
-      res.send(listings);
+      const listing = await listingService.getListing(listingId);
+      res.send(listing);
     } catch (error) {
       return next(error);
     }
