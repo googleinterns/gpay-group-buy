@@ -29,11 +29,7 @@ type SignInData = {
  * invalid inputs and signing in merchant upon clicking 'SIGN IN' button.
  */
 const useSignInForm = () => {
-  const {
-    formState,
-    handleSubmit,
-    register,
-  } = useForm<SignInData>({
+  const {formState, handleSubmit, register} = useForm<SignInData>({
     mode: 'onChange',
   });
 
