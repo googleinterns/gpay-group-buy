@@ -80,7 +80,7 @@ interface FormRowProps {
   label: string;
   inputType: string;
   forwardedRef: (ref: HTMLInputElement) => void;
-  error: ReactHookFormErrorMessage;
+  error?: ReactHookFormErrorMessage;
 }
 
 /**

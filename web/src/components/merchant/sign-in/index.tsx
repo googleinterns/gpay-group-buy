@@ -16,7 +16,7 @@
 
 import React from 'react';
 
-import SignUpCard from 'components/merchant/sign-up/SignUpCard';
+import SignInCard from 'components/merchant/sign-in/SignInCard';
 import Container from 'muicss/lib/react/container';
 import styled from 'styled-components';
 
@@ -31,10 +31,10 @@ const PageContainer = styled(Container)`
   align-items: center;
 `;
 
-const SignUpPage: React.FC = () => (
+const SignInPage: React.FC = () => (
   <PageContainer>
-    <SignUpCard />
+    <SignInCard />
   </PageContainer>
 );
 
-export default SignUpPage;
+export default SignInPage;

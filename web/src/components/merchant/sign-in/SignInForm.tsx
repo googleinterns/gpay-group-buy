@@ -17,7 +17,7 @@
 import React from 'react';
 
 import FormRow from 'components/common/FormRow';
-import useSignUpForm from 'components/merchant/sign-up/hooks/useSignUpForm';
+import useSignInForm from 'components/merchant/sign-in/hooks/useSignInForm';
 import Button from 'muicss/lib/react/button';
 import Form from 'muicss/lib/react/form';
 import styled from 'styled-components';
@@ -51,49 +51,29 @@ const ErrorContainer = styled.div`
 `;
 
 /**
- * This form contains all the fields to be filled in by a new merchant to sign
- * up and a button to submit the data.
+ * This form contains all the fields to be filled in by a merchant to sign
+ * in and a button to submit the data.
  */
-const SignUpForm = () => {
-  const {disabled, errors, onSubmit, validations} = useSignUpForm();
+const SignInForm = () => {
+  const {disabled, onSubmit, validations} = useSignInForm();
   return (
     <StyledForm>
-      <FormRow
-        label="Name"
-        inputType="text"
-        forwardedRef={validations.name}
-        error={errors.form.name?.message}
-      />
       <FormRow
         label="Email"
         inputType="email"
         forwardedRef={validations.email}
-        error={errors.form.email?.message}
       />
       <FormRow
         label="Password"
         inputType="password"
         forwardedRef={validations.password}
-        error={errors.form.password?.message}
       />
-      <FormRow
-        label="Confirm Password"
-        inputType="password"
-        forwardedRef={validations.confirmPassword}
-        error={errors.form.confirmPassword?.message}
-      />
-      <FormRow
-        label="VPA"
-        inputType="text"
-        forwardedRef={validations.vpa}
-        error={errors.form.vpa?.message}
-      />
-      <ErrorContainer>{errors.general?.message}</ErrorContainer>
+      <ErrorContainer></ErrorContainer>
       <StyledButton onClick={onSubmit} disabled={disabled}>
-        Sign Up
+        Sign In
       </StyledButton>
     </StyledForm>
   );
 };
 
-export default SignUpForm;
+export default SignInForm;

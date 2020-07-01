@@ -17,7 +17,7 @@
 import React from 'react';
 
 import GroupBuyMerchantHeader from 'components/common/GroupBuyMerchantHeader';
-import SignUpForm from 'components/merchant/sign-up/SignUpForm';
+import SignInForm from 'components/merchant/sign-in/SignInForm';
 import Row from 'muicss/lib/react/row';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
@@ -41,20 +41,20 @@ const StyledRow = styled(Row)`
 `;
 
 /**
- * This is the card containing the sign up form for the Merchant app.
- * It is displayed in the Sign Up page.
+ * This is the card containing the sign in form for the Merchant app.
+ * It is displayed in the Sign In page.
  */
-const SignUpCard: React.FC = () => {
+const SignInCard: React.FC = () => {
   return (
     <CardContainer>
       <GroupBuyMerchantHeader />
-      <SignUpForm />
+      <SignInForm />
       <StyledRow>
-        Already have an account? <Link to="/merchant/sign-in">Sign in</Link>{' '}
+        Already have an account? <Link to="/merchant/sign-up">Sign up</Link>{' '}
         now!
       </StyledRow>
     </CardContainer>
   );
 };
 
-export default SignUpCard;
+export default SignInCard;
