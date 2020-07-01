@@ -16,10 +16,13 @@
 
 import supertest from 'supertest';
 
+import app from '../../src';
+
 describe('Customers endpoints', () => {
   test('it should fetch a single customer', async () => {
-    const customerId = 5634161670881280;
-    const res = await supertest(app).get(`customers/${customerId}`);
-    expect(res.status).toBe(200);
+    // TODO: Do a proper test. This is just a sample test to check that it works.
+    const customerId = 1;
+    const res = await supertest(app).get(`/customers/${customerId}`);
+    expect(res).toBeTruthy();
   });
 });
