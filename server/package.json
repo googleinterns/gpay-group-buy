@@ -10,6 +10,7 @@
     "lint": "gts check",
     "fix": "gts fix",
     "test": "jest",
+    "test:watch": "jest --watch",
     "clean": "gts clean",
     "compile": "tsc",
     "prepare": "yarn run compile",
@@ -54,7 +55,8 @@
       "/node_modules/"
     ],
     "roots": [
-      "<rootDir>/src"
+      "<rootDir>/src",
+      "<rootDir>/tests"
     ],
     "testMatch": [
       "**/__tests__/**/*.+(ts|tsx|js)",
