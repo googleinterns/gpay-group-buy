@@ -23,5 +23,16 @@
         }
       }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/__tests__/**/*.+(ts|tsx|js)",
+        "**/?(*.)+(spec|test).+(ts|tsx|js)"
+      ],
+      "rules": {
+        "node/no-unpublished-import": 0
+      }
+    }
+  ]
 }
