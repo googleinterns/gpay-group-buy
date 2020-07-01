@@ -23,7 +23,6 @@ const getCustomer = async (customerId: number): Promise<CustomerResponse> =>
 
 /**
  * Creates a customer if the customer is not already registered, and returns customer information.
- * Returns existing customer information otherwise.
  * @param customer Data of the customer to be added
  */
 const addCustomer = async (

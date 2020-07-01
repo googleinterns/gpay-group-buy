@@ -74,7 +74,7 @@ const insertUniqueEntity = async (
   kind: string,
   entity: Entity,
   uniqueProperty: Filter
-): Promise<Entity | undefined> => {
+) => {
   const transaction = datastore.transaction();
   const query = transaction
     .createQuery(kind)
@@ -83,9 +83,8 @@ const insertUniqueEntity = async (
   try {
     await transaction.run();
     const [queryRes] = await transaction.runQuery(query);
-    if (queryRes && queryRes.length > 0) {
+    if (queryRes.length > 0) {
       // An entity with the unqiue property already exists
-      await transaction.rollback();
       throw new Error(
         `Another entity with the same ${uniqueProperty.property} already exists.`
       );
@@ -103,7 +102,8 @@ const insertUniqueEntity = async (
 /**
  * A Datastore wrapper that inserts a particular entity with the specified Kind and returns
  * the id of the inserted entity.
- * If uniqueProperty is specified, the entity would not be added if another entity with the same unique property value already exists.
+ * If uniqueProperty is specified, the entity would not be added if another entity with the
+ * same unique property value already exists.
  * @param kind The Kind of the Entity
  * @param data The data of the Entity to be added
  * @param uniqueProperty The property that should be unique for the specified kind
