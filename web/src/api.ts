@@ -36,7 +36,7 @@ export const getAllListings = async (): Promise<Listing[]> => {
 };
 
 /**
- * Fetches a particular listing with the specified customerId.
+ * Fetches a particular listing with the specified listingId.
  * @param listingId Id of the listing to retrieve
  */
 export const getListing = async (listingId: number): Promise<Listing> => {
