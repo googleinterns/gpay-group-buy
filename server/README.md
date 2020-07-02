@@ -39,6 +39,15 @@ Lints and check for formatting problems according to [Google Typescript Style](h
 Automatically fixes formatting and linting problems (if possible) according to
 [Google Typescript Style](https://github.com/google/gts).
 
+### `yarn test`
+
+Runs all tests. We are using [Jest](https://jestjs.io/) as our test framework, alongside [supertest](https://github.com/visionmedia/supertest)
+to test API endpoints.
+
+### `yarn test:watch`
+
+Launches the test runner in the interactive watch mode.
+
 ### `yarn clean`
 
 Removes output files.
