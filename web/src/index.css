@@ -46,7 +46,7 @@ code {
 }
 
 a {
-  color: var(--green);
+  color: inherit;
 }
 
 a:hover {

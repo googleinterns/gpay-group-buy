@@ -20,6 +20,7 @@ import {Customer, Listing, MerchantPayload} from 'interfaces';
 
 /**
  * Fetches a particular customer with the specified customerId.
+ * @param customerId Id of the customer to retrieve
  */
 export const getCustomer = async (customerId: number): Promise<Customer> => {
   const res = await fetch(
@@ -33,6 +34,17 @@ export const getCustomer = async (customerId: number): Promise<Customer> => {
  */
 export const getAllListings = async (): Promise<Listing[]> => {
   const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/listings`);
+  return res.json();
+};
+
+/**
+ * Fetches a particular listing with the specified listingId.
+ * @param listingId Id of the listing to retrieve
+ */
+export const getListing = async (listingId: number): Promise<Listing> => {
+  const res = await fetch(
+    `${process.env.REACT_APP_SERVER_URL}/listings/${listingId}`
+  );
   return res.json();
 };
 
