@@ -41,7 +41,8 @@ const initDatastoreEmulator = async () => {
     console.error('Datastore Emulator can only be initialized for tests.');
     return;
   }
-  if (!isDatastoreEmulator()) {
+  const isEmulatorRunning = await isDatastoreEmulator();
+  if (!isEmulatorRunning) {
     console.error(
       'Make sure you are running the Datastore Emulator. Run: gcloud beta emulators datastore start --no-store-on-disk'
     );
