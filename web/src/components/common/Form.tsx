@@ -61,7 +61,7 @@ interface Field {
   type: string;
 }
 
-interface FormProps {
+export interface FormProps {
   buttonText: string;
   disabled: boolean;
   errors: Errors;
