@@ -100,11 +100,7 @@ const FormRow: React.FC<FormRowProps> = ({
       <Label>{label}</Label>
     </StyledCol>
     <StyledCol>
-      <Input
-        type={inputType}
-        name={name}
-        ref={forwardedRef}
-      />
+      <Input type={inputType} name={name} ref={forwardedRef} />
       <ErrorContainer>{error}</ErrorContainer>
     </StyledCol>
   </StyledRow>
