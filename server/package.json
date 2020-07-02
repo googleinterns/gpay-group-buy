@@ -11,9 +11,9 @@
     "clean": "gts clean",
     "compile": "tsc",
     "prepare": "yarn run compile",
-    "pretest": "yarn run compile && $(gcloud beta emulators datastore env-init)",
+    "pretest": "yarn run compile",
     "posttest": "yarn run lint",
-    "test": "cross-env NODE_ENV=test DATASTORE_EMULATOR_PORT=8081 jest --forceExit",
+    "test": "$(gcloud beta emulators datastore env-init) && cross-env NODE_ENV=test DATASTORE_EMULATOR_PORT=8081 jest --forceExit",
     "test:watch": "yarn test --watch",
     "test:emulator": "gcloud beta emulators datastore start --no-store-on-disk --host-port=localhost:8081"
   },
