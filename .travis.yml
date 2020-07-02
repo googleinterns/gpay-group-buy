@@ -10,6 +10,13 @@ install:
 matrix:
   include:
     - name: 'Backend'
+      addons:
+        apt:
+          sources:
+            - google-cloud-xenial
+          packages:
+            - google-cloud-sdk
+            - google-cloud-sdk-datastore-emulator
       before_install:
         - cd server
       before_script:
