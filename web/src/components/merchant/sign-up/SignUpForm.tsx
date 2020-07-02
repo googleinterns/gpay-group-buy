@@ -39,7 +39,15 @@ const StyledButton = styled(Button)`
   font-size: 18px;
   font-weight: bolder;
   text-transform: uppercase;
-  margin-top: 20px;
+`;
+
+const ErrorContainer = styled.div`
+  color: var(--bright-red);
+  height: 40px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 /**
@@ -54,32 +62,33 @@ const SignUpForm = () => {
         label="Name"
         inputType="text"
         forwardedRef={validations.name}
-        error={errors.name?.message}
+        error={errors.form.name?.message}
       />
       <FormRow
         label="Email"
         inputType="email"
         forwardedRef={validations.email}
-        error={errors.email?.message}
+        error={errors.form.email?.message}
       />
       <FormRow
         label="Password"
         inputType="password"
         forwardedRef={validations.password}
-        error={errors.password?.message}
+        error={errors.form.password?.message}
       />
       <FormRow
         label="Confirm Password"
         inputType="password"
         forwardedRef={validations.confirmPassword}
-        error={errors.confirmPassword?.message}
+        error={errors.form.confirmPassword?.message}
       />
       <FormRow
         label="VPA"
         inputType="text"
         forwardedRef={validations.vpa}
-        error={errors.vpa?.message}
+        error={errors.form.vpa?.message}
       />
+      <ErrorContainer>{errors.general?.message}</ErrorContainer>
       <StyledButton onClick={onSubmit} disabled={disabled}>
         Sign Up
       </StyledButton>
