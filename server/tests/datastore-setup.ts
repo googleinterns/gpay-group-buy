@@ -49,7 +49,6 @@ const initDatastoreEmulator = async () => {
   }
 
   console.log('\nSetting up Datastore Emulator...');
-  console.log(process.env.DATASTORE_EMULATOR_PORT);
 
   const customerEntities = customerFixtures.data.map((data, idx) => {
     const id = customerFixtures.ids[idx];
