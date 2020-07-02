@@ -44,8 +44,8 @@ interface SignInSignUpCardProps extends FormProps {
 }
 
 /**
- * This is the card containing the sign up form for the Merchant app.
- * It is displayed in the Sign Up page.
+ * This is the card containing the sign in/sign up form for the Merchant app.
+ * It is displayed in the Sign In/Sign Up page respectively.
  */
 const SignInSignUpCard: React.FC<SignInSignUpCardProps> = ({
   buttonText,
