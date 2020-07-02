@@ -16,7 +16,7 @@
 
 import React from 'react';
 
-import SignUpSignInCard from 'components/common/SignUpSignInCard';
+import SignInSignUpCard from 'components/common/SignInSignUpCard';
 import useSignUpForm from 'components/merchant/sign-up/hooks/useSignUpForm';
 import {Link} from 'react-router-dom';
 
@@ -26,7 +26,7 @@ import {Link} from 'react-router-dom';
  */
 const SignUpCard: React.FC = () => {
   return (
-    <SignUpSignInCard
+    <SignInSignUpCard
       buttonText="Sign Up"
       fields={[
         {label: 'Name', name: 'name', type: 'text'},
@@ -36,7 +36,7 @@ const SignUpCard: React.FC = () => {
         {label: 'VPA', name: 'vpa', type: 'text'},
       ]}
       {...useSignUpForm()}
-      signUpSignInLink={(
+      signInSignUpLink={(
         <>
           Already have an account? <Link to="/merchant/sign-in">Sign in</Link> now!
         </>

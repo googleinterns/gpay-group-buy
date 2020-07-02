@@ -39,22 +39,22 @@ const StyledRow = styled(Row)`
   line-height: 40px;
 `;
 
-interface SignUpSignInCardProps extends FormProps {
-  signUpSignInLink: React.ReactNode;
+interface SignInSignUpCardProps extends FormProps {
+  signInSignUpLink: React.ReactNode;
 }
 
 /**
  * This is the card containing the sign up form for the Merchant app.
  * It is displayed in the Sign Up page.
  */
-const SignUpCard: React.FC<SignUpSignInCardProps> = ({
+const SignInSignUpCard: React.FC<SignInSignUpCardProps> = ({
   buttonText,
   disabled,
   errors,
   fields,
   onSubmit,
   validations,
-  signUpSignInLink
+  signInSignUpLink
 }) => {
   return (
     <CardContainer>
@@ -68,10 +68,10 @@ const SignUpCard: React.FC<SignUpSignInCardProps> = ({
         validations={validations}
       />
       <StyledRow>
-        {signUpSignInLink}
+        {signInSignUpLink}
       </StyledRow>
     </CardContainer>
   );
 };
 
-export default SignUpCard;
+export default SignInSignUpCard;

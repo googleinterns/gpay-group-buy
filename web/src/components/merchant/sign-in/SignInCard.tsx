@@ -16,7 +16,7 @@
 
 import React from 'react';
 
-import SignUpSignInCard from 'components/common/SignUpSignInCard';
+import SignInSignUpCard from 'components/common/SignInSignUpCard';
 import useSignInForm from 'components/merchant/sign-in/hooks/useSignInForm';
 import {Link} from 'react-router-dom';
 
@@ -26,14 +26,14 @@ import {Link} from 'react-router-dom';
  */
 const SignUpCard: React.FC = () => {
   return (
-    <SignUpSignInCard
+    <SignInSignUpCard
       buttonText="Sign In"
       fields={[
         {label: 'Email', name: 'email', type: 'email'},
         {label: 'Password', name: 'password', type: 'password'}
       ]}
       {...useSignInForm()}
-      signUpSignInLink={(
+      signInSignUpLink={(
         <>
           Do not have an account yet? <Link to="/merchant/sign-up">Sign up</Link> now!
         </>
