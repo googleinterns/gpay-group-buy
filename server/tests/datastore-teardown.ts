@@ -26,9 +26,8 @@ const teardownDatastoreEmulator = async () => {
   }
 
   console.log('\nTearing down Datastore Emulator...');
-  console.log(process.env.DATASTORE_EMULATOR_PORT);
   // Make a post request to <emulator_host>:<emulator_port> to reset emulator data
-  await fetch(`http://localhost:${process.env.DATASTORE_EMULATOR_PORT}/reset`, {
+  await fetch(`http://${process.env.DATASTORE_EMULATOR_HOST}/reset`, {
     method: 'post',
   });
 };
