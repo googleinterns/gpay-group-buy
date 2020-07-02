@@ -16,6 +16,8 @@
 
 import Errors from 'constants/sign-up-errors';
 
+import {useState} from 'react';
+
 import {useForm} from 'react-hook-form';
 
 type SignInData = {
@@ -32,6 +34,7 @@ const useSignInForm = () => {
   const {formState, handleSubmit, register} = useForm<SignInData>({
     mode: 'onChange',
   });
+  const [generalError, setGeneralError] = useState();
 
   const validations = {
     email: register({
@@ -44,11 +47,16 @@ const useSignInForm = () => {
   const disabled = !formState.isValid;
 
   const onSubmit = handleSubmit(async (values: SignInData) => {
+    setGeneralError(null);
     // TODO: Handle user sign in
   });
 
   return {
     disabled,
+    errors:{
+      form: {},
+      general: generalError,
+    },
     onSubmit,
     validations,
   };

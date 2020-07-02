@@ -16,45 +16,30 @@
 
 import React from 'react';
 
-import GroupBuyMerchantHeader from 'components/common/GroupBuyMerchantHeader';
-import SignInForm from 'components/merchant/sign-in/SignInForm';
-import Row from 'muicss/lib/react/row';
+import SignUpSignInCard from 'components/common/SignUpSignInCard';
+import useSignInForm from 'components/merchant/sign-in/hooks/useSignInForm';
 import {Link} from 'react-router-dom';
-import styled from 'styled-components';
-
-const CardContainer: React.FC = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  background: var(--pale-gray);
-  border-radius: 30px;
-  max-width: 670px;
-  padding: 40px;
-  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
-`;
-
-const StyledRow = styled(Row)`
-  height: 40px;
-  display: block;
-  line-height: 40px;
-`;
 
 /**
- * This is the card containing the sign in form for the Merchant app.
- * It is displayed in the Sign In page.
+ * This is the card containing the sign up form for the Merchant app.
+ * It is displayed in the Sign Up page.
  */
-const SignInCard: React.FC = () => {
+const SignUpCard: React.FC = () => {
   return (
-    <CardContainer>
-      <GroupBuyMerchantHeader />
-      <SignInForm />
-      <StyledRow>
-        Already have an account? <Link to="/merchant/sign-up">Sign up</Link>{' '}
-        now!
-      </StyledRow>
-    </CardContainer>
+    <SignUpSignInCard
+      buttonText="Sign In"
+      fields={[
+        {label: 'Email', name: 'email', type: 'email'},
+        {label: 'Password', name: 'password', type: 'password'}
+      ]}
+      {...useSignInForm()}
+      signUpSignInLink={(
+        <>
+          Do not have an account yet? <Link to="/merchant/sign-up">Sign up</Link> now!
+        </>
+      )}
+    />
   );
 };
 
-export default SignInCard;
+export default SignUpCard;
