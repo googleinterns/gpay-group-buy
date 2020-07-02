@@ -77,6 +77,7 @@ type ReactHookFormErrorMessage =
   | undefined;
 
 interface FormRowProps {
+  name?: string;
   label: string;
   inputType: string;
   forwardedRef: (ref: HTMLInputElement) => void;
@@ -89,6 +90,7 @@ interface FormRowProps {
  * displayed below the input field where applicable.
  */
 const FormRow: React.FC<FormRowProps> = ({
+  name,
   label,
   inputType,
   forwardedRef,
@@ -99,7 +101,11 @@ const FormRow: React.FC<FormRowProps> = ({
       <Label>{label}</Label>
     </StyledCol>
     <StyledCol>
-      <Input type={inputType} name={toCamelCase(label)} ref={forwardedRef} />
+      <Input
+        type={inputType}
+        name={name || toCamelCase(label)}
+        ref={forwardedRef}
+      />
       <ErrorContainer>{error}</ErrorContainer>
     </StyledCol>
   </StyledRow>

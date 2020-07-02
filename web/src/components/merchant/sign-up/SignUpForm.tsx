@@ -16,83 +16,26 @@
 
 import React from 'react';
 
-import FormRow from 'components/common/FormRow';
+import Form from 'components/common/Form';
 import useSignUpForm from 'components/merchant/sign-up/hooks/useSignUpForm';
-import Button from 'muicss/lib/react/button';
-import Form from 'muicss/lib/react/form';
-import styled from 'styled-components';
-
-const StyledForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const StyledButton = styled(Button)`
-  height: 40px;
-  width: 200px;
-  border-radius: 20px;
-  border: none;
-
-  background: var(--dark-gray);
-  color: white;
-  font-size: 18px;
-  font-weight: bolder;
-  text-transform: uppercase;
-`;
-
-const ErrorContainer = styled.div`
-  color: var(--bright-red);
-  height: 40px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
 
 /**
  * This form contains all the fields to be filled in by a new merchant to sign
  * up and a button to submit the data.
  */
-const SignUpForm = () => {
-  const {disabled, errors, onSubmit, validations} = useSignUpForm();
+const SignUpForm: React.FC = () => {
   return (
-    <StyledForm>
-      <FormRow
-        label="Name"
-        inputType="text"
-        forwardedRef={validations.name}
-        error={errors.form.name?.message}
-      />
-      <FormRow
-        label="Email"
-        inputType="email"
-        forwardedRef={validations.email}
-        error={errors.form.email?.message}
-      />
-      <FormRow
-        label="Password"
-        inputType="password"
-        forwardedRef={validations.password}
-        error={errors.form.password?.message}
-      />
-      <FormRow
-        label="Confirm Password"
-        inputType="password"
-        forwardedRef={validations.confirmPassword}
-        error={errors.form.confirmPassword?.message}
-      />
-      <FormRow
-        label="VPA"
-        inputType="text"
-        forwardedRef={validations.vpa}
-        error={errors.form.vpa?.message}
-      />
-      <ErrorContainer>{errors.general?.message}</ErrorContainer>
-      <StyledButton onClick={onSubmit} disabled={disabled}>
-        Sign Up
-      </StyledButton>
-    </StyledForm>
+    <Form
+      buttonText="Sign Up"
+      fields={[
+        {label: 'Name', name: 'name', type: 'text'},
+        {label: 'Email', name: 'email', type: 'email'},
+        {label: 'Password', name: 'password', type: 'password'},
+        {label: 'Confirm Password', name: 'confirmPassword', type: 'password'},
+        {label: 'VPA', name: 'vpa', type: 'text'},
+      ]}
+      {...useSignUpForm()}
+    />
   );
 };
 
