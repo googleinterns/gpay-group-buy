@@ -24,9 +24,11 @@ const teardownDatastoreEmulator = async () => {
     console.error('This function can only be run during tests.');
     return;
   }
+
   console.log('\nTearing down Datastore Emulator...');
+  console.log(process.env.DATASTORE_EMULATOR_PORT);
   // Make a post request to <emulator_host>:<emulator_port> to reset emulator data
-  await fetch('http://localhost:8081/reset', {
+  await fetch(`http://localhost:${process.env.DATASTORE_EMULATOR_PORT}/reset`, {
     method: 'post',
   });
 };

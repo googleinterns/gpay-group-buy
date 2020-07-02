@@ -27,8 +27,9 @@ const datastore = new Datastore();
  * We do so by checking if the emulator port is in use.
  */
 const isDatastoreEmulator = async () => {
-  const res = await portfinder.getPortPromise({port: 8081});
-  return res !== 8081;
+  const port = Number(process.env.DATASTORE_EMULATOR_PORT);
+  const res = await portfinder.getPortPromise({port});
+  return res !== port;
 };
 
 /**
@@ -48,6 +49,7 @@ const initDatastoreEmulator = async () => {
   }
 
   console.log('\nSetting up Datastore Emulator...');
+  console.log(process.env.DATASTORE_EMULATOR_PORT);
 
   const customerEntities = customerFixtures.data.map((data, idx) => {
     const id = customerFixtures.ids[idx];
