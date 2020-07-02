@@ -1,7 +1,7 @@
 dist: xenial
-  apt:
-    packages:
-      - google-cloud-sdk
+apt:
+  packages:
+    - google-cloud-sdk
 language: node_js
 node_js: 10
 cache: yarn
@@ -13,8 +13,7 @@ matrix:
       before_install:
         - cd server
       before_script:
-        - gcloud beta emulators datastore start --no-store-on-disk &
-        - $(gcloud beta emulators datastore env-init
+        - yarn test:emulator &
       script:
         - yarn lint
         - yarn test
