@@ -18,11 +18,11 @@ import React from 'react';
 
 import CustomerListingDetailsPage from 'components/customer/listing-details';
 
-const ListingDetailsRoutes: React.FC = () => (
+const CommonListingDetailsPage: React.FC = () => (
   // TODO: In this file, do a check for whether vistor is a merchant or not.
-  // If visitor is a merchant, redirect to merchant listing endpoint: /merchant/listing/:id
+  // If visitor is a merchant, show the merchant facing listing details page.
   // Else, show them the customer facing listing details page.
   <CustomerListingDetailsPage />
 );
 
-export default ListingDetailsRoutes;
+export default CommonListingDetailsPage;
