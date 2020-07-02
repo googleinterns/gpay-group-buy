@@ -17,7 +17,7 @@
 import React from 'react';
 
 import SignInSignUpCard from 'components/common/SignInSignUpCard';
-import useSignUpForm from 'components/merchant/sign-up/hooks/useSignUpForm';
+import useSignInForm from 'components/merchant/sign-in/hooks/useSignInForm';
 import {Link} from 'react-router-dom';
 
 /**
@@ -27,19 +27,16 @@ import {Link} from 'react-router-dom';
 const SignUpCard: React.FC = () => {
   return (
     <SignInSignUpCard
-      buttonText="Sign Up"
+      buttonText="Sign In"
       fields={[
-        {label: 'Name', name: 'name', type: 'text'},
         {label: 'Email', name: 'email', type: 'email'},
         {label: 'Password', name: 'password', type: 'password'},
-        {label: 'Confirm Password', name: 'confirmPassword', type: 'password'},
-        {label: 'VPA', name: 'vpa', type: 'text'},
       ]}
-      {...useSignUpForm()}
+      {...useSignInForm()}
       signInSignUpLink={
         <>
-          Already have an account?{' '}
-          <Link to="/merchant/sign-in">Sign&nbsp;in</Link> now!
+          Don&apos;t have an account yet?{' '}
+          <Link to="/merchant/sign-up">Sign&nbsp;up</Link> now!
         </>
       }
     />

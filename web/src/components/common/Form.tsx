@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, {MouseEventHandler} from 'react';
 
 import FormRow from 'components/common/FormRow';
-import useSignUpForm from 'components/merchant/sign-up/hooks/useSignUpForm';
 import Button from 'muicss/lib/react/button';
-import Form from 'muicss/lib/react/form';
+import MuiForm from 'muicss/lib/react/form';
+import {FieldErrors, FieldValues} from 'react-hook-form';
 import styled from 'styled-components';
 
-const StyledForm = styled(Form)`
+const StyledForm = styled(MuiForm)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,50 +50,58 @@ const ErrorContainer = styled.div`
   align-items: center;
 `;
 
+interface Errors {
+  form: FieldErrors<FieldValues>;
+  general: Error;
+}
+
+interface Field {
+  label: string;
+  name: string;
+  type: string;
+}
+
+export interface FormProps {
+  buttonText: string;
+  disabled: boolean;
+  errors: Errors;
+  fields: Field[];
+  onSubmit: MouseEventHandler<HTMLButtonElement>;
+  validations: {[key: string]: (ref: HTMLInputElement) => void};
+}
+
 /**
- * This form contains all the fields to be filled in by a new merchant to sign
- * up and a button to submit the data.
+ * This form contains all the fields to be filled in and a button to submit the data.
  */
-const SignUpForm = () => {
-  const {disabled, errors, onSubmit, validations} = useSignUpForm();
+const Form: React.FC<FormProps> = ({
+  buttonText,
+  disabled,
+  errors,
+  fields,
+  onSubmit,
+  validations,
+}) => {
   return (
     <StyledForm>
-      <FormRow
-        label="Name"
-        inputType="text"
-        forwardedRef={validations.name}
-        error={errors.form.name?.message}
-      />
-      <FormRow
-        label="Email"
-        inputType="email"
-        forwardedRef={validations.email}
-        error={errors.form.email?.message}
-      />
-      <FormRow
-        label="Password"
-        inputType="password"
-        forwardedRef={validations.password}
-        error={errors.form.password?.message}
-      />
-      <FormRow
-        label="Confirm Password"
-        inputType="password"
-        forwardedRef={validations.confirmPassword}
-        error={errors.form.confirmPassword?.message}
-      />
-      <FormRow
-        label="VPA"
-        inputType="text"
-        forwardedRef={validations.vpa}
-        error={errors.form.vpa?.message}
-      />
+      {fields.map((field, key) => {
+        const {name, label, type} = field;
+        return (
+          <FormRow
+            name={name}
+            label={label}
+            inputType={type}
+            forwardedRef={validations[name]}
+            error={errors.form[name]?.message}
+            key={key}
+          />
+        );
+      })}
       <ErrorContainer>{errors.general?.message}</ErrorContainer>
       <StyledButton onClick={onSubmit} disabled={disabled}>
-        Sign Up
+        {buttonText}
       </StyledButton>
     </StyledForm>
   );
 };
 
-export default SignUpForm;
+export default Form;
