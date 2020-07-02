@@ -20,7 +20,6 @@ import Col from 'muicss/lib/react/col';
 import Row from 'muicss/lib/react/row';
 import {FieldError, NestDataObject} from 'react-hook-form';
 import styled from 'styled-components';
-import toCamelCase from 'to-camel-case';
 
 const StyledRow = styled(Row)`
   display: flex;
@@ -77,11 +76,11 @@ type ReactHookFormErrorMessage =
   | undefined;
 
 interface FormRowProps {
-  name?: string;
+  name: string;
   label: string;
   inputType: string;
   forwardedRef: (ref: HTMLInputElement) => void;
-  error?: ReactHookFormErrorMessage;
+  error: ReactHookFormErrorMessage;
 }
 
 /**
@@ -103,7 +102,7 @@ const FormRow: React.FC<FormRowProps> = ({
     <StyledCol>
       <Input
         type={inputType}
-        name={name || toCamelCase(label)}
+        name={name}
         ref={forwardedRef}
       />
       <ErrorContainer>{error}</ErrorContainer>
