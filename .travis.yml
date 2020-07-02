@@ -10,6 +10,7 @@ matrix:
         - cd server
       script:
         - yarn lint
+        - yarn test
         - yarn compile
     - name: 'Frontend'
       before_install:

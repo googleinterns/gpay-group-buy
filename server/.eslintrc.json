@@ -1,6 +1,8 @@
 {
   "extends": [
-    "./node_modules/gts/"
+    "./node_modules/gts/",
+    "plugin:jest/recommended",
+    "plugin:jest/style"
   ],
   "plugins": [
     "import"
@@ -21,5 +23,16 @@
         }
       }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/__tests__/**/*.+(ts|tsx|js)",
+        "**/?(*.)+(spec|test).+(ts|tsx|js)"
+      ],
+      "rules": {
+        "node/no-unpublished-import": 0
+      }
+    }
+  ]
 }
