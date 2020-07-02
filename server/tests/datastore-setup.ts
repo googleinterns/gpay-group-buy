@@ -26,8 +26,7 @@ const datastore = new Datastore();
  * Checks if we are running the datastore emulator.
  * We do so by checking if the emulator port is in use.
  */
-const isDatastoreEmulator = async () => {
-  const port = Number(process.env.DATASTORE_EMULATOR_PORT);
+const isDatastoreEmulator = async (port: number) => {
   const res = await portfinder.getPortPromise({port});
   return res !== port;
 };
@@ -41,16 +40,24 @@ const initDatastoreEmulator = async () => {
     console.error('Datastore Emulator can only be initialized for tests.');
     return;
   }
-  const isEmulatorRunning = await isDatastoreEmulator();
+  if (process.env.DATASTORE_EMULATOR_HOST === undefined) {
+    console.error(
+      'Make sure you have initialized the Datastore Emulator env.\n' +
+        'Run: $(gcloud beta emulators datastore env-init)'
+    );
+    return;
+  }
+  const port = process.env.DATASTORE_EMULATOR_HOST.split(':').pop();
+  const isEmulatorRunning = await isDatastoreEmulator(Number(port));
   if (!isEmulatorRunning) {
     console.error(
-      'Make sure you are running the Datastore Emulator. Run: gcloud beta emulators datastore start --no-store-on-disk'
+      'Make sure you are running the Datastore Emulator.\n' +
+        'Run: gcloud beta emulators datastore start --no-store-on-disk'
     );
     return;
   }
 
   console.log('\nSetting up Datastore Emulator...');
-
   const customerEntities = customerFixtures.data.map((data, idx) => {
     const id = customerFixtures.ids[idx];
     const key = datastore.key([CUSTOMER_KIND, id]);
