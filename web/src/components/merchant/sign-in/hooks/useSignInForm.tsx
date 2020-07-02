@@ -53,7 +53,7 @@ const useSignInForm = () => {
 
   return {
     disabled,
-    errors:{
+    errors: {
       form: {},
       general: generalError,
     },

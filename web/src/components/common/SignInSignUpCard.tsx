@@ -54,7 +54,7 @@ const SignInSignUpCard: React.FC<SignInSignUpCardProps> = ({
   fields,
   onSubmit,
   validations,
-  signInSignUpLink
+  signInSignUpLink,
 }) => {
   return (
     <CardContainer>
@@ -67,9 +67,7 @@ const SignInSignUpCard: React.FC<SignInSignUpCardProps> = ({
         onSubmit={onSubmit}
         validations={validations}
       />
-      <StyledRow>
-        {signInSignUpLink}
-      </StyledRow>
+      <StyledRow>{signInSignUpLink}</StyledRow>
     </CardContainer>
   );
 };

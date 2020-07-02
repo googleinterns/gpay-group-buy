@@ -30,14 +30,15 @@ const SignUpCard: React.FC = () => {
       buttonText="Sign In"
       fields={[
         {label: 'Email', name: 'email', type: 'email'},
-        {label: 'Password', name: 'password', type: 'password'}
+        {label: 'Password', name: 'password', type: 'password'},
       ]}
       {...useSignInForm()}
-      signInSignUpLink={(
+      signInSignUpLink={
         <>
-          Do not have an account yet? <Link to="/merchant/sign-up">Sign up</Link> now!
+          Do not have an account yet?{' '}
+          <Link to="/merchant/sign-up">Sign up</Link> now!
         </>
-      )}
+      }
     />
   );
 };

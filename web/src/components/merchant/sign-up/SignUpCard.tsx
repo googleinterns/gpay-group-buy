@@ -36,11 +36,12 @@ const SignUpCard: React.FC = () => {
         {label: 'VPA', name: 'vpa', type: 'text'},
       ]}
       {...useSignUpForm()}
-      signInSignUpLink={(
+      signInSignUpLink={
         <>
-          Already have an account? <Link to="/merchant/sign-in">Sign in</Link> now!
+          Already have an account? <Link to="/merchant/sign-in">Sign in</Link>{' '}
+          now!
         </>
-      )}
+      }
     />
   );
 };
