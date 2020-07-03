@@ -16,7 +16,7 @@
 
 import Errors from 'constants/sign-up-errors';
 
-import {Customer, Listing, MerchantPayload} from 'interfaces';
+import {Customer, Listing, MerchantPayload, MerchantResponse} from 'interfaces';
 
 /**
  * Fetches a particular customer with the specified customerId.
@@ -45,6 +45,32 @@ export const getListing = async (listingId: number): Promise<Listing> => {
   const res = await fetch(
     `${process.env.REACT_APP_SERVER_URL}/listings/${listingId}`
   );
+  return res.json();
+};
+
+/**
+ * Retrieves merchant from the database.
+ */
+export const getMerchant = async (
+  email: string,
+  idToken: string
+): Promise<MerchantResponse> => {
+  const requestOptions = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${idToken}`,
+      'Content-Type': 'application/json',
+    },
+  };
+  const res = await fetch(
+    `${process.env.REACT_APP_SERVER_URL}/merchants?email=${email}`,
+    requestOptions
+  );
+
+  if (res.status !== 200) {
+    throw new Error(Errors.SERVER_ERROR);
+  }
+
   return res.json();
 };
 
