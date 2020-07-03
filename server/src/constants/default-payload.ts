@@ -15,6 +15,10 @@
  */
 
 /**
- * ResponseId type is the union type of datastore's built-in id.
+ * Contains the default values for the optional fields on a CustomerPayload object
+ * to be stored in the database.
  */
-export type ResponseId = number | Long | string | null;
+export const DEFAULT_CUSTOMER_PAYLOAD = {
+  contactNumber: '',
+  address: '',
+};

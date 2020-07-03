@@ -18,7 +18,10 @@
  * @fileoverview Handles routing of /customers endpoints.
  */
 
+import {readSync} from 'fs';
+
 import {Router, Request, Response, NextFunction} from 'express';
+import {CustomerPayload} from 'interfaces';
 
 import {customerService} from '../services';
 
@@ -33,6 +36,27 @@ customerRouter.get(
     try {
       const customer = await customerService.getCustomer(customerId);
       res.send(customer);
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+/**
+ * Create a customer if they do not already exist.
+ */
+customerRouter.post(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const customerData: CustomerPayload = req.body;
+
+    try {
+      const customer = await customerService.addCustomer(customerData);
+      const resourceUrl = `${process.env.SERVER_URL}/customers/${customer.id}`;
+      res.setHeader('Content-Location', resourceUrl);
+      res.location(resourceUrl);
+      res.status(201).send(customer);
+      // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);
     }
