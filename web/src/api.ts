@@ -53,8 +53,7 @@ export const getListing = async (listingId: number): Promise<Listing> => {
  * Retrieves merchant with the given email from the database.
  */
 export const getMerchantWithEmail = async (
-  email: string,
-  idToken: string
+  email: string
 ): Promise<MerchantResponse> => {
   const res = await fetch(
     `${process.env.REACT_APP_SERVER_URL}/merchants?email=${email}`
