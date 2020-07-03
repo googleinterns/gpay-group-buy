@@ -71,7 +71,13 @@ export const getMerchantWithEmail = async (
     throw new Error(SERVER_ERROR);
   }
 
-  return res.json();
+  const merchants = await res.json();
+
+  if (merchants.length < 1) {
+    throw new Error();
+  }
+
+  return merchants[0];
 };
 
 /**
