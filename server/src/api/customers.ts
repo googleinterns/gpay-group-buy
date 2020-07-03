@@ -18,11 +18,12 @@
  * @fileoverview Handles routing of /customers endpoints.
  */
 
+import {readSync} from 'fs';
+
 import {Router, Request, Response, NextFunction} from 'express';
 import {CustomerPayload} from 'interfaces';
 
 import {customerService} from '../services';
-import { readSync } from 'fs';
 
 const customerRouter = Router();
 

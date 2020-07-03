@@ -43,7 +43,9 @@ const getCustomer = async (customerId: number): Promise<CustomerResponse> => {
  * Throws an error if adding is not successful.
  * @param customer Data of the customer to be added
  */
-const addCustomer = async (customer: CustomerPayload): Promise<CustomerResponse> => {
+const addCustomer = async (
+  customer: CustomerPayload
+): Promise<CustomerResponse> => {
   const customerId = await add(CUSTOMER_KIND, customer, {
     property: 'gpayId',
     value: customer.gpayId,

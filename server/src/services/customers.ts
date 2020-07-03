@@ -27,11 +27,10 @@ const getCustomer = async (customerId: number): Promise<CustomerResponse> =>
  */
 const addCustomer = async (
   customer: CustomerPayload
-): Promise<CustomerResponse> =>(
+): Promise<CustomerResponse> =>
   customerStorage.addCustomer({
     ...DEFAULT_CUSTOMER_PAYLOAD,
     ...customer,
-  })
-);
+  });
 
 export default {getCustomer, addCustomer};
