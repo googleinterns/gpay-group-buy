@@ -14,5 +14,6 @@
  * limitations under the License.
  */
 
-export const USER_NOT_FOUND = 'There is no user registered with this email address.';
+export const USER_NOT_FOUND =
+  'There is no user registered with this email address.';
 export const PASSWORD_INCORRECT = 'The password you entered is incorrect.';

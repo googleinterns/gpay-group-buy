@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
+import {USER_NOT_FOUND, PASSWORD_INCORRECT} from 'constants/sign-in-errors';
+
 import {useState} from 'react';
 
 import {getMerchantWithEmail} from 'api';
-import {USER_NOT_FOUND, PASSWORD_INCORRECT} from 'constants/sign-in-errors';
 import firebaseAuth from 'firebase-auth';
 import {getFirebaseIdToken} from 'firebase-auth';
 import {useForm} from 'react-hook-form';
