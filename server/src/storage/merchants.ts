@@ -27,8 +27,11 @@ const getMerchant = async (merchantId: number): Promise<MerchantResponse> =>
   get(MERCHANT_KIND, merchantId);
 
 const addMerchant = async (merchant: MerchantPayload): Promise<MerchantResponse> => {
-  // TODO(#67): Add checks to prevent adding multiple merchants with the same Firebase UID.
-  const merchantId = await add(MERCHANT_KIND, merchant);
+  const uniqueFirebaseUid = {
+    property: 'firebaseUid',
+    value: merchant.firebaseUid,
+  };
+  const merchantId = await add(MERCHANT_KIND, merchant, uniqueFirebaseUid);
   return getMerchant(merchantId);
 }
 
