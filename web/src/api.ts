@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import Errors from 'constants/sign-up-errors';
+import {SERVER_ERROR} from 'constants/server-error';
 
 import {Customer, Listing, MerchantPayload, MerchantResponse} from 'interfaces';
 
@@ -68,7 +68,7 @@ export const getMerchant = async (
   );
 
   if (res.status !== 200) {
-    throw new Error(Errors.SERVER_ERROR);
+    throw new Error(SERVER_ERROR);
   }
 
   return res.json();
@@ -95,12 +95,12 @@ export const addMerchant = async (
   );
 
   if (res.status !== 201) {
-    throw new Error(Errors.SERVER_ERROR);
+    throw new Error(SERVER_ERROR);
   }
 
   const location = res.headers.get('Location');
   const merchantId = location?.substring(location?.lastIndexOf('/') + 1);
-  if (!merchantId) throw new Error(Errors.SERVER_ERROR);
+  if (!merchantId) throw new Error(SERVER_ERROR);
 
   return Number(merchantId);
 };

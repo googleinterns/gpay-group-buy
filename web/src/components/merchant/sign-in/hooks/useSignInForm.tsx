@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import Errors from 'constants/sign-up-errors';
-
 import {useState} from 'react';
 
 import {getMerchant} from 'api';
@@ -43,10 +41,10 @@ const useSignInForm = () => {
 
   const validations = {
     email: register({
-      required: Errors.EMAIL_EMPTY,
+      required: true,
     }),
     password: register({
-      required: Errors.PASSWORD_EMPTY,
+      required: true,
     }),
   };
   const disabled = !formState.isValid;
