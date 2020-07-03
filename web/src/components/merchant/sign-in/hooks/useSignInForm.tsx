@@ -16,7 +16,7 @@
 
 import {useState} from 'react';
 
-import {getMerchant} from 'api';
+import {getMerchantWithEmail} from 'api';
 import firebaseAuth from 'firebase-auth';
 import {getFirebaseIdToken} from 'firebase-auth';
 import {useForm} from 'react-hook-form';
@@ -55,7 +55,7 @@ const useSignInForm = () => {
       const {email, password} = values;
       await firebaseAuth.signInWithEmailAndPassword(email, password);
       const firebaseIdToken = await getFirebaseIdToken();
-      const {id} = await getMerchant(email, firebaseIdToken);
+      const {id} = await getMerchantWithEmail(email, firebaseIdToken);
       history.push(`/merchant/${id}`);
     } catch (err) {
       setGeneralError(err);

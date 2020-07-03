@@ -49,9 +49,9 @@ export const getListing = async (listingId: number): Promise<Listing> => {
 };
 
 /**
- * Retrieves merchant from the database.
+ * Retrieves merchant with the given email from the database.
  */
-export const getMerchant = async (
+export const getMerchantWithEmail = async (
   email: string,
   idToken: string
 ): Promise<MerchantResponse> => {
