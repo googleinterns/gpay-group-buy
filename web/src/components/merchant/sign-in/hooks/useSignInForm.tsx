@@ -17,6 +17,7 @@
 import {useState} from 'react';
 
 import {getMerchantWithEmail} from 'api';
+import {USER_NOT_FOUND, PASSWORD_INCORRECT} from 'constants/sign-in-errors';
 import firebaseAuth from 'firebase-auth';
 import {getFirebaseIdToken} from 'firebase-auth';
 import {useForm} from 'react-hook-form';
@@ -58,6 +59,14 @@ const useSignInForm = () => {
       const {id} = await getMerchantWithEmail(email, firebaseIdToken);
       history.push(`/merchant/${id}`);
     } catch (err) {
+      switch (err.code) {
+        case 'auth/user-not-found':
+          err.message = USER_NOT_FOUND;
+          break;
+        case 'auth/wrong-password':
+          err.message = PASSWORD_INCORRECT;
+          break;
+      }
       setGeneralError(err);
     }
   });

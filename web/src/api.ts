@@ -15,6 +15,7 @@
  */
 
 import {SERVER_ERROR} from 'constants/server-error';
+import {USER_NOT_FOUND} from 'constants/sign-in-errors';
 
 import {Customer, Listing, MerchantPayload, MerchantResponse} from 'interfaces';
 
@@ -74,7 +75,7 @@ export const getMerchantWithEmail = async (
   const merchants = await res.json();
 
   if (merchants.length < 1) {
-    throw new Error();
+    throw new Error(USER_NOT_FOUND);
   }
 
   return merchants[0];
