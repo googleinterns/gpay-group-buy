@@ -22,6 +22,7 @@ import {Router, Request, Response, NextFunction} from 'express';
 import {CustomerPayload} from 'interfaces';
 
 import {customerService} from '../services';
+import { readSync } from 'fs';
 
 const customerRouter = Router();
 
@@ -50,6 +51,9 @@ customerRouter.post(
 
     try {
       const customer = await customerService.addCustomer(customerData);
+      const resourceUrl = `${process.env.SERVER_URL}/customers/${customer.id}`;
+      res.setHeader('Content-Location', resourceUrl);
+      res.location(resourceUrl);
       res.status(201).send(customer);
       // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
