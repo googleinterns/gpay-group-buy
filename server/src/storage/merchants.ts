@@ -20,11 +20,16 @@
  */
 
 import {MERCHANT_KIND} from '../constants/kinds';
-import {MerchantPayload} from '../interfaces';
-import {add} from './datastore';
+import {MerchantPayload, MerchantResponse} from '../interfaces';
+import {add, get} from './datastore';
 
-const addMerchant = async (merchant: MerchantPayload): Promise<number> =>
-  add(MERCHANT_KIND, merchant);
-// TODO(#67): Add checks to prevent adding multiple merchants with the same Firebase UID.
+const getMerchant = async (merchantId: number): Promise<MerchantResponse> =>
+  get(MERCHANT_KIND, merchantId);
 
-export default {addMerchant};
+const addMerchant = async (merchant: MerchantPayload): Promise<MerchantResponse> => {
+  // TODO(#67): Add checks to prevent adding multiple merchants with the same Firebase UID.
+  const merchantId = await add(MERCHANT_KIND, merchant);
+  return getMerchant(merchantId);
+}
+
+export default {addMerchant, getMerchant};
