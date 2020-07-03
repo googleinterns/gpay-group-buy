@@ -23,7 +23,7 @@ const addMerchant = async (merchant: MerchantPayload): Promise<number> =>
 const getAllMerchants = async (
   filters?: Filter[]
 ): Promise<MerchantResponse[]> => merchantStorage.getAllMerchants(filters);
-// TODO(#87): Restrict request such that the merchants themselves can get all the
+// TODO(#87): Add restriction such that the merchants themselves can get all the
 // fields but other merchants/customers can get only public fields like name.
 
 export default {addMerchant, getAllMerchants};
