@@ -18,7 +18,11 @@ import Errors from 'constants/sign-up-errors';
 
 import {useState} from 'react';
 
+import {getMerchant} from 'api';
+import firebaseAuth from 'firebase-auth';
+import {getFirebaseIdToken} from 'firebase-auth';
 import {useForm} from 'react-hook-form';
+import {useHistory} from 'react-router-dom';
 
 type SignInData = {
   email: string;
@@ -35,6 +39,7 @@ const useSignInForm = () => {
     mode: 'onChange',
   });
   const [generalError, setGeneralError] = useState();
+  const history = useHistory();
 
   const validations = {
     email: register({
@@ -48,7 +53,15 @@ const useSignInForm = () => {
 
   const onSubmit = handleSubmit(async (values: SignInData) => {
     setGeneralError(null);
-    // TODO: Handle user sign in
+    try {
+      const {email, password} = values;
+      await firebaseAuth.signInWithEmailAndPassword(email, password);
+      const firebaseIdToken = await getFirebaseIdToken();
+      const {id} = await getMerchant(email, firebaseIdToken);
+      history.push(`/merchant/${id}`);
+    } catch (err) {
+      setGeneralError(err);
+    }
   });
 
   return {
