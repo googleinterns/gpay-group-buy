@@ -17,7 +17,8 @@
 import {MerchantPayload, MerchantResponse} from '../interfaces';
 import {merchantStorage} from '../storage';
 
-const addMerchant = async (merchant: MerchantPayload): Promise<MerchantResponse> =>
-  merchantStorage.addMerchant(merchant);
+const addMerchant = async (
+  merchant: MerchantPayload
+): Promise<MerchantResponse> => merchantStorage.addMerchant(merchant);
 
 export default {addMerchant};

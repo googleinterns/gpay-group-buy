@@ -26,13 +26,15 @@ import {add, get} from './datastore';
 const getMerchant = async (merchantId: number): Promise<MerchantResponse> =>
   get(MERCHANT_KIND, merchantId);
 
-const addMerchant = async (merchant: MerchantPayload): Promise<MerchantResponse> => {
+const addMerchant = async (
+  merchant: MerchantPayload
+): Promise<MerchantResponse> => {
   const uniqueFirebaseUid = {
     property: 'firebaseUid',
     value: merchant.firebaseUid,
   };
   const merchantId = await add(MERCHANT_KIND, merchant, uniqueFirebaseUid);
   return getMerchant(merchantId);
-}
+};
 
 export default {addMerchant, getMerchant};

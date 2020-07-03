@@ -36,7 +36,9 @@ merchantRouter.post(
         firebaseUid,
         ...req.body,
       };
-      const merchantResponse = await merchantService.addMerchant(merchantPayload);
+      const merchantResponse = await merchantService.addMerchant(
+        merchantPayload
+      );
       const {id} = merchantResponse;
       res.location(`${process.env.SERVER_URL}/merchants/${id}`);
       res.status(201);
