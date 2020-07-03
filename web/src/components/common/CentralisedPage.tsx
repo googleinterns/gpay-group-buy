@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import CentralisedContainer from 'components/common/CentralisedContainer';
+import styled from 'styled-components';
 
-import CentralisedPage from 'components/common/CentralisedPage';
-import SignUpCard from 'components/merchant/sign-up/SignUpCard';
+/**
+ * Container component that fills the whole page and centralises its children
+ * both vertically and horizontally. Children component are arranged in a column.
+ */
+const CentralisedPage = styled(CentralisedContainer)`
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+`;
 
-const SignUpPage: React.FC = () => (
-  <CentralisedPage>
-    <SignUpCard />
-  </CentralisedPage>
-);
-
-export default SignUpPage;
+export default CentralisedPage;

@@ -27,4 +27,18 @@ if (firebase.apps.length === 0) {
 
 const firebaseAuth = firebase.auth();
 
+export const getFirebaseIdToken = (): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    firebaseAuth.onAuthStateChanged(async user => {
+      if (!user) {
+        reject(new Error('User not logged in'));
+        return;
+      }
+
+      const idToken = await user.getIdToken();
+      resolve(idToken);
+    });
+  });
+};
+
 export default firebaseAuth;

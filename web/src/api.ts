@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-import {Customer, Listing} from 'interfaces';
+import Errors from 'constants/sign-up-errors';
+
+import {Customer, Listing, MerchantPayload} from 'interfaces';
 
 /**
  * Fetches a particular customer with the specified customerId.
+ * @param customerId Id of the customer to retrieve
  */
 export const getCustomer = async (customerId: number): Promise<Customer> => {
   const res = await fetch(
@@ -32,4 +35,46 @@ export const getCustomer = async (customerId: number): Promise<Customer> => {
 export const getAllListings = async (): Promise<Listing[]> => {
   const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/listings`);
   return res.json();
+};
+
+/**
+ * Fetches a particular listing with the specified listingId.
+ * @param listingId Id of the listing to retrieve
+ */
+export const getListing = async (listingId: number): Promise<Listing> => {
+  const res = await fetch(
+    `${process.env.REACT_APP_SERVER_URL}/listings/${listingId}`
+  );
+  return res.json();
+};
+
+/**
+ * Stores new merchant into the database.
+ */
+export const addMerchant = async (
+  merchant: MerchantPayload,
+  idToken: string
+): Promise<number> => {
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${idToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(merchant),
+  };
+  const res = await fetch(
+    `${process.env.REACT_APP_SERVER_URL}/merchants`,
+    requestOptions
+  );
+
+  if (res.status !== 201) {
+    throw new Error(Errors.SERVER_ERROR);
+  }
+
+  const location = res.headers.get('Location');
+  const merchantId = location?.substring(location?.lastIndexOf('/') + 1);
+  if (!merchantId) throw new Error(Errors.SERVER_ERROR);
+
+  return Number(merchantId);
 };

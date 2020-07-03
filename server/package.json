@@ -6,9 +6,11 @@
   "license": "Apache-2.0",
   "scripts": {
     "start": "node build/src/index.js",
-    "start:dev": "nodemon src/index.ts",
+    "start:dev": "nodemon -r dotenv-flow/config src/index.ts --node-env=development",
     "lint": "gts check",
     "fix": "gts fix",
+    "test": "cross-env NODE_ENV=test jest --forceExit",
+    "test:watch": "cross-env NODE_ENV=test jest --watch",
     "clean": "gts clean",
     "compile": "tsc",
     "prepare": "yarn run compile",
@@ -16,19 +18,29 @@
     "posttest": "yarn run lint"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.3",
     "@types/node": "^13.11.1",
+    "@types/supertest": "^2.0.10",
+    "cross-env": "^7.0.2",
+    "dotenv-flow": "^3.2.0",
     "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-jest": "^23.17.1",
     "gts": "^2.0.2",
     "husky": "^4.2.5",
+    "jest": "^26.1.0",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
+    "supertest": "^4.0.2",
+    "ts-jest": "^26.1.1",
     "ts-node": "^8.10.2",
     "typescript": "^3.8.3"
   },
   "dependencies": {
     "@google-cloud/datastore": "^6.0.0",
+    "@types/cors": "^2.8.6",
     "@types/express": "^4.17.6",
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "firebase-admin": "^8.12.1",
     "guid-typescript": "^1.0.9"
@@ -36,6 +48,23 @@
   "husky": {
     "hooks": {
       "pre-push": "yarn lint"
+    }
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "roots": [
+      "<rootDir>/src",
+      "<rootDir>/tests"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.+(ts|tsx|js)",
+      "**/?(*.)+(spec|test).+(ts|tsx|js)"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
     }
   }
 }

@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import supertest from 'supertest';
 
-import CentralisedPage from 'components/common/CentralisedPage';
-import SignUpCard from 'components/merchant/sign-up/SignUpCard';
+import app from '../../src';
 
-const SignUpPage: React.FC = () => (
-  <CentralisedPage>
-    <SignUpCard />
-  </CentralisedPage>
-);
-
-export default SignUpPage;
+describe('Customers endpoints', () => {
+  test('it should fetch a single customer', async () => {
+    // TODO: Do a proper test. This is just a sample test to check that it works.
+    const customerId = 1;
+    const res = await supertest(app).get(`/customers/${customerId}`);
+    expect(res).toBeTruthy();
+  });
+});

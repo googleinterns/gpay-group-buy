@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import Container from 'muicss/lib/react/container';
+import styled from 'styled-components';
 
-import CentralisedPage from 'components/common/CentralisedPage';
-import SignUpCard from 'components/merchant/sign-up/SignUpCard';
+/**
+ * Container component that centralises its children both vertically and
+ * horizontally. Children component are arranged in a column.
+ */
+const CentralisedContainer = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
-const SignUpPage: React.FC = () => (
-  <CentralisedPage>
-    <SignUpCard />
-  </CentralisedPage>
-);
-
-export default SignUpPage;
+export default CentralisedContainer;

@@ -16,13 +16,13 @@
 
 import React from 'react';
 
-import CentralisedPage from 'components/common/CentralisedPage';
-import SignUpCard from 'components/merchant/sign-up/SignUpCard';
+import CustomerListingDetailsPage from 'components/customer/listing-details';
 
-const SignUpPage: React.FC = () => (
-  <CentralisedPage>
-    <SignUpCard />
-  </CentralisedPage>
+const CommonListingDetailsPage: React.FC = () => (
+  // TODO: In this file, do a check for whether vistor is a merchant or not.
+  // If visitor is a merchant, show the merchant facing listing details page.
+  // Else, show them the customer facing listing details page.
+  <CustomerListingDetailsPage />
 );
 
-export default SignUpPage;
+export default CommonListingDetailsPage;

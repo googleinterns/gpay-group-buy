@@ -1,4 +1,6 @@
 runtime: nodejs10
 service: api
 env_variables:
+  GOOGLE_CLOUD_PROJECT: "gpay-group-buy"
   SERVERL_URL: "https://api-dot-gpay-group-buy.an.r.appspot.com"
+  WEB_URL: "https://gpay-group-buy.an.r.appspot.com"
