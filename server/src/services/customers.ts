@@ -19,7 +19,7 @@ import {CustomerResponse, CustomerPayload} from '../interfaces';
 import {customerStorage} from '../storage';
 
 const getCustomer = async (customerId: number): Promise<CustomerResponse> =>
-  await customerStorage.getCustomer(customerId);
+  customerStorage.getCustomer(customerId);
 
 /**
  * Creates a customer if the customer is not already registered, and returns customer information.
@@ -27,12 +27,11 @@ const getCustomer = async (customerId: number): Promise<CustomerResponse> =>
  */
 const addCustomer = async (
   customer: CustomerPayload
-): Promise<CustomerResponse> => {
-  const customerId = await customerStorage.addCustomer({
+): Promise<CustomerResponse> =>(
+  customerStorage.addCustomer({
     ...DEFAULT_CUSTOMER_PAYLOAD,
     ...customer,
-  });
-  return getCustomer(customerId);
-};
+  })
+);
 
 export default {getCustomer, addCustomer};
