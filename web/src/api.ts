@@ -56,16 +56,8 @@ export const getMerchantWithEmail = async (
   email: string,
   idToken: string
 ): Promise<MerchantResponse> => {
-  const requestOptions = {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${idToken}`,
-      'Content-Type': 'application/json',
-    },
-  };
   const res = await fetch(
-    `${process.env.REACT_APP_SERVER_URL}/merchants?email=${email}`,
-    requestOptions
+    `${process.env.REACT_APP_SERVER_URL}/merchants?email=${email}`
   );
 
   if (res.status !== 200) {
