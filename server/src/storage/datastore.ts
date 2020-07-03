@@ -92,7 +92,6 @@ const insertUniqueEntity = async (
     // Create the entity
     transaction.insert(entity);
     await transaction.commit();
-    return;
   } catch (err) {
     await transaction.rollback();
     throw new Error(`Failed to add ${kind}. ${err}`);
