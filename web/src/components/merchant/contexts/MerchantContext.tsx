@@ -15,7 +15,8 @@
  */
 
 import React, {useContext, useState, Dispatch, SetStateAction} from 'react';
-import { MerchantResponse } from 'interfaces';
+
+import {MerchantResponse} from 'interfaces';
 
 type MerchantType = MerchantResponse | undefined;
 
