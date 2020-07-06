@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import Errors from 'constants/sign-up-errors';
+import Errors from 'constants/errors/sign-up-errors';
 
 import {useState} from 'react';
 

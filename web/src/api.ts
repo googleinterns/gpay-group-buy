@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import {SERVER_ERROR} from 'constants/server-error';
-import {USER_NOT_FOUND} from 'constants/sign-in-errors';
+import {SERVER_ERROR} from 'constants/errors/server-errors';
+import {USER_NOT_FOUND} from 'constants/errors/sign-in-errors';
 
 import {Customer, Listing, MerchantPayload, MerchantResponse} from 'interfaces';
 

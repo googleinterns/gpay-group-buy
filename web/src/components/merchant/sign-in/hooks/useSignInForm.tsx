@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {USER_NOT_FOUND, PASSWORD_INCORRECT} from 'constants/sign-in-errors';
+import {USER_NOT_FOUND, PASSWORD_INCORRECT} from 'constants/errors/sign-in-errors';
 
 import {useState} from 'react';
 
