@@ -23,7 +23,9 @@ describe('Customers endpoints', () => {
   test('it should fetch a single customer', async () => {
     const expectedCustomerData = customerFixtures.data?.[0];
     const customerId = customerFixtures.ids?.[0];
+
     const res = await request(app).get(`/customers/${customerId}`);
+
     expect(res.body).toMatchObject({
       id: customerId,
       ...expectedCustomerData,
