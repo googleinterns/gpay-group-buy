@@ -30,7 +30,10 @@ const CustomerRoutes: React.FC = () => {
     <Switch>
       <CustomerCommitCountProvider>
         <Route exact path={match.path} component={CustomerExplorePage} />
-        <Route path={`${match.path}listing/:listingId`} component={ListingDetailsPage} />
+        <Route
+          path={`${match.path}listing/:listingId`}
+          component={ListingDetailsPage}
+        />
       </CustomerCommitCountProvider>
     </Switch>
   );
