@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import Errors from 'constants/errors/sign-up-errors';
+import FirebaseErrors from 'constants/errors/firebase-errors';
+import SignUpErrors from 'constants/errors/sign-up-errors';
 
 import {useState} from 'react';
 
@@ -53,31 +54,31 @@ const useSignUpForm = () => {
 
   const validations = {
     name: register({
-      required: Errors.NAME_EMPTY,
+      required: SignUpErrors.NAME_EMPTY,
     }),
     email: register({
-      required: Errors.EMAIL_EMPTY,
+      required: SignUpErrors.EMAIL_EMPTY,
       pattern: {
         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-        message: Errors.EMAIL_INVALID,
+        message: SignUpErrors.EMAIL_INVALID,
       },
     }),
     password: register({
-      required: Errors.PASSWORD_EMPTY,
+      required: SignUpErrors.PASSWORD_EMPTY,
       minLength: {
         value: 8,
-        message: Errors.PASSWORD_WEAK,
+        message: SignUpErrors.PASSWORD_WEAK,
       },
     }),
     confirmPassword: register({
       validate: value =>
-        value === watch('password') || Errors.PASSWORDS_DO_NOT_MATCH,
+        value === watch('password') || SignUpErrors.PASSWORDS_DO_NOT_MATCH,
     }),
     vpa: register({
-      required: Errors.VPA_EMPTY,
+      required: SignUpErrors.VPA_EMPTY,
       pattern: {
         value: /^[A-Z0-9]+@[A-Z0-9]+/i,
-        message: Errors.VPA_INVALID,
+        message: SignUpErrors.VPA_INVALID,
       },
     }),
   };
@@ -93,16 +94,16 @@ const useSignUpForm = () => {
       history.push(`/merchant/${merchantId}`);
     } catch (err) {
       switch (err.code) {
-        case 'auth/invalid-email':
-          setError('email', 'pattern', Errors.EMAIL_INVALID);
+        case FirebaseErrors.EMAIL_INVALID:
+          setError('email', 'pattern', SignUpErrors.EMAIL_INVALID);
           break;
-        case 'auth/weak-password':
-          setError('password', 'minLength', Errors.PASSWORD_WEAK);
+        case FirebaseErrors.PASSWORD_WEAK:
+          setError('password', 'minLength', SignUpErrors.PASSWORD_WEAK);
           break;
-        case 'auth/email-already-in-use':
+        case FirebaseErrors.EMAIL_ALREADY_IN_USE:
           // TODO: Check if email is also already in database. If not, delete
           // this user and retry.
-          setError('email', 'unique', Errors.EMAIL_ALREADY_IN_USE);
+          setError('email', 'unique', SignUpErrors.EMAIL_ALREADY_IN_USE);
           break;
         default:
           setGeneralError(err);
