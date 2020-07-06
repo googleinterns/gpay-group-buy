@@ -14,21 +14,30 @@
  * limitations under the License.
  */
 
-import request from 'supertest';
+/**
+ * Test data of customers.
+ */
+const data = [
+  {
+    address: 'Blk 42, Serangoon Road, #01-22',
+    contactNumber: '+6591234567',
+    gpayId: 1,
+  },
+  {
+    address: 'Blk 2, Ang Mo Kio Ave 10, #18-02',
+    contactNumber: '+6593320321',
+    gpayId: 2,
+  },
+  {
+    address: 'Blk 7, Pasir Ris St 72, #05-01',
+    contactNumber: '+6581045287',
+    gpayId: 3,
+  },
+];
 
-import app from '../../src';
-import customerFixtures from '../fixtures/customers';
+/**
+ * Test datastore ids for customers.
+ */
+const ids = data.map((_, idx) => idx + 1);
 
-describe('Customers endpoints', () => {
-  test('it should fetch a single customer', async () => {
-    const expectedCustomerData = customerFixtures.data?.[0];
-    const customerId = customerFixtures.ids?.[0];
-
-    const res = await request(app).get(`/customers/${customerId}`);
-
-    expect(res.body).toMatchObject({
-      id: customerId,
-      ...expectedCustomerData,
-    });
-  });
-});
+export default {data, ids};
