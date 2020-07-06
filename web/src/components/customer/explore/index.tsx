@@ -48,11 +48,11 @@ const CustomerExplorePage: React.FC = () => {
   };
 
   const handleGetIdentity = async () => {
-    const {idToken, decodedToken: {sub}} = await getIdentity();
-    const {numOngoingCommits} = await loginCustomer(
-      {gpayId: sub},
-      idToken
-    );
+    const {
+      idToken,
+      decodedToken: {sub},
+    } = await getIdentity();
+    const {numOngoingCommits} = await loginCustomer({gpayId: sub}, idToken);
     setNumCommits(numOngoingCommits);
   };
 
