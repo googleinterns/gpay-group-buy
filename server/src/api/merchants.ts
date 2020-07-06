@@ -26,6 +26,22 @@ import {merchantService} from '../services';
 
 const merchantRouter: Router = Router();
 
+merchantRouter.get(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const filters = Object.keys(req.query).map(key => ({
+        property: key,
+        value: req.query[key],
+      }));
+      const merchants = await merchantService.getAllMerchants(filters);
+      res.status(200).json(merchants);
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
 merchantRouter.post(
   '/',
   merchantAuth,

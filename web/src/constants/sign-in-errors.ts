@@ -14,17 +14,6 @@
  * limitations under the License.
  */
 
-import {Filter, MerchantPayload, MerchantResponse} from '../interfaces';
-import {merchantStorage} from '../storage';
-
-const addMerchant = async (
-  merchant: MerchantPayload
-): Promise<MerchantResponse> => merchantStorage.addMerchant(merchant);
-
-const getAllMerchants = async (
-  filters?: Filter[]
-): Promise<MerchantResponse[]> => merchantStorage.getAllMerchants(filters);
-// TODO(#87): Add restriction such that the merchants themselves can get all the
-// fields but other merchants/customers can get only public fields like name.
-
-export default {addMerchant, getAllMerchants};
+export const USER_NOT_FOUND =
+  'There is no user registered with this email address.';
+export const PASSWORD_INCORRECT = 'The password you entered is incorrect.';
