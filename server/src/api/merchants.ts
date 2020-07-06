@@ -36,9 +36,7 @@ merchantRouter.post(
         firebaseUid,
         ...req.body,
       };
-      const merchant = await merchantService.addMerchant(
-        merchantPayload
-      );
+      const merchant = await merchantService.addMerchant(merchantPayload);
       const resourceUrl = `${process.env.SERVER_URL}/merchants/${merchant.id}`;
       res.setHeader('Content-Location', resourceUrl);
       res.location(resourceUrl);
