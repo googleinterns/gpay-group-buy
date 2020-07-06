@@ -51,10 +51,6 @@ export const loginCustomer = async (
     requestOptions
   );
 
-  if (res.status !== 200 && res.status !== 201) {
-    throw new Error(Errors.SERVER_ERROR);
-  }
-
   return res.json();
 };
 

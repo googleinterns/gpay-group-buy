@@ -87,7 +87,9 @@ const CommitsBadge: React.FC<CommitsBadgeProps> = ({pos = 'static'}) => {
       <>
         Commits Left:
         <CommitCount>
-          {numCommits !== undefined && <>{Math.max(MAX_NUM_COMMITS - numCommits, 0)}</>}
+          {numCommits !== undefined && (
+            <>{Math.max(MAX_NUM_COMMITS - numCommits, 0)}</>
+          )}
         </CommitCount>
         out of {MAX_NUM_COMMITS}
       </>
