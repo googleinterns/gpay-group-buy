@@ -48,7 +48,7 @@ const useSignUpForm = () => {
   } = useForm<SignUpData>({
     mode: 'onChange',
   });
-  const [generalError, setGeneralError] = useState();
+  const [generalError, setGeneralError] = useState<Error | undefined>();
   const history = useHistory();
 
   const validations = {
@@ -84,7 +84,7 @@ const useSignUpForm = () => {
   const disabled = !formState.isValid;
 
   const onSubmit = handleSubmit(async (values: SignUpData) => {
-    setGeneralError(null);
+    setGeneralError(undefined);
     try {
       const {name, email, password, vpa} = values;
       await firebaseAuth.createUserWithEmailAndPassword(email, password);
