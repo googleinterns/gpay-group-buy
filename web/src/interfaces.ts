@@ -57,11 +57,21 @@ export interface Listing {
   listingStatus: ListingStatus;
 }
 
-export interface Customer {
-  id: number;
+/**
+ * CustomerPayload Interface that contains the fields of the payload that
+ * would be sent to the server.
+ */
+export interface CustomerPayload {
   gpayId: string; // E164 format
-  contactNumber: string;
-  address: string;
+  contactNumber?: string;
+  address?: string;
+}
+
+/**
+ * Customer Interface that contains the fields of a Customer.
+ */
+export interface Customer extends Required<CustomerPayload> {
+  id: number;
   numOngoingCommits: number;
 }
 

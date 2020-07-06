@@ -16,7 +16,7 @@
 
 import Errors from 'constants/sign-up-errors';
 
-import {Customer, Listing, MerchantPayload, MerchantResponse} from 'interfaces';
+import {Customer, Listing, CustomerPayload, MerchantPayload, MerchantResponse} from 'interfaces';
 
 /**
  * Fetches a particular customer with the specified customerId.
@@ -26,6 +26,36 @@ export const getCustomer = async (customerId: number): Promise<Customer> => {
   const res = await fetch(
     `${process.env.REACT_APP_SERVER_URL}/customers/${customerId}`
   );
+  return res.json();
+};
+
+/**
+ * Logs in a customer using their
+ * @param customerData
+ * @param idToken
+ */
+export const loginCustomer = async (
+  customerData: CustomerPayload,
+  idToken: string
+): Promise<Customer> => {
+  const successfulStatusCodes = 200 | 201;
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${idToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(customerData),
+  };
+  const res = await fetch(
+    `${process.env.REACT_APP_SERVER_URL}/customers`,
+    requestOptions
+  );
+
+  if (res.status !== successfulStatusCodes) {
+    throw new Error(Errors.SERVER_ERROR);
+  }
+
   return res.json();
 };
 

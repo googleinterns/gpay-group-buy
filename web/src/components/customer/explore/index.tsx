@@ -16,10 +16,11 @@
 
 import React from 'react';
 
-import {getCustomer} from 'api';
+import {getCustomer, loginCustomer} from 'api';
 import CommitsBadge from 'components/common/CommitsBadge';
 import {useCommitCountContext} from 'components/customer/contexts/CommitCountContext';
 import ListingCollection from 'components/customer/explore/ListingCollection';
+import {getIdentity} from 'microapps';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
 import styled from 'styled-components';
@@ -46,6 +47,15 @@ const CustomerExplorePage: React.FC = () => {
     setNumCommits(numOngoingCommits);
   };
 
+  const handleGetIdentity = async () => {
+    const {idToken, decodedToken: {sub}} = await getIdentity();
+    const {numOngoingCommits} = await loginCustomer(
+      {gpayId: sub},
+      idToken
+    );
+    setNumCommits(numOngoingCommits);
+  };
+
   return (
     <PageContainer>
       <CommitsBadgeContainer>
@@ -55,6 +65,9 @@ const CustomerExplorePage: React.FC = () => {
       <ListingCollection />
       <Button color="primary" onClick={handleGetSampleCustomer}>
         Click for commit info of sample customer
+      </Button>
+      <Button color="primary" onClick={handleGetIdentity}>
+        Get Identity
       </Button>
     </PageContainer>
   );
