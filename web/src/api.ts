@@ -38,7 +38,6 @@ export const loginCustomer = async (
   customerData: CustomerPayload,
   idToken: string
 ): Promise<Customer> => {
-  const successfulStatusCodes = 200 | 201;
   const requestOptions = {
     method: 'POST',
     headers: {
@@ -52,7 +51,7 @@ export const loginCustomer = async (
     requestOptions
   );
 
-  if (res.status !== successfulStatusCodes) {
+  if (res.status !== 200 && res.status !== 201) {
     throw new Error(Errors.SERVER_ERROR);
   }
 
