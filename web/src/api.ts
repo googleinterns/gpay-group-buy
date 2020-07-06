@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {SERVER_ERROR} from 'constants/errors/server-errors';
+import {GENERIC_ERROR} from 'constants/errors/server-errors';
 import {USER_NOT_FOUND} from 'constants/errors/sign-in-errors';
 
 import {Customer, Listing, MerchantPayload, MerchantResponse} from 'interfaces';
@@ -60,7 +60,7 @@ export const getMerchantWithEmail = async (
   );
 
   if (res.status !== 200) {
-    throw new Error(SERVER_ERROR);
+    throw new Error(GENERIC_ERROR);
   }
 
   const merchants = await res.json();
@@ -93,12 +93,12 @@ export const addMerchant = async (
   );
 
   if (res.status !== 201) {
-    throw new Error(SERVER_ERROR);
+    throw new Error(GENERIC_ERROR);
   }
 
   const location = res.headers.get('Location');
   const merchantId = location?.substring(location?.lastIndexOf('/') + 1);
-  if (!merchantId) throw new Error(SERVER_ERROR);
+  if (!merchantId) throw new Error(GENERIC_ERROR);
 
   return Number(merchantId);
 };

@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export const SERVER_ERROR = 'Oops, something is wrong. Please try again later!';
+export const GENERIC_ERROR = 'Oops, something is wrong. Please try again later!';
