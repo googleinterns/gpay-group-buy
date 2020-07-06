@@ -42,7 +42,6 @@ const MerchantRoutes: React.FC = () => {
           path={`${match.path}sign-in`}
           component={MerchantSignInPage}
         />
-        <Route path={`${match.path}listing`} component={MerchantSignInPage} />
         <Route
           path={`${match.path}:merchantId`}
           component={MerchantOngoingListingsPage}
