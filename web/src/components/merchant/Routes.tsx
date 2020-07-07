@@ -27,23 +27,23 @@ const MerchantOngoingListingsPage = lazy(() =>
 );
 
 const MerchantRoutes: React.FC = () => {
-  const match = useRouteMatch();
+  const {path} = useRouteMatch();
   return (
     <Switch>
       <MerchantProvider>
-        <Route exact path={match.path} component={MerchantLandingPage} />
+        <Route exact path={path} component={MerchantLandingPage} />
         <Route
           exact
-          path={`${match.path}sign-up`}
+          path={`${path}sign-up`}
           component={MerchantSignUpPage}
         />
         <Route
           exact
-          path={`${match.path}sign-in`}
+          path={`${path}sign-in`}
           component={MerchantSignInPage}
         />
         <Route
-          path={`${match.path}:merchantId`}
+          path={`${path}:merchantId`}
           component={MerchantOngoingListingsPage}
         />
       </MerchantProvider>
