@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-import request from 'supertest';
+import fetch from 'node-fetch';
 
-import app from '../../src';
-import customerFixtures from '../fixtures/customers';
+/**
+ * Teardown Datastore emulator by resetting the datastore emulator.
+ */
+const teardownDatastoreEmulator = async () => {
+  if (process.env.NODE_ENV !== 'test') {
+    console.error('This function can only be run during tests.');
+    return;
+  }
 
-describe('Customers endpoints', () => {
-  test('it should fetch a single customer', async () => {
-    const expectedCustomerData = customerFixtures.data?.[0];
-    const customerId = customerFixtures.ids?.[0];
-
-    const res = await request(app).get(`/customers/${customerId}`);
-
-    expect(res.body).toMatchObject({
-      id: customerId,
-      ...expectedCustomerData,
-    });
+  console.log('\nTearing down Datastore Emulator...');
+  // Make a post request to <emulator_host>:<emulator_port> to reset emulator data
+  await fetch(`http://${process.env.DATASTORE_EMULATOR_HOST}/reset`, {
+    method: 'post',
   });
-});
+};
+
+export default teardownDatastoreEmulator;
