@@ -22,17 +22,15 @@ const getCustomer = async (customerId: number): Promise<CustomerResponse> =>
   customerStorage.getCustomer(customerId);
 
 /**
- * Gets a customer by identifying them with their data.
+ * Gets a customer by identifying them with their gpayId.
  * Returns a CustomerResponse object when such a customer exits.
  * Returns null otherwise.
  * @param data Data of the customer that we are trying to get
  */
-const getCustomerWithData = async (
-  data: CustomerPayload
+const getCustomerWithGpayId = async (
+  gpayId: string
 ): Promise<CustomerResponse | null> =>
-  // Customers are unique by their gpayId, so we will retrieve
-  // the customer using their gpay Id from storage.
-  customerStorage.getCustomerWithGpayId(data.gpayId);
+  customerStorage.getCustomerWithGpayId(gpayId);
 
 /**
  * Creates a customer if the customer is not already registered, and returns customer information.
@@ -47,4 +45,4 @@ const addCustomer = async (
     ...customer,
   });
 
-export default {getCustomer, getCustomerWithData, addCustomer};
+export default {getCustomer, getCustomerWithGpayId, addCustomer};

@@ -53,8 +53,10 @@ customerRouter.post(
     const customerData: CustomerPayload = req.body;
 
     try {
-      const existingCustomer = await customerService.getCustomerWithData(
-        customerData
+      // Customers are unique by their gpayId, so we will retrieve
+      // the customer using their gpay Id.
+      const existingCustomer = await customerService.getCustomerWithGpayId(
+        customerData.gpayId
       );
       if (existingCustomer !== null) {
         const resourceUrl = `${process.env.SERVER_URL}/customers/${existingCustomer.id}`;
