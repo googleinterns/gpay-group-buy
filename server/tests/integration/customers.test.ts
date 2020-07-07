@@ -16,7 +16,7 @@
 
 import request from 'supertest';
 
-import app from '../../src';
+import app from '../../src/app';
 import customerFixtures from '../fixtures/customers';
 
 describe('Customers endpoints', () => {
