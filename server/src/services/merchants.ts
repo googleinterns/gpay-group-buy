@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-import {MerchantPayload} from '../interfaces';
+import {Filter, MerchantPayload, MerchantResponse} from '../interfaces';
 import {merchantStorage} from '../storage';
 
 const addMerchant = async (merchant: MerchantPayload): Promise<number> =>
   merchantStorage.addMerchant(merchant);
 
-export default {addMerchant};
+const getAllMerchants = async (
+  filters?: Filter[]
+): Promise<MerchantResponse[]> => merchantStorage.getAllMerchants(filters);
+// TODO(#87): Add restriction such that the merchants themselves can get all the
+// fields but other merchants/customers can get only public fields like name.
+// TODO(#102): Add checks to ensure that filters have valid properties
+
+export default {addMerchant, getAllMerchants};

@@ -17,7 +17,7 @@
 import {Datastore} from '@google-cloud/datastore';
 import {Entity} from '@google-cloud/datastore/build/src/entity';
 
-import {Filter} from './interfaces';
+import {Filter} from '../interfaces';
 
 const datastore = new Datastore();
 
