@@ -20,15 +20,11 @@
  */
 
 import {MERCHANT_KIND} from '../constants/kinds';
-import {Filter, MerchantPayload, MerchantResponse} from '../interfaces';
-import {add, get, getAll} from './datastore';
+import {MerchantPayload, MerchantResponse} from '../interfaces';
+import {add, get} from './datastore';
 
 const getMerchant = async (merchantId: number): Promise<MerchantResponse> =>
   get(MERCHANT_KIND, merchantId);
-
-const getAllMerchants = async (
-  filters?: Filter[]
-): Promise<MerchantResponse[]> => getAll(MERCHANT_KIND, filters);
 
 const addMerchant = async (
   merchant: MerchantPayload
@@ -41,4 +37,4 @@ const addMerchant = async (
   return getMerchant(merchantId);
 };
 
-export default {addMerchant, getMerchant, getAllMerchants};
+export default {addMerchant, getMerchant};

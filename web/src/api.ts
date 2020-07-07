@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import {SERVER_ERROR} from 'constants/server-error';
-import {USER_NOT_FOUND} from 'constants/sign-in-errors';
+import Errors from 'constants/sign-up-errors';
 
 import {Customer, Listing, MerchantPayload, MerchantResponse} from 'interfaces';
 
@@ -50,29 +49,6 @@ export const getListing = async (listingId: number): Promise<Listing> => {
 };
 
 /**
- * Retrieves merchant with the given email from the database.
- */
-export const getMerchantWithEmail = async (
-  email: string
-): Promise<MerchantResponse> => {
-  const res = await fetch(
-    `${process.env.REACT_APP_SERVER_URL}/merchants?email=${email}`
-  );
-
-  if (res.status !== 200) {
-    throw new Error(SERVER_ERROR);
-  }
-
-  const merchants = await res.json();
-
-  if (merchants.length < 1) {
-    throw new Error(USER_NOT_FOUND);
-  }
-
-  return merchants[0];
-};
-
-/**
  * Stores new merchant into the database.
  */
 export const addMerchant = async (
@@ -93,7 +69,7 @@ export const addMerchant = async (
   );
 
   if (res.status !== 201) {
-    throw new Error(SERVER_ERROR);
+    throw new Error(Errors.SERVER_ERROR);
   }
 
   const merchant = res.json();

@@ -28,6 +28,8 @@ export const PASSWORDS_DO_NOT_MATCH = 'Passwords do not match.';
 export const VPA_EMPTY = 'VPA cannot be empty.';
 export const VPA_INVALID = 'Please input a valid VPA.';
 
+export const SERVER_ERROR = 'Oops, something is wrong. Please try again later!';
+
 export default {
   NAME_EMPTY,
   EMAIL_ALREADY_IN_USE,
@@ -38,4 +40,5 @@ export default {
   PASSWORDS_DO_NOT_MATCH,
   VPA_EMPTY,
   VPA_INVALID,
+  SERVER_ERROR,
 };
