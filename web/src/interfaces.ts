@@ -73,6 +73,7 @@ export interface MerchantPayload {
   name: string;
   email: string;
   vpa: string;
+  firebaseUid: string;
 }
 
 /**
@@ -81,5 +82,4 @@ export interface MerchantPayload {
  */
 export interface MerchantResponse extends MerchantPayload {
   id: number;
-  firebaseUid: string;
 }
