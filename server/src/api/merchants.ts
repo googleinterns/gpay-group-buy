@@ -48,13 +48,16 @@ merchantRouter.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const firebaseUid = req.decoded.uid;
-      const merchant: MerchantPayload = {
+      const merchantPayload: MerchantPayload = {
         firebaseUid,
         ...req.body,
       };
-      const id = await merchantService.addMerchant(merchant);
-      res.location(`${process.env.SERVER_URL}/merchants/${id}`);
-      res.sendStatus(201);
+      const merchant = await merchantService.addMerchant(merchantPayload);
+      const resourceUrl = `${process.env.SERVER_URL}/merchants/${merchant.id}`;
+      res.setHeader('Content-Location', resourceUrl);
+      res.location(resourceUrl);
+      res.status(201);
+      res.json(merchant);
     } catch (error) {
       return next(error);
     }

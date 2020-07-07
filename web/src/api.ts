@@ -16,7 +16,7 @@
 
 import Errors from 'constants/sign-up-errors';
 
-import {Customer, Listing, MerchantPayload} from 'interfaces';
+import {Customer, Listing, MerchantPayload, MerchantResponse} from 'interfaces';
 
 /**
  * Fetches a particular customer with the specified customerId.
@@ -52,16 +52,16 @@ export const getListing = async (listingId: number): Promise<Listing> => {
  * Stores new merchant into the database.
  */
 export const addMerchant = async (
-  merchant: MerchantPayload,
+  merchantPayload: MerchantPayload,
   idToken: string
-): Promise<number> => {
+): Promise<MerchantResponse> => {
   const requestOptions = {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${idToken}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(merchant),
+    body: JSON.stringify(merchantPayload),
   };
   const res = await fetch(
     `${process.env.REACT_APP_SERVER_URL}/merchants`,
@@ -72,9 +72,6 @@ export const addMerchant = async (
     throw new Error(Errors.SERVER_ERROR);
   }
 
-  const location = res.headers.get('Location');
-  const merchantId = location?.substring(location?.lastIndexOf('/') + 1);
-  if (!merchantId) throw new Error(Errors.SERVER_ERROR);
-
-  return Number(merchantId);
+  const merchant = res.json();
+  return merchant;
 };
