@@ -20,8 +20,8 @@
 
 import {Router, Request, Response, NextFunction} from 'express';
 
-import {listingService} from '../services';
 import merchantAuth from '../middleware/merchant-auth';
+import {listingService} from '../services';
 
 const listingRouter = Router();
 

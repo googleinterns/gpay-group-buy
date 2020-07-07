@@ -111,7 +111,9 @@ export interface ListingRequest {
  * ListingPayload Interface that contains the fields of the payload that
  * would be sent to create a Listing Entity.
  */
-export interface ListingPayload extends ListingRequest, Required<ListingComputedProperties> {};
+export interface ListingPayload
+  extends ListingRequest,
+    Required<ListingComputedProperties> {}
 
 /**
  * ListingResponse Interface that contains the fields of the Response that
