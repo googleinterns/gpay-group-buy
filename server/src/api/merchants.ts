@@ -47,11 +47,7 @@ merchantRouter.post(
   merchantAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const firebaseUid = req.decoded.uid;
-      const merchantPayload: MerchantPayload = {
-        firebaseUid,
-        ...req.body,
-      };
+      const merchantPayload: MerchantPayload = req.body;
       const merchant = await merchantService.addMerchant(merchantPayload);
       const resourceUrl = `${process.env.SERVER_URL}/merchants/${merchant.id}`;
       res.setHeader('Content-Location', resourceUrl);
