@@ -74,10 +74,9 @@ const customerAuth = async (
 
   jwt.verify(idToken, getKey, options, (err, decoded) => {
     if (err) {
-      res.status(403).send(err);
+      res.status(401).send(err);
       return;
     }
-
     req.decodedCustomer = decoded;
     next();
   });
