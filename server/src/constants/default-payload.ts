@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import {ListingComputedProperties} from '../interfaces';
+
 /**
  * Contains the default values for the optional fields on a CustomerPayload object
  * to be stored in the database.
@@ -21,4 +23,15 @@
 export const DEFAULT_CUSTOMER_PAYLOAD = {
   contactNumber: '',
   address: '',
+};
+
+/**
+ * Contains the default values for the fields on a ListingPayload object which
+ * are automatically set by ListingService during listing creation.
+ */
+export const DEFAULT_LISTING_PAYLOAD: Required<ListingComputedProperties> = {
+  numCommits: 0,
+  numPaid: 0,
+  numCompleted: 0,
+  listingStatus: 'ongoing',
 };

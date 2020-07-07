@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
-import {ListingPayload, ListingResponse} from 'interfaces';
-
+import {DEFAULT_LISTING_PAYLOAD} from '../constants/default-payload';
+import {ListingRequest, ListingResponse} from '../interfaces';
 import {listingStorage} from '../storage';
 
-const addListing = async (listing: ListingPayload): Promise<ListingResponse> =>
-  listingStorage.addListing(listing);
+const addListing = async (listing: ListingRequest): Promise<ListingResponse> =>
+  listingStorage.addListing({
+    ...listing,
+    ...DEFAULT_LISTING_PAYLOAD,
+  });
 
 const getAllListings = async (): Promise<ListingResponse[]> =>
   listingStorage.getAllListings();
