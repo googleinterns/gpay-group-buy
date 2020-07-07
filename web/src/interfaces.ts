@@ -62,8 +62,8 @@ export interface Listing {
  * would be sent to the server.
  */
 export interface CustomerPayload {
-  gpayId: string; // E164 format
-  contactNumber?: string;
+  gpayId: string;
+  contactNumber?: string; // E164 format
   address?: string;
 }
 
