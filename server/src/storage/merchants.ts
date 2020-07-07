@@ -30,6 +30,5 @@ const addMerchant = async (merchant: MerchantPayload): Promise<number> =>
 const getAllMerchants = async (
   filters?: Filter[]
 ): Promise<MerchantResponse[]> => getAll(MERCHANT_KIND, filters);
-// TODO(#102): Add checks to ensure that filters have valid properties
 
 export default {addMerchant, getAllMerchants};
