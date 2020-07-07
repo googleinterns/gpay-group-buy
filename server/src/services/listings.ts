@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-import {ListingResponse} from 'interfaces';
+import {ListingPayload, ListingResponse} from 'interfaces';
 
 import {listingStorage} from '../storage';
+
+const addListing = async (listing: ListingPayload): Promise<ListingResponse> =>
+  listingStorage.addListing(listing);
 
 const getAllListings = async (): Promise<ListingResponse[]> =>
   listingStorage.getAllListings();
@@ -24,4 +27,4 @@ const getAllListings = async (): Promise<ListingResponse[]> =>
 const getListing = async (listingId: number): Promise<ListingResponse> =>
   listingStorage.getListing(listingId);
 
-export default {getAllListings, getListing};
+export default {addListing, getAllListings, getListing};

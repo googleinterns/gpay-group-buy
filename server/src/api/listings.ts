@@ -55,4 +55,25 @@ listingRouter.get(
   }
 );
 
+listingRouter.post(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const listingData = req.body;
+    // Parse JSON object into the correct types of ListingPayload properties.
+    listingData.deadline = new Date(listingData.deadline);
+
+    try {
+      const listing = await listingService.addListing(listingData);
+      const resourceUrl = `${process.env.SERVER_URL}/listings/${listing.id}`;
+      res.setHeader('Content-Location', resourceUrl);
+      res.location(resourceUrl);
+      res.status(201);
+      res.json(listing);
+      // TODO: Add error handling with the appropriate response codes.
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
 export default listingRouter;
