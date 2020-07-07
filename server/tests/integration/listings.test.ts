@@ -17,17 +17,32 @@
 import request from 'supertest';
 
 import app from '../../src/app';
+import firebaseAuth, {
+  deleteSignedInUser,
+  getFirebaseIdToken,
+  getFirebaseUid,
+} from '../firebase-auth';
 import listingFixtures from '../fixtures/listings';
 import merchantFixtures from '../fixtures/merchants';
 
 describe('POST /listings', () => {
   let merchantId: number;
+  let authHeader: string;
+  let firebaseUid: string;
 
   beforeAll(async () => {
+    const {name, email, password, vpa} = merchantFixtures.data;
+
+    // Create user on firebase auth to generate new firebaseIdToken and firebaseUid.
+    await firebaseAuth.createUserWithEmailAndPassword(email, password);
+    const firebaseIdToken = await getFirebaseIdToken();
+    authHeader = `Bearer ${firebaseIdToken}`;
+    firebaseUid = await getFirebaseUid();
+
     const res = await request(app)
       .post('/merchants')
-      .send(merchantFixtures.request)
-      .set('Authorization', merchantFixtures.authHeader)
+      .send({name, email, vpa, firebaseUid})
+      .set('Authorization', authHeader)
       .set('Content-Type', 'application/json');
 
     if (res.status !== 201) fail(res.body.error?.message);
@@ -35,16 +50,18 @@ describe('POST /listings', () => {
     merchantId = res.body.id;
   });
 
+  afterAll(deleteSignedInUser);
+
   test('it should add a single listing', async () => {
     const listingRequest = {
       merchantId,
-      ...listingFixtures.request,
+      ...listingFixtures.data,
     };
 
     const res = await request(app)
       .post('/listings')
       .send(listingRequest)
-      .set('Authorization', listingFixtures.authHeader)
+      .set('Authorization', authHeader)
       .set('Content-Type', 'application/json');
 
     expect(res.body).toMatchObject({
