@@ -40,11 +40,12 @@ const merchantAuth = async (
 
     const {firebaseUid} = req.body;
     if (firebaseUid !== undefined && firebaseUid !== verifiedUid)
-      throw new Error('Invalid token');
+      throw new Error('Invalid bearer token.');
 
     next();
-  } catch (error) {
-    res.sendStatus(401);
+  } catch (err) {
+    err.status = 401;
+    next(err);
   }
 };
 
