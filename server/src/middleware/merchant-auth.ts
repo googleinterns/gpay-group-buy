@@ -32,7 +32,13 @@ const merchantAuth = async (
     const decodedFirebaseIdToken = await admin
       .auth()
       .verifyIdToken(firebaseIdToken);
-    req.decoded = decodedFirebaseIdToken;
+
+    if (
+      req.body.firebaseUid !== undefined &&
+      req.body.firebaseUid !== decodedFirebaseIdToken.uid
+    )
+      throw new Error('Invalid token.');
+
     next();
   } catch (error) {
     res.sendStatus(401);
