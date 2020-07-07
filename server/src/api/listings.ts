@@ -21,6 +21,7 @@
 import {Router, Request, Response, NextFunction} from 'express';
 
 import {listingService} from '../services';
+import merchantAuth from '../middleware/merchant-auth';
 
 const listingRouter = Router();
 
@@ -57,6 +58,7 @@ listingRouter.get(
 
 listingRouter.post(
   '/',
+  merchantAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     const listingData = req.body;
     // Parse JSON object into the correct types of ListingPayload properties.
