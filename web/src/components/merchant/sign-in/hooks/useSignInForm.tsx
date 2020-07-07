@@ -54,7 +54,7 @@ const useSignInForm = () => {
   const disabled = !formState.isValid;
 
   const onSubmit = handleSubmit(async (values: SignInData) => {
-    setGeneralError(undefined);
+    setGeneralError(undefined); // Reset general error message.
     try {
       const {email, password} = values;
       await firebaseAuth.signInWithEmailAndPassword(email, password);

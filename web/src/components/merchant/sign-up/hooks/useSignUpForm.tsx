@@ -85,7 +85,7 @@ const useSignUpForm = () => {
   const disabled = !formState.isValid;
 
   const onSubmit = handleSubmit(async (values: SignUpData) => {
-    setGeneralError(undefined);
+    setGeneralError(undefined); // Reset general error message.
     try {
       const {name, email, password, vpa} = values;
       await firebaseAuth.createUserWithEmailAndPassword(email, password);
