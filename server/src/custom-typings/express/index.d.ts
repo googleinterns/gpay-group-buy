@@ -17,5 +17,6 @@
 declare namespace Express {
   interface Request {
     decoded: import('firebase-admin').auth.DecodedIdToken;
+    decodedCustomer?: object;
   }
 }

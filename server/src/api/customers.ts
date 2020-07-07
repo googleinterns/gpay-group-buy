@@ -21,6 +21,7 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import {CustomerPayload} from 'interfaces';
 
+import customerAuth from '../middleware/customer-auth';
 import {customerService} from '../services';
 
 const customerRouter = Router();
@@ -49,6 +50,7 @@ customerRouter.get(
  */
 customerRouter.post(
   '/',
+  customerAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     const customerData: CustomerPayload = req.body;
 
