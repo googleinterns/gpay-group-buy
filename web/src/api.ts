@@ -30,9 +30,9 @@ export const getCustomer = async (customerId: number): Promise<Customer> => {
 };
 
 /**
- * Logs in a customer using their
- * @param customerData
- * @param idToken
+ * Logs in a customer or registers a new one if it is a new user.
+ * @param customerData Data of the customer to login/register
+ * @param idToken Authentication token of customer
  */
 export const loginCustomer = async (
   customerData: CustomerPayload,
