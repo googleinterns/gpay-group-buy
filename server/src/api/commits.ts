@@ -24,6 +24,9 @@ import {commitService} from '../services';
 
 const commitRouter = express.Router();
 
+/**
+ * Handles the get request for retrieving all commits.
+ */
 commitRouter.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
