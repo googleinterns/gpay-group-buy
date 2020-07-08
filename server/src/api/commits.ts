@@ -30,6 +30,7 @@ commitRouter.get(
     try {
       const commits = await commitService.getAllCommits(req.query);
       res.status(200).json(commits);
+      // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);
     }
