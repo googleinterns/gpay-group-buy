@@ -95,6 +95,7 @@ const useSignUpForm = () => {
         {name, email, vpa, firebaseUid},
         firebaseIdToken
       );
+      sessionStorage.setItem('merchant', JSON.stringify(merchant));
       history.push(`/merchant/${merchant.id}`);
     } catch (err) {
       switch (err.code) {
