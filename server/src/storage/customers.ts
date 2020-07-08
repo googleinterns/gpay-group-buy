@@ -15,11 +15,15 @@
  */
 
 import {CUSTOMER_KIND, COMMIT_KIND} from '../constants/kinds';
-import {CustomerResponse, CommitResponse, CustomerPayload} from '../interfaces';
+import {
+  CustomerResponse,
+  CommitResponse,
+  CustomerPayload,
+  CustomerDatastoreReponse,
+} from '../interfaces';
 import {get, getAll, add} from './datastore';
 
-const getCustomer = async (customerId: number): Promise<CustomerResponse> => {
-  const customer = await get(CUSTOMER_KIND, customerId);
+const getNumOngoingCommits = async (customerId: number) => {
   const commits: CommitResponse[] = await getAll(COMMIT_KIND, [
     {
       property: 'customerId',
@@ -30,10 +34,44 @@ const getCustomer = async (customerId: number): Promise<CustomerResponse> => {
       value: 'ongoing',
     },
   ]);
+  return commits.length;
+};
 
+const getCustomer = async (customerId: number): Promise<CustomerResponse> => {
+  const customer: CustomerDatastoreReponse = await get(
+    CUSTOMER_KIND,
+    customerId
+  );
+  const numOngoingCommits = await getNumOngoingCommits(customerId);
   return {
     ...customer,
-    numOngoingCommits: commits.length,
+    numOngoingCommits,
+  };
+};
+
+/**
+ * Gets a customer with the specified gpayId.
+ * Returns a CustomerResponse object when such a customer exits.
+ * Returns null otherwise.
+ * @param gpayId The gpay id of the customer to retrieve
+ */
+const getCustomerWithGpayId = async (
+  gpayId: string
+): Promise<CustomerResponse | null> => {
+  const [customer]: CustomerDatastoreReponse[] = await getAll(CUSTOMER_KIND, [
+    {
+      property: 'gpayId',
+      value: gpayId,
+    },
+  ]);
+  if (customer === undefined) {
+    return null;
+  }
+
+  const numOngoingCommits = await getNumOngoingCommits(customer.id);
+  return {
+    ...customer,
+    numOngoingCommits,
   };
 };
 
@@ -53,4 +91,4 @@ const addCustomer = async (
   return getCustomer(customerId);
 };
 
-export default {addCustomer, getCustomer};
+export default {addCustomer, getCustomer, getCustomerWithGpayId};

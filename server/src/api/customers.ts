@@ -18,11 +18,10 @@
  * @fileoverview Handles routing of /customers endpoints.
  */
 
-import {readSync} from 'fs';
-
 import {Router, Request, Response, NextFunction} from 'express';
 import {CustomerPayload} from 'interfaces';
 
+import customerAuth from '../middleware/customer-auth';
 import {customerService} from '../services';
 
 const customerRouter = Router();
@@ -43,19 +42,36 @@ customerRouter.get(
 );
 
 /**
- * Create a customer if they do not already exist.
+ * Endpoint for the "logging in" of customers.
+ * If the customer exists, return the customer details in the
+ * response body with code 200.
+ * Else, add the customer and return the added customer details
+ * in the response body with code 201.
  */
 customerRouter.post(
   '/',
+  customerAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     const customerData: CustomerPayload = req.body;
 
     try {
-      const customer = await customerService.addCustomer(customerData);
-      const resourceUrl = `${process.env.SERVER_URL}/customers/${customer.id}`;
+      // Customers are unique by their gpayId, so we will retrieve
+      // the customer using their gpay Id.
+      const existingCustomer = await customerService.getCustomerWithGpayId(
+        customerData.gpayId
+      );
+      if (existingCustomer !== null) {
+        const resourceUrl = `${process.env.SERVER_URL}/customers/${existingCustomer.id}`;
+        res.setHeader('Content-Location', resourceUrl);
+        res.status(200).send(existingCustomer);
+        return;
+      }
+
+      const addedCustomer = await customerService.addCustomer(customerData);
+      const resourceUrl = `${process.env.SERVER_URL}/customers/${addedCustomer.id}`;
       res.setHeader('Content-Location', resourceUrl);
       res.location(resourceUrl);
-      res.status(201).send(customer);
+      res.status(201).send(addedCustomer);
       // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);
