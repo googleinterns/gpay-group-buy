@@ -22,7 +22,6 @@ import {
 import {useState} from 'react';
 
 import {getMerchantWithEmail} from 'api';
-import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
 import firebaseAuth from 'firebase-auth';
 import {useForm} from 'react-hook-form';
 import {useHistory} from 'react-router-dom';
@@ -42,7 +41,6 @@ const useSignInForm = () => {
     mode: 'onChange',
   });
   const [generalError, setGeneralError] = useState();
-  const {setMerchant} = useMerchantContext();
   const history = useHistory();
 
   const validations = {
@@ -61,7 +59,7 @@ const useSignInForm = () => {
       const {email, password} = values;
       await firebaseAuth.signInWithEmailAndPassword(email, password);
       const merchant = await getMerchantWithEmail(email);
-      setMerchant(merchant);
+      sessionStorage.setItem('merchant', JSON.stringify(merchant));
       history.push(`/merchant/${merchant.id}`);
     } catch (err) {
       switch (err.code) {

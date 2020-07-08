@@ -16,11 +16,15 @@
 
 import React from 'react';
 
-import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
+import {MerchantResponse} from 'interfaces';
 
 const OngoingListingsPage: React.FC = () => {
-  const {merchant} = useMerchantContext();
-  return <div>{merchant?.name}</div>;
+  const merchantString = sessionStorage.getItem('merchant');
+
+  if (merchantString === null) return null;
+
+  const merchant: MerchantResponse = JSON.parse(merchantString);
+  return <div>{merchant.name}</div>;
 };
 
 export default OngoingListingsPage;
