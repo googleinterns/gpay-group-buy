@@ -16,7 +16,13 @@
 
 import Errors from 'constants/sign-up-errors';
 
-import {Customer, Listing, CustomerPayload, MerchantPayload, MerchantResponse} from 'interfaces';
+import {
+  Customer,
+  Listing,
+  CustomerPayload,
+  MerchantPayload,
+  MerchantResponse,
+} from 'interfaces';
 
 /**
  * Fetches a particular customer with the specified customerId.
