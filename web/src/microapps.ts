@@ -15,6 +15,8 @@
  */
 
 /**
- * ResponseId type is the union type of datastore's built-in id.
+ * Microapps API.
  */
-export type ResponseId = number | Long | string | null;
+const microapps = window.microapps;
+
+export default microapps;

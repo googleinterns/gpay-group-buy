@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-/**
- * ResponseId type is the union type of datastore's built-in id.
- */
-export type ResponseId = number | Long | string | null;
+declare global {
+  interface Window {
+    microapps: any;
+  }
+}
+
+// Export nothing.
+// Added because we can only `declare global` in files that has import or export.
+export {};
