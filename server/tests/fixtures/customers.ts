@@ -40,4 +40,12 @@ const data = [
  */
 const ids = data.map((_, idx) => idx + 1);
 
-export default {data, ids};
+/**
+ * Test response data for customers.
+ */
+const responseData = data.map((customer, idx) => ({
+  ...customer,
+  id: ids[idx],
+}));
+
+export default {data, ids, responseData};

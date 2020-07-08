@@ -24,17 +24,17 @@ import listingFixtures from '../fixtures/listings';
 describe('Customers endpoints', () => {
   describe('GET /commits', () => {
     test('it should fetch all commits', async () => {
-      const expectedResponse = commitFixtures.responseData;
+      const expectedCommitData = commitFixtures.responseData;
 
       const res = await request(app).get('/commits');
 
       expect(res.status).toBe(200);
-      expect(res.body).toEqual(expectedResponse);
+      expect(res.body).toEqual(expectedCommitData);
     });
 
     test('it should filter by listingId query param', async () => {
       const targetListingId = listingFixtures.ids?.[0];
-      const expectedResponse = commitFixtures.responseData.filter(
+      const expectedCommitData = commitFixtures.responseData.filter(
         data => data.listingId === targetListingId
       );
 
@@ -43,12 +43,12 @@ describe('Customers endpoints', () => {
       });
 
       expect(res.status).toBe(200);
-      expect(res.body).toEqual(expectedResponse);
+      expect(res.body).toEqual(expectedCommitData);
     });
 
     test('it should filter by customerId query param', async () => {
       const targetCustomerId = customerFixtures.ids?.[0];
-      const expectedResponse = commitFixtures.responseData.filter(
+      const expectedCommitData = commitFixtures.responseData.filter(
         data => data.customerId === targetCustomerId
       );
 
@@ -57,13 +57,13 @@ describe('Customers endpoints', () => {
       });
 
       expect(res.status).toBe(200);
-      expect(res.body).toEqual(expectedResponse);
+      expect(res.body).toEqual(expectedCommitData);
     });
 
     test('it should filter by more than 1 query param', async () => {
       const targetCustomerId = customerFixtures.ids?.[0];
       const targetListingId = listingFixtures.ids?.[0];
-      const expectedResponse = commitFixtures.responseData.filter(
+      const expectedCommitData = commitFixtures.responseData.filter(
         data =>
           data.customerId === targetCustomerId &&
           data.listingId === targetListingId
@@ -74,7 +74,7 @@ describe('Customers endpoints', () => {
       });
 
       expect(res.status).toBe(200);
-      expect(res.body).toEqual(expectedResponse);
+      expect(res.body).toEqual(expectedCommitData);
     });
 
     test('it should not filter by disallowed query params', async () => {

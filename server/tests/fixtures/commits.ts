@@ -40,6 +40,9 @@ const data = [
  */
 const ids = data.map((_, idx) => idx + 1);
 
+/**
+ * Test response data for commits.
+ */
 const responseData = data.map((commit, idx) => ({
   ...commit,
   id: ids[idx],

@@ -71,4 +71,13 @@ const data = [
  */
 const ids = data.map((_, idx) => idx + 1);
 
-export default {data, ids};
+/**
+ * Test response data for listings.
+ */
+const responseData = data.map((listing, idx) => ({
+  ...listing,
+  id: ids[idx],
+  deadline: listing.deadline.toISOString(),
+}));
+
+export default {data, ids, responseData};
