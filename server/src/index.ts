@@ -14,7 +14,69 @@
  * limitations under the License.
  */
 
-import app from './app';
+/**
+ * @fileoverview This file is the main entrypoint for GPay Group Buy server.
+ */
+
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import express from 'express';
+
+import {
+  commitRouter,
+  customerRouter,
+  listingRouter,
+  merchantRouter,
+} from './api';
+
+const app: express.Application = express();
+const router: express.Router = express.Router();
+
+router.use('/commits', commitRouter);
+router.use('/customers', customerRouter);
+router.use('/listings', listingRouter);
+router.use('/merchants', merchantRouter);
+
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+app.use(bodyParser.json());
+app.use(
+  cors({
+    origin: process.env.WEB_URL,
+    exposedHeaders: ['Location'],
+  })
+);
+app.use(router);
+
+// This handles server errors.
+app.use(
+  (
+    err: any,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    res.status(err.status || 500).send({
+      error: {
+        status: err.status || 500,
+        message: err.message || 'Internal Server Error',
+      },
+    });
+  }
+);
+
+// This handles routing errors.
+app.use(
+  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    res.status(404).send({
+      status: 404,
+      error: 'Not Found',
+    });
+  }
+);
 
 const localPort = process.env.NODE_ENV === 'test' ? 5001 : 5000;
 const port = process.env.PORT || localPort;
@@ -30,4 +92,5 @@ process.on('SIGINT', onStopSignal);
 process.on('SIGHUP', onStopSignal);
 process.on('SIGUSR2', onStopSignal); // Nodemon uses this
 
+export default app;
 export {server};

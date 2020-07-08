@@ -43,7 +43,6 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "firebase": "^7.15.5",
     "firebase-admin": "^8.12.1",
     "guid-typescript": "^1.0.9",
     "node-fetch": "^2.6.0",
@@ -64,9 +63,6 @@
     "roots": [
       "<rootDir>/src",
       "<rootDir>/tests"
-    ],
-    "setupFiles": [
-      "dotenv-flow/config"
     ],
     "testMatch": [
       "**/__tests__/**/*.+(ts|tsx|js)",
