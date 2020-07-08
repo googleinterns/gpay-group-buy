@@ -76,16 +76,16 @@ export const getMerchantWithEmail = async (
  * Stores new merchant into the database.
  */
 export const addMerchant = async (
-  merchant: MerchantPayload,
+  merchantPayload: MerchantPayload,
   idToken: string
-): Promise<number> => {
+): Promise<MerchantResponse> => {
   const requestOptions = {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${idToken}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(merchant),
+    body: JSON.stringify(merchantPayload),
   };
   const res = await fetch(
     `${process.env.REACT_APP_SERVER_URL}/merchants`,
@@ -96,9 +96,6 @@ export const addMerchant = async (
     throw new Error(GENERIC_ERROR);
   }
 
-  const location = res.headers.get('Location');
-  const merchantId = location?.substring(location?.lastIndexOf('/') + 1);
-  if (!merchantId) throw new Error(GENERIC_ERROR);
-
-  return Number(merchantId);
+  const merchant = res.json();
+  return merchant;
 };
