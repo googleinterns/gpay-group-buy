@@ -28,7 +28,7 @@ const client = jwksClient({
 });
 
 /**
- * Get public key or secret from jwt header.
+ * Gets public key or secret from jwt header.
  */
 const getKey: GetPublicKeyOrSecret = (
   header: JwtHeader,
