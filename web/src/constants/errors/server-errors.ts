@@ -15,4 +15,4 @@
  */
 
 export const GENERIC_ERROR =
-  'Oops, something is wrong. Please try again later!';
+  'Oops, something went wrong. Please try again later!';
