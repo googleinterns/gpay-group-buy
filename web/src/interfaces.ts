@@ -76,8 +76,8 @@ export interface MerchantPayload {
 }
 
 /**
- * MerchantResponse Interface that contains the fields of the Response that
- * client side would receive after sending a GET request to /merchants endpoint.
+ * MerchantResponse Interface that contains the fields of the merchant object that
+ * client side would receive after sending an API request to /merchants endpoint.
  */
 export interface MerchantResponse extends MerchantPayload {
   id: number;

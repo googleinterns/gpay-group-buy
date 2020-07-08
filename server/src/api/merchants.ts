@@ -26,19 +26,38 @@ import {merchantService} from '../services';
 
 const merchantRouter: Router = Router();
 
+merchantRouter.get(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const filters = Object.keys(req.query).map(key => ({
+        property: key,
+        value: req.query[key],
+      }));
+      const merchants = await merchantService.getAllMerchants(filters);
+      res.status(200).json(merchants);
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
 merchantRouter.post(
   '/',
   merchantAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const firebaseUid = req.decoded.uid;
-      const merchant: MerchantPayload = {
+      const merchantPayload: MerchantPayload = {
         firebaseUid,
         ...req.body,
       };
-      const id = await merchantService.addMerchant(merchant);
-      res.location(`${process.env.SERVER_URL}/merchants/${id}`);
-      res.sendStatus(201);
+      const merchant = await merchantService.addMerchant(merchantPayload);
+      const resourceUrl = `${process.env.SERVER_URL}/merchants/${merchant.id}`;
+      res.setHeader('Content-Location', resourceUrl);
+      res.location(resourceUrl);
+      res.status(201);
+      res.json(merchant);
     } catch (error) {
       return next(error);
     }
