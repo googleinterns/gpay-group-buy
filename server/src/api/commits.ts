@@ -16,10 +16,24 @@
 
 /**
  * @fileoverview Handles routing of /commits endpoints.
- * @author Karen Frilya Celine
  */
 
-import express from 'express';
-const router: express.Router = express.Router();
+import express, {Request, Response, NextFunction} from 'express';
 
-export const commitRouter: express.Router = router;
+import {commitService} from '../services';
+
+const commitRouter = express.Router();
+
+commitRouter.get(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const commits = await commitService.getAllCommits(req.query);
+      res.status(200).json(commits);
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+export default commitRouter;

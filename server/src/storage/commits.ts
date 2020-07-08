@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-import {Datastore} from '@google-cloud/datastore';
-import {Guid} from 'guid-typescript';
+import {COMMIT_KIND} from '../constants/kinds';
+import {Filter, CommitResponse} from '../interfaces';
+import {getAll} from './datastore';
 
-const datastore = new Datastore();
+const getAllCommits = async (filters?: Filter[]): Promise<CommitResponse[]> =>
+  getAll(COMMIT_KIND, filters);
 
-export const commitStorage = {};
+export default {getAllCommits};

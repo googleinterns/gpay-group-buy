@@ -14,6 +14,51 @@
  * limitations under the License.
  */
 
+import {
+  Filter,
+  CommitResponse,
+  QueryParams,
+  CommitPayloadKey,
+} from '../interfaces';
 import {commitStorage} from '../storage';
 
-export const commitService = {};
+/**
+ * Retrieves all commits.
+ * If query paramaters are provided, will retrieve all commits satisfying
+ * the query parameters.
+ * @param queryParams The query parameters
+ */
+const getAllCommits = async (
+  queryParams?: QueryParams
+): Promise<CommitResponse[]> => {
+  if (queryParams === undefined) {
+    return commitStorage.getAllCommits();
+  }
+
+  const allowedKeys: CommitPayloadKey[] = ['customerId', 'listingId'];
+  const filters: Filter[] = [];
+  Object.keys(queryParams).forEach(key => {
+    if (!(allowedKeys as string[]).includes(key)) {
+      throw new Error(`${key} is not a valid query parameter.`);
+    }
+
+    let value = queryParams[key];
+    switch (key) {
+      case 'customerId':
+      case 'listingId':
+        value = Number(value);
+        if (Number.isNaN(value)) {
+          throw new Error(`Invalid filter value provided for ${key}.`);
+        }
+        break;
+    }
+
+    filters.push({
+      property: key,
+      value,
+    });
+  });
+  return commitStorage.getAllCommits(filters);
+};
+
+export default {getAllCommits};
