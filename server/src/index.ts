@@ -80,8 +80,9 @@ app.use(
 
 const localPort = process.env.NODE_ENV === 'test' ? 5001 : 5000;
 const port = process.env.PORT || localPort;
-const server = app.listen(port, () => console.log(`Listening on port ${port}`));
-
+if (!module.parent) {
+  app.listen(port, () => console.log(`Listening on port ${port}`));
+}
 const onStopSignal = () => {
   console.log('Termination signal received, exiting process..');
   process.exit(1); // eslint-disable-line no-process-exit
@@ -93,4 +94,3 @@ process.on('SIGHUP', onStopSignal);
 process.on('SIGUSR2', onStopSignal); // Nodemon uses this
 
 export default app;
-export {server};
