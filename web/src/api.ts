@@ -65,7 +65,7 @@ export const getMerchantWithEmail = async (
 
   const merchants = await res.json();
 
-  if (merchants.length < 1) {
+  if (merchants.length === 0) {
     throw new Error(USER_NOT_FOUND);
   }
 
