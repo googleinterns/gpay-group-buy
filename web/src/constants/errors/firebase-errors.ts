@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-import request from 'supertest';
+// Sign in errors
+export const USER_NOT_FOUND = 'auth/user-not-found';
+export const PASSWORD_INCORRECT = 'auth/wrong-password';
 
-import app from '../../src';
-import customerFixtures from '../fixtures/customers';
+// Sign up errors
+export const EMAIL_ALREADY_IN_USE = 'auth/email-already-in-use';
+export const EMAIL_INVALID = 'auth/invalid-email';
+export const PASSWORD_WEAK = 'auth/weak-password';
 
-describe('Customers endpoints', () => {
-  test('it should fetch a single customer', async () => {
-    const expectedCustomerData = customerFixtures.data?.[0];
-    const customerId = customerFixtures.ids?.[0];
-
-    const res = await request(app).get(`/customers/${customerId}`);
-
-    expect(res.body).toMatchObject({
-      id: customerId,
-      ...expectedCustomerData,
-    });
-  });
-});
+export default {
+  USER_NOT_FOUND,
+  PASSWORD_INCORRECT,
+  EMAIL_ALREADY_IN_USE,
+  EMAIL_INVALID,
+  PASSWORD_WEAK,
+};

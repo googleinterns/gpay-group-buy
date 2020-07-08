@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-import {USER_NOT_FOUND, PASSWORD_INCORRECT} from 'constants/sign-in-errors';
+import {
+  USER_NOT_FOUND,
+  PASSWORD_INCORRECT,
+} from 'constants/errors/sign-in-errors';
 
 import {useState} from 'react';
 
@@ -53,7 +56,7 @@ const useSignInForm = () => {
   const disabled = !formState.isValid;
 
   const onSubmit = handleSubmit(async (values: SignInData) => {
-    setGeneralError(null);
+    setGeneralError(undefined); // Reset general error message.
     try {
       const {email, password} = values;
       await firebaseAuth.signInWithEmailAndPassword(email, password);

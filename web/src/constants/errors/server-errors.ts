@@ -14,21 +14,5 @@
  * limitations under the License.
  */
 
-import request from 'supertest';
-
-import app from '../../src';
-import customerFixtures from '../fixtures/customers';
-
-describe('Customers endpoints', () => {
-  test('it should fetch a single customer', async () => {
-    const expectedCustomerData = customerFixtures.data?.[0];
-    const customerId = customerFixtures.ids?.[0];
-
-    const res = await request(app).get(`/customers/${customerId}`);
-
-    expect(res.body).toMatchObject({
-      id: customerId,
-      ...expectedCustomerData,
-    });
-  });
-});
+export const GENERIC_ERROR =
+  'Oops, something went wrong. Please try again later!';

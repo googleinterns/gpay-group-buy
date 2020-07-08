@@ -14,4 +14,9 @@
  * limitations under the License.
  */
 
-export const SERVER_ERROR = 'Oops, something is wrong. Please try again later!';
+/**
+ * Microapps API.
+ */
+const microapps = window.microapps;
+
+export default microapps;
