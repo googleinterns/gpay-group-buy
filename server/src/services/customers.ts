@@ -25,7 +25,7 @@ const getCustomer = async (customerId: number): Promise<CustomerResponse> =>
  * Gets a customer by identifying them with their gpayId.
  * Returns a CustomerResponse object when such a customer exits.
  * Returns null otherwise.
- * @param data Data of the customer that we are trying to get
+ * @param gpayId The gpay id of the customer to retrieve
  */
 const getCustomerWithGpayId = async (
   gpayId: string
