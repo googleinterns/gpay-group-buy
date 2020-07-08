@@ -16,8 +16,8 @@
 
 import React, {MouseEventHandler} from 'react';
 
+import Button from 'components/common/Button';
 import FormRow from 'components/common/FormRow';
-import Button from 'muicss/lib/react/button';
 import MuiForm from 'muicss/lib/react/form';
 import {FieldErrors, FieldValues} from 'react-hook-form';
 import styled from 'styled-components';
@@ -26,19 +26,6 @@ const StyledForm = styled(MuiForm)`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const StyledButton = styled(Button)`
-  height: 40px;
-  width: 200px;
-  border-radius: 20px;
-  border: none;
-
-  background: var(--dark-gray);
-  color: white;
-  font-size: 18px;
-  font-weight: bolder;
-  text-transform: uppercase;
 `;
 
 const ErrorContainer = styled.div`
@@ -97,9 +84,9 @@ const Form: React.FC<FormProps> = ({
         );
       })}
       <ErrorContainer>{errors.general?.message}</ErrorContainer>
-      <StyledButton onClick={onSubmit} disabled={disabled}>
+      <Button onClick={onSubmit} disabled={disabled}>
         {buttonText}
-      </StyledButton>
+      </Button>
     </StyledForm>
   );
 };
