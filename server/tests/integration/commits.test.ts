@@ -21,7 +21,7 @@ import commitFixtures from '../fixtures/commits';
 import customerFixtures from '../fixtures/customers';
 import listingFixtures from '../fixtures/listings';
 
-describe('Customers endpoints', () => {
+describe('Commits endpoints', () => {
   describe('GET /commits', () => {
     test('it should fetch all commits', async () => {
       const expectedCommitData = commitFixtures.responseData;

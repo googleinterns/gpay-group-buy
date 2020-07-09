@@ -23,7 +23,7 @@ describe('Customers endpoints', () => {
   describe('GET /customers', () => {
     test('it should fetch a single customer', async () => {
       const expectedCustomerData = customerFixtures.responseData?.[0];
-      const customerId = customerFixtures.ids?.[0];
+      const customerId = expectedCustomerData.id;
 
       const res = await request(app).get(`/customers/${customerId}`);
 

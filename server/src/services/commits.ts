@@ -17,7 +17,7 @@
 import {
   Filter,
   CommitResponse,
-  QueryParams,
+  StringKeyObject,
   CommitPayloadKey,
 } from '../interfaces';
 import {commitStorage} from '../storage';
@@ -29,16 +29,12 @@ import {commitStorage} from '../storage';
  * @param queryParams The query parameters
  */
 const getAllCommits = async (
-  queryParams?: QueryParams
+  queryParams: StringKeyObject
 ): Promise<CommitResponse[]> => {
-  if (queryParams === undefined) {
-    return commitStorage.getAllCommits();
-  }
-
-  const allowedKeys: CommitPayloadKey[] = ['customerId', 'listingId'];
+  const allowedKeys: Set<CommitPayloadKey> = new Set(['customerId', 'listingId']);
   const filters: Filter[] = [];
   Object.keys(queryParams).forEach(key => {
-    if (!(allowedKeys as string[]).includes(key)) {
+    if (!(allowedKeys as Set<string>).has(key)) {
       throw new Error(`${key} is not a valid query parameter.`);
     }
 

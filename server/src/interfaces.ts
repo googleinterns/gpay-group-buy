@@ -148,8 +148,8 @@ export interface Filter {
 }
 
 /**
- * QueryParams Interface that contains the fields of parameters in a query.
+ * A generic string key object.
  */
-export interface QueryParams {
-  [x: string]: any;
+export interface StringKeyObject {
+  [key: string]: any;
 }
