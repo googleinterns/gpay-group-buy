@@ -22,7 +22,7 @@ import {
   StringKeyObject,
   CommitPayloadKey,
 } from '../interfaces';
-import {commitStorage} from '../storage';
+import {commitStorage, listingStorage, customerStorage} from '../storage';
 
 /**
  * Retrieves all commits.
@@ -72,6 +72,11 @@ const getAllCommits = async (
 const addCommit = async (
   commitData: CommitRequest
 ): Promise<CommitResponse> => {
+  // Make sure that listing and customer exists
+  await listingStorage.getListing(commitData.listingId);
+  await customerStorage.getCustomer(commitData.customerId);
+
+  // Check that customer has not reached max num of ongoing commits
   const customerCommits = await commitStorage.getAllCommits([
     {
       property: 'customerId',
@@ -82,7 +87,6 @@ const addCommit = async (
       value: 'ongoing',
     },
   ]);
-
   if (customerCommits.length >= MAX_NUM_COMMITS) {
     throw new Error('Customer has reached max number of ongoing commits.');
   }

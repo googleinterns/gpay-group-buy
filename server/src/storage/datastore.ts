@@ -42,9 +42,13 @@ const extractAndAppendId = (res: Entity) => {
  * @param id The id of the Entity being queried
  */
 export const get = async (kind: string, id: number) => {
-  const key = datastore.key([kind, id]);
-  const [res] = await datastore.get(key);
-  return extractAndAppendId(res);
+  try {
+    const key = datastore.key([kind, id]);
+    const [res] = await datastore.get(key);
+    return extractAndAppendId(res);
+  } catch (err) {
+    throw new Error(`${kind} ${id} does not exist`);
+  }
 };
 
 /**
