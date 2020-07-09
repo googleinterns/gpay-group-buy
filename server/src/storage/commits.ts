@@ -18,6 +18,10 @@ import {COMMIT_KIND} from '../constants/kinds';
 import {Filter, CommitResponse} from '../interfaces';
 import {getAll} from './datastore';
 
+/**
+ * Retrieves all commits satisfying the filters, if provided.
+ * @param filters Filters on the get query
+ */
 const getAllCommits = async (filters?: Filter[]): Promise<CommitResponse[]> =>
   getAll(COMMIT_KIND, filters);
 
