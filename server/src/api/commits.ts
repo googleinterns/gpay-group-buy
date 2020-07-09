@@ -54,7 +54,8 @@ commitRouter.post(
   '/',
   customerAuth,
   async (req: Request, res: Response, next: NextFunction) => {
-    // TODO: Parse req.body json to make it CommitRequest type
+    // TODO: Parse req.body json to make it CommitRequest type in runtime.
+    // Right now I am forcing it to be of the correct types.
     const commitData: CommitRequest = {
       customerId: Number(req.body.customerId),
       listingId: Number(req.body.listingId),
