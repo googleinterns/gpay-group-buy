@@ -23,13 +23,10 @@ import listingFixtures from '../fixtures/listings';
 
 describe('Commits endpoints', () => {
   describe('GET /commits', () => {
-    test('it should fetch all commits', async () => {
-      const expectedCommitData = commitFixtures.responseData;
-
+    test('it should not be able to fetch all commits', async () => {
       const res = await request(app).get('/commits');
 
-      expect(res.status).toBe(200);
-      expect(res.body).toEqual(expectedCommitData);
+      expect(res.status).toBe(400);
     });
 
     test('it should filter by listingId query param', async () => {
