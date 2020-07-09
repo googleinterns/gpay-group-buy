@@ -59,7 +59,6 @@ const useSignInForm = () => {
       const {email, password} = values;
       await firebaseAuth.signInWithEmailAndPassword(email, password);
       const merchant = await getMerchantWithEmail(email);
-      sessionStorage.setItem('merchant', JSON.stringify(merchant));
       history.push(`/merchant/${merchant.id}`);
     } catch (err) {
       switch (err.code) {

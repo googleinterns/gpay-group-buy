@@ -17,7 +17,6 @@
 import React from 'react';
 
 import MerchantSideBar from 'components/common/MerchantSideBar';
-import {MerchantResponse} from 'interfaces';
 import styled from 'styled-components';
 
 const PageContainer = styled.div`
@@ -32,13 +31,11 @@ const PageContainer = styled.div`
 `;
 
 const OngoingListingsPage: React.FC = () => {
-  const merchantString = sessionStorage.getItem('merchant');
-  if (merchantString === null) return null;
-  const merchant: MerchantResponse = JSON.parse(merchantString);
+  // TODO: Get merchant details and pass it on to MerchantSideBar.
 
   return (
     <PageContainer>
-      <MerchantSideBar {...merchant} />
+      <MerchantSideBar />
     </PageContainer>
   );
 };

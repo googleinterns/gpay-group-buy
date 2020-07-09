@@ -18,7 +18,6 @@ import React from 'react';
 
 import Button from 'components/common/Button';
 import CentralisedContainer from 'components/common/CentralisedContainer';
-import {MerchantResponse} from 'interfaces';
 import MuiRow from 'muicss/lib/react/row';
 import styled from 'styled-components';
 
@@ -76,24 +75,30 @@ const StyledButton = styled(Button)`
  * This is a side bar for merchant pages. It shows merchant's profile and buttons
  * to view merchant's ongoing and past listings.
  */
-const MerchantSideBar: React.FC<MerchantResponse> = ({name, email, vpa}) => {
+const MerchantSideBar: React.FC = () => {
+  const dummyMerchant = {
+    name: 'Merchant Name',
+    email: 'merchant@email.com',
+    vpa: 'merchantVpa@bank',
+  };
+
   return (
     <SideBarContainer>
       <CentralisedContainer>
         <Shop />
-        <Header>{name}</Header>
+        <Header>{dummyMerchant.name}</Header>
         <DetailsContainer>
           <Row>
             <IconContainer>
               <Mail />
             </IconContainer>
-            <TextContainer>karenfrilya97@gmail.com</TextContainer>
+            <TextContainer>{dummyMerchant.email}</TextContainer>
           </Row>
           <Row>
             <IconContainer>
               <CreditCard />
             </IconContainer>
-            <TextContainer>{vpa}</TextContainer>
+            <TextContainer>{dummyMerchant.vpa}</TextContainer>
           </Row>
         </DetailsContainer>
       </CentralisedContainer>
