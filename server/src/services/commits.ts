@@ -19,6 +19,7 @@ import {DEFAULT_COMMIT_PAYLOAD} from '../constants/default-payload';
 import {
   Filter,
   CommitResponse,
+  CommitRequest,
   StringKeyObject,
   CommitPayloadKey,
 } from '../interfaces';

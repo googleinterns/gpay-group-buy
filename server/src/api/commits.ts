@@ -50,6 +50,9 @@ commitRouter.get(
   }
 );
 
+/**
+ * Handles the post requests to create new commits.
+ */
 commitRouter.post(
   '/',
   customerAuth,
