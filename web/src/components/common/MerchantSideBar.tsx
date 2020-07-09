@@ -18,13 +18,8 @@ import React from 'react';
 
 import Button from 'components/common/Button';
 import CentralisedContainer from 'components/common/CentralisedContainer';
+import MerchantProfile from 'components/common/MerchantProfile';
 import styled from 'styled-components';
-
-import {ReactComponent as CreditCard} from 'assets/credit-card.svg';
-import {ReactComponent as Mail} from 'assets/mail.svg';
-import {ReactComponent as Shop} from 'assets/shop.svg';
-
-import MerchantDetail from './MerchantDetail';
 
 const SideBarContainer = styled(CentralisedContainer)`
   min-height: 100vh;
@@ -37,19 +32,6 @@ const SideBarContainer = styled(CentralisedContainer)`
   justify-content: space-between;
 `;
 
-const Header = styled.h1`
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-`;
-
-const DetailsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: center;
-`;
-
 const StyledButton = styled(Button)`
   font-size: 0.85em;
 `;
@@ -58,29 +40,14 @@ const StyledButton = styled(Button)`
  * This is a side bar for merchant pages. It shows merchant's profile and buttons
  * to view merchant's ongoing and past listings.
  */
-const MerchantSideBar: React.FC = () => {
-  const dummyMerchant = {
-    name: 'Merchant Name',
-    email: 'merchant@email.com',
-    vpa: 'merchantVpa@bank',
-  };
-
-  return (
-    <SideBarContainer>
-      <CentralisedContainer>
-        <Shop />
-        <Header>{dummyMerchant.name}</Header>
-        <DetailsContainer>
-          <MerchantDetail icon={<Mail />} text={dummyMerchant.email} />
-          <MerchantDetail icon={<CreditCard />} text={dummyMerchant.vpa} />
-        </DetailsContainer>
-      </CentralisedContainer>
-      <CentralisedContainer>
-        <StyledButton>View Ongoing Listings</StyledButton>
-        <StyledButton>View Past Listings</StyledButton>
-      </CentralisedContainer>
-    </SideBarContainer>
-  );
-};
+const MerchantSideBar: React.FC = () => (
+  <SideBarContainer>
+    <MerchantProfile />
+    <CentralisedContainer>
+      <StyledButton>View Ongoing Listings</StyledButton>
+      <StyledButton>View Past Listings</StyledButton>
+    </CentralisedContainer>
+  </SideBarContainer>
+);
 
 export default MerchantSideBar;
