@@ -31,7 +31,10 @@ import {commitStorage} from '../storage';
 const getAllCommits = async (
   queryParams: StringKeyObject
 ): Promise<CommitResponse[]> => {
-  const allowedKeys: Set<CommitPayloadKey> = new Set(['customerId', 'listingId']);
+  const allowedKeys: Set<CommitPayloadKey> = new Set([
+    'customerId',
+    'listingId',
+  ]);
   const filters: Filter[] = [];
   Object.keys(queryParams).forEach(key => {
     if (!(allowedKeys as Set<string>).has(key)) {
