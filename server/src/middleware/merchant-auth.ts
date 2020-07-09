@@ -34,8 +34,9 @@ const merchantAuth = async (
   next: NextFunction
 ) => {
   try {
-    if (!req.headers.authorization)
+    if (!req.headers.authorization) {
       throw new Error('Missing Authorization header.');
+    }
 
     const [_, firebaseIdToken] = req.headers.authorization.split(' ');
     const verifiedFirebaseUid = await getVerifiedUid(firebaseIdToken);
@@ -48,8 +49,9 @@ const merchantAuth = async (
       firebaseUid = merchant.firebaseUid;
     }
 
-    if (firebaseUid !== undefined && firebaseUid !== verifiedFirebaseUid)
+    if (firebaseUid !== undefined && firebaseUid !== verifiedFirebaseUid) {
       throw new Error('Invalid bearer token.');
+    }
 
     next();
   } catch (err) {
