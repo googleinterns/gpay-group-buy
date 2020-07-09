@@ -17,9 +17,10 @@
 import React from 'react';
 
 import MerchantSideBar from 'components/common/MerchantSideBar';
+import styled from 'styled-components';
 import EmptyListingsPlaceholder from 'components/merchant/ongoing-listings/EmptyListingsPlaceholder';
 import Row from 'muicss/lib/react/row';
-import styled from 'styled-components';
+import CentralisedContainer from 'components/common/CentralisedContainer';
 
 const PageContainer = styled.div`
   min-height: 100vh;
@@ -32,19 +33,16 @@ const PageContainer = styled.div`
   align-items: center;
 `;
 
-const PageContent = styled.div`
-  min-height: 100vh;
-  height: 100%;
+const PageContent = styled(CentralisedContainer)`
+  height: 100vh;
   width: 100%;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  max-width: none;
+  margin: 0;
+  padding: 0 5%;
 `;
 
 const HeaderRow = styled(Row)`
-  width: 75%;
+  width: 100%;
   margin-left: 0;
   margin-right: 0;
   margin-top: 5%;
@@ -54,36 +52,29 @@ const HeaderRow = styled(Row)`
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-end;
-
-  position: absolute;
-  top: 0;
 `;
 
 const Header = styled.h1`
   font-weight: bolder;
 `;
 
-const ListingsBody = styled.div`
+const ListingsBody = styled(CentralisedContainer)`
   height: 100%;
   width: 100%;
 `;
 
-const OngoingListingsPage: React.FC = () => {
-  // TODO: Get merchant details and pass it on to MerchantSideBar.
-
-  return (
-    <PageContainer>
-      <MerchantSideBar />
-      <PageContent>
-        <HeaderRow>
-          <Header>Ongoing Listings</Header>
-        </HeaderRow>
-        <ListingsBody>
-          <EmptyListingsPlaceholder />
-        </ListingsBody>
-      </PageContent>
-    </PageContainer>
-  );
-};
+const OngoingListingsPage: React.FC = () => (
+  <PageContainer>
+    <MerchantSideBar />
+    <PageContent>
+      <HeaderRow>
+        <Header>Ongoing Listings</Header>
+      </HeaderRow>
+      <ListingsBody>
+        <EmptyListingsPlaceholder />
+      </ListingsBody>
+    </PageContent>
+  </PageContainer>
+);
 
 export default OngoingListingsPage;
