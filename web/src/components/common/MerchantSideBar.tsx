@@ -18,12 +18,13 @@ import React from 'react';
 
 import Button from 'components/common/Button';
 import CentralisedContainer from 'components/common/CentralisedContainer';
-import MuiRow from 'muicss/lib/react/row';
 import styled from 'styled-components';
 
 import {ReactComponent as CreditCard} from 'assets/credit-card.svg';
 import {ReactComponent as Mail} from 'assets/mail.svg';
 import {ReactComponent as Shop} from 'assets/shop.svg';
+
+import MerchantDetail from './MerchantDetail';
 
 const SideBarContainer = styled(CentralisedContainer)`
   min-height: 100vh;
@@ -39,7 +40,7 @@ const SideBarContainer = styled(CentralisedContainer)`
 const Header = styled.h1`
   text-align: center;
   font-size: 24px;
-  font-weight: 600;
+  font-weight: bold;
 `;
 
 const DetailsContainer = styled.div`
@@ -47,24 +48,6 @@ const DetailsContainer = styled.div`
   flex-direction: column;
   align-items: left;
   justify-content: center;
-`;
-
-const Row = styled(MuiRow)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-`;
-
-const IconContainer = styled(CentralisedContainer)`
-  width: 10%;
-  margin-right: 3%;
-`;
-
-const TextContainer = styled.div`
-  width: 100%;
-  justify-content: left;
-  overflow-wrap: anywhere;
 `;
 
 const StyledButton = styled(Button)`
@@ -88,18 +71,8 @@ const MerchantSideBar: React.FC = () => {
         <Shop />
         <Header>{dummyMerchant.name}</Header>
         <DetailsContainer>
-          <Row>
-            <IconContainer>
-              <Mail />
-            </IconContainer>
-            <TextContainer>{dummyMerchant.email}</TextContainer>
-          </Row>
-          <Row>
-            <IconContainer>
-              <CreditCard />
-            </IconContainer>
-            <TextContainer>{dummyMerchant.vpa}</TextContainer>
-          </Row>
+          <MerchantDetail icon={<Mail />} text={dummyMerchant.email} />
+          <MerchantDetail icon={<CreditCard />} text={dummyMerchant.vpa} />
         </DetailsContainer>
       </CentralisedContainer>
       <CentralisedContainer>
