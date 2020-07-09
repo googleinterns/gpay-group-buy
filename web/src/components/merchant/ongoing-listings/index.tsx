@@ -16,11 +16,11 @@
 
 import React from 'react';
 
+import CentralisedContainer from 'components/common/CentralisedContainer';
 import MerchantSideBar from 'components/common/MerchantSideBar';
-import styled from 'styled-components';
 import EmptyListingsPlaceholder from 'components/merchant/ongoing-listings/EmptyListingsPlaceholder';
 import Row from 'muicss/lib/react/row';
-import CentralisedContainer from 'components/common/CentralisedContainer';
+import styled from 'styled-components';
 
 const PageContainer = styled.div`
   min-height: 100vh;
