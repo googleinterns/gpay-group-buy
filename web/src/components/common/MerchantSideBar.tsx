@@ -26,7 +26,7 @@ const SideBarContainer = styled(CentralisedContainer)`
   height: 100%;
   width: 20%;
 
-  box-shadow: 5px 0px 10px var(--light-gray);
+  box-shadow: 5px 0 10px var(--light-gray);
   margin: 0;
 
   justify-content: space-between;
