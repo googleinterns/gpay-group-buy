@@ -71,7 +71,11 @@ const OngoingListingsPage: React.FC = () => (
         <Header>Ongoing Listings</Header>
       </HeaderRow>
       <ListingsBody>
-        <EmptyListingsPlaceholder />
+        {
+          // TODO: Add checks to show this only if merchant has no listings and
+          // show merchant's listings otherwise.
+          <EmptyListingsPlaceholder />
+        }
       </ListingsBody>
     </PageContent>
   </PageContainer>
