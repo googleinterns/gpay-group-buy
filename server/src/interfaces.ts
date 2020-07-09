@@ -51,15 +51,30 @@ export type CommitStatus =
   | 'unsuccessful';
 
 /**
- * CommitPayload Interface that contains the fields of the payload that
- * would be sent to create a Listing Entity.
+ * CommitComputedProperties Interface that contains the fields of a Commit
+ * that are computed by the server.
  */
-export interface CommitPayload {
-  customerId: number;
-  listingId: number;
+export interface CommitComputedProperties {
   createdAt: Date;
   commitStatus: CommitStatus;
 }
+
+/**
+ * CommitRequest Interface that contains the fields that will be provided
+ * by the client in the POST/PUT request body.
+ */
+export interface CommitRequest {
+  customerId: number;
+  listingId: number;
+}
+
+/**
+ * CommitPayload Interface that contains the fields of the payload that
+ * would be sent to create a Listing Entity.
+ */
+export interface CommitPayload
+  extends CommitComputedProperties,
+    CommitRequest {}
 
 /**
  * Union type of the keys of CommitPayload.

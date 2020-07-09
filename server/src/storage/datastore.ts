@@ -17,7 +17,8 @@
 import {Datastore} from '@google-cloud/datastore';
 import {Entity} from '@google-cloud/datastore/build/src/entity';
 
-import {Filter} from '../interfaces';
+import {Filter, StringKeyObject} from '../interfaces';
+import {UpdateRule} from './interfaces';
 
 const datastore = new Datastore();
 
@@ -60,6 +61,74 @@ export const getAll = async (kind: string, filters?: Filter[]) => {
   const [res] = await datastore.runQuery(query);
   const resWithId = res.map(item => extractAndAppendId(item));
   return resWithId;
+};
+
+/**
+ * Update original data in-place according to the update field.
+ * @param original Original data to be updated
+ * @param updateRule Rule to update the data by
+ */
+const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
+  const operation = updateRule.op || 'replace';
+  let field = original?.[updateRule.property];
+  if (field === undefined) {
+    throw new Error(`Property to be updated does not exist on ${original}`);
+  }
+
+  switch (operation) {
+    case 'add':
+      field += updateRule.value;
+      break;
+    case 'subtract':
+      field -= updateRule.value;
+      break;
+    case 'replace':
+      field = updateRule.value;
+      break;
+  }
+  original[updateRule.property] = field;
+};
+
+/**
+ * Inserts an entity and update a related entity in the same transaction.
+ * Returns the id of the entity that is inserted,
+ * @param kindToInsert Kind of the entity to be inserted
+ * @param dataToInsert Data of the entity to be inserted
+ * @param relatedKindToUpdate Kind of the related entity to be updated
+ * @param updateRules Rules to update the related entity
+ */
+export const insertAndUpdateRelatedEntity = async (
+  kindToInsert: string,
+  dataToInsert: object,
+  relatedKindToUpdate: string,
+  relatedIdToUpdate: number,
+  updateRules: UpdateRule[]
+): Promise<number> => {
+  const transaction = datastore.transaction();
+
+  const keyToInsert = datastore.key(kindToInsert);
+  const entityToInsert = {key: keyToInsert, data: dataToInsert};
+
+  const keyToUpdate = datastore.key([relatedKindToUpdate, relatedIdToUpdate]);
+
+  try {
+    await transaction.run();
+    transaction.insert(entityToInsert);
+
+    const [data] = await transaction.get(keyToUpdate);
+    updateRules.forEach(updateRule => updateData(data, updateRule));
+
+    const entityToUpdate = {
+      key: keyToUpdate,
+      data,
+    };
+    transaction.update(entityToUpdate);
+    await transaction.commit();
+  } catch (err) {
+    await transaction.rollback();
+    throw new Error(`Failed to add ${kindToInsert}. ${err}`);
+  }
+  return Number(keyToInsert.id);
 };
 
 /**
