@@ -18,6 +18,8 @@ import React from 'react';
 
 import MerchantSideBar from 'components/common/MerchantSideBar';
 import styled from 'styled-components';
+import EmptyListingsPlaceholder from 'components/merchant/ongoing-listings/EmptyListingsPlaceholder';
+import Row from 'muicss/lib/react/row';
 
 const PageContainer = styled.div`
   min-height: 100vh;
@@ -30,12 +32,56 @@ const PageContainer = styled.div`
   align-items: center;
 `;
 
+const PageContent = styled.div`
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const HeaderRow = styled(Row)`
+  width: 75%;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 5%;
+  margin-bottom: 1%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+
+  position: absolute;
+  top: 0;
+`;
+
+const Header = styled.h1`
+  font-weight: bolder;
+`;
+
+const ListingsBody = styled.div`
+  height: 100%;
+  width: 100%;
+`;
+
 const OngoingListingsPage: React.FC = () => {
   // TODO: Get merchant details and pass it on to MerchantSideBar.
 
   return (
     <PageContainer>
       <MerchantSideBar />
+      <PageContent>
+        <HeaderRow>
+          <Header>Ongoing Listings</Header>
+        </HeaderRow>
+        <ListingsBody>
+          <EmptyListingsPlaceholder />
+        </ListingsBody>
+      </PageContent>
     </PageContainer>
   );
 };

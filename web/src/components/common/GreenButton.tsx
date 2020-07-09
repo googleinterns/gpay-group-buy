@@ -14,28 +14,15 @@
  * limitations under the License.
  */
 
-import MuiButton from 'muicss/lib/react/button';
 import styled from 'styled-components';
 
+import Button from './Button';
+
 /**
- * Button with dark gray background, white uppercase fonts and rounder corners.
+ * Button with green background, white uppercase fonts and rounder corners.
  */
-const Button = styled(MuiButton)`
-  height: 40px;
-  width: 200px;
-  border-radius: 20px;
-  border: none;
-
-  background: var(--dark-gray);
-  color: white;
-  font-size: 18px;
-  font-weight: bolder;
-  text-transform: uppercase;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
+const GreenButton = styled(Button)`
+  background: var(--green);
 `;
 
-export default Button;
+export default GreenButton;
