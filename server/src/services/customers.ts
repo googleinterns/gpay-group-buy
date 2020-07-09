@@ -22,6 +22,17 @@ const getCustomer = async (customerId: number): Promise<CustomerResponse> =>
   customerStorage.getCustomer(customerId);
 
 /**
+ * Gets a customer by identifying them with their gpayId.
+ * Returns a CustomerResponse object when such a customer exits.
+ * Returns null otherwise.
+ * @param gpayId The gpay id of the customer to retrieve
+ */
+const getCustomerWithGpayId = async (
+  gpayId: string
+): Promise<CustomerResponse | null> =>
+  customerStorage.getCustomerWithGpayId(gpayId);
+
+/**
  * Creates a customer if the customer is not already registered, and returns customer information.
  * Else, an error would be thrown.
  * @param customer Data of the customer to be added
@@ -34,4 +45,4 @@ const addCustomer = async (
     ...customer,
   });
 
-export default {getCustomer, addCustomer};
+export default {getCustomer, getCustomerWithGpayId, addCustomer};

@@ -19,6 +19,13 @@ import admin from 'firebase-admin';
 
 admin.initializeApp();
 
+const getVerifiedUid = async (firebaseIdToken: string): Promise<string> => {
+  const decodedFirebaseIdToken = await admin
+    .auth()
+    .verifyIdToken(firebaseIdToken);
+  return decodedFirebaseIdToken.uid;
+};
+
 const merchantAuth = async (
   req: Request,
   res: Response,
@@ -29,13 +36,16 @@ const merchantAuth = async (
       throw new Error('Missing Authorization header.');
 
     const [_, firebaseIdToken] = req.headers.authorization.split(' ');
-    const decodedFirebaseIdToken = await admin
-      .auth()
-      .verifyIdToken(firebaseIdToken);
-    req.decoded = decodedFirebaseIdToken;
+    const verifiedFirebaseUid = await getVerifiedUid(firebaseIdToken);
+
+    const {firebaseUid} = req.body;
+    if (firebaseUid !== undefined && firebaseUid !== verifiedFirebaseUid)
+      throw new Error('Invalid bearer token.');
+
     next();
-  } catch (error) {
-    res.sendStatus(401);
+  } catch (err) {
+    err.status = 401;
+    next(err);
   }
 };
 

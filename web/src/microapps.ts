@@ -19,4 +19,21 @@
  */
 const microapps = window.microapps;
 
+/**
+ * Decodes a base64 microapps identity token.
+ * Method taken from https://developers.google.com/pay/spot/eap/reference/identity-api#full_example.
+ * @param idToken The token to be decoded
+ */
+export const decodeToken = (idToken: string) =>
+  JSON.parse(atob(idToken.split('.')[1]));
+
+/**
+ * Gets microapps identity token and its decoded form.
+ */
+export const getIdentity = async () => {
+  const idToken = await microapps.getIdentity();
+  const decodedToken = decodeToken(idToken);
+  return {idToken, decodedToken};
+};
+
 export default microapps;
