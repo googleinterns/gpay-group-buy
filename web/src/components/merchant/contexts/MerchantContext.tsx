@@ -59,11 +59,10 @@ const MerchantProvider: React.FC = ({children}) => {
   // Returns merchant stored in the context state if not undefined, otherwise
   // fetch merchant from server and update context state.
   const getMerchant = async () => {
-    let result = merchant;
     if (merchant === undefined) {
       try {
         const firebaseUid = await getFirebaseUid(); // Throws 'User not signed in' error.
-        result = await getMerchantWithFirebaseUid(firebaseUid);
+        const result = await getMerchantWithFirebaseUid(firebaseUid);
         setMerchant(result);
       } catch (err) {
         if (
@@ -78,7 +77,7 @@ const MerchantProvider: React.FC = ({children}) => {
       }
     }
 
-    return result;
+    return merchant;
   };
 
   const value = {getMerchant, setMerchant};
