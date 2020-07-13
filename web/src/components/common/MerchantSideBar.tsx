@@ -20,6 +20,7 @@ import Button from 'components/common/Button';
 import CentralisedContainer from 'components/common/CentralisedContainer';
 import MerchantProfile from 'components/common/MerchantProfile';
 import Row from 'muicss/lib/react/row';
+import {useHistory, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 
 const SideBarContainer = styled(CentralisedContainer)`
@@ -41,18 +42,37 @@ const StyledButton = styled(Button)`
  * This is a side bar for merchant pages. It shows merchant's profile and buttons
  * to view merchant's ongoing and past listings.
  */
-const MerchantSideBar: React.FC = () => (
-  <SideBarContainer>
-    <MerchantProfile />
-    <CentralisedContainer>
-      <Row>
-        <StyledButton>View Ongoing Listings</StyledButton>
-      </Row>
-      <Row>
-        <StyledButton>View Past Listings</StyledButton>
-      </Row>
-    </CentralisedContainer>
-  </SideBarContainer>
-);
+const MerchantSideBar: React.FC = () => {
+  const history = useHistory();
+  const {pathname, hash} = useLocation();
+
+  return (
+    <SideBarContainer>
+      <MerchantProfile />
+      <CentralisedContainer>
+        <Row>
+          <StyledButton
+            onClick={() => history.push('home')}
+            disabled={
+              pathname === '/merchant/home' && hash !== '#past-listings'
+            }
+          >
+            View Ongoing Listings
+          </StyledButton>
+        </Row>
+        <Row>
+          <StyledButton
+            onClick={() => history.push('#past-listings')}
+            disabled={
+              pathname === '/merchant/home' && hash === '#past-listings'
+            }
+          >
+            View Past Listings
+          </StyledButton>
+        </Row>
+      </CentralisedContainer>
+    </SideBarContainer>
+  );
+};
 
 export default MerchantSideBar;

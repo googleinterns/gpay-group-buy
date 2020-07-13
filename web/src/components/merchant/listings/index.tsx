@@ -18,8 +18,9 @@ import React from 'react';
 
 import CentralisedContainer from 'components/common/CentralisedContainer';
 import MerchantSideBar from 'components/common/MerchantSideBar';
-import EmptyListingsPlaceholder from 'components/merchant/ongoing-listings/EmptyListingsPlaceholder';
+import EmptyListingsPlaceholder from 'components/merchant/listings/EmptyListingsPlaceholder';
 import Row from 'muicss/lib/react/row';
+import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 
 const PageContainer = styled.div`
@@ -63,22 +64,28 @@ const ListingsBody = styled(CentralisedContainer)`
   width: 100%;
 `;
 
-const OngoingListingsPage: React.FC = () => (
-  <PageContainer>
-    <MerchantSideBar />
-    <PageContent>
-      <HeaderRow>
-        <Header>Ongoing Listings</Header>
-      </HeaderRow>
-      <ListingsBody>
-        {
-          // TODO: Add checks to show this only if merchant has no listings and
-          // show merchant's listings otherwise.
-          <EmptyListingsPlaceholder />
-        }
-      </ListingsBody>
-    </PageContent>
-  </PageContainer>
-);
+const OngoingListingsPage: React.FC = () => {
+  const {hash} = useLocation();
+
+  return (
+    <PageContainer>
+      <MerchantSideBar />
+      <PageContent>
+        <HeaderRow>
+          <Header>
+            {hash === '#past-listings' ? 'Past' : 'Ongoing'} Listings
+          </Header>
+        </HeaderRow>
+        <ListingsBody>
+          {
+            // TODO: Add checks to show this only if merchant has no listings and
+            // show merchant's listings otherwise.
+            <EmptyListingsPlaceholder />
+          }
+        </ListingsBody>
+      </PageContent>
+    </PageContainer>
+  );
+};
 
 export default OngoingListingsPage;

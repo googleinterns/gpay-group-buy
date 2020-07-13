@@ -19,6 +19,7 @@ import React from 'react';
 import Button from 'components/common/Button';
 import CentralisedContainer from 'components/common/CentralisedContainer';
 import {Plus} from 'react-feather';
+import {useHistory, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 
 import {ReactComponent as BlankCanvas} from 'assets/blank-canvas.svg';
@@ -37,11 +38,17 @@ const StyledButton = styled(Button)`
 `;
 
 const EmptyListingsPlaceholder: React.FC = () => {
+  const history = useHistory();
+  const {hash} = useLocation();
+
   return (
     <CentralisedContainer>
       <BlankCanvas />
-      <TextContainer>You have no ongoing listings yet.</TextContainer>
-      <StyledButton color="green">
+      <TextContainer>
+        You have no {hash === '#past-listings' ? 'past' : 'ongoing'} listings
+        yet.
+      </TextContainer>
+      <StyledButton color="green" onClick={() => history.push('add-listing')}>
         <SmallPlus />
         <div>Add Listing</div>
       </StyledButton>
