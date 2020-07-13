@@ -17,7 +17,7 @@
 import React, {Props} from 'react';
 
 import CentralisedContainer from 'components/common/CentralisedContainer';
-import styled, { AnyStyledComponent } from 'styled-components';
+import styled, {AnyStyledComponent} from 'styled-components';
 
 const Row = styled.div`
   display: flex;
@@ -54,10 +54,13 @@ const MerchantDetail: React.FC<MerchantDetailProps> = ({icon, text}) => {
     width: 100%;
   `;
   return (
-  <Row>
-    <IconContainer><StyledIcon /></IconContainer>
-    <TextContainer>{text}</TextContainer>
-  </Row>
-)};
+    <Row>
+      <IconContainer>
+        <StyledIcon />
+      </IconContainer>
+      <TextContainer>{text}</TextContainer>
+    </Row>
+  );
+};
 
 export default MerchantDetail;

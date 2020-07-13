@@ -17,9 +17,9 @@
 import React from 'react';
 
 import CentralisedContainer from 'components/common/CentralisedContainer';
+import {CreditCard, Mail} from 'react-feather';
 import styled from 'styled-components';
 
-import {CreditCard, Mail} from 'react-feather';
 import {ReactComponent as Shop} from 'assets/shop.svg';
 
 import MerchantDetail from './MerchantDetail';

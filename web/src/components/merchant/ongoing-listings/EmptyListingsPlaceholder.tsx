@@ -18,10 +18,10 @@ import React from 'react';
 
 import Button from 'components/common/Button';
 import CentralisedContainer from 'components/common/CentralisedContainer';
+import {Plus} from 'react-feather';
 import styled from 'styled-components';
 
 import {ReactComponent as BlankCanvas} from 'assets/blank-canvas.svg';
-import {Plus} from 'react-feather';
 
 const SmallPlus = styled(Plus)`
   height: 50%;

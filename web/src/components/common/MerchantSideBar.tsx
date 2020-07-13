@@ -45,8 +45,12 @@ const MerchantSideBar: React.FC = () => (
   <SideBarContainer>
     <MerchantProfile />
     <CentralisedContainer>
-      <Row><StyledButton>View Ongoing Listings</StyledButton></Row>
-      <Row><StyledButton>View Past Listings</StyledButton></Row>
+      <Row>
+        <StyledButton>View Ongoing Listings</StyledButton>
+      </Row>
+      <Row>
+        <StyledButton>View Past Listings</StyledButton>
+      </Row>
     </CentralisedContainer>
   </SideBarContainer>
 );
