@@ -74,23 +74,23 @@ export const getAll = async (kind: string, filters?: Filter[]) => {
  */
 const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
   const operation = updateRule.op || 'replace';
-  let field = original?.[updateRule.property];
-  if (field === undefined) {
+  let value = original?.[updateRule.property];
+  if (value === undefined) {
     throw new Error(`Property to be updated does not exist on ${original}`);
   }
 
   switch (operation) {
     case 'add':
-      field += updateRule.value;
+      value += updateRule.value;
       break;
     case 'subtract':
-      field -= updateRule.value;
+      value -= updateRule.value;
       break;
     case 'replace':
-      field = updateRule.value;
+      value = updateRule.value;
       break;
   }
-  original[updateRule.property] = field;
+  original[updateRule.property] = value;
 };
 
 /**

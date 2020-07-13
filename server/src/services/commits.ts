@@ -89,7 +89,9 @@ const addCommit = async (
     },
   ]);
   if (customerCommits.length >= MAX_NUM_COMMITS) {
-    throw new Error('Customer has reached max number of ongoing commits.');
+    throw new Error(
+      `Customer has reached max number of ${MAX_NUM_COMMITS} ongoing commits.`
+    );
   }
 
   return await commitStorage.addCommit({
