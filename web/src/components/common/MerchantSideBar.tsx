@@ -19,6 +19,7 @@ import React from 'react';
 import Button from 'components/common/Button';
 import CentralisedContainer from 'components/common/CentralisedContainer';
 import MerchantProfile from 'components/common/MerchantProfile';
+import Row from 'muicss/lib/react/row';
 import styled from 'styled-components';
 
 const SideBarContainer = styled(CentralisedContainer)`
@@ -44,8 +45,8 @@ const MerchantSideBar: React.FC = () => (
   <SideBarContainer>
     <MerchantProfile />
     <CentralisedContainer>
-      <StyledButton>View Ongoing Listings</StyledButton>
-      <StyledButton>View Past Listings</StyledButton>
+      <Row><StyledButton>View Ongoing Listings</StyledButton></Row>
+      <Row><StyledButton>View Past Listings</StyledButton></Row>
     </CentralisedContainer>
   </SideBarContainer>
 );
