@@ -23,13 +23,13 @@ import listingFixtures from '../fixtures/listings';
 
 describe('Commits endpoints', () => {
   describe('GET /commits', () => {
-    test('it should not be able to fetch all commits', async () => {
+    test('Should not be able to fetch all commits', async () => {
       const res = await request(app).get('/commits');
 
       expect(res.status).toBe(400);
     });
 
-    test('it should filter by listingId query param', async () => {
+    test('Should filter by listingId query param', async () => {
       const targetListingId = listingFixtures.ids?.[0];
       const expectedCommitData = commitFixtures.responseData.filter(
         data => data.listingId === targetListingId
@@ -43,7 +43,7 @@ describe('Commits endpoints', () => {
       expect(res.body).toEqual(expectedCommitData);
     });
 
-    test('it should filter by customerId query param', async () => {
+    test('Should filter by customerId query param', async () => {
       const targetCustomerId = customerFixtures.ids?.[0];
       const expectedCommitData = commitFixtures.responseData.filter(
         data => data.customerId === targetCustomerId
@@ -57,7 +57,7 @@ describe('Commits endpoints', () => {
       expect(res.body).toEqual(expectedCommitData);
     });
 
-    test('it should filter by more than 1 query param', async () => {
+    test('Should filter by more than 1 query param', async () => {
       const targetCustomerId = customerFixtures.ids?.[0];
       const targetListingId = listingFixtures.ids?.[0];
       const expectedCommitData = commitFixtures.responseData.filter(
@@ -68,13 +68,14 @@ describe('Commits endpoints', () => {
 
       const res = await request(app).get('/commits').query({
         customerId: targetCustomerId,
+        listingId: targetListingId,
       });
 
       expect(res.status).toBe(200);
       expect(res.body).toEqual(expectedCommitData);
     });
 
-    test('it should not filter by disallowed query params', async () => {
+    test('Should not filter by disallowed query params', async () => {
       const res = await request(app).get('/commits').query({
         createdAt: '2020-06-29T03:34:00.000Z',
       });
@@ -83,7 +84,7 @@ describe('Commits endpoints', () => {
       expect(res.body).toHaveProperty('error');
     });
 
-    test('it should not filter by invalid query values', async () => {
+    test('Should not filter by invalid query values', async () => {
       const res = await request(app).get('/commits').query({
         customerId: 'invalid-customer-id-type',
       });

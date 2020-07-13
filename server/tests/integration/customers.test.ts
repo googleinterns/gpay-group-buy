@@ -21,7 +21,7 @@ import customerFixtures from '../fixtures/customers';
 
 describe('Customers endpoints', () => {
   describe('GET /customers', () => {
-    test('it should fetch a single customer', async () => {
+    test('Should fetch a single customer', async () => {
       const expectedCustomerData = customerFixtures.responseData?.[0];
       const customerId = expectedCustomerData.id;
 
