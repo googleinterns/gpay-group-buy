@@ -86,10 +86,10 @@ export type ListingStatus =
  * are not provided by the client, but computed by the server.
  */
 export interface ListingComputedProperties {
-  numCommits?: number;
-  numPaid?: number;
-  numCompleted?: number;
-  listingStatus?: ListingStatus;
+  numCommits: number;
+  numPaid: number;
+  numCompleted: number;
+  listingStatus: ListingStatus;
 }
 
 /**
@@ -113,7 +113,7 @@ export interface ListingRequest {
  */
 export interface ListingPayload
   extends ListingRequest,
-    Required<ListingComputedProperties> {}
+    ListingComputedProperties {}
 
 /**
  * ListingResponse Interface that contains the fields of the Response that

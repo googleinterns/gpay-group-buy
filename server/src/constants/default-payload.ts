@@ -29,7 +29,7 @@ export const DEFAULT_CUSTOMER_PAYLOAD = {
  * Contains the default values for the fields on a ListingPayload object which
  * are automatically set by ListingService during listing creation.
  */
-export const DEFAULT_LISTING_PAYLOAD: Required<ListingComputedProperties> = {
+export const DEFAULT_LISTING_PAYLOAD: ListingComputedProperties = {
   numCommits: 0,
   numPaid: 0,
   numCompleted: 0,
