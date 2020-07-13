@@ -21,10 +21,10 @@ import CentralisedContainer from 'components/common/CentralisedContainer';
 import styled from 'styled-components';
 
 import {ReactComponent as BlankCanvas} from 'assets/blank-canvas.svg';
-import {ReactComponent as Plus} from 'assets/plus.svg';
+import {Plus} from 'react-feather';
 
 const SmallPlus = styled(Plus)`
-  height: 40%;
+  height: 50%;
 `;
 
 const TextContainer = styled.div`

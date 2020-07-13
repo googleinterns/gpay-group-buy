@@ -19,8 +19,7 @@ import React from 'react';
 import CentralisedContainer from 'components/common/CentralisedContainer';
 import styled from 'styled-components';
 
-import {ReactComponent as CreditCard} from 'assets/credit-card.svg';
-import {ReactComponent as Mail} from 'assets/mail.svg';
+import {CreditCard, Mail} from 'react-feather';
 import {ReactComponent as Shop} from 'assets/shop.svg';
 
 import MerchantDetail from './MerchantDetail';
@@ -34,7 +33,7 @@ const Header = styled.h1`
 const DetailsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: flex-start;
   justify-content: center;
 `;
 
@@ -55,8 +54,8 @@ const MerchantProfile: React.FC = () => {
       <Shop />
       <Header>{dummyMerchant.name}</Header>
       <DetailsContainer>
-        <MerchantDetail icon={<Mail />} text={dummyMerchant.email} />
-        <MerchantDetail icon={<CreditCard />} text={dummyMerchant.vpa} />
+        <MerchantDetail icon={Mail} text={dummyMerchant.email} />
+        <MerchantDetail icon={CreditCard} text={dummyMerchant.vpa} />
       </DetailsContainer>
     </CentralisedContainer>
   );

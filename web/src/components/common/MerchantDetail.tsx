@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-import React, {ReactNode} from 'react';
+import React, {Props} from 'react';
 
 import CentralisedContainer from 'components/common/CentralisedContainer';
-import MuiRow from 'muicss/lib/react/row';
-import styled from 'styled-components';
+import styled, { AnyStyledComponent } from 'styled-components';
 
-const Row = styled(MuiRow)`
+const Row = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -28,18 +27,21 @@ const Row = styled(MuiRow)`
 `;
 
 const IconContainer = styled(CentralisedContainer)`
+  min-width: 10%;
   width: 10%;
-  margin-right: 3%;
+  margin: 0;
+  padding: 0;
+  margin-right: 5%;
 `;
 
 const TextContainer = styled.div`
-  width: 100%;
+  max-width: 90%;
   justify-content: left;
   overflow-wrap: anywhere;
 `;
 
 interface MerchantDetailProps {
-  icon: ReactNode;
+  icon: React.FC<Props<AnyStyledComponent>>;
   text: string;
 }
 
@@ -47,11 +49,15 @@ interface MerchantDetailProps {
  * This is a row that shows a field of the merchant details. It shows an icon
  * describing the field and the text showing the value of the field.
  */
-const MerchantDetail: React.FC<MerchantDetailProps> = ({icon, text}) => (
+const MerchantDetail: React.FC<MerchantDetailProps> = ({icon, text}) => {
+  const StyledIcon = styled(icon)`
+    width: 100%;
+  `;
+  return (
   <Row>
-    <IconContainer>{icon}</IconContainer>
+    <IconContainer><StyledIcon /></IconContainer>
     <TextContainer>{text}</TextContainer>
   </Row>
-);
+)};
 
 export default MerchantDetail;
