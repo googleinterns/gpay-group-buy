@@ -69,7 +69,7 @@ const MerchantProvider: React.FC = ({children}) => {
           err.message === USER_NOT_SIGNED_IN ||
           err.message === NO_MERCHANT_WITH_FIREBASE_UID
         ) {
-          history.push('/merchant/sign-in');
+          history.push('sign-in');
           return;
         }
 
