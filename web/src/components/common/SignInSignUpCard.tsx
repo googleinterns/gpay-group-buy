@@ -37,6 +37,10 @@ const StyledRow = styled(Row)`
   height: 40px;
   display: block;
   line-height: 40px;
+
+  & > a {
+    color: var(--green);
+  }
 `;
 
 interface SignInSignUpCardProps extends FormProps {

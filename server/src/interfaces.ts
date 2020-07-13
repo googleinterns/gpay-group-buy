@@ -25,11 +25,18 @@ export interface CustomerPayload {
 }
 
 /**
+ * CustomerDatastoreReponse Interface that contains the fields of the Response that
+ * server side receives from the Datastore.
+ */
+export interface CustomerDatastoreReponse extends Required<CustomerPayload> {
+  id: number;
+}
+
+/**
  * CustomerResponse Interface that contains the fields of the Response that
  * client side would receive.
  */
-export interface CustomerResponse extends Required<CustomerPayload> {
-  id: number;
+export interface CustomerResponse extends CustomerDatastoreReponse {
   numOngoingCommits: number;
 }
 

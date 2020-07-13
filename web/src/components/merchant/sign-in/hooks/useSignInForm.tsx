@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
-import Errors from 'constants/sign-up-errors';
+import {
+  USER_NOT_FOUND,
+  PASSWORD_INCORRECT,
+} from 'constants/errors/sign-in-errors';
 
 import {useState} from 'react';
 
+import {getMerchantWithEmail} from 'api';
+import firebaseAuth from 'firebase-auth';
 import {useForm} from 'react-hook-form';
+import {useHistory} from 'react-router-dom';
 
 type SignInData = {
   email: string;
@@ -34,21 +40,37 @@ const useSignInForm = () => {
   const {formState, handleSubmit, register} = useForm<SignInData>({
     mode: 'onChange',
   });
-  const [generalError, setGeneralError] = useState();
+  const [generalError, setGeneralError] = useState<Error | undefined>();
+  const history = useHistory();
 
   const validations = {
     email: register({
-      required: Errors.EMAIL_EMPTY,
+      required: true,
     }),
     password: register({
-      required: Errors.PASSWORD_EMPTY,
+      required: true,
     }),
   };
   const disabled = !formState.isValid;
 
   const onSubmit = handleSubmit(async (values: SignInData) => {
-    setGeneralError(null);
-    // TODO: Handle user sign in
+    setGeneralError(undefined); // Reset general error message.
+    try {
+      const {email, password} = values;
+      await firebaseAuth.signInWithEmailAndPassword(email, password);
+      const {id} = await getMerchantWithEmail(email);
+      history.push(`/merchant/${id}`);
+    } catch (err) {
+      switch (err.code) {
+        case 'auth/user-not-found':
+          err.message = USER_NOT_FOUND;
+          break;
+        case 'auth/wrong-password':
+          err.message = PASSWORD_INCORRECT;
+          break;
+      }
+      setGeneralError(err);
+    }
   });
 
   return {

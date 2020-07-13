@@ -52,7 +52,7 @@ const ErrorContainer = styled.div`
 
 interface Errors {
   form: FieldErrors<FieldValues>;
-  general: Error;
+  general: Error | undefined;
 }
 
 interface Field {
