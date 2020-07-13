@@ -17,6 +17,14 @@
 import MuiButton from 'muicss/lib/react/button';
 import styled from 'styled-components';
 
+const BUTTON_FONT_COLORS: {[key: string]: string} = {
+  'bright-red': 'white',
+  'dark-gray': 'white',
+  green: 'white',
+  'pale-green': 'var(--green)',
+  'pale-gray': 'var(--gray)',
+};
+
 /**
  * Button with dark gray background, white uppercase fonts and rounder corners.
  */
@@ -26,8 +34,18 @@ const Button = styled(MuiButton)`
   border-radius: 20px;
   border: none;
 
-  background: var(--dark-gray);
-  color: white;
+  background: var(
+    --${props => {
+        return props.color && props.color in BUTTON_FONT_COLORS
+          ? props.color
+          : 'dark-gray';
+      }}
+  );
+  color: ${props => {
+    return props.color && props.color in BUTTON_FONT_COLORS
+      ? BUTTON_FONT_COLORS[props.color]
+      : 'white';
+  }};
   font-size: 18px;
   font-weight: bolder;
   text-transform: uppercase;

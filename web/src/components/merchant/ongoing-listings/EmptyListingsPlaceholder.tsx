@@ -16,8 +16,8 @@
 
 import React from 'react';
 
+import Button from 'components/common/Button';
 import CentralisedContainer from 'components/common/CentralisedContainer';
-import GreenButton from 'components/common/GreenButton';
 import styled from 'styled-components';
 
 import {ReactComponent as BlankCanvas} from 'assets/blank-canvas.svg';
@@ -32,7 +32,7 @@ const TextContainer = styled.div`
   font-size: 1.5em;
 `;
 
-const StyledButton = styled(GreenButton)`
+const StyledButton = styled(Button)`
   font-size: 1.1em;
 `;
 
@@ -41,7 +41,7 @@ const EmptyListingsPlaceholder: React.FC = () => {
     <CentralisedContainer>
       <BlankCanvas />
       <TextContainer>You have no ongoing listings yet.</TextContainer>
-      <StyledButton>
+      <StyledButton color="green">
         <SmallPlus />
         <div>Add Listing</div>
       </StyledButton>
