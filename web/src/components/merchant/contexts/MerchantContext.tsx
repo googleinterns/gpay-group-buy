@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
+import {NO_MERCHANT_WITH_FIREBASE_UID} from 'constants/errors/server-errors';
+import {USER_NOT_SIGNED_IN} from 'constants/errors/sign-in-errors';
+
 import React, {useContext, useState, Dispatch, SetStateAction} from 'react';
 
+import {getMerchantWithFirebaseUid} from 'api';
+import {getFirebaseUid} from 'firebase-auth';
 import {MerchantResponse} from 'interfaces';
+import {useHistory} from 'react-router-dom';
 
 type MerchantType = MerchantResponse | undefined;
 
 type ContextType =
   | {
-      merchant: MerchantType;
+      getMerchant: () => Promise<MerchantType>;
       setMerchant: Dispatch<SetStateAction<MerchantType>>;
     }
   | undefined;
@@ -39,15 +45,43 @@ const useMerchantContext = () => {
       'useMerchantContext must be used within a MerchantProvider'
     );
   }
+
   return context;
 };
 
 /**
- * MerchantContext provider with stateful merchant and setMerchant as its value.
+ * MerchantContext provider with merchant getter and setter functions as its value.
  */
 const MerchantProvider: React.FC = ({children}) => {
   const [merchant, setMerchant] = useState<MerchantType>(undefined);
-  const value = {merchant, setMerchant};
+  const history = useHistory();
+
+  // Returns merchant stored in the context state if not undefined, otherwise
+  // fetch merchant from server and update context state.
+  const getMerchant = async () => {
+    let result = merchant;
+    if (merchant === undefined) {
+      try {
+        const firebaseUid = await getFirebaseUid(); // Throws 'User not signed in' error.
+        result = await getMerchantWithFirebaseUid(firebaseUid);
+        setMerchant(result);
+      } catch (err) {
+        if (
+          err.message === USER_NOT_SIGNED_IN ||
+          err.message === NO_MERCHANT_WITH_FIREBASE_UID
+        ) {
+          history.push('/merchant/sign-in');
+          return;
+        }
+
+        throw err;
+      }
+    }
+
+    return result;
+  };
+
+  const value = {getMerchant, setMerchant};
   return (
     <MerchantContext.Provider value={value}>
       {children}

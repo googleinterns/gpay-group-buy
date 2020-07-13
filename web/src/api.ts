@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-import {GENERIC_ERROR} from 'constants/errors/server-errors';
-import {USER_NOT_FOUND} from 'constants/errors/sign-in-errors';
+import {
+  GENERIC_ERROR,
+  NO_MERCHANT_WITH_FIREBASE_UID,
+} from 'constants/errors/server-errors';
 
 import {
   Customer,
@@ -23,6 +25,7 @@ import {
   CustomerPayload,
   MerchantPayload,
   MerchantResponse,
+  Filter,
 } from 'interfaces';
 
 /**
@@ -81,23 +84,44 @@ export const getListing = async (listingId: number): Promise<Listing> => {
 };
 
 /**
- * Retrieves merchant with the given email from the database.
+ * Retrieves all merchants from the database.
  */
-export const getMerchantWithEmail = async (
-  email: string
-): Promise<MerchantResponse> => {
+const getMerchants = async (
+  filters?: Filter[]
+): Promise<MerchantResponse[]> => {
+  let queryString;
+  if (filters) {
+    queryString = filters
+      .map(({property, value}) => `${property}=${value}`)
+      .join('&');
+  }
+
   const res = await fetch(
-    `${process.env.REACT_APP_SERVER_URL}/merchants?email=${email}`
+    `${process.env.REACT_APP_SERVER_URL}/merchants?${queryString}`
   );
 
   if (res.status !== 200) {
     throw new Error(GENERIC_ERROR);
   }
 
-  const merchants = await res.json();
+  return res.json();
+};
+
+/**
+ * Retrieves merchant with the given Firebase UID from the database.
+ */
+export const getMerchantWithFirebaseUid = async (
+  firebaseUid: string
+): Promise<MerchantResponse> => {
+  const merchants = await getMerchants([
+    {
+      property: 'firebaseUid',
+      value: firebaseUid,
+    },
+  ]);
 
   if (merchants.length === 0) {
-    throw new Error(USER_NOT_FOUND);
+    throw new Error(NO_MERCHANT_WITH_FIREBASE_UID);
   }
 
   return merchants[0];

@@ -93,3 +93,11 @@ export interface MerchantPayload {
 export interface MerchantResponse extends MerchantPayload {
   id: number;
 }
+
+/**
+ * Filter Interface that contains the fields of a filter query.
+ */
+export interface Filter {
+  property: string;
+  value: string;
+}

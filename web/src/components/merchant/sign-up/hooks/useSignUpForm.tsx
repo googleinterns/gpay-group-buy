@@ -21,8 +21,7 @@ import {useState} from 'react';
 
 import {addMerchant} from 'api';
 import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
-import firebaseAuth from 'firebase-auth';
-import {getFirebaseIdToken, getFirebaseUid} from 'firebase-auth';
+import firebaseAuth, {getFirebaseIdToken, getFirebaseUid} from 'firebase-auth';
 import {useForm} from 'react-hook-form';
 import {useHistory} from 'react-router-dom';
 

@@ -14,12 +14,26 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
+import {MerchantResponse} from 'interfaces';
 
 const OngoingListingsPage: React.FC = () => {
-  const {merchant} = useMerchantContext();
+  const [merchant, setMerchant] = useState<MerchantResponse | undefined>(
+    undefined
+  );
+  const {getMerchant} = useMerchantContext();
+
+  useEffect(() => {
+    const populateMerchantData = async () => {
+      const merchant = await getMerchant();
+      setMerchant(merchant);
+    };
+
+    populateMerchantData();
+  }, []);
+
   return <div>{merchant?.name}</div>;
 };
 

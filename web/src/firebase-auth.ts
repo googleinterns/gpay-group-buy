@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import {USER_NOT_SIGNED_IN} from 'constants/errors/sign-in-errors';
+
 import firebase from 'firebase';
 
 const config = {
@@ -31,7 +33,7 @@ const getSignedInUser = (): Promise<firebase.User> => {
   return new Promise((resolve, reject) => {
     firebaseAuth.onAuthStateChanged(async user => {
       if (!user) {
-        reject(new Error('User not logged in'));
+        reject(new Error(USER_NOT_SIGNED_IN));
         return;
       }
 
