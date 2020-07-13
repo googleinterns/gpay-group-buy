@@ -20,6 +20,7 @@ import SignUpErrors from 'constants/errors/sign-up-errors';
 import {useState} from 'react';
 
 import {addMerchant} from 'api';
+import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
 import firebaseAuth from 'firebase-auth';
 import {getFirebaseIdToken} from 'firebase-auth';
 import {useForm} from 'react-hook-form';
@@ -50,6 +51,7 @@ const useSignUpForm = () => {
     mode: 'onChange',
   });
   const [generalError, setGeneralError] = useState();
+  const {setMerchant} = useMerchantContext();
   const history = useHistory();
 
   const validations = {
@@ -91,7 +93,7 @@ const useSignUpForm = () => {
       await firebaseAuth.createUserWithEmailAndPassword(email, password);
       const firebaseIdToken = await getFirebaseIdToken();
       const merchant = await addMerchant({name, email, vpa}, firebaseIdToken);
-      sessionStorage.setItem('merchant', JSON.stringify(merchant));
+      setMerchant(merchant);
       history.push(`/merchant/${merchant.id}`);
     } catch (err) {
       switch (err.code) {
