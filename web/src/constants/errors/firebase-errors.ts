@@ -14,8 +14,19 @@
  * limitations under the License.
  */
 
-declare namespace Express {
-  interface Request {
-    decodedCustomer?: object;
-  }
-}
+// Sign in errors
+export const USER_NOT_FOUND = 'auth/user-not-found';
+export const PASSWORD_INCORRECT = 'auth/wrong-password';
+
+// Sign up errors
+export const EMAIL_ALREADY_IN_USE = 'auth/email-already-in-use';
+export const EMAIL_INVALID = 'auth/invalid-email';
+export const PASSWORD_WEAK = 'auth/weak-password';
+
+export default {
+  USER_NOT_FOUND,
+  PASSWORD_INCORRECT,
+  EMAIL_ALREADY_IN_USE,
+  EMAIL_INVALID,
+  PASSWORD_WEAK,
+};

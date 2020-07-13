@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-import Errors from 'constants/sign-up-errors';
+import FirebaseErrors from 'constants/errors/firebase-errors';
+import SignUpErrors from 'constants/errors/sign-up-errors';
 
 import {useState} from 'react';
 
 import {addMerchant} from 'api';
 import firebaseAuth from 'firebase-auth';
-import {getFirebaseIdToken} from 'firebase-auth';
+import {getFirebaseIdToken, getFirebaseUid} from 'firebase-auth';
 import {useForm} from 'react-hook-form';
 import {useHistory} from 'react-router-dom';
 
@@ -48,61 +49,65 @@ const useSignUpForm = () => {
   } = useForm<SignUpData>({
     mode: 'onChange',
   });
-  const [generalError, setGeneralError] = useState();
+  const [generalError, setGeneralError] = useState<Error | undefined>();
   const history = useHistory();
 
   const validations = {
     name: register({
-      required: Errors.NAME_EMPTY,
+      required: SignUpErrors.NAME_EMPTY,
     }),
     email: register({
-      required: Errors.EMAIL_EMPTY,
+      required: SignUpErrors.EMAIL_EMPTY,
       pattern: {
         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-        message: Errors.EMAIL_INVALID,
+        message: SignUpErrors.EMAIL_INVALID,
       },
     }),
     password: register({
-      required: Errors.PASSWORD_EMPTY,
+      required: SignUpErrors.PASSWORD_EMPTY,
       minLength: {
         value: 8,
-        message: Errors.PASSWORD_WEAK,
+        message: SignUpErrors.PASSWORD_WEAK,
       },
     }),
     confirmPassword: register({
       validate: value =>
-        value === watch('password') || Errors.PASSWORDS_DO_NOT_MATCH,
+        value === watch('password') || SignUpErrors.PASSWORDS_DO_NOT_MATCH,
     }),
     vpa: register({
-      required: Errors.VPA_EMPTY,
+      required: SignUpErrors.VPA_EMPTY,
       pattern: {
         value: /^[A-Z0-9]+@[A-Z0-9]+/i,
-        message: Errors.VPA_INVALID,
+        message: SignUpErrors.VPA_INVALID,
       },
     }),
   };
   const disabled = !formState.isValid;
 
   const onSubmit = handleSubmit(async (values: SignUpData) => {
-    setGeneralError(null);
+    setGeneralError(undefined); // Reset general error message.
     try {
       const {name, email, password, vpa} = values;
       await firebaseAuth.createUserWithEmailAndPassword(email, password);
       const firebaseIdToken = await getFirebaseIdToken();
-      const merchant = await addMerchant({name, email, vpa}, firebaseIdToken);
+      const firebaseUid = await getFirebaseUid();
+      const merchant = await addMerchant(
+        {name, email, vpa, firebaseUid},
+        firebaseIdToken
+      );
       history.push(`/merchant/${merchant.id}`);
     } catch (err) {
       switch (err.code) {
-        case 'auth/invalid-email':
-          setError('email', 'pattern', Errors.EMAIL_INVALID);
+        case FirebaseErrors.EMAIL_INVALID:
+          setError('email', 'pattern', SignUpErrors.EMAIL_INVALID);
           break;
-        case 'auth/weak-password':
-          setError('password', 'minLength', Errors.PASSWORD_WEAK);
+        case FirebaseErrors.PASSWORD_WEAK:
+          setError('password', 'minLength', SignUpErrors.PASSWORD_WEAK);
           break;
-        case 'auth/email-already-in-use':
+        case FirebaseErrors.EMAIL_ALREADY_IN_USE:
           // TODO: Check if email is also already in database. If not, delete
           // this user and retry.
-          setError('email', 'unique', Errors.EMAIL_ALREADY_IN_USE);
+          setError('email', 'unique', SignUpErrors.EMAIL_ALREADY_IN_USE);
           break;
         default:
           setGeneralError(err);

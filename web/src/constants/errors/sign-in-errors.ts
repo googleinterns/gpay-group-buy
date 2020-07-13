@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-declare namespace Express {
-  interface Request {
-    decodedCustomer?: object;
-  }
-}
+export const USER_NOT_FOUND =
+  'There is no user registered with this email address.';
+export const PASSWORD_INCORRECT = 'The password you entered is incorrect.';

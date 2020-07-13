@@ -14,8 +14,5 @@
  * limitations under the License.
  */
 
-declare namespace Express {
-  interface Request {
-    decodedCustomer?: object;
-  }
-}
+export const GENERIC_ERROR =
+  'Oops, something went wrong. Please try again later!';
