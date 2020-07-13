@@ -80,7 +80,12 @@ app.use(
 
 const localPort = process.env.NODE_ENV === 'test' ? 5001 : 5000;
 const port = process.env.PORT || localPort;
-const server = app.listen(port, () => console.log(`Listening on port ${port}`));
+
+// module.parent check to prevents the EADDRINUSE error for tests, following:
+// http://www.marcusoft.net/2015/10/eaddrinuse-when-watching-tests-with-mocha-and-supertest.html
+if (!module.parent) {
+  app.listen(port, () => console.log(`Listening on port ${port}`));
+}
 
 const onStopSignal = () => {
   console.log('Termination signal received, exiting process..');
@@ -93,4 +98,3 @@ process.on('SIGHUP', onStopSignal);
 process.on('SIGUSR2', onStopSignal); // Nodemon uses this
 
 export default app;
-export {server};

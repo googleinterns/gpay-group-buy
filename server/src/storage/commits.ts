@@ -14,9 +14,45 @@
  * limitations under the License.
  */
 
-import {Datastore} from '@google-cloud/datastore';
-import {Guid} from 'guid-typescript';
+import {COMMIT_KIND, LISTING_KIND} from '../constants/kinds';
+import {Filter, CommitResponse, CommitPayload} from '../interfaces';
+import {get, getAll, insertAndUpdateRelatedEntity} from './datastore';
 
-const datastore = new Datastore();
+/**
+ * Gets a commit with the specified id from datastore.
+ * @param commitId The id of the commit to be retrieved
+ */
+const getCommit = async (commitId: number): Promise<CommitResponse> =>
+  get(COMMIT_KIND, commitId);
 
-export const commitStorage = {};
+/**
+ * Retrieves all commits satisfying the filters, if provided.
+ * @param filters Filters on the get query
+ */
+const getAllCommits = async (filters?: Filter[]): Promise<CommitResponse[]> =>
+  getAll(COMMIT_KIND, filters);
+
+/**
+ * Adds a commit with the specified data to datastore.
+ * Returns the added commit if adding is successful.
+ * Throws an error if adding is not successful.
+ * @param commit Data of the commit to be added
+ */
+const addCommit = async (commit: CommitPayload): Promise<CommitResponse> => {
+  const commitId = await insertAndUpdateRelatedEntity(
+    COMMIT_KIND,
+    commit,
+    LISTING_KIND,
+    commit.listingId,
+    [
+      {
+        property: 'numCommits',
+        op: 'add',
+        value: 1,
+      },
+    ]
+  );
+  return getCommit(commitId);
+};
+
+export default {getCommit, getAllCommits, addCommit};
