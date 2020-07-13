@@ -16,10 +16,36 @@
 
 /**
  * @fileoverview Handles routing of /commits endpoints.
- * @author Karen Frilya Celine
  */
 
-import express from 'express';
-const router: express.Router = express.Router();
+import express, {Request, Response, NextFunction} from 'express';
 
-export const commitRouter: express.Router = router;
+import {commitService} from '../services';
+
+const commitRouter = express.Router();
+
+/**
+ * Handles the get request for retrieving all commits.
+ */
+commitRouter.get(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const queryParams = req.query;
+      if (Object.keys(queryParams).length === 0) {
+        res.sendStatus(400);
+        return;
+      }
+      // TODO: Parse queryParams json to make it CommitPayload type in runtime, which
+      // throws the appropriate type errors.
+      // Right now services is handling the type casting and throwing of errors.
+      const commits = await commitService.getAllCommits(queryParams);
+      res.status(200).json(commits);
+      // TODO: Add error handling with the appropriate response codes.
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+export default commitRouter;

@@ -62,6 +62,11 @@ export interface CommitPayload {
 }
 
 /**
+ * Union type of the keys of CommitPayload.
+ */
+export type CommitPayloadKey = keyof CommitPayload;
+
+/**
  * CommitResponse Interface that contains the fields of the Response that
  * client side would receive.
  */
@@ -140,4 +145,11 @@ export interface MerchantResponse extends MerchantPayload {
 export interface Filter {
   property: string;
   value: any;
+}
+
+/**
+ * A generic string key object.
+ */
+export interface StringKeyObject {
+  [key: string]: any;
 }

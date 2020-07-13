@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {commitStorage} from './commits';
+import commitStorage from './commits';
 import customerStorage from './customers';
 import listingStorage from './listings';
 import merchantStorage from './merchants';
