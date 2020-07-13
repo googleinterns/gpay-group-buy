@@ -34,7 +34,7 @@ const OngoingListingsPage: React.FC = () => {
     populateMerchantData();
   }, [getMerchant]);
 
-  return <div>{merchant?.name}</div>;
+  return <div>{JSON.stringify(merchant)}</div>;
 };
 
 export default OngoingListingsPage;
