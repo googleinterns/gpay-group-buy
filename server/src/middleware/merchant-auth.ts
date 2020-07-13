@@ -41,16 +41,19 @@ const merchantAuth = async (
     const [_, firebaseIdToken] = req.headers.authorization.split(' ');
     const verifiedFirebaseUid = await getVerifiedUid(firebaseIdToken);
 
-    let firebaseUid;
+    const verify = (firebaseUid: string): void => {
+      if (firebaseUid !== verifiedFirebaseUid) {
+        throw new Error('Invalid bearer token.');
+      }
+    };
+
     if (req.body.firebaseUid !== undefined) {
-      firebaseUid = req.body.firebaseUid;
-    } else if (req.body.merchantId !== undefined) {
-      const merchant = await merchantService.getMerchant(req.body.merchantId);
-      firebaseUid = merchant.firebaseUid;
+      verify(req.body.firebaseUid);
     }
 
-    if (firebaseUid !== undefined && firebaseUid !== verifiedFirebaseUid) {
-      throw new Error('Invalid bearer token.');
+    if (req.body.merchantId !== undefined) {
+      const merchant = await merchantService.getMerchant(req.body.merchantId);
+      verify(merchant.firebaseUid);
     }
 
     next();
