@@ -20,6 +20,8 @@
 
 import express, {Request, Response, NextFunction} from 'express';
 
+import {CommitRequest} from '../interfaces';
+import customerAuth from '../middleware/customer-auth';
 import {commitService} from '../services';
 
 const commitRouter = express.Router();
@@ -41,6 +43,33 @@ commitRouter.get(
       // Right now services is handling the type casting and throwing of errors.
       const commits = await commitService.getAllCommits(queryParams);
       res.status(200).json(commits);
+      // TODO: Add error handling with the appropriate response codes.
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+/**
+ * Handles the post requests to create new commits.
+ */
+commitRouter.post(
+  '/',
+  customerAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    // TODO: Parse req.body json to make it CommitRequest type in runtime.
+    // Right now I am forcing it to be of the correct types.
+    const commitData: CommitRequest = {
+      customerId: Number(req.body.customerId),
+      listingId: Number(req.body.listingId),
+    };
+
+    try {
+      const addedCommit = await commitService.addCommit(commitData);
+      const resourceUrl = `${process.env.SERVER_URL}/commits/${addedCommit.id}`;
+      res.setHeader('Content-Location', resourceUrl);
+      res.location(resourceUrl);
+      res.status(201).send(addedCommit);
       // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);

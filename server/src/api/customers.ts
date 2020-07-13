@@ -19,8 +19,8 @@
  */
 
 import {Router, Request, Response, NextFunction} from 'express';
-import {CustomerPayload} from 'interfaces';
 
+import {CustomerPayload} from '../interfaces';
 import customerAuth from '../middleware/customer-auth';
 import {customerService} from '../services';
 

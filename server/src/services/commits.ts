@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
+import {MAX_NUM_COMMITS} from '../constants/customer';
+import {DEFAULT_COMMIT_PAYLOAD} from '../constants/default-payload';
 import {
   Filter,
   CommitResponse,
+  CommitRequest,
   StringKeyObject,
   CommitPayloadKey,
 } from '../interfaces';
-import {commitStorage} from '../storage';
+import {commitStorage, listingStorage, customerStorage} from '../storage';
 
 /**
  * Retrieves all commits.
@@ -61,4 +64,41 @@ const getAllCommits = async (
   return commitStorage.getAllCommits(filters);
 };
 
-export default {getAllCommits};
+/**
+ * Creates a new commit for the customer and the listing.
+ * An error would be thrown if the customer has reached their max num of ongoing commits,
+ * or if commit data provided is not valid.
+ * @param commitData Data of the commit to be added
+ */
+const addCommit = async (
+  commitData: CommitRequest
+): Promise<CommitResponse> => {
+  // Make sure that listing and customer exists
+  await listingStorage.getListing(commitData.listingId);
+  await customerStorage.getCustomer(commitData.customerId);
+
+  // Check that customer has not reached max num of ongoing commits
+  const customerCommits = await commitStorage.getAllCommits([
+    {
+      property: 'customerId',
+      value: commitData.customerId,
+    },
+    {
+      property: 'commitStatus',
+      value: 'ongoing',
+    },
+  ]);
+  if (customerCommits.length >= MAX_NUM_COMMITS) {
+    throw new Error(
+      `Customer has reached max number of ${MAX_NUM_COMMITS} ongoing commits.`
+    );
+  }
+
+  return await commitStorage.addCommit({
+    ...DEFAULT_COMMIT_PAYLOAD,
+    ...commitData,
+    createdAt: new Date(),
+  });
+};
+
+export default {getAllCommits, addCommit};

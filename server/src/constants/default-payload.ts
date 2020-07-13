@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import {CommitStatus} from '../interfaces';
+
 /**
  * Contains the default values for the optional fields on a CustomerPayload object
  * to be stored in the database.
@@ -21,4 +23,12 @@
 export const DEFAULT_CUSTOMER_PAYLOAD = {
   contactNumber: '',
   address: '',
+};
+
+/**
+ * Contains the default values for the fields on a CommitPayload object
+ * to be stored in the database.
+ */
+export const DEFAULT_COMMIT_PAYLOAD = {
+  commitStatus: 'ongoing' as CommitStatus,
 };
