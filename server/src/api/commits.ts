@@ -19,8 +19,8 @@
  */
 
 import express, {Request, Response, NextFunction} from 'express';
-import {CommitRequest} from 'interfaces';
 
+import {CommitRequest} from '../interfaces';
 import customerAuth from '../middleware/customer-auth';
 import {commitService} from '../services';
 
