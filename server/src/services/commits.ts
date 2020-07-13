@@ -42,6 +42,7 @@ const getAllCommits = async (
     }
 
     let value = queryParams[key];
+    // TODO: Remove this check after we do the parsing in the api layer.
     switch (key) {
       case 'customerId':
       case 'listingId':

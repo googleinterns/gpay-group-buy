@@ -36,7 +36,9 @@ commitRouter.get(
         res.sendStatus(400);
         return;
       }
-
+      // TODO: Parse queryParams json to make it CommitPayload type in runtime, which
+      // throws the appropriate type errors.
+      // Right now services is handling the type casting and throwing of errors.
       const commits = await commitService.getAllCommits(queryParams);
       res.status(200).json(commits);
       // TODO: Add error handling with the appropriate response codes.
