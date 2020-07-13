@@ -41,7 +41,7 @@ const useSignInForm = () => {
   const {formState, handleSubmit, register} = useForm<SignInData>({
     mode: 'onChange',
   });
-  const [generalError, setGeneralError] = useState();
+  const [generalError, setGeneralError] = useState<Error | undefined>();
   const {setMerchant} = useMerchantContext();
   const history = useHistory();
 

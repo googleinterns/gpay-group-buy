@@ -22,7 +22,7 @@ import {useState} from 'react';
 import {addMerchant} from 'api';
 import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
 import firebaseAuth from 'firebase-auth';
-import {getFirebaseIdToken} from 'firebase-auth';
+import {getFirebaseIdToken, getFirebaseUid} from 'firebase-auth';
 import {useForm} from 'react-hook-form';
 import {useHistory} from 'react-router-dom';
 
@@ -50,7 +50,7 @@ const useSignUpForm = () => {
   } = useForm<SignUpData>({
     mode: 'onChange',
   });
-  const [generalError, setGeneralError] = useState();
+  const [generalError, setGeneralError] = useState<Error | undefined>();
   const {setMerchant} = useMerchantContext();
   const history = useHistory();
 
@@ -92,7 +92,11 @@ const useSignUpForm = () => {
       const {name, email, password, vpa} = values;
       await firebaseAuth.createUserWithEmailAndPassword(email, password);
       const firebaseIdToken = await getFirebaseIdToken();
-      const merchant = await addMerchant({name, email, vpa}, firebaseIdToken);
+      const firebaseUid = await getFirebaseUid();
+      const merchant = await addMerchant(
+        {name, email, vpa, firebaseUid},
+        firebaseIdToken
+      );
       setMerchant(merchant);
       history.push(`/merchant/${merchant.id}`);
     } catch (err) {
