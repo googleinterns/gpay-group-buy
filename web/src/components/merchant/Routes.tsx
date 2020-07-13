@@ -35,7 +35,7 @@ const MerchantRoutes: React.FC = () => {
         <Route exact path={`${path}sign-up`} component={MerchantSignUpPage} />
         <Route exact path={`${path}sign-in`} component={MerchantSignInPage} />
         <Route
-          path={`${path}:merchantId`}
+          path={`${path}home`}
           component={MerchantOngoingListingsPage}
         />
       </MerchantProvider>
