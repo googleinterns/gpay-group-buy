@@ -77,4 +77,24 @@ commitRouter.post(
   }
 );
 
+/**
+ * Handles the delete requests to delete a commit with the specified commitId.
+ */
+commitRouter.delete(
+  '/:commitId',
+  // customerAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {commitId: commitIdStr} = req.params;
+    const commitId = Number(commitIdStr);
+
+    try {
+      await commitService.deleteCommit(commitId);
+      res.sendStatus(204);
+      // TODO: Add error handling with the appropriate response codes.
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
 export default commitRouter;

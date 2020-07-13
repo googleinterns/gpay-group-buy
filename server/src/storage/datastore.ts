@@ -136,6 +136,45 @@ export const insertAndUpdateRelatedEntity = async (
 };
 
 /**
+ * Deletes an entity and update a related entity in the same transaction.
+ * @param kindToDelete Kind of the entity to be deleted
+ * @param idToDelete Id of the entity to be deleted
+ * @param relatedKindToUpdate Kind of the related entity to be updated
+ * @param updateRules Rules to update the related entity
+ */
+export const deleteAndUpdateRelatedEntity = async (
+  kindToDelete: string,
+  idToDelete: number,
+  relatedKindToUpdate: string,
+  relatedIdToUpdate: number,
+  updateRules: UpdateRule[]
+) => {
+  const transaction = datastore.transaction();
+
+  const keyToDelete = datastore.key([kindToDelete, idToDelete]);
+
+  const keyToUpdate = datastore.key([relatedKindToUpdate, relatedIdToUpdate]);
+
+  try {
+    await transaction.run();
+    transaction.delete(keyToDelete);
+
+    const [data] = await transaction.get(keyToUpdate);
+    updateRules.forEach(updateRule => updateData(data, updateRule));
+
+    const entityToUpdate = {
+      key: keyToUpdate,
+      data,
+    };
+    transaction.update(entityToUpdate);
+    await transaction.commit();
+  } catch (err) {
+    await transaction.rollback();
+    throw new Error(`Failed to delete ${keyToDelete}. ${err}`);
+  }
+};
+
+/**
  * A Datastore wrapper that inserts a particular entity with the specified Kind if another
  * entity with the same value for the specified unique property does not already exist.
  * An error is thrown if an entity with the same unique property value already exists.

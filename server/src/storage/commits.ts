@@ -16,7 +16,12 @@
 
 import {COMMIT_KIND, LISTING_KIND} from '../constants/kinds';
 import {Filter, CommitResponse, CommitPayload} from '../interfaces';
-import {get, getAll, insertAndUpdateRelatedEntity} from './datastore';
+import {
+  get,
+  getAll,
+  insertAndUpdateRelatedEntity,
+  deleteAndUpdateRelatedEntity,
+} from './datastore';
 
 /**
  * Gets a commit with the specified id from datastore.
@@ -55,4 +60,25 @@ const addCommit = async (commit: CommitPayload): Promise<CommitResponse> => {
   return getCommit(commitId);
 };
 
-export default {getCommit, getAllCommits, addCommit};
+/**
+ * Deletes a commit with the specified id from datastore.
+ * Throws an error if deleting is not successful.
+ * @param commitId Id of the commit to be deleted
+ * @param listingId Id of the listing affected
+ */
+const deleteCommit = async (commitId: number, listingId: number) =>
+  await deleteAndUpdateRelatedEntity(
+    COMMIT_KIND,
+    commitId,
+    LISTING_KIND,
+    listingId,
+    [
+      {
+        property: 'numCommits',
+        op: 'subtract',
+        value: 1,
+      },
+    ]
+  );
+
+export default {getCommit, getAllCommits, addCommit, deleteCommit};
