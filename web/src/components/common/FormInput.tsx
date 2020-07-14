@@ -125,7 +125,7 @@ const FormInput: React.FC<FormInputProps> = ({
       return (
         <TextArea
           name={name}
-          rows={5}
+          rows={3}
           ref={forwardedRef as (ref: HTMLTextAreaElement) => void}
         />
       );
