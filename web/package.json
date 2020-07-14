@@ -15,8 +15,10 @@
     "@types/react": "^16.9.37",
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^5.1.5",
+    "@types/react-select": "^3.0.14",
     "@types/styled-components": "^5.1.0",
     "@types/to-camel-case": "^1.0.0",
+    "currency-codes": "^2.1.0",
     "date-fns": "^2.14.0",
     "firebase": "^7.15.2",
     "muicss": "^0.10.2",
@@ -28,6 +30,7 @@
     "react-hook-inview": "^4.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-select": "^3.1.0",
     "styled-components": "^5.1.1",
     "typescript": "~3.7.2"
   },

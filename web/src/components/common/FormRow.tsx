@@ -16,18 +16,20 @@
 
 import React from 'react';
 
+import FormInput from 'components/common/FormInput';
+import {FormInputRef} from 'components/common/interfaces';
 import Col from 'muicss/lib/react/col';
 import Row from 'muicss/lib/react/row';
 import {FieldError, NestDataObject} from 'react-hook-form';
 import styled from 'styled-components';
-import FormInput from './FormInput';
 
 const StyledRow = styled(Row)`
   display: flex;
   flex-direction: row;
   align-items: top;
-  justify-content: center;
+  justify-content: flex-start;
 
+  width: 500px;
   margin: 5px 0;
 `;
 
@@ -69,7 +71,7 @@ interface FormRowProps {
   name: string;
   label: string;
   inputType: string;
-  forwardedRef: ((ref: HTMLInputElement) => void) | ((ref: HTMLTextAreaElement) => void);
+  forwardedRef: FormInputRef;
   error: ReactHookFormErrorMessage;
 }
 
@@ -90,7 +92,11 @@ const FormRow: React.FC<FormRowProps> = ({
       <Label>{label}</Label>
     </StyledCol>
     <StyledCol>
-      <FormInput name={name} inputType={inputType} forwardedRef={forwardedRef} />
+      <FormInput
+        name={name}
+        inputType={inputType}
+        forwardedRef={forwardedRef}
+      />
       <ErrorContainer>{error}</ErrorContainer>
     </StyledCol>
   </StyledRow>

@@ -24,6 +24,7 @@ const AddListingForm: React.FC = () => (
     buttonText="Add Listing"
     fields={[
       {label: 'Product Name', name: 'name', type: 'text'},
+      {label: 'Currency', name: 'currency', type: 'currency'},
       {label: 'Discounted Price', name: 'price', type: 'number'},
       {label: 'Original Price', name: 'oldPrice', type: 'number'},
       {label: 'Deadline', name: 'deadline', type: 'date'},

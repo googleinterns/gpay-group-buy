@@ -14,13 +14,7 @@
  * limitations under the License.
  */
 
-import React from 'react';
-
-import MerchantPage from 'components/common/MerchantPage';
-import AddListingForm from 'components/merchant/add-listing/AddListingForm';
-
-const AddListingPage: React.FC = () => (
-  <MerchantPage header="Add Listing" body={<AddListingForm />} />
-);
-
-export default AddListingPage;
+export type FormInputRef =
+  | ((ref: HTMLInputElement) => void)
+  | ((ref: HTMLSelectElement) => void)
+  | ((ref: HTMLTextAreaElement) => void);
