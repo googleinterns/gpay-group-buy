@@ -18,10 +18,20 @@ import React from 'react';
 
 import MerchantPage from 'components/common/MerchantPage';
 import AddListingForm from 'components/merchant/add-listing/AddListingForm';
+import styled from 'styled-components';
+
+const LeftAlignedContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`;
 
 const AddListingPage: React.FC = () => (
   <MerchantPage header="Add Listing">
-    <AddListingForm />
+    <LeftAlignedContainer>
+      <AddListingForm />
+    </LeftAlignedContainer>
   </MerchantPage>
 );
 
