@@ -16,14 +16,17 @@
 
 import React from 'react';
 
-import MerchantPage from 'components/common/MerchantPage';
-import AddListingForm from 'components/merchant/add-listing/AddListingForm';
+import Form from 'components/common/Form';
+import useAddListingForm from 'components/merchant/add-listing/hooks/useAddListingForm';
 
-const AddListingPage: React.FC = () => (
-  <MerchantPage
-    header="Add Listing"
-    body={<AddListingForm/>}
+const AddListingForm: React.FC = () => (
+  <Form
+    buttonText="Add Listing"
+    fields={[
+      {label: 'Product Name', name: 'name', type: 'text'}
+    ]}
+    {...useAddListingForm()}
   />
 );
 
-export default AddListingPage;
+export default AddListingForm;
