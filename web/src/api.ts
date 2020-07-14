@@ -87,7 +87,7 @@ export const getListing = async (listingId: number): Promise<Listing> => {
  * Retrieves all merchants from the database.
  * @param filters Filters used to restrict merchants retrieved
  */
-const getMerchants = async (
+const getAllMerchants = async (
   filters?: Filter[]
 ): Promise<MerchantResponse[]> => {
   let queryString;
@@ -114,7 +114,7 @@ const getMerchants = async (
 export const getMerchantWithFirebaseUid = async (
   firebaseUid: string
 ): Promise<MerchantResponse> => {
-  const merchants = await getMerchants([
+  const merchants = await getAllMerchants([
     {
       property: 'firebaseUid',
       value: firebaseUid,
