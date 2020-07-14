@@ -28,4 +28,7 @@ const getAllMerchants = async (
 // fields but other merchants/customers can get only public fields like name.
 // TODO(#102): Add checks to ensure that filters have valid properties
 
-export default {addMerchant, getAllMerchants};
+const getMerchant = async (merchantId: number): Promise<MerchantResponse> =>
+  merchantStorage.getMerchant(merchantId);
+
+export default {addMerchant, getAllMerchants, getMerchant};

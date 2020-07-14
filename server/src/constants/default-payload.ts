@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {CommitStatus} from '../interfaces';
+import {CommitStatus, ListingComputedProperties} from '../interfaces';
 
 /**
  * Contains the default values for the optional fields on a CustomerPayload object
@@ -31,4 +31,15 @@ export const DEFAULT_CUSTOMER_PAYLOAD = {
  */
 export const DEFAULT_COMMIT_PAYLOAD = {
   commitStatus: 'ongoing' as CommitStatus,
+};
+
+/**
+ * Contains the default values for the fields on a ListingPayload object which
+ * are automatically set by ListingService during listing creation.
+ */
+export const DEFAULT_LISTING_PAYLOAD: ListingComputedProperties = {
+  numCommits: 0,
+  numPaid: 0,
+  numCompleted: 0,
+  listingStatus: 'ongoing',
 };
