@@ -59,7 +59,7 @@ const useSignInForm = () => {
       const {email, password} = values;
       await firebaseAuth.signInWithEmailAndPassword(email, password);
       const {id} = await getMerchantWithEmail(email);
-      history.push(`/merchant/${id}`);
+      history.push('home');
     } catch (err) {
       switch (err.code) {
         case 'auth/user-not-found':

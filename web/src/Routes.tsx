@@ -38,11 +38,7 @@ const Routes: React.FC = () => (
       <Route exact path="/merchant" component={MerchantLandingPage} />
       <Route exact path="/merchant/sign-up" component={MerchantSignUpPage} />
       <Route exact path="/merchant/sign-in" component={MerchantSignInPage} />
-      <Route
-        exact
-        path="/merchant/:merchantId"
-        component={MerchantListingsPage}
-      />
+      <Route exact path="/merchant/home" component={MerchantListingsPage} />
       <Route exact path="/design-samples" component={DesignSamplesPage} />
       <CustomerCommitCountProvider>
         <Route exact path="/" component={CustomerExplorePage} />

@@ -95,7 +95,7 @@ const useSignUpForm = () => {
         {name, email, vpa, firebaseUid},
         firebaseIdToken
       );
-      history.push(`/merchant/${merchant.id}`);
+      history.push('home');
     } catch (err) {
       switch (err.code) {
         case FirebaseErrors.EMAIL_INVALID:
