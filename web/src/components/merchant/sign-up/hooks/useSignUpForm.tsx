@@ -91,10 +91,7 @@ const useSignUpForm = () => {
       await firebaseAuth.createUserWithEmailAndPassword(email, password);
       const firebaseIdToken = await getFirebaseIdToken();
       const firebaseUid = await getFirebaseUid();
-      await addMerchant(
-        {name, email, vpa, firebaseUid},
-        firebaseIdToken
-      );
+      await addMerchant({name, email, vpa, firebaseUid}, firebaseIdToken);
       history.push('home');
     } catch (err) {
       switch (err.code) {
