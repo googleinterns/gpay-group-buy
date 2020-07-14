@@ -92,6 +92,7 @@ const selectTheme = (theme: Theme) => ({
 interface FormInputProps {
   name: string;
   inputType: string;
+  step?: string;
   forwardedRef: FormInputRef;
 }
 
@@ -102,6 +103,7 @@ const FormInput: React.FC<FormInputProps> = ({
   name,
   inputType,
   forwardedRef,
+  step,
 }) => {
   const {control} = useForm();
   switch (inputType) {
@@ -132,6 +134,7 @@ const FormInput: React.FC<FormInputProps> = ({
         <Input
           type={inputType}
           name={name}
+          step={step}
           ref={forwardedRef as (ref: HTMLInputElement) => void}
         />
       );

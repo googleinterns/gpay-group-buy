@@ -25,8 +25,8 @@ const AddListingForm: React.FC = () => (
     fields={[
       {label: 'Product Name', name: 'name', type: 'text'},
       {label: 'Currency', name: 'currency', type: 'currency'},
-      {label: 'Discounted Price', name: 'price', type: 'number'},
-      {label: 'Original Price', name: 'oldPrice', type: 'number'},
+      {label: 'Discounted Price', name: 'price', type: 'number', step: '.01'},
+      {label: 'Original Price', name: 'oldPrice', type: 'number', step: '.01'},
       {label: 'Deadline', name: 'deadline', type: 'date'},
       {label: 'Min. Buyers', name: 'minCommits', type: 'number'},
       {label: 'Description', name: 'description', type: 'textarea'},
