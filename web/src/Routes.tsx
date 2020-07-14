@@ -27,6 +27,7 @@ const MerchantLandingPage = lazy(() => import('components/merchant/landing'));
 const MerchantSignUpPage = lazy(() => import('components/merchant/sign-up'));
 const MerchantSignInPage = lazy(() => import('components/merchant/sign-in'));
 const MerchantListingsPage = lazy(() => import('components/merchant/listings'));
+const MerchantAddListingPage = lazy(() => import('components/merchant/add-listing'));
 // Common Pages
 const ListingDetailsPage = lazy(() => import('components/listing-details'));
 // Design samples
@@ -39,6 +40,7 @@ const Routes: React.FC = () => (
       <Route exact path="/merchant/sign-up" component={MerchantSignUpPage} />
       <Route exact path="/merchant/sign-in" component={MerchantSignInPage} />
       <Route exact path="/merchant/home" component={MerchantListingsPage} />
+      <Route exact path="/merchant/add-listing" component={MerchantAddListingPage} />
       <Route exact path="/design-samples" component={DesignSamplesPage} />
       <CustomerCommitCountProvider>
         <Route exact path="/" component={CustomerExplorePage} />
