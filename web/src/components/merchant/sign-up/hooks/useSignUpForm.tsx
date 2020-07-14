@@ -91,7 +91,7 @@ const useSignUpForm = () => {
       await firebaseAuth.createUserWithEmailAndPassword(email, password);
       const firebaseIdToken = await getFirebaseIdToken();
       const firebaseUid = await getFirebaseUid();
-      const merchant = await addMerchant(
+      await addMerchant(
         {name, email, vpa, firebaseUid},
         firebaseIdToken
       );
