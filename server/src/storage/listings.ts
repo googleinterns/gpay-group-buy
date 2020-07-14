@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-import {ListingResponse} from 'interfaces';
+import {ListingPayload, ListingResponse} from 'interfaces';
 
 import {LISTING_KIND} from '../constants/kinds';
-import {getAll, get} from './datastore';
+import {add, getAll, get} from './datastore';
+
+const addListing = async (
+  listing: ListingPayload
+): Promise<ListingResponse> => {
+  const listingId = await add(LISTING_KIND, listing);
+  return getListing(listingId);
+};
 
 const getAllListings = async (): Promise<ListingResponse[]> =>
   getAll(LISTING_KIND);
@@ -25,4 +32,4 @@ const getAllListings = async (): Promise<ListingResponse[]> =>
 const getListing = async (listingId: number): Promise<ListingResponse> =>
   get(LISTING_KIND, listingId);
 
-export default {getAllListings, getListing};
+export default {addListing, getAllListings, getListing};

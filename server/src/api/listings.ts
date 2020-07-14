@@ -20,6 +20,7 @@
 
 import {Router, Request, Response, NextFunction} from 'express';
 
+import merchantAuth from '../middleware/merchant-auth';
 import {listingService} from '../services';
 
 const listingRouter = Router();
@@ -49,6 +50,28 @@ listingRouter.get(
     try {
       const listing = await listingService.getListing(listingId);
       res.send(listing);
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+listingRouter.post(
+  '/',
+  merchantAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const listingData = req.body;
+    // Parse JSON object into the correct types of ListingPayload properties.
+    listingData.deadline = new Date(listingData.deadline);
+
+    try {
+      const listing = await listingService.addListing(listingData);
+      const resourceUrl = `${process.env.SERVER_URL}/listings/${listing.id}`;
+      res.setHeader('Content-Location', resourceUrl);
+      res.location(resourceUrl);
+      res.status(201);
+      res.json(listing);
+      // TODO(#115): Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);
     }
