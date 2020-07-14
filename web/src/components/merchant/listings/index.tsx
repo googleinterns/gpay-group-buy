@@ -24,10 +24,9 @@ const AddListingPage: React.FC = () => {
   const {hash} = useLocation();
 
   return (
-    <MerchantPage
-      header={`${hash === '#past-listings' ? 'Past' : 'Ongoing'} Listings`}
-      body={<EmptyListingsPlaceholder />}
-    />
+    <MerchantPage header={`${hash === '#past-listings' ? 'Past' : 'Ongoing'} Listings`}>
+      <EmptyListingsPlaceholder />
+    </MerchantPage>
   );
 };
 
