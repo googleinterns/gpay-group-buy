@@ -8,3 +8,4 @@ coverage/*
 # test misc
 test/fixtures/
 src/**/__tests__/**
+src/utils/tests/**
