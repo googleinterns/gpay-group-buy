@@ -33,6 +33,10 @@ customerRouter.get(
     const customerId = Number(customerIdStr);
 
     try {
+      if (Number.isNaN(customerId)) {
+        throw new Error('Invalid customerId params.');
+      }
+
       const customer = await customerService.getCustomer(customerId);
       res.send(customer);
     } catch (error) {

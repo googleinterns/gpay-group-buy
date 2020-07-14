@@ -88,6 +88,10 @@ commitRouter.delete(
     const commitId = Number(commitIdStr);
 
     try {
+      if (Number.isNaN(commitId)) {
+        throw new Error('Invalid commitId params.');
+      }
+
       await commitService.deleteCommit(commitId);
       res.sendStatus(204);
       // TODO: Add error handling with the appropriate response codes.
