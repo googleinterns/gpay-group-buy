@@ -50,7 +50,7 @@ const selectStyles: Styles = {
     ...provided,
     'min-height': '30px', // This is to override existing style.
     height: '30px',
-    width: '150px',
+    width: '380px',
     padding: '0 15px',
     'border-radius': '15px',
     border: 'none',
