@@ -18,7 +18,7 @@ import React from 'react';
 
 import ListingDescription from 'components/common/ListingDescription';
 import {Listing} from 'interfaces';
-import {Container} from 'muicss/react';
+import Container from 'muicss/lib/react/container';
 import styled from 'styled-components';
 
 const ListingImage = styled.img`

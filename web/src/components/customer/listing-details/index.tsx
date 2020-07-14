@@ -19,6 +19,7 @@ import React, {useState, useEffect} from 'react';
 import {getListing} from 'api';
 import BackButton from 'components/common/BackButton';
 import CommitsBadge from 'components/common/CommitsBadge';
+import ActionBar from 'components/customer/listing-details/ActionBar';
 import ListingDetails from 'components/customer/listing-details/ListingDetails';
 import {Listing} from 'interfaces';
 import {useHistory, useParams, useLocation} from 'react-router-dom';
@@ -27,6 +28,15 @@ import styled from 'styled-components';
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  overflow: scroll;
 `;
 
 interface ListingParams {
@@ -59,7 +69,14 @@ const ListingDetailsPage: React.FC = () => {
     <PageContainer>
       <BackButton pos="absolute" onClick={handleBack} />
       <CommitsBadge pos="absolute" />
-      {listing && <ListingDetails listing={listing} />}
+      {listing && (
+        <>
+          <ContentContainer>
+            <ListingDetails listing={listing} />
+          </ContentContainer>
+          <ActionBar listingId={listing.id} />
+        </>
+      )}
     </PageContainer>
   );
 };

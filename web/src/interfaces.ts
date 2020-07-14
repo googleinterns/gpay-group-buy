@@ -39,7 +39,7 @@ export type ListingStatus =
   | 'unsuccessful';
 
 /**
- * Listing Interface that contains the fields of a Lisiting,
+ * Listing Interface that contains the fields of a Lisiting.
  */
 export interface Listing {
   id: number;
@@ -55,6 +55,40 @@ export interface Listing {
   numPaid: number;
   numCompleted: number;
   listingStatus: ListingStatus;
+}
+
+/**
+ * CommitStatus type contains the different states of a Commit.
+ */
+export type CommitStatus =
+  | 'ongoing'
+  | 'successful'
+  | 'paid'
+  | 'completed'
+  | 'unsuccessful';
+
+/**
+ * CommitPayload Interface that contains the fields of the payload that
+ * would be sent to the server to create commits.
+ */
+export interface CommitPayload {
+  customerId: number;
+  listingId: number;
+}
+
+/**
+ * CommitQuery Interface that contains the fields of the query that
+ * would be sent to the server to get commits.
+ */
+export type CommitQuery = CommitPayload;
+
+/**
+ *  Commit Interface that contains the fields of a Commit.
+ */
+export interface Commit extends CommitPayload {
+  id: number;
+  createdAt: Date;
+  commitStatus: CommitStatus;
 }
 
 /**
