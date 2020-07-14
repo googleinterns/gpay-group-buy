@@ -85,6 +85,7 @@ export const getListing = async (listingId: number): Promise<Listing> => {
 
 /**
  * Retrieves all merchants from the database.
+ * @param filters Filters used to restrict merchants retrieved
  */
 const getMerchants = async (
   filters?: Filter[]
