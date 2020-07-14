@@ -94,7 +94,7 @@ const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
 };
 
 /**
- * Inserts an entity and update a related entity in the same transaction.
+ * Inserts an entity and updates a related entity in the same transaction.
  * Returns the id of the entity that is inserted,
  * @param kindToInsert Kind of the entity to be inserted
  * @param dataToInsert Data of the entity to be inserted
@@ -136,7 +136,7 @@ export const insertAndUpdateRelatedEntity = async (
 };
 
 /**
- * Deletes an entity and update a related entity in the same transaction.
+ * Deletes an entity and updates a related entity in the same transaction.
  * @param kindToDelete Kind of the entity to be deleted
  * @param idToDelete Id of the entity to be deleted
  * @param relatedKindToUpdate Kind of the related entity to be updated

@@ -82,7 +82,7 @@ commitRouter.post(
  */
 commitRouter.delete(
   '/:commitId',
-  // customerAuth,
+  customerAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     const {commitId: commitIdStr} = req.params;
     const commitId = Number(commitIdStr);
