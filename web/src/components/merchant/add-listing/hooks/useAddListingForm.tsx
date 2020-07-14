@@ -29,9 +29,13 @@ type AddListingData = {
  * invalid inputs and adding listing to database upon clicking 'ADD LISTING' button.
  */
 const useAddListingForm = () => {
-  const {errors: formErrors, formState, handleSubmit, register, watch} = useForm<
-    AddListingData
-  >({
+  const {
+    errors: formErrors,
+    formState,
+    handleSubmit,
+    register,
+    watch,
+  } = useForm<AddListingData>({
     mode: 'onChange',
   });
   const [generalError, setGeneralError] = useState<Error | undefined>();
@@ -56,7 +60,8 @@ const useAddListingForm = () => {
           countDecimalPlaces(Number(value)) <= 2 ||
           'Price can have at most 2 decimal places.',
         moreThanPrice: value =>
-          Number(value) > Number(watch('price')) || 'Discounted price must be lower than original price.'
+          Number(value) > Number(watch('price')) ||
+          'Discounted price must be lower than original price.',
       },
     }),
     deadline: register({
