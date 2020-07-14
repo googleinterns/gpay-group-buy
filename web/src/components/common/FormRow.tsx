@@ -20,6 +20,7 @@ import Col from 'muicss/lib/react/col';
 import Row from 'muicss/lib/react/row';
 import {FieldError, NestDataObject} from 'react-hook-form';
 import styled from 'styled-components';
+import FormInput from './FormInput';
 
 const StyledRow = styled(Row)`
   display: flex;
@@ -47,28 +48,6 @@ const Label = styled.label`
   display: flex;
   flex-direction: column;
   justify-content: center;
-`;
-
-const Input = styled.input`
-  height: 30px;
-  width: 350px;
-  font-size: 14px;
-  padding: 0 15px;
-
-  border-radius: 15px;
-  border: none;
-  box-shadow: 4px 2px 4px rgba(0, 0, 0, 0.25);
-`;
-
-const TextArea = styled.textarea`
-  width: 350px;
-  font-size: 14px;
-  line-height: 16.1px;
-  padding: 5px 15px;
-
-  border-radius: 15px;
-  border: none;
-  box-shadow: 4px 2px 4px rgba(0, 0, 0, 0.25);
 `;
 
 const ErrorContainer = styled.div`
@@ -111,10 +90,7 @@ const FormRow: React.FC<FormRowProps> = ({
       <Label>{label}</Label>
     </StyledCol>
     <StyledCol>
-      {inputType === 'textarea'
-        ? <TextArea name={name} rows={5} ref={forwardedRef as (ref: HTMLTextAreaElement) => void} />
-        : <Input type={inputType} name={name} ref={forwardedRef as (ref: HTMLInputElement) => void} />
-      }
+      <FormInput name={name} inputType={inputType} forwardedRef={forwardedRef} />
       <ErrorContainer>{error}</ErrorContainer>
     </StyledCol>
   </StyledRow>
