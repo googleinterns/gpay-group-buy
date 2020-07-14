@@ -24,6 +24,7 @@ import ListingDetails from 'components/customer/listing-details/ListingDetails';
 import {Listing} from 'interfaces';
 import {useHistory, useParams, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
+import useCommitStatus from 'components/customer/listing-details/hooks/useCommitStatus';
 
 const PageContainer = styled.div`
   display: flex;
@@ -50,17 +51,20 @@ interface ListingLocation {
 const ListingDetailsPage: React.FC = () => {
   const history = useHistory();
   const location = useLocation<ListingLocation>();
-  const {listingId} = useParams<ListingParams>();
+  const {listingId: listingIdStr} = useParams<ListingParams>();
+
+  const listingId = Number(listingIdStr);
 
   const [listing, setListing] = useState<Listing>();
+  const {commitStatus, onCommit, onUncommit} = useCommitStatus(listingId);
 
   useEffect(() => {
     const fetchListings = async () => {
-      const listing = await getListing(Number(listingId));
+      const listing = await getListing(listingId);
       setListing(listing);
     };
     fetchListings();
-  }, [listingId]);
+  }, [commitStatus, listingId]);
 
   const handleBack = () =>
     location.state?.fromExplore ? history.goBack() : history.push('/');
@@ -74,7 +78,7 @@ const ListingDetailsPage: React.FC = () => {
           <ContentContainer>
             <ListingDetails listing={listing} />
           </ContentContainer>
-          <ActionBar listingId={listing.id} />
+          <ActionBar commitStatus={commitStatus} onCommit={onCommit} onUncommit={onUncommit} />
         </>
       )}
     </PageContainer>

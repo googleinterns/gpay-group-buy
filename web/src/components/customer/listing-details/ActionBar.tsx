@@ -16,7 +16,6 @@
 
 import React, {useState, useEffect, useCallback} from 'react';
 
-import useCommitStatus from 'components/customer/listing-details/hooks/useCommitStatus';
 import {CommitStatus} from 'interfaces';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
@@ -51,17 +50,17 @@ const SmallPlus = styled(Plus)`
 `;
 
 interface ActionBarProps {
-  listingId: number;
+  commitStatus: CommitStatus | undefined;
+  onCommit: () => Promise<void>;
+  onUncommit: () => Promise<void>;
 }
 
 /**
  * ActionBar that contains a button to commit/uncommit/pay a listing.
  */
-const ActionBar: React.FC<ActionBarProps> = ({listingId}) => {
+const ActionBar: React.FC<ActionBarProps> = ({ commitStatus, onCommit, onUncommit }) => {
   const [buttonState, setButtonState] = useState<ActionButtonState>();
   const [button, setButton] = useState(<></>);
-
-  const {commitStatus, onCommit, onUncommit} = useCommitStatus(listingId);
 
   const getButton = useCallback(
     (buttonState: ActionButtonState): JSX.Element => {
