@@ -71,6 +71,7 @@ interface FormRowProps {
   name: string;
   label: string;
   inputType: string;
+  step?: string;
   forwardedRef: FormInputRef;
   error: ReactHookFormErrorMessage;
 }
@@ -84,6 +85,7 @@ const FormRow: React.FC<FormRowProps> = ({
   name,
   label,
   inputType,
+  step,
   forwardedRef,
   error,
 }) => (
@@ -96,6 +98,7 @@ const FormRow: React.FC<FormRowProps> = ({
         name={name}
         inputType={inputType}
         forwardedRef={forwardedRef}
+        step={step}
       />
       <ErrorContainer>{error}</ErrorContainer>
     </StyledCol>

@@ -46,6 +46,7 @@ interface Field {
   label: string;
   name: string;
   type: string;
+  step?: string;
 }
 
 export interface FormProps {
@@ -71,12 +72,13 @@ const Form: React.FC<FormProps> = ({
   return (
     <StyledForm>
       {fields.map((field, key) => {
-        const {name, label, type} = field;
+        const {name, label, type, step} = field;
         return (
           <FormRow
             name={name}
             label={label}
             inputType={type}
+            step={step}
             forwardedRef={validations[name]}
             error={errors.form[name]?.message}
             key={key}
