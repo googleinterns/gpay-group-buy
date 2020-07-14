@@ -94,11 +94,28 @@ const addCommit = async (
     );
   }
 
-  return await commitStorage.addCommit({
+  return commitStorage.addCommit({
     ...DEFAULT_COMMIT_PAYLOAD,
     ...commitData,
     createdAt: new Date(),
   });
 };
 
-export default {getAllCommits, addCommit};
+/**
+ * Deletes the commit with the specified commitId.
+ * An error would be thrown if commit does not already exist,
+ * or if the commit is not ONGOING,
+ * or if deletion fails.
+ * @param commitId Id of the commit to be deleted
+ */
+const deleteCommit = async (commitId: number) => {
+  const commit = await commitStorage.getCommit(commitId);
+
+  if (commit.commitStatus !== 'ongoing') {
+    throw new Error('Only ongoing commits are allowed to be deleted.');
+  }
+
+  return commitStorage.deleteCommit(commitId, commit.listingId);
+};
+
+export default {getAllCommits, addCommit, deleteCommit};
