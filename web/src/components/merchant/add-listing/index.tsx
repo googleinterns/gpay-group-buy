@@ -20,10 +20,9 @@ import MerchantPage from 'components/common/MerchantPage';
 import AddListingForm from 'components/merchant/add-listing/AddListingForm';
 
 const AddListingPage: React.FC = () => (
-  <MerchantPage
-    header="Add Listing"
-    body={<AddListingForm/>}
-  />
+  <MerchantPage header="Add Listing">
+    <AddListingForm />
+  </MerchantPage>
 );
 
 export default AddListingPage;

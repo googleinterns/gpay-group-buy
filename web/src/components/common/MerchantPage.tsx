@@ -64,10 +64,9 @@ const ListingsBody = styled(CentralisedContainer)`
 
 interface MerchantPageProps {
   header: ReactNode;
-  body: ReactNode;
 }
 
-const MerchantPage: React.FC<MerchantPageProps> = ({header, body}) => {
+const MerchantPage: React.FC<MerchantPageProps> = ({header, children}) => {
   return (
     <PageContainer>
       <MerchantSideBar />
@@ -75,7 +74,7 @@ const MerchantPage: React.FC<MerchantPageProps> = ({header, body}) => {
         <HeaderRow>
           <Header>{header}</Header>
         </HeaderRow>
-        <ListingsBody>{body}</ListingsBody>
+        <ListingsBody>{children}</ListingsBody>
       </PageContent>
     </PageContainer>
   );
