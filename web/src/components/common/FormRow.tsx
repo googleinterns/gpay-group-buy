@@ -60,6 +60,17 @@ const Input = styled.input`
   box-shadow: 4px 2px 4px rgba(0, 0, 0, 0.25);
 `;
 
+const TextArea = styled.textarea`
+  width: 350px;
+  font-size: 14px;
+  line-height: 16.1px;
+  padding: 5px 15px;
+
+  border-radius: 15px;
+  border: none;
+  box-shadow: 4px 2px 4px rgba(0, 0, 0, 0.25);
+`;
+
 const ErrorContainer = styled.div`
   height: 12px;
   margin-left: 15px;
@@ -79,7 +90,7 @@ interface FormRowProps {
   name: string;
   label: string;
   inputType: string;
-  forwardedRef: (ref: HTMLInputElement) => void;
+  forwardedRef: ((ref: HTMLInputElement) => void) | ((ref: HTMLTextAreaElement) => void);
   error: ReactHookFormErrorMessage;
 }
 
@@ -100,7 +111,10 @@ const FormRow: React.FC<FormRowProps> = ({
       <Label>{label}</Label>
     </StyledCol>
     <StyledCol>
-      <Input type={inputType} name={name} ref={forwardedRef} />
+      {inputType === 'textarea'
+        ? <TextArea name={name} rows={5} ref={forwardedRef as (ref: HTMLTextAreaElement) => void} />
+        : <Input type={inputType} name={name} ref={forwardedRef as (ref: HTMLInputElement) => void} />
+      }
       <ErrorContainer>{error}</ErrorContainer>
     </StyledCol>
   </StyledRow>

@@ -28,7 +28,7 @@ const AddListingForm: React.FC = () => (
       {label: 'Original Price', name: 'oldPrice', type: 'number'},
       {label: 'Deadline', name: 'deadline', type: 'date'},
       {label: 'Min. Buyers', name: 'minCommits', type: 'number'},
-      {label: 'Description', name: 'description', type: 'text'},
+      {label: 'Description', name: 'description', type: 'textarea'},
       {label: 'Image URL', name: 'imgUrl', type: 'url'},
     ]}
     {...useAddListingForm()}
