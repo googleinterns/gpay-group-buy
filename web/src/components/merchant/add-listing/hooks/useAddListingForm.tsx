@@ -17,6 +17,7 @@
 import {useState} from 'react';
 
 import {useForm} from 'react-hook-form';
+import {countDecimalPlaces} from 'utils/decimal-places';
 
 type AddListingData = {
   name: string;
@@ -38,6 +39,36 @@ const useAddListingForm = () => {
   const validations = {
     name: register({
       required: 'Product name cannot be empty.',
+    }),
+    currency: register({
+      required: 'Currency cannot be empty.',
+    }),
+    price: register({
+      required: 'Please enter a number.',
+      validate: value =>
+        countDecimalPlaces(Number(value)) <= 2 ||
+        'Price can have at most 2 decimal places.',
+    }),
+    oldPrice: register({
+      required: 'Please enter a number.',
+      validate: value =>
+        countDecimalPlaces(Number(value)) <= 2 ||
+        'Price can have at most 2 decimal places.',
+    }),
+    deadline: register({
+      required: 'Deadline cannot be empty.',
+    }),
+    minCommits: register({
+      required: 'Please enter a number.',
+      validate: value =>
+        countDecimalPlaces(Number(value)) === 0 ||
+        'Minimum no of buyers must be a whole number.',
+    }),
+    description: register({
+      required: 'Description cannot be empty.',
+    }),
+    imageUrl: register({
+      required: 'Image URL cannot be empty.',
     }),
   };
   const disabled = !formState.isValid;
