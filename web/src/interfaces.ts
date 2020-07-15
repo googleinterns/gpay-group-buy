@@ -78,12 +78,12 @@ export interface CommitPayload {
 
 /**
  * CommitQuery Interface that contains the fields of the query that
- * would be sent to the server to get commits.
+ * would be sent to the server to query for commits.
  */
 export type CommitQuery = CommitPayload;
 
 /**
- *  Commit Interface that contains the fields of a Commit.
+ * Commit Interface that contains the fields of a Commit.
  */
 export interface Commit extends CommitPayload {
   id: number;

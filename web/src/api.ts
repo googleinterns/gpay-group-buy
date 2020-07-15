@@ -130,7 +130,7 @@ export const getListing = async (listingId: number): Promise<Listing> => {
 };
 
 /**
- * Adds a new commit with the specified commitData.
+ * Gets commits that satisfy the query.
  * @param commitQuery Query params of the request
  */
 export const getCommits = async (
@@ -166,7 +166,7 @@ export const addCommit = async (
 };
 
 /**
- * Adds a new commit with the specified commitData.
+ * Deletes a commit with the specified commitId.
  * @param commitId Id of the commit to delete
  * @param idToken Authentication token of customer
  */
