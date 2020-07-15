@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-import React, {MouseEventHandler} from 'react';
+import React from 'react';
 
 import Button from 'components/common/Button';
 import {useFormPropsContext} from 'components/common/contexts/FormPropsContext';
 import FormRow from 'components/common/FormRow';
 import MuiForm from 'muicss/lib/react/form';
-import {FieldErrors, FieldValues} from 'react-hook-form';
 import styled from 'styled-components';
 
 const StyledForm = styled(MuiForm)`
@@ -37,26 +36,6 @@ const ErrorContainer = styled.div`
   flex-direction: row;
   align-items: center;
 `;
-
-interface Errors {
-  form: FieldErrors<FieldValues>;
-  general: Error | undefined;
-}
-
-interface Field {
-  label: string;
-  name: string;
-  type: string;
-}
-
-export interface FormProps {
-  buttonText: string;
-  disabled: boolean;
-  errors: Errors;
-  fields: Field[];
-  onSubmit: MouseEventHandler<HTMLButtonElement>;
-  validations: {[key: string]: (ref: HTMLInputElement) => void};
-}
 
 /**
  * This form contains all the fields to be filled in and a button to submit the data.
