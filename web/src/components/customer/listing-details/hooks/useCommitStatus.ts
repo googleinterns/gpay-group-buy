@@ -20,7 +20,8 @@ import {getCommits, addCommit, deleteCommit} from 'api';
 import {CommitStatus} from 'interfaces';
 
 /**
- * useCommitStatus custom hook.
+ * useCommitStatus hook in charge of all logic related to the
+ * commit status of a listing with the specified listingId.
  */
 const useCommitStatus = (listingId: number) => {
   const [commitStatus, setCommitStatus] = useState<CommitStatus>();
