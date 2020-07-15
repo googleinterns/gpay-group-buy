@@ -19,6 +19,7 @@ import React from 'react';
 import {useFormPropsContext} from 'components/common/contexts/FormPropsContext';
 import currencyCodes from 'currency-codes';
 import {Controller} from 'react-hook-form';
+import NumberFormat,{NumberFormatProps} from 'react-number-format';
 import ReactSelect, {Props, Styles, Theme} from 'react-select';
 import styled from 'styled-components';
 
@@ -89,6 +90,11 @@ const selectTheme = (theme: Theme) => ({
   },
 });
 
+const StyledNumberFormat = styled(NumberFormat)`
+  ${inputStyles} /* stylelint-disable-line value-keyword-case */
+  height: 30px;
+`;
+
 interface FormInputProps {
   index: number;
 }
@@ -115,6 +121,32 @@ const FormInput: React.FC<FormInputProps> = ({index}) => {
           rules={validation}
         />
       );
+    case 'whole-number':
+      return (
+        <Controller
+          as={StyledNumberFormat}
+          name={name}
+          thousandSeparator={true}
+          decimalScale={0}
+          isNumericString
+          allowNegative={false}
+          control={control}
+          rules={validation}
+        />
+      )
+    case 'money':
+      return (
+        <Controller
+          as={StyledNumberFormat}
+          name={name}
+          thousandSeparator={true}
+          decimalScale={2}
+          isNumericString
+          allowNegative={false}
+          control={control}
+          rules={validation}
+        />
+      )
     case 'textarea':
       return <TextArea name={name} rows={3} ref={register(validation)} />;
     default:

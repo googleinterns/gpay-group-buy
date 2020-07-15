@@ -16,8 +16,6 @@
 
 import AddListingErrors from 'constants/errors/add-listing-errors';
 
-import {countDecimalPlaces} from 'utils/decimal-places';
-
 type FormFields =
   | 'name'
   | 'currency'
@@ -41,27 +39,17 @@ const useValidations = (watch: (field: FormFields) => string) => ({
       value: 0.01,
       message: AddListingErrors.PRICE_TOO_LOW,
     },
-    validate: {
-      decimalPlaces: (value: string) =>
-        countDecimalPlaces(Number(value)) <= 2 ||
-        AddListingErrors.PRICE_DECIMAL_PLACES,
-      lessThanOldPrice: (value: string) =>
-        !watch('oldPrice') ||
-        Number(value) < Number(watch('oldPrice')) ||
-        AddListingErrors.DISCOUNTED_PRICE_MORE_THAN_ORIGINAL_PRICE,
-    },
+    validate: (value: string) =>
+      !watch('oldPrice') ||
+      Number(value) < Number(watch('oldPrice')) ||
+      AddListingErrors.DISCOUNTED_PRICE_MORE_THAN_ORIGINAL_PRICE,
   },
   oldPrice: {
     required: AddListingErrors.NUMBER_NOT_GIVEN, // Shows error when input is empty or not a number.
-    validate: {
-      decimalPlaces: (value: string) =>
-        countDecimalPlaces(Number(value)) <= 2 ||
-        AddListingErrors.PRICE_DECIMAL_PLACES,
-      moreThanPrice: (value: string) =>
-        !watch('price') ||
-        Number(value) > Number(watch('price')) ||
-        AddListingErrors.DISCOUNTED_PRICE_MORE_THAN_ORIGINAL_PRICE,
-    },
+    validate: (value: string) =>
+      !watch('price') ||
+      Number(value) > Number(watch('price')) ||
+      AddListingErrors.DISCOUNTED_PRICE_MORE_THAN_ORIGINAL_PRICE,
   },
   deadline: {
     required: AddListingErrors.DEADLINE_EMPTY,
@@ -74,9 +62,6 @@ const useValidations = (watch: (field: FormFields) => string) => ({
       value: 1,
       message: AddListingErrors.MIN_COMMITS_TOO_LOW,
     },
-    validate: (value: string) =>
-      countDecimalPlaces(Number(value)) === 0 ||
-      AddListingErrors.MIN_COMMITS_DECIMAL_PLACES,
   },
   description: {
     required: AddListingErrors.DESCRIPTION_EMPTY,
