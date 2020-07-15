@@ -17,7 +17,7 @@
 import React from 'react';
 
 import CentralisedContainer from 'components/common/CentralisedContainer';
-import MerchantDetail from 'components/common/MerchantDetailRow';
+import MerchantDetailRow from 'components/common/MerchantDetailRow';
 import {CreditCard, Mail} from 'react-feather';
 import styled from 'styled-components';
 
@@ -52,8 +52,8 @@ const MerchantProfile: React.FC = () => {
       <Shop />
       <Header>{dummyMerchant.name}</Header>
       <DetailsContainer>
-        <MerchantDetail icon={Mail} text={dummyMerchant.email} />
-        <MerchantDetail icon={CreditCard} text={dummyMerchant.vpa} />
+        <MerchantDetailRow icon={Mail} text={dummyMerchant.email} />
+        <MerchantDetailRow icon={CreditCard} text={dummyMerchant.vpa} />
       </DetailsContainer>
     </CentralisedContainer>
   );
