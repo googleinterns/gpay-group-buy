@@ -19,7 +19,8 @@ import React from 'react';
 import NumberFormat, {NumberFormatProps} from 'react-number-format';
 
 interface CustomNumberFormatProps extends NumberFormatProps {
-  onChange: any;
+  // This is the type of onChange function received from react-hook-form.
+  onChange: (...event: any[]) => void;
 }
 
 /**
