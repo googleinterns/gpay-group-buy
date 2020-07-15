@@ -16,9 +16,9 @@
 
 import React from 'react';
 
-import RoundedButton from 'components/common/RoundedButton';
 import CentralisedContainer from 'components/common/CentralisedContainer';
 import MerchantProfile from 'components/common/MerchantProfile';
+import RoundedButton from 'components/common/RoundedButton';
 import Row from 'muicss/lib/react/row';
 import {useHistory, useLocation} from 'react-router-dom';
 import styled from 'styled-components';

@@ -16,8 +16,8 @@
 
 import React from 'react';
 
-import RoundedButton from 'components/common/RoundedButton';
 import CentralisedContainer from 'components/common/CentralisedContainer';
+import RoundedButton from 'components/common/RoundedButton';
 import {Plus} from 'react-feather';
 import {useHistory, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
@@ -48,7 +48,10 @@ const EmptyListingsPlaceholder: React.FC = () => {
         You have no {hash === '#past-listings' ? 'past' : 'ongoing'} listings
         yet.
       </TextContainer>
-      <StyledRoundedButton color="green" onClick={() => history.push('add-listing')}>
+      <StyledRoundedButton
+        color="green"
+        onClick={() => history.push('add-listing')}
+      >
         <SmallPlus />
         <div>Add Listing</div>
       </StyledRoundedButton>
