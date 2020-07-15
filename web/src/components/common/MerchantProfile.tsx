@@ -38,8 +38,7 @@ const DetailsContainer = styled.div`
 `;
 
 /**
- * This is a side bar for merchant pages. It shows merchant's profile and buttons
- * to view merchant's ongoing and past listings.
+ * This is the profile of the signed-up merchant, shown on the side bar of merchant pages.
  */
 const MerchantProfile: React.FC = () => {
   const dummyMerchant = {
