@@ -31,7 +31,7 @@ type ContextType =
 const ListingDetailsContext = React.createContext<ContextType>(undefined);
 
 /**
- * useContext hook that ensures it is used within a CommitCountProvider.
+ * useContext hook that ensures it is used within a ListingDetailsProvider.
  */
 const useListingDetailsContext = () => {
   const context = useContext(ListingDetailsContext);
@@ -48,7 +48,7 @@ interface ListingDetailsProviderProps {
 }
 
 /**
- * CommitStatusProvider provider with stateful.
+ * ListingDetailsProvider provider with stateful listing and commit details.
  */
 const ListingDetailsProvider: React.FC<ListingDetailsProviderProps> = ({
   children,
