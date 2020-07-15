@@ -41,6 +41,8 @@ const PromptBackground = styled.div`
 const OverlayPromptCard = styled(Container)`
   position: fixed;
   bottom: 0;
+  left: 0;
+  width: 100vw;
 
   background: white;
   border-radius: 20px 20px 0 0;
