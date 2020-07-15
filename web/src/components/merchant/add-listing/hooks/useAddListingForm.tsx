@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import AddListingErrors from 'constants/errors/add-listing-errors';
+
 import {useState} from 'react';
 
 import {useForm} from 'react-hook-form';
@@ -42,42 +44,42 @@ const useAddListingForm = () => {
 
   const validations = {
     name: register({
-      required: 'Product name cannot be empty.',
+      required: AddListingErrors.NAME_EMPTY,
     }),
     currency: register({
-      required: 'Currency cannot be empty.',
+      required: AddListingErrors.CURRENCY_EMPTY,
     }),
     price: register({
-      required: 'Please enter a number.',
+      required: AddListingErrors.NUMBER_NOT_GIVEN, // Shows error when input is empty or not a number.
       validate: value =>
         countDecimalPlaces(Number(value)) <= 2 ||
-        'Price can have at most 2 decimal places.',
+        AddListingErrors.PRICE_DECIMAL_PLACES,
     }),
     oldPrice: register({
-      required: 'Please enter a number.',
+      required: AddListingErrors.NUMBER_NOT_GIVEN, // Shows error when input is empty or not a number.
       validate: {
         decimalPlaces: value =>
           countDecimalPlaces(Number(value)) <= 2 ||
-          'Price can have at most 2 decimal places.',
+          AddListingErrors.PRICE_DECIMAL_PLACES,
         moreThanPrice: value =>
-          Number(value) > Number(watch('price')) ||
-          'Discounted price must be lower than original price.',
+          Number(value) >= Number(watch('price')) ||
+          AddListingErrors.DISCOUNTED_PRICE_MORE_THAN_ORIGINAL_PRICE,
       },
     }),
     deadline: register({
-      required: 'Deadline cannot be empty.',
+      required: AddListingErrors.DEADLINE_EMPTY,
     }),
     minCommits: register({
-      required: 'Please enter a number.',
+      required: AddListingErrors.NUMBER_NOT_GIVEN, // Shows error when input is empty or not a number.
       validate: value =>
         countDecimalPlaces(Number(value)) === 0 ||
-        'Minimum no of buyers must be a whole number.',
+        AddListingErrors.MIN_COMMITS_DECIMAL_PLACES,
     }),
     description: register({
-      required: 'Description cannot be empty.',
+      required: AddListingErrors.DESCRIPTION_EMPTY,
     }),
     imageUrl: register({
-      required: 'Image URL cannot be empty.',
+      required: AddListingErrors.IMAGE_URL_EMPTY,
     }),
   };
   const disabled = !formState.isValid;
