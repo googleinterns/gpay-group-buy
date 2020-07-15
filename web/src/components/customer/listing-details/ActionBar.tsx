@@ -58,7 +58,11 @@ interface ActionBarProps {
 /**
  * ActionBar that contains a button to commit/uncommit/pay a listing.
  */
-const ActionBar: React.FC<ActionBarProps> = ({ commitStatus, onCommit, onUncommit }) => {
+const ActionBar: React.FC<ActionBarProps> = ({
+  commitStatus,
+  onCommit,
+  onUncommit,
+}) => {
   const [buttonState, setButtonState] = useState<ActionButtonState>();
   const [button, setButton] = useState(<></>);
 

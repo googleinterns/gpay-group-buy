@@ -20,11 +20,11 @@ import {getListing} from 'api';
 import BackButton from 'components/common/BackButton';
 import CommitsBadge from 'components/common/CommitsBadge';
 import ActionBar from 'components/customer/listing-details/ActionBar';
+import useCommitStatus from 'components/customer/listing-details/hooks/useCommitStatus';
 import ListingDetails from 'components/customer/listing-details/ListingDetails';
 import {Listing} from 'interfaces';
 import {useHistory, useParams, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
-import useCommitStatus from 'components/customer/listing-details/hooks/useCommitStatus';
 
 const PageContainer = styled.div`
   display: flex;
@@ -78,7 +78,11 @@ const ListingDetailsPage: React.FC = () => {
           <ContentContainer>
             <ListingDetails listing={listing} />
           </ContentContainer>
-          <ActionBar commitStatus={commitStatus} onCommit={onCommit} onUncommit={onUncommit} />
+          <ActionBar
+            commitStatus={commitStatus}
+            onCommit={onCommit}
+            onUncommit={onUncommit}
+          />
         </>
       )}
     </PageContainer>
