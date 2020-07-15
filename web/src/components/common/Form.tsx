@@ -17,6 +17,7 @@
 import React, {MouseEventHandler} from 'react';
 
 import Button from 'components/common/Button';
+import {useFormPropsContext} from 'components/common/contexts/FormPropsContext';
 import FormRow from 'components/common/FormRow';
 import MuiForm from 'muicss/lib/react/form';
 import {FieldErrors, FieldValues} from 'react-hook-form';
@@ -61,30 +62,19 @@ export interface FormProps {
 /**
  * This form contains all the fields to be filled in and a button to submit the data.
  */
-const Form: React.FC<FormProps> = ({
-  buttonText,
-  disabled,
-  errors,
-  fields,
-  onSubmit,
-  validations,
-}) => {
+const Form: React.FC = () => {
+  const {
+    buttonText,
+    disabled,
+    errors,
+    fields,
+    onSubmit,
+  } = useFormPropsContext();
   return (
     <StyledForm>
-      {fields.map((field, key) => {
-        const {name, label, type, step} = field;
-        return (
-          <FormRow
-            name={name}
-            label={label}
-            inputType={type}
-            step={step}
-            forwardedRef={validations[name]}
-            error={errors.form[name]?.message}
-            key={key}
-          />
-        );
-      })}
+      {fields.map((_, index) => (
+        <FormRow index={index} key={index} />
+      ))}
       <ErrorContainer>{errors.general?.message}</ErrorContainer>
       <Button onClick={onSubmit} disabled={disabled}>
         {buttonText}

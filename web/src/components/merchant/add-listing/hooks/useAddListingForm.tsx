@@ -28,17 +28,21 @@ type AddListingData = {
  * invalid inputs and adding listing to database upon clicking 'ADD LISTING' button.
  */
 const useAddListingForm = () => {
-  const {errors: formErrors, formState, handleSubmit, register} = useForm<
-    AddListingData
-  >({
+  const {
+    control,
+    errors: formErrors,
+    formState,
+    handleSubmit,
+    register,
+  } = useForm<AddListingData>({
     mode: 'onChange',
   });
   const [generalError, setGeneralError] = useState<Error | undefined>();
 
   const validations = {
-    name: register({
+    name: {
       required: 'Product name cannot be empty.',
-    }),
+    },
   };
   const disabled = !formState.isValid;
 
@@ -49,12 +53,14 @@ const useAddListingForm = () => {
   });
 
   return {
+    control,
     disabled,
     errors: {
       form: formErrors,
       general: generalError,
     },
     onSubmit,
+    register,
     validations,
   };
 };
