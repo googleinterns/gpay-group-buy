@@ -23,7 +23,7 @@ import Container from 'muicss/lib/react/container';
 import {Plus} from 'react-feather';
 import styled from 'styled-components';
 
-type ActionButtonState = CommitStatus | 'loading' | undefined;
+type ActionButtonState = CommitStatus | 'loading' | 'initial';
 
 const ActionBarContainer = styled(Container)`
   display: flex;
@@ -55,7 +55,8 @@ const SmallPlus = styled(Plus)`
  */
 const ActionBar: React.FC = () => {
   const {commitStatus, onCommit, onUncommit} = useListingDetailsContext();
-  const [buttonState, setButtonState] = useState<ActionButtonState>();
+
+  const [buttonState, setButtonState] = useState<ActionButtonState>('initial');
   const [button, setButton] = useState(<></>);
 
   const getButton = useCallback(
@@ -68,7 +69,7 @@ const ActionBar: React.FC = () => {
       switch (buttonState) {
         case 'loading':
           return <ActionButton disabled>Loading...</ActionButton>;
-        case undefined:
+        case 'initial':
           return (
             <ActionButton
               onClick={() => onClickButton(onCommit)}
@@ -96,7 +97,11 @@ const ActionBar: React.FC = () => {
   );
 
   useEffect(() => {
-    setButtonState(commitStatus);
+    if (commitStatus === undefined) {
+      setButtonState('initial');
+    } else {
+      setButtonState(commitStatus);
+    }
   }, [commitStatus]);
 
   useEffect(() => {
