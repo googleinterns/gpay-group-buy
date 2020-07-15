@@ -14,22 +14,62 @@
  * limitations under the License.
  */
 
-import {useState, useEffect} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 
-import {getCommits, addCommit, deleteCommit} from 'api';
-import {CommitStatus} from 'interfaces';
+import {getListing, getCommits, addCommit, deleteCommit} from 'api';
+import {CommitStatus, Listing} from 'interfaces';
+
+type ContextType =
+  | {
+      listing: Listing | undefined;
+      commitStatus: CommitStatus | undefined;
+      onCommit: () => Promise<void>;
+      onUncommit: () => Promise<void>;
+    }
+  | undefined;
+
+const ListingDetailsContext = React.createContext<ContextType>(undefined);
 
 /**
- * useCommitStatus hook in charge of all logic related to the
- * commit status of a listing with the specified listingId.
+ * useContext hook that ensures it is used within a CommitCountProvider.
  */
-const useCommitStatus = (listingId: number) => {
+const useListingDetailsContext = () => {
+  const context = useContext(ListingDetailsContext);
+  if (context === undefined) {
+    throw new Error(
+      'useListingDetailsContext must be used within a ListingDetailsProvider'
+    );
+  }
+  return context;
+};
+
+interface ListingDetailsProviderProps {
+  listingId: number;
+}
+
+/**
+ * CommitStatusProvider provider with stateful.
+ */
+const ListingDetailsProvider: React.FC<ListingDetailsProviderProps> = ({
+  children,
+  listingId,
+}) => {
+  const [listing, setListing] = useState<Listing>();
+
   const [commitStatus, setCommitStatus] = useState<CommitStatus>();
   const [commitId, setCommitId] = useState<number | undefined>();
 
   // TODO: Use actual gpay customer & token
   const sampleCustomerId = 5634161670881280;
   const token = 'replace-with-a-valid-token';
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      const listing = await getListing(listingId);
+      setListing(listing);
+    };
+    fetchListings();
+  }, [commitStatus, listingId]);
 
   useEffect(() => {
     const fetchCommit = async () => {
@@ -69,11 +109,19 @@ const useCommitStatus = (listingId: number) => {
     setCommitStatus(undefined);
   };
 
-  return {
+  const value = {
+    listing,
     commitStatus,
     onCommit,
     onUncommit,
   };
+
+  return (
+    <ListingDetailsContext.Provider value={value}>
+      {children}
+    </ListingDetailsContext.Provider>
+  );
 };
 
-export default useCommitStatus;
+export default ListingDetailsProvider;
+export {useListingDetailsContext};

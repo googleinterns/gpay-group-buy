@@ -17,7 +17,7 @@
 import React from 'react';
 
 import ListingDescription from 'components/common/ListingDescription';
-import {Listing} from 'interfaces';
+import {useListingDetailsContext} from 'components/customer/listing-details/contexts/ListingDetailsContext';
 import Container from 'muicss/lib/react/container';
 import styled from 'styled-components';
 
@@ -32,22 +32,22 @@ const SectionContainer = styled(Container)`
   padding: 0 1.8rem;
 `;
 
-interface ListingDetailsProps {
-  listing: Listing;
-}
-
 /**
  * ListingDetailsSection that contains full listing details.
  */
-const ListingDetails: React.FC<ListingDetailsProps> = ({listing}) => {
-  const {name, imgUrl} = listing;
+const ListingDetails: React.FC = () => {
+  const {listing} = useListingDetailsContext();
 
   return (
     <>
-      <ListingImage src={imgUrl} alt={`Image of ${name}`} />
-      <SectionContainer>
-        <ListingDescription listing={listing} />
-      </SectionContainer>
+      {listing && (
+        <>
+          <ListingImage src={listing.imgUrl} alt={`Image of ${listing.name}`} />
+          <SectionContainer>
+            <ListingDescription listing={listing} />
+          </SectionContainer>
+        </>
+      )}
     </>
   );
 };
