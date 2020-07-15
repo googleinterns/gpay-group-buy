@@ -22,6 +22,12 @@ import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
 import {Listing} from 'interfaces';
 import {Link} from 'react-router-dom';
+import styled from 'styled-components';
+
+const ListingsContainer = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+`;
 
 interface ListingProps {
   listing: Listing;
@@ -77,11 +83,11 @@ const ListingCollection: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <ListingsContainer>
       {listings?.map(listing => (
         <ListingItem listing={listing} key={listing.id} />
       ))}
-    </div>
+    </ListingsContainer>
   );
 };
 
