@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import React, {MouseEventHandler} from 'react';
+import React from 'react';
 
 import Button from 'components/common/Button';
+import {useFormPropsContext} from 'components/common/contexts/FormPropsContext';
 import FormRow from 'components/common/FormRow';
 import {FormInputRef} from 'components/common/interfaces';
 import MuiForm from 'muicss/lib/react/form';
-import {FieldErrors, FieldValues} from 'react-hook-form';
 import styled from 'styled-components';
 
 const StyledForm = styled(MuiForm)`
@@ -38,54 +38,22 @@ const ErrorContainer = styled.div`
   align-items: center;
 `;
 
-interface Errors {
-  form: FieldErrors<FieldValues>;
-  general: Error | undefined;
-}
-
-interface Field {
-  label: string;
-  name: string;
-  type: string;
-  step?: string;
-}
-
-export interface FormProps {
-  buttonText: string;
-  disabled: boolean;
-  errors: Errors;
-  fields: Field[];
-  onSubmit: MouseEventHandler<HTMLButtonElement>;
-  validations: {[key: string]: FormInputRef};
-}
-
 /**
  * This form contains all the fields to be filled in and a button to submit the data.
  */
-const Form: React.FC<FormProps> = ({
-  buttonText,
-  disabled,
-  errors,
-  fields,
-  onSubmit,
-  validations,
-}) => {
+const Form: React.FC = () => {
+  const {
+    buttonText,
+    disabled,
+    errors,
+    fields,
+    onSubmit,
+  } = useFormPropsContext();
   return (
     <StyledForm>
-      {fields.map((field, key) => {
-        const {name, label, type, step} = field;
-        return (
-          <FormRow
-            name={name}
-            label={label}
-            inputType={type}
-            step={step}
-            forwardedRef={validations[name]}
-            error={errors.form[name]?.message}
-            key={key}
-          />
-        );
-      })}
+      {fields.map((_, index) => (
+        <FormRow index={index} key={index} />
+      ))}
       <ErrorContainer>{errors.general?.message}</ErrorContainer>
       <Button onClick={onSubmit} disabled={disabled}>
         {buttonText}

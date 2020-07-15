@@ -16,9 +16,9 @@
 
 import React from 'react';
 
-import {FormInputRef} from 'components/common/interfaces';
+import {useFormPropsContext} from 'components/common/contexts/FormPropsContext';
 import currencyCodes from 'currency-codes';
-import {Controller, useForm} from 'react-hook-form';
+import {Controller} from 'react-hook-form';
 import ReactSelect, {Props, Styles, Theme} from 'react-select';
 import styled from 'styled-components';
 
@@ -90,23 +90,17 @@ const selectTheme = (theme: Theme) => ({
 });
 
 interface FormInputProps {
-  name: string;
-  inputType: string;
-  step?: string;
-  forwardedRef: FormInputRef;
+  index: number;
 }
 
 /**
  * This is an input component in a form row.
  */
-const FormInput: React.FC<FormInputProps> = ({
-  name,
-  inputType,
-  forwardedRef,
-  step,
-}) => {
-  const {control} = useForm();
-  switch (inputType) {
+const FormInput: React.FC<FormInputProps> = ({index}) => {
+  const {control, fields, register, validations} = useFormPropsContext();
+  const {name, type} = fields[index];
+  const validation = validations[name];
+  switch (type) {
     case 'currency':
       return (
         <Controller
@@ -118,26 +112,13 @@ const FormInput: React.FC<FormInputProps> = ({
           styles={selectStyles}
           theme={selectTheme}
           control={control}
-          ref={forwardedRef as (ref: HTMLSelectElement) => void}
+          rules={validation}
         />
       );
     case 'textarea':
-      return (
-        <TextArea
-          name={name}
-          rows={3}
-          ref={forwardedRef as (ref: HTMLTextAreaElement) => void}
-        />
-      );
+      return <TextArea name={name} rows={3} ref={register(validation)} />;
     default:
-      return (
-        <Input
-          type={inputType}
-          name={name}
-          step={step}
-          ref={forwardedRef as (ref: HTMLInputElement) => void}
-        />
-      );
+      return <Input type={type} name={name} ref={register(validation)} />;
   }
 };
 

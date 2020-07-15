@@ -30,6 +30,7 @@ type AddListingData = {
  */
 const useAddListingForm = () => {
   const {
+    control,
     errors: formErrors,
     formState,
     handleSubmit,
@@ -50,12 +51,14 @@ const useAddListingForm = () => {
   });
 
   return {
+    control,
     disabled,
     errors: {
       form: formErrors,
       general: generalError,
     },
     onSubmit,
+    register,
     validations,
   };
 };

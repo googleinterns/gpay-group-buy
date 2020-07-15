@@ -16,11 +16,10 @@
 
 import React from 'react';
 
+import {useFormPropsContext} from 'components/common/contexts/FormPropsContext';
 import FormInput from 'components/common/FormInput';
-import {FormInputRef} from 'components/common/interfaces';
 import Col from 'muicss/lib/react/col';
 import Row from 'muicss/lib/react/row';
-import {FieldError, NestDataObject} from 'react-hook-form';
 import styled from 'styled-components';
 
 const StyledRow = styled(Row)`
@@ -62,18 +61,8 @@ const ErrorContainer = styled.div`
   color: var(--bright-red);
 `;
 
-type ReactHookFormErrorMessage =
-  | string
-  | NestDataObject<any, FieldError>
-  | undefined;
-
 interface FormRowProps {
-  name: string;
-  label: string;
-  inputType: string;
-  step?: string;
-  forwardedRef: FormInputRef;
-  error: ReactHookFormErrorMessage;
+  index: number;
 }
 
 /**
@@ -81,28 +70,19 @@ interface FormRowProps {
  * side by side. This also contains a container for error message which is
  * displayed below the input field where applicable.
  */
-const FormRow: React.FC<FormRowProps> = ({
-  name,
-  label,
-  inputType,
-  step,
-  forwardedRef,
-  error,
-}) => (
-  <StyledRow>
-    <StyledCol>
-      <Label>{label}</Label>
-    </StyledCol>
-    <StyledCol>
-      <FormInput
-        name={name}
-        inputType={inputType}
-        forwardedRef={forwardedRef}
-        step={step}
-      />
-      <ErrorContainer>{error}</ErrorContainer>
-    </StyledCol>
-  </StyledRow>
-);
-
+const FormRow: React.FC<FormRowProps> = ({index}) => {
+  const {fields, errors} = useFormPropsContext();
+  const {name, label} = fields[index];
+  return (
+    <StyledRow>
+      <StyledCol>
+        <Label>{label}</Label>
+      </StyledCol>
+      <StyledCol>
+        <FormInput index={index} />
+        <ErrorContainer>{errors.form[name]?.message}</ErrorContainer>
+      </StyledCol>
+    </StyledRow>
+  );
+};
 export default FormRow;

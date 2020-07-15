@@ -16,24 +16,27 @@
 
 import React from 'react';
 
+import FormPropsProvider from 'components/common/contexts/FormPropsContext';
 import Form from 'components/common/Form';
 import useAddListingForm from 'components/merchant/add-listing/hooks/useAddListingForm';
 
 const AddListingForm: React.FC = () => (
-  <Form
+  <FormPropsProvider
     buttonText="Add Listing"
     fields={[
       {label: 'Product Name', name: 'name', type: 'text'},
       {label: 'Currency', name: 'currency', type: 'currency'},
-      {label: 'Discounted Price', name: 'price', type: 'number', step: '.01'},
-      {label: 'Original Price', name: 'oldPrice', type: 'number', step: '.01'},
+      {label: 'Discounted Price', name: 'price', type: 'number'},
+      {label: 'Original Price', name: 'oldPrice', type: 'number'},
       {label: 'Deadline', name: 'deadline', type: 'date'},
       {label: 'Min. Buyers', name: 'minCommits', type: 'number'},
       {label: 'Description', name: 'description', type: 'textarea'},
       {label: 'Image URL', name: 'imgUrl', type: 'url'},
     ]}
     {...useAddListingForm()}
-  />
+  >
+    <Form />
+  </FormPropsProvider>
 );
 
 export default AddListingForm;
