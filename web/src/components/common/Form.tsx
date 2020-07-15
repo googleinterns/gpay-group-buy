@@ -47,7 +47,6 @@ interface Field {
   label: string;
   name: string;
   type: string;
-  step?: string;
 }
 
 export interface FormProps {
