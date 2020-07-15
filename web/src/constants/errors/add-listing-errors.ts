@@ -36,6 +36,7 @@ const MIN_COMMITS_TOO_LOW = 'Minimum no of buyers must be more than 0.';
 const DESCRIPTION_EMPTY = 'Description cannot be empty.';
 
 const IMAGE_URL_EMPTY = 'Image URL cannot be empty.';
+const IMAGE_URL_INVALID = 'Please enter a valid image URL.';
 
 export default {
   NAME_EMPTY,
@@ -50,4 +51,5 @@ export default {
   MIN_COMMITS_TOO_LOW,
   DESCRIPTION_EMPTY,
   IMAGE_URL_EMPTY,
+  IMAGE_URL_INVALID,
 };
