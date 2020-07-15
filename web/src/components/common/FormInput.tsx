@@ -19,7 +19,7 @@ import React from 'react';
 import {useFormPropsContext} from 'components/common/contexts/FormPropsContext';
 import currencyCodes from 'currency-codes';
 import {Controller} from 'react-hook-form';
-import NumberFormat,{NumberFormatProps} from 'react-number-format';
+import NumberFormat from 'react-number-format';
 import ReactSelect, {Props, Styles, Theme} from 'react-select';
 import styled from 'styled-components';
 
@@ -133,7 +133,7 @@ const FormInput: React.FC<FormInputProps> = ({index}) => {
           control={control}
           rules={validation}
         />
-      )
+      );
     case 'money':
       return (
         <Controller
@@ -146,7 +146,7 @@ const FormInput: React.FC<FormInputProps> = ({index}) => {
           control={control}
           rules={validation}
         />
-      )
+      );
     case 'textarea':
       return <TextArea name={name} rows={3} ref={register(validation)} />;
     default:
