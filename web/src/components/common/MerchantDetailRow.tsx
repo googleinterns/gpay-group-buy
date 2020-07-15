@@ -40,7 +40,7 @@ const TextContainer = styled.div`
   overflow-wrap: anywhere;
 `;
 
-interface MerchantDetailProps {
+interface MerchantDetailRowProps {
   icon: React.FC<Props<AnyStyledComponent>>;
   text: string;
 }
@@ -49,7 +49,7 @@ interface MerchantDetailProps {
  * This is a row that shows a field of the merchant details. It shows an icon
  * describing the field and the text showing the value of the field.
  */
-const MerchantDetail: React.FC<MerchantDetailProps> = ({icon, text}) => {
+const MerchantDetailRow: React.FC<MerchantDetailRowProps> = ({icon, text}) => {
   const StyledIcon = styled(icon)`
     width: 100%;
   `;
@@ -63,4 +63,4 @@ const MerchantDetail: React.FC<MerchantDetailProps> = ({icon, text}) => {
   );
 };
 
-export default MerchantDetail;
+export default MerchantDetailRow;

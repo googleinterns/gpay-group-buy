@@ -17,12 +17,11 @@
 import React from 'react';
 
 import CentralisedContainer from 'components/common/CentralisedContainer';
+import MerchantDetail from 'components/common/MerchantDetailRow';
 import {CreditCard, Mail} from 'react-feather';
 import styled from 'styled-components';
 
 import {ReactComponent as Shop} from 'assets/shop.svg';
-
-import MerchantDetail from './MerchantDetail';
 
 const Header = styled.h1`
   text-align: center;
