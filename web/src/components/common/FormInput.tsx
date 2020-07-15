@@ -51,7 +51,7 @@ const selectStyles: Styles = {
     ...provided,
     'min-height': '30px', // This is to override existing style.
     height: '30px',
-    width: '380px',
+    width: '180px',
     padding: '0 15px',
     'border-radius': '15px',
     border: 'none',
@@ -92,7 +92,23 @@ const selectTheme = (theme: Theme) => ({
 
 const StyledNumberFormat = styled(NumberFormat)`
   ${inputStyles} /* stylelint-disable-line value-keyword-case */
+  width: 150px;
   height: 30px;
+`;
+
+const Row = styled.div`
+  width: 380px;
+  height: 30px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const UnitContainer = styled.div`
+  width: 180px;
+  text-align: left;
 `;
 
 interface FormInputProps {
@@ -103,7 +119,7 @@ interface FormInputProps {
  * This is an input component in a form row.
  */
 const FormInput: React.FC<FormInputProps> = ({index}) => {
-  const {control, fields, register, validations} = useFormPropsContext();
+  const {control, fields, register, watch, validations} = useFormPropsContext();
   const {name, type} = fields[index];
   const validation = validations[name];
   switch (type) {
@@ -115,6 +131,7 @@ const FormInput: React.FC<FormInputProps> = ({index}) => {
           options={currencyCodes
             .codes()
             .map(code => ({value: code, label: code}))}
+          isClearable={false}
           styles={selectStyles}
           theme={selectTheme}
           control={control}
@@ -123,29 +140,35 @@ const FormInput: React.FC<FormInputProps> = ({index}) => {
       );
     case 'whole-number':
       return (
-        <Controller
-          as={StyledNumberFormat}
-          name={name}
-          thousandSeparator={true}
-          decimalScale={0}
-          isNumericString
-          allowNegative={false}
-          control={control}
-          rules={validation}
-        />
+        <Row>
+          <Controller
+            as={StyledNumberFormat}
+            name={name}
+            thousandSeparator={true}
+            decimalScale={0}
+            isNumericString
+            allowNegative={false}
+            control={control}
+            rules={validation}
+          />
+          <UnitContainer>people</UnitContainer>
+        </Row>
       );
     case 'money':
       return (
-        <Controller
-          as={StyledNumberFormat}
-          name={name}
-          thousandSeparator={true}
-          decimalScale={2}
-          isNumericString
-          allowNegative={false}
-          control={control}
-          rules={validation}
-        />
+        <Row>
+          <Controller
+            as={StyledNumberFormat}
+            name={name}
+            thousandSeparator={true}
+            decimalScale={2}
+            isNumericString
+            allowNegative={false}
+            control={control}
+            rules={validation}
+          />
+          <UnitContainer>{watch && watch('currency')?.value}</UnitContainer>
+        </Row>
       );
     case 'textarea':
       return <TextArea name={name} rows={3} ref={register(validation)} />;

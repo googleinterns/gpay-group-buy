@@ -60,6 +60,7 @@ const useAddListingForm = () => {
     onSubmit,
     register,
     validations,
+    watch,
   };
 };
 

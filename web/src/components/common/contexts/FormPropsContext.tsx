@@ -48,6 +48,7 @@ type ContextType =
         validationOptions: ValidationOptions
       ) => (ref: FieldElement<FieldValues> | null) => void;
       validations: {[key: string]: ValidationOptions};
+      watch?: (fieldName: string) => FieldValues[string];
     }
   | undefined;
 
