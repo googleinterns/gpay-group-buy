@@ -23,6 +23,7 @@ import StrippedCol from 'components/common/StrippedCol';
 import {formatRFC3339} from 'date-fns';
 import {Money} from 'interfaces';
 import Container from 'muicss/lib/react/container';
+import MobilePromptSample from 'components/design-samples/MobilePromptSample';
 
 const SAMPLE_IMG_URL = 'https://picsum.photos/seed/picsum/200/300';
 const SAMPLE_END_DATE = formatRFC3339(new Date('2020-07-10T23:59:59Z'));
@@ -111,6 +112,10 @@ const DesignSamplesPage: React.FC = () => (
           thicker
         />
       </StrippedCol>
+    </Container>
+    <Container>
+      <h2>Mobile Prompt</h2>
+      <MobilePromptSample />
     </Container>
   </Container>
 );
