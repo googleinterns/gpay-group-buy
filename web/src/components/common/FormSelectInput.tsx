@@ -65,7 +65,7 @@ const selectTheme = (theme: Theme): Theme => ({
 /**
  * A form input component that has a drop-down list.
  */
-const FormSelectInput: React.FC<OptionTypeBase> = (props) => (
+const FormSelectInput: React.FC<OptionTypeBase> = props => (
   <Select
     isClearable={false}
     styles={selectStyles}

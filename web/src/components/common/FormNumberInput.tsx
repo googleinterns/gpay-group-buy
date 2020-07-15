@@ -20,12 +20,15 @@ import NumberFormat, {NumberFormatProps} from 'react-number-format';
 
 interface CustomNumberFormatProps extends NumberFormatProps {
   onChange: any;
-};
+}
 
 /**
  * A form input component that allows only number input.
  */
-const FormNumberInput: React.FC<CustomNumberFormatProps> = ({onChange, ...props}) => (
+const FormNumberInput: React.FC<CustomNumberFormatProps> = ({
+  onChange,
+  ...props
+}) => (
   <NumberFormat
     thousandSeparator={true}
     decimalScale={0}
