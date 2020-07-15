@@ -17,10 +17,10 @@
 import React from 'react';
 
 import {useFormPropsContext} from 'components/common/contexts/FormPropsContext';
+import FormNumberInput from 'components/common/FormNumberInput';
+import FormSelectInput from 'components/common/FormSelectInput';
 import currencyCodes from 'currency-codes';
 import {Controller} from 'react-hook-form';
-import NumberFormat from 'react-number-format';
-import ReactSelect, {Props, Styles, Theme} from 'react-select';
 import styled from 'styled-components';
 
 const inputStyles = `
@@ -46,51 +46,7 @@ const TextArea = styled.textarea`
   padding-bottom: 7px;
 `;
 
-const selectStyles: Styles = {
-  control: (provided: Props) => ({
-    ...provided,
-    'min-height': '30px', // This is to override existing style.
-    height: '30px',
-    width: '180px',
-    padding: '0 15px',
-    'border-radius': '15px',
-    border: 'none',
-    'box-shadow': '4px 2px 4px rgba(0, 0, 0, 0.25)',
-    'font-size': '14px',
-  }),
-  indicatorsContainer: (provided: Props) => ({
-    ...provided,
-    height: '30px',
-  }),
-  placeholder: (provided: Props) => ({
-    ...provided,
-    margin: '0',
-  }),
-  singleValue: (provided: Props) => ({
-    ...provided,
-    margin: '0',
-  }),
-  valueContainer: (provided: Props) => ({
-    ...provided,
-    height: '30px',
-    padding: '0',
-  }),
-};
-
-const selectTheme = (theme: Theme) => ({
-  ...theme,
-  borderRadius: '15px',
-  colors: {
-    ...theme.colors,
-    primary: 'var(--green)',
-    primary75: 'var(--mint)',
-    primary50: 'var(--light-green)',
-    primary25: 'var(--pale-green)',
-    danger: 'var(red)',
-  },
-});
-
-const StyledNumberFormat = styled(NumberFormat)`
+const StyledFormNumberInput = styled(FormNumberInput)`
   ${inputStyles} /* stylelint-disable-line value-keyword-case */
   width: 150px;
   height: 30px;
@@ -126,14 +82,11 @@ const FormInput: React.FC<FormInputProps> = ({index}) => {
     case 'currency':
       return (
         <Controller
-          as={ReactSelect}
+          as={FormSelectInput}
           name={name}
           options={currencyCodes
             .codes()
             .map(code => ({value: code, label: code}))}
-          isClearable={false}
-          styles={selectStyles}
-          theme={selectTheme}
           control={control}
           rules={validation}
         />
@@ -142,12 +95,8 @@ const FormInput: React.FC<FormInputProps> = ({index}) => {
       return (
         <Row>
           <Controller
-            as={StyledNumberFormat}
+            as={StyledFormNumberInput}
             name={name}
-            thousandSeparator={true}
-            decimalScale={0}
-            isNumericString
-            allowNegative={false}
             control={control}
             rules={validation}
           />
@@ -158,12 +107,9 @@ const FormInput: React.FC<FormInputProps> = ({index}) => {
       return (
         <Row>
           <Controller
-            as={StyledNumberFormat}
+            as={StyledFormNumberInput}
             name={name}
-            thousandSeparator={true}
             decimalScale={2}
-            isNumericString
-            allowNegative={false}
             control={control}
             rules={validation}
           />
