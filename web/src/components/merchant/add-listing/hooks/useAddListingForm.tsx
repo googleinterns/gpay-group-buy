@@ -68,6 +68,8 @@ const useAddListingForm = () => {
     }),
     deadline: register({
       required: AddListingErrors.DEADLINE_EMPTY,
+      validate: value =>
+        Date.parse(value) > Date.now() || AddListingErrors.DEADLINE_PAST,
     }),
     minCommits: register({
       required: AddListingErrors.NUMBER_NOT_GIVEN, // Shows error when input is empty or not a number.
