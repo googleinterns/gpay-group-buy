@@ -16,7 +16,7 @@
 
 import React from 'react';
 
-import Button from 'components/common/Button';
+import RoundedButton from 'components/common/RoundedButton';
 import CentralisedContainer from 'components/common/CentralisedContainer';
 import {Plus} from 'react-feather';
 import {useHistory, useLocation} from 'react-router-dom';
@@ -33,7 +33,7 @@ const TextContainer = styled.div`
   font-size: 1.5em;
 `;
 
-const StyledButton = styled(Button)`
+const StyledRoundedButton = styled(RoundedButton)`
   font-size: 1.1em;
 `;
 
@@ -48,10 +48,10 @@ const EmptyListingsPlaceholder: React.FC = () => {
         You have no {hash === '#past-listings' ? 'past' : 'ongoing'} listings
         yet.
       </TextContainer>
-      <StyledButton color="green" onClick={() => history.push('add-listing')}>
+      <StyledRoundedButton color="green" onClick={() => history.push('add-listing')}>
         <SmallPlus />
         <div>Add Listing</div>
-      </StyledButton>
+      </StyledRoundedButton>
     </CentralisedContainer>
   );
 };

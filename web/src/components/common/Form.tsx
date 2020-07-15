@@ -16,7 +16,7 @@
 
 import React, {MouseEventHandler} from 'react';
 
-import Button from 'components/common/Button';
+import RoundedButton from 'components/common/RoundedButton';
 import FormRow from 'components/common/FormRow';
 import MuiForm from 'muicss/lib/react/form';
 import {FieldErrors, FieldValues} from 'react-hook-form';
@@ -84,9 +84,9 @@ const Form: React.FC<FormProps> = ({
         );
       })}
       <ErrorContainer>{errors.general?.message}</ErrorContainer>
-      <Button onClick={onSubmit} disabled={disabled}>
+      <RoundedButton onClick={onSubmit} disabled={disabled}>
         {buttonText}
-      </Button>
+      </RoundedButton>
     </StyledForm>
   );
 };

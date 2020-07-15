@@ -16,7 +16,7 @@
 
 import React from 'react';
 
-import Button from 'components/common/Button';
+import RoundedButton from 'components/common/RoundedButton';
 import CentralisedContainer from 'components/common/CentralisedContainer';
 import MerchantProfile from 'components/common/MerchantProfile';
 import Row from 'muicss/lib/react/row';
@@ -34,7 +34,7 @@ const SideBarContainer = styled(CentralisedContainer)`
   justify-content: space-between;
 `;
 
-const StyledButton = styled(Button)`
+const StyledRoundedButton = styled(RoundedButton)`
   font-size: 0.85em;
 `;
 
@@ -51,24 +51,24 @@ const MerchantSideBar: React.FC = () => {
       <MerchantProfile />
       <CentralisedContainer>
         <Row>
-          <StyledButton
+          <StyledRoundedButton
             onClick={() => history.push('home')}
             disabled={
               pathname === '/merchant/home' && hash !== '#past-listings'
             }
           >
             View Ongoing Listings
-          </StyledButton>
+          </StyledRoundedButton>
         </Row>
         <Row>
-          <StyledButton
+          <StyledRoundedButton
             onClick={() => history.push('#past-listings')}
             disabled={
               pathname === '/merchant/home' && hash === '#past-listings'
             }
           >
             View Past Listings
-          </StyledButton>
+          </StyledRoundedButton>
         </Row>
       </CentralisedContainer>
     </SideBarContainer>
