@@ -51,9 +51,18 @@ const useAddListingForm = () => {
     }),
     price: register({
       required: AddListingErrors.NUMBER_NOT_GIVEN, // Shows error when input is empty or not a number.
-      validate: value =>
-        countDecimalPlaces(Number(value)) <= 2 ||
-        AddListingErrors.PRICE_DECIMAL_PLACES,
+      min: {
+        value: 0.01,
+        message: AddListingErrors.PRICE_TOO_LOW,
+      },
+      validate: {
+        decimalPlaces: value =>
+          countDecimalPlaces(Number(value)) <= 2 ||
+          AddListingErrors.PRICE_DECIMAL_PLACES,
+        lessThanOldPrice:  value =>
+          !watch('oldPrice') || Number(value) < Number(watch('oldPrice')) ||
+          AddListingErrors.DISCOUNTED_PRICE_MORE_THAN_ORIGINAL_PRICE,
+      },
     }),
     oldPrice: register({
       required: AddListingErrors.NUMBER_NOT_GIVEN, // Shows error when input is empty or not a number.
@@ -62,7 +71,7 @@ const useAddListingForm = () => {
           countDecimalPlaces(Number(value)) <= 2 ||
           AddListingErrors.PRICE_DECIMAL_PLACES,
         moreThanPrice: value =>
-          Number(value) >= Number(watch('price')) ||
+          !watch('price') || Number(value) > Number(watch('price')) ||
           AddListingErrors.DISCOUNTED_PRICE_MORE_THAN_ORIGINAL_PRICE,
       },
     }),
@@ -73,6 +82,10 @@ const useAddListingForm = () => {
     }),
     minCommits: register({
       required: AddListingErrors.NUMBER_NOT_GIVEN, // Shows error when input is empty or not a number.
+      min: {
+        value: 1,
+        message: AddListingErrors.MIN_COMMITS_TOO_LOW,
+      },
       validate: value =>
         countDecimalPlaces(Number(value)) === 0 ||
         AddListingErrors.MIN_COMMITS_DECIMAL_PLACES,
