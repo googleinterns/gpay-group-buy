@@ -17,8 +17,9 @@
 import React, {useState} from 'react';
 
 import MobilePrompt from 'components/common/MobilePrompt';
-import {ReactComponent as CelebrateSvg} from 'assets/celebrate.svg';
 import Button from 'muicss/lib/react/button';
+
+import {ReactComponent as CelebrateSvg} from 'assets/celebrate.svg';
 
 /**
  * MobilePromptSample that shows how a mobile prompt can be used.
@@ -31,7 +32,9 @@ const MobilePromptSample: React.FC = () => {
 
   return (
     <>
-      <Button onClick={onClickOpen} color="primary">Open Prompt</Button>
+      <Button onClick={onClickOpen} color="primary">
+        Open Prompt
+      </Button>
       <MobilePrompt
         isVisible={isVisible}
         title="You have successfully opened a prompt!"
@@ -43,7 +46,7 @@ const MobilePromptSample: React.FC = () => {
           },
         ]}
       >
-        Here's some sample body text.
+        Some sample body text.
       </MobilePrompt>
     </>
   );
