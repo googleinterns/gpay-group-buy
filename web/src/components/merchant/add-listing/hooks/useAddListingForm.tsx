@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-import AddListingErrors from 'constants/errors/add-listing-errors';
-
 import {useState} from 'react';
 
 import useValidations from 'components/merchant/add-listing/hooks/useValidations';
 import {useForm} from 'react-hook-form';
-import {countDecimalPlaces} from 'utils/decimal-places';
 
 type AddListingData = {
   name: string;
