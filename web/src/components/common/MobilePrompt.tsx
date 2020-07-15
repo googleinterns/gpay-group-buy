@@ -118,7 +118,7 @@ interface MobilePromptProps {
 }
 
 /**
- * Mobile prompt component.
+ * A prompt component optimised for mobile view.
  */
 const MobilePrompt: React.FC<MobilePromptProps> = ({
   children,
