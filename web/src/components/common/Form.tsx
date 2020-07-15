@@ -19,7 +19,6 @@ import React from 'react';
 import Button from 'components/common/Button';
 import {useFormPropsContext} from 'components/common/contexts/FormPropsContext';
 import FormRow from 'components/common/FormRow';
-import {FormInputRef} from 'components/common/interfaces';
 import MuiForm from 'muicss/lib/react/form';
 import styled from 'styled-components';
 

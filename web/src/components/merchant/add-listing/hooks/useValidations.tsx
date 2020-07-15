@@ -16,8 +16,6 @@
 
 import AddListingErrors from 'constants/errors/add-listing-errors';
 
-import {FormInputRef} from 'components/common/interfaces';
-import {ValidationOptions} from 'react-hook-form';
 import {countDecimalPlaces} from 'utils/decimal-places';
 
 type FormFields =
@@ -30,65 +28,62 @@ type FormFields =
   | 'description'
   | 'imageUrl';
 
-const useValidations = (
-  register: (validationOptions: ValidationOptions) => FormInputRef,
-  watch: (field: FormFields) => string
-) => ({
-  name: register({
+const useValidations = (watch: (field: FormFields) => string) => ({
+  name: {
     required: AddListingErrors.NAME_EMPTY,
-  }),
-  currency: register({
+  },
+  currency: {
     required: AddListingErrors.CURRENCY_EMPTY,
-  }),
-  price: register({
+  },
+  price: {
     required: AddListingErrors.NUMBER_NOT_GIVEN, // Shows error when input is empty or not a number.
     min: {
       value: 0.01,
       message: AddListingErrors.PRICE_TOO_LOW,
     },
     validate: {
-      decimalPlaces: value =>
+      decimalPlaces: (value: string) =>
         countDecimalPlaces(Number(value)) <= 2 ||
         AddListingErrors.PRICE_DECIMAL_PLACES,
-      lessThanOldPrice: value =>
+      lessThanOldPrice: (value: string) =>
         !watch('oldPrice') ||
         Number(value) < Number(watch('oldPrice')) ||
         AddListingErrors.DISCOUNTED_PRICE_MORE_THAN_ORIGINAL_PRICE,
     },
-  }),
-  oldPrice: register({
+  },
+  oldPrice: {
     required: AddListingErrors.NUMBER_NOT_GIVEN, // Shows error when input is empty or not a number.
     validate: {
-      decimalPlaces: value =>
+      decimalPlaces: (value: string) =>
         countDecimalPlaces(Number(value)) <= 2 ||
         AddListingErrors.PRICE_DECIMAL_PLACES,
-      moreThanPrice: value =>
+      moreThanPrice: (value: string) =>
         !watch('price') ||
         Number(value) > Number(watch('price')) ||
         AddListingErrors.DISCOUNTED_PRICE_MORE_THAN_ORIGINAL_PRICE,
     },
-  }),
-  deadline: register({
+  },
+  deadline: {
     required: AddListingErrors.DEADLINE_EMPTY,
-    validate: value =>
+    validate: (value: string) =>
       Date.parse(value) > Date.now() || AddListingErrors.DEADLINE_PAST,
-  }),
-  minCommits: register({
+  },
+  minCommits: {
     required: AddListingErrors.NUMBER_NOT_GIVEN, // Shows error when input is empty or not a number.
     min: {
       value: 1,
       message: AddListingErrors.MIN_COMMITS_TOO_LOW,
     },
-    validate: value =>
+    validate: (value: string) =>
       countDecimalPlaces(Number(value)) === 0 ||
       AddListingErrors.MIN_COMMITS_DECIMAL_PLACES,
-  }),
-  description: register({
+  },
+  description: {
     required: AddListingErrors.DESCRIPTION_EMPTY,
-  }),
-  imageUrl: register({
+  },
+  imgUrl: {
     required: AddListingErrors.IMAGE_URL_EMPTY,
-  }),
+  },
 });
 
 export default useValidations;

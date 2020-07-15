@@ -41,7 +41,7 @@ const useAddListingForm = () => {
   });
   const [generalError, setGeneralError] = useState<Error | undefined>();
 
-  const validations = useValidations(register, watch);
+  const validations = useValidations(watch);
   const disabled = !formState.isValid;
 
   const onSubmit = handleSubmit(async (values: AddListingData) => {
