@@ -23,18 +23,19 @@ const NUMBER_NOT_GIVEN = 'Please enter a number.';
 
 const PRICE_DECIMAL_PLACES = 'Price can have at most 2 decimal places.';
 const PRICE_TOO_LOW = 'Price must be more than 0.';
-const DISCOUNTED_PRICE_MORE_THAN_ORIGINAL_PRICE = 'Discounted price must be lower than original price.';
+const DISCOUNTED_PRICE_MORE_THAN_ORIGINAL_PRICE =
+  'Discounted price must be lower than original price.';
 
 const DEADLINE_EMPTY = 'Deadline cannot be empty.';
 const DEADLINE_PAST = 'Deadline must be in the future.';
 
-const MIN_COMMITS_DECIMAL_PLACES = 'Minimum no of buyers must be a whole number.';
+const MIN_COMMITS_DECIMAL_PLACES =
+  'Minimum no of buyers must be a whole number.';
 const MIN_COMMITS_TOO_LOW = 'Minimum no of buyers must be more than 0.';
 
 const DESCRIPTION_EMPTY = 'Description cannot be empty.';
 
 const IMAGE_URL_EMPTY = 'Image URL cannot be empty.';
-
 
 export default {
   NAME_EMPTY,

@@ -18,6 +18,7 @@ import React, {MouseEventHandler} from 'react';
 
 import Button from 'components/common/Button';
 import FormRow from 'components/common/FormRow';
+import {FormInputRef} from 'components/common/interfaces';
 import MuiForm from 'muicss/lib/react/form';
 import {FieldErrors, FieldValues} from 'react-hook-form';
 import styled from 'styled-components';
@@ -55,7 +56,7 @@ export interface FormProps {
   errors: Errors;
   fields: Field[];
   onSubmit: MouseEventHandler<HTMLButtonElement>;
-  validations: {[key: string]: (ref: HTMLInputElement) => void};
+  validations: {[key: string]: FormInputRef};
 }
 
 /**

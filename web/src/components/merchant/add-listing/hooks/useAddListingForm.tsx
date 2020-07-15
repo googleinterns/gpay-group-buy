@@ -18,6 +18,7 @@ import AddListingErrors from 'constants/errors/add-listing-errors';
 
 import {useState} from 'react';
 
+import useValidations from 'components/merchant/add-listing/hooks/useValidations';
 import {useForm} from 'react-hook-form';
 import {countDecimalPlaces} from 'utils/decimal-places';
 
@@ -42,61 +43,7 @@ const useAddListingForm = () => {
   });
   const [generalError, setGeneralError] = useState<Error | undefined>();
 
-  const validations = {
-    name: register({
-      required: AddListingErrors.NAME_EMPTY,
-    }),
-    currency: register({
-      required: AddListingErrors.CURRENCY_EMPTY,
-    }),
-    price: register({
-      required: AddListingErrors.NUMBER_NOT_GIVEN, // Shows error when input is empty or not a number.
-      min: {
-        value: 0.01,
-        message: AddListingErrors.PRICE_TOO_LOW,
-      },
-      validate: {
-        decimalPlaces: value =>
-          countDecimalPlaces(Number(value)) <= 2 ||
-          AddListingErrors.PRICE_DECIMAL_PLACES,
-        lessThanOldPrice:  value =>
-          !watch('oldPrice') || Number(value) < Number(watch('oldPrice')) ||
-          AddListingErrors.DISCOUNTED_PRICE_MORE_THAN_ORIGINAL_PRICE,
-      },
-    }),
-    oldPrice: register({
-      required: AddListingErrors.NUMBER_NOT_GIVEN, // Shows error when input is empty or not a number.
-      validate: {
-        decimalPlaces: value =>
-          countDecimalPlaces(Number(value)) <= 2 ||
-          AddListingErrors.PRICE_DECIMAL_PLACES,
-        moreThanPrice: value =>
-          !watch('price') || Number(value) > Number(watch('price')) ||
-          AddListingErrors.DISCOUNTED_PRICE_MORE_THAN_ORIGINAL_PRICE,
-      },
-    }),
-    deadline: register({
-      required: AddListingErrors.DEADLINE_EMPTY,
-      validate: value =>
-        Date.parse(value) > Date.now() || AddListingErrors.DEADLINE_PAST,
-    }),
-    minCommits: register({
-      required: AddListingErrors.NUMBER_NOT_GIVEN, // Shows error when input is empty or not a number.
-      min: {
-        value: 1,
-        message: AddListingErrors.MIN_COMMITS_TOO_LOW,
-      },
-      validate: value =>
-        countDecimalPlaces(Number(value)) === 0 ||
-        AddListingErrors.MIN_COMMITS_DECIMAL_PLACES,
-    }),
-    description: register({
-      required: AddListingErrors.DESCRIPTION_EMPTY,
-    }),
-    imageUrl: register({
-      required: AddListingErrors.IMAGE_URL_EMPTY,
-    }),
-  };
+  const validations = useValidations(register, watch);
   const disabled = !formState.isValid;
 
   const onSubmit = handleSubmit(async (values: AddListingData) => {
