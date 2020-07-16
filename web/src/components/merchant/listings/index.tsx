@@ -64,7 +64,7 @@ const ListingsBody = styled(CentralisedContainer)`
   width: 100%;
 `;
 
-const OngoingListingsPage: React.FC = () => {
+const ListingsPage: React.FC = () => {
   const {hash} = useLocation();
 
   return (
@@ -88,4 +88,4 @@ const OngoingListingsPage: React.FC = () => {
   );
 };
 
-export default OngoingListingsPage;
+export default ListingsPage;
