@@ -95,11 +95,11 @@ const addCommit = async (
   const uniqueProperties = [
     {
       property: 'customerId',
-      value: commitData.customerId,
+      value: Number(commitData.customerId),
     },
     {
       property: 'listingId',
-      value: commitData.listingId,
+      value: Number(commitData.listingId),
     }
   ];
 

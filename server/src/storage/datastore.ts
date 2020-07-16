@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {Datastore} from '@google-cloud/datastore';
+import {Datastore, Transaction} from '@google-cloud/datastore';
 import {Entity} from '@google-cloud/datastore/build/src/entity';
 
 import {Filter, StringKeyObject} from '../interfaces';
@@ -65,6 +65,34 @@ export const getAll = async (kind: string, filters?: Filter[]) => {
   const [res] = await datastore.runQuery(query);
   const resWithId = res.map(item => extractAndAppendId(item));
   return resWithId;
+};
+
+/**
+ * Inserts an entity if another entity with the same unique properties does not exist.
+ * Throws an error if such an entity exists.
+ * @param transaction Transaction that will carry out the insertion
+ * @param kind Kind of the entity to be inserted
+ * @param entity Entity to be inserted
+ * @param uniqueProperties The properties that should be unique for the specified kind
+ */
+const uniqueInsertInTransaction = async (
+  transaction: Transaction,
+  kind: string,
+  entity: Entity,
+  uniqueProperties: Filter[]
+) => {
+  let query = transaction.createQuery(kind);
+  uniqueProperties.forEach(filter => {
+    query = query.filter(filter.property, filter.value);
+  });
+  const [queryRes] = await transaction.runQuery(query);
+  if (queryRes.length > 0) {
+    const properties = uniqueProperties.map(unique => unique.property).join(', ');
+    throw new Error(
+      `Another entity with the same ${properties} already exists.`
+    );
+  }
+  transaction.insert(entity);
 };
 
 /**
@@ -121,22 +149,12 @@ export const addAndUpdateRelatedEntity = async (
 
   try {
     await transaction.run();
-    if (uniqueProperties) {
-      let query = transaction.createQuery(kindToInsert);
-      uniqueProperties?.forEach(filter => {
-        query = query.filter(filter.property, filter.value);
-      });
-      const [queryRes] = await transaction.runQuery(query);
-      if (queryRes.length > 0) {
-        // An entity with the unqiue properties already exists
-        const properties = uniqueProperties.map(unique => unique.property).join(', ');
-        throw new Error(
-          `Another entity with the same ${properties} already exists.`
-        );
-      }
-    }
 
-    transaction.insert(entityToInsert);
+    if (uniqueProperties) {
+      await uniqueInsertInTransaction(transaction, kindToInsert, entityToInsert, uniqueProperties);
+    } else {
+      transaction.insert(entityToInsert);
+    }
 
     const [data] = await transaction.get(keyToUpdate);
     updateRules.forEach(updateRule => updateData(data, updateRule));
