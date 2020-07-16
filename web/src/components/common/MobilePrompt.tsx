@@ -94,7 +94,7 @@ const LinkButton = styled(Button)`
 `;
 
 /* Prevent body scroll code from https://css-tricks.com/prevent-page-scrolling-when-a-modal-is-open/ */
-const preventBodyScroll = () => {
+const disableBodyScroll = () => {
   document.body.style.top = `-${window.scrollY}px`;
   document.body.style.position = 'fixed';
 };
@@ -131,13 +131,13 @@ const MobilePrompt: React.FC<MobilePromptProps> = ({
 }) => {
   useEffect(() => {
     if (isVisible) {
-      preventBodyScroll();
+      disableBodyScroll();
     } else {
       enableBodyScroll();
     }
   }, [isVisible]);
 
-  useEffect(() => () => enableBodyScroll(), []);
+  useEffect(enableBodyScroll, []);
 
   return (
     <PromptBackground isVisible={isVisible}>
