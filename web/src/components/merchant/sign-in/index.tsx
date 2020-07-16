@@ -16,25 +16,13 @@
 
 import React from 'react';
 
+import CentralisedPage from 'components/common/CentralisedPage';
 import SignInCard from 'components/merchant/sign-in/SignInCard';
-import Container from 'muicss/lib/react/container';
-import styled from 'styled-components';
-
-const PageContainer = styled(Container)`
-  min-height: 100vh;
-  height: 100%;
-  width: 100%;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 
 const SignInPage: React.FC = () => (
-  <PageContainer>
+  <CentralisedPage>
     <SignInCard />
-  </PageContainer>
+  </CentralisedPage>
 );
 
 export default SignInPage;
