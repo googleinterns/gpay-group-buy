@@ -37,6 +37,9 @@ const StyledRoundedButton = styled(RoundedButton)`
   font-size: 1.1em;
 `;
 
+/**
+ * The component shown in listings container if merchant has no listings.
+ */
 const EmptyListingsPlaceholder: React.FC = () => {
   const history = useHistory();
   const {hash} = useLocation();
