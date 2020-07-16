@@ -16,10 +16,9 @@
 
 /**
  * @fileoverview Handles routing of the different API routes.
- * @author Karen Frilya Celine
  */
 
-import {commitRouter} from './commits';
+import commitRouter from './commits';
 import customerRouter from './customers';
 import listingRouter from './listings';
 import merchantRouter from './merchants';

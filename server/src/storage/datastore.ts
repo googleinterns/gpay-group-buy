@@ -17,7 +17,8 @@
 import {Datastore} from '@google-cloud/datastore';
 import {Entity} from '@google-cloud/datastore/build/src/entity';
 
-import {Filter} from '../interfaces';
+import {Filter, StringKeyObject} from '../interfaces';
+import {UpdateRule} from './interfaces';
 
 const datastore = new Datastore();
 
@@ -41,9 +42,13 @@ const extractAndAppendId = (res: Entity) => {
  * @param id The id of the Entity being queried
  */
 export const get = async (kind: string, id: number) => {
-  const key = datastore.key([kind, id]);
-  const [res] = await datastore.get(key);
-  return extractAndAppendId(res);
+  try {
+    const key = datastore.key([kind, id]);
+    const [res] = await datastore.get(key);
+    return extractAndAppendId(res);
+  } catch (err) {
+    throw new Error(`${kind} ${id} does not exist`);
+  }
 };
 
 /**
@@ -60,6 +65,113 @@ export const getAll = async (kind: string, filters?: Filter[]) => {
   const [res] = await datastore.runQuery(query);
   const resWithId = res.map(item => extractAndAppendId(item));
   return resWithId;
+};
+
+/**
+ * Update original data in-place according to the update field.
+ * @param original Original data to be updated
+ * @param updateRule Rule to update the data by
+ */
+const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
+  const operation = updateRule.op || 'replace';
+  let value = original?.[updateRule.property];
+  if (value === undefined) {
+    throw new Error(`Property to be updated does not exist on ${original}`);
+  }
+
+  switch (operation) {
+    case 'add':
+      value += updateRule.value;
+      break;
+    case 'subtract':
+      value -= updateRule.value;
+      break;
+    case 'replace':
+      value = updateRule.value;
+      break;
+  }
+  original[updateRule.property] = value;
+};
+
+/**
+ * Inserts an entity and updates a related entity in the same transaction.
+ * Returns the id of the entity that is inserted,
+ * @param kindToInsert Kind of the entity to be inserted
+ * @param dataToInsert Data of the entity to be inserted
+ * @param relatedKindToUpdate Kind of the related entity to be updated
+ * @param updateRules Rules to update the related entity
+ */
+export const insertAndUpdateRelatedEntity = async (
+  kindToInsert: string,
+  dataToInsert: object,
+  relatedKindToUpdate: string,
+  relatedIdToUpdate: number,
+  updateRules: UpdateRule[]
+): Promise<number> => {
+  const transaction = datastore.transaction();
+
+  const keyToInsert = datastore.key(kindToInsert);
+  const entityToInsert = {key: keyToInsert, data: dataToInsert};
+
+  const keyToUpdate = datastore.key([relatedKindToUpdate, relatedIdToUpdate]);
+
+  try {
+    await transaction.run();
+    transaction.insert(entityToInsert);
+
+    const [data] = await transaction.get(keyToUpdate);
+    updateRules.forEach(updateRule => updateData(data, updateRule));
+
+    const entityToUpdate = {
+      key: keyToUpdate,
+      data,
+    };
+    transaction.update(entityToUpdate);
+    await transaction.commit();
+  } catch (err) {
+    await transaction.rollback();
+    throw new Error(`Failed to add ${kindToInsert}. ${err}`);
+  }
+  return Number(keyToInsert.id);
+};
+
+/**
+ * Deletes an entity and updates a related entity in the same transaction.
+ * @param kindToDelete Kind of the entity to be deleted
+ * @param idToDelete Id of the entity to be deleted
+ * @param relatedKindToUpdate Kind of the related entity to be updated
+ * @param updateRules Rules to update the related entity
+ */
+export const deleteAndUpdateRelatedEntity = async (
+  kindToDelete: string,
+  idToDelete: number,
+  relatedKindToUpdate: string,
+  relatedIdToUpdate: number,
+  updateRules: UpdateRule[]
+) => {
+  const transaction = datastore.transaction();
+
+  const keyToDelete = datastore.key([kindToDelete, idToDelete]);
+
+  const keyToUpdate = datastore.key([relatedKindToUpdate, relatedIdToUpdate]);
+
+  try {
+    await transaction.run();
+    transaction.delete(keyToDelete);
+
+    const [data] = await transaction.get(keyToUpdate);
+    updateRules.forEach(updateRule => updateData(data, updateRule));
+
+    const entityToUpdate = {
+      key: keyToUpdate,
+      data,
+    };
+    transaction.update(entityToUpdate);
+    await transaction.commit();
+  } catch (err) {
+    await transaction.rollback();
+    throw new Error(`Failed to delete ${keyToDelete}. ${err}`);
+  }
 };
 
 /**

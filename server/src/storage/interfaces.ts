@@ -18,3 +18,17 @@
  * ResponseId type is the union type of datastore's built-in id.
  */
 export type ResponseId = number | Long | string | null;
+
+/**
+ * UpdateOperation contains the possible update operation options.
+ */
+export type UpdateOperation = 'add' | 'subtract' | 'replace';
+
+/**
+ * UpdateRule contains the rules for the updating of an Entity.
+ */
+export interface UpdateRule {
+  property: string;
+  value: any;
+  op?: UpdateOperation;
+}

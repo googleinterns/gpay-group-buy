@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {commitService} from './commits';
+import commitService from './commits';
 import customerService from './customers';
 import listingService from './listings';
 import merchantService from './merchants';

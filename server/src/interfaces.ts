@@ -51,15 +51,35 @@ export type CommitStatus =
   | 'unsuccessful';
 
 /**
- * CommitPayload Interface that contains the fields of the payload that
- * would be sent to create a Listing Entity.
+ * CommitComputedProperties Interface that contains the fields of a Commit
+ * that are computed by the server.
  */
-export interface CommitPayload {
-  customerId: number;
-  listingId: number;
+export interface CommitComputedProperties {
   createdAt: Date;
   commitStatus: CommitStatus;
 }
+
+/**
+ * CommitRequest Interface that contains the fields that will be provided
+ * by the client in the POST/PUT request body.
+ */
+export interface CommitRequest {
+  customerId: number;
+  listingId: number;
+}
+
+/**
+ * CommitPayload Interface that contains the fields of the payload that
+ * would be sent to create a Listing Entity.
+ */
+export interface CommitPayload
+  extends CommitComputedProperties,
+    CommitRequest {}
+
+/**
+ * Union type of the keys of CommitPayload.
+ */
+export type CommitPayloadKey = keyof CommitPayload;
 
 /**
  * CommitResponse Interface that contains the fields of the Response that
@@ -89,10 +109,21 @@ export type ListingStatus =
   | 'unsuccessful';
 
 /**
- * ListingPayload Interface that contains the fields of the payload that
- * would be sent to create a Listing Entity.
+ * ListingComputedProperties Interface that contains the fields of a Listing that
+ * are not provided by the client, but computed by the server.
  */
-export interface ListingPayload {
+export interface ListingComputedProperties {
+  numCommits: number;
+  numPaid: number;
+  numCompleted: number;
+  listingStatus: ListingStatus;
+}
+
+/**
+ * ListingRequest Interface that contains the fields that must be provided by the
+ * client in the POST/PUT request body.
+ */
+export interface ListingRequest {
   merchantId: number;
   name: string;
   price: Money;
@@ -101,11 +132,15 @@ export interface ListingPayload {
   description: string;
   deadline: Date;
   minCommits: number;
-  numCommits: number;
-  numPaid: number;
-  numCompleted: number;
-  listingStatus: ListingStatus;
 }
+
+/**
+ * ListingPayload Interface that contains the fields of the payload that
+ * would be sent to create a Listing Entity.
+ */
+export interface ListingPayload
+  extends ListingRequest,
+    ListingComputedProperties {}
 
 /**
  * ListingResponse Interface that contains the fields of the Response that
@@ -140,4 +175,11 @@ export interface MerchantResponse extends MerchantPayload {
 export interface Filter {
   property: string;
   value: any;
+}
+
+/**
+ * A generic string key object.
+ */
+export interface StringKeyObject {
+  [key: string]: any;
 }

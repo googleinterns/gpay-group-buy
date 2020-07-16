@@ -17,6 +17,8 @@
 import {Request, Response, NextFunction} from 'express';
 import admin from 'firebase-admin';
 
+import {merchantService} from '../services';
+
 admin.initializeApp();
 
 const getVerifiedUid = async (firebaseIdToken: string): Promise<string> => {
@@ -32,15 +34,27 @@ const merchantAuth = async (
   next: NextFunction
 ) => {
   try {
-    if (!req.headers.authorization)
+    if (!req.headers.authorization) {
       throw new Error('Missing Authorization header.');
+    }
 
     const [_, firebaseIdToken] = req.headers.authorization.split(' ');
     const verifiedFirebaseUid = await getVerifiedUid(firebaseIdToken);
 
-    const {firebaseUid} = req.body;
-    if (firebaseUid !== undefined && firebaseUid !== verifiedFirebaseUid)
-      throw new Error('Invalid bearer token.');
+    const verify = (firebaseUid: string): void => {
+      if (firebaseUid !== verifiedFirebaseUid) {
+        throw new Error('Invalid bearer token.');
+      }
+    };
+
+    if (req.body.firebaseUid !== undefined) {
+      verify(req.body.firebaseUid);
+    }
+
+    if (req.body.merchantId !== undefined) {
+      const merchant = await merchantService.getMerchant(req.body.merchantId);
+      verify(merchant.firebaseUid);
+    }
 
     next();
   } catch (err) {

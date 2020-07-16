@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
-import {ListingResponse} from 'interfaces';
-
+import {DEFAULT_LISTING_PAYLOAD} from '../constants/default-payload';
+import {ListingRequest, ListingResponse} from '../interfaces';
 import {listingStorage} from '../storage';
+
+const addListing = async (listing: ListingRequest): Promise<ListingResponse> =>
+  listingStorage.addListing({
+    ...listing,
+    ...DEFAULT_LISTING_PAYLOAD,
+  });
 
 const getAllListings = async (): Promise<ListingResponse[]> =>
   listingStorage.getAllListings();
@@ -24,4 +30,4 @@ const getAllListings = async (): Promise<ListingResponse[]> =>
 const getListing = async (listingId: number): Promise<ListingResponse> =>
   listingStorage.getListing(listingId);
 
-export default {getAllListings, getListing};
+export default {addListing, getAllListings, getListing};
