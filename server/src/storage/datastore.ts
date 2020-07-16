@@ -94,7 +94,7 @@ const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
 };
 
 /**
- * Inserts an entity and update a related entity in the same transaction.
+ * Inserts an entity and updates a related entity in the same transaction.
  * Returns the id of the entity that is inserted,
  * @param kindToInsert Kind of the entity to be inserted
  * @param dataToInsert Data of the entity to be inserted
@@ -133,6 +133,45 @@ export const insertAndUpdateRelatedEntity = async (
     throw new Error(`Failed to add ${kindToInsert}. ${err}`);
   }
   return Number(keyToInsert.id);
+};
+
+/**
+ * Deletes an entity and updates a related entity in the same transaction.
+ * @param kindToDelete Kind of the entity to be deleted
+ * @param idToDelete Id of the entity to be deleted
+ * @param relatedKindToUpdate Kind of the related entity to be updated
+ * @param updateRules Rules to update the related entity
+ */
+export const deleteAndUpdateRelatedEntity = async (
+  kindToDelete: string,
+  idToDelete: number,
+  relatedKindToUpdate: string,
+  relatedIdToUpdate: number,
+  updateRules: UpdateRule[]
+) => {
+  const transaction = datastore.transaction();
+
+  const keyToDelete = datastore.key([kindToDelete, idToDelete]);
+
+  const keyToUpdate = datastore.key([relatedKindToUpdate, relatedIdToUpdate]);
+
+  try {
+    await transaction.run();
+    transaction.delete(keyToDelete);
+
+    const [data] = await transaction.get(keyToUpdate);
+    updateRules.forEach(updateRule => updateData(data, updateRule));
+
+    const entityToUpdate = {
+      key: keyToUpdate,
+      data,
+    };
+    transaction.update(entityToUpdate);
+    await transaction.commit();
+  } catch (err) {
+    await transaction.rollback();
+    throw new Error(`Failed to delete ${keyToDelete}. ${err}`);
+  }
 };
 
 /**

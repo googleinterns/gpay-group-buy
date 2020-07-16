@@ -109,10 +109,21 @@ export type ListingStatus =
   | 'unsuccessful';
 
 /**
- * ListingPayload Interface that contains the fields of the payload that
- * would be sent to create a Listing Entity.
+ * ListingComputedProperties Interface that contains the fields of a Listing that
+ * are not provided by the client, but computed by the server.
  */
-export interface ListingPayload {
+export interface ListingComputedProperties {
+  numCommits: number;
+  numPaid: number;
+  numCompleted: number;
+  listingStatus: ListingStatus;
+}
+
+/**
+ * ListingRequest Interface that contains the fields that must be provided by the
+ * client in the POST/PUT request body.
+ */
+export interface ListingRequest {
   merchantId: number;
   name: string;
   price: Money;
@@ -121,11 +132,15 @@ export interface ListingPayload {
   description: string;
   deadline: Date;
   minCommits: number;
-  numCommits: number;
-  numPaid: number;
-  numCompleted: number;
-  listingStatus: ListingStatus;
 }
+
+/**
+ * ListingPayload Interface that contains the fields of the payload that
+ * would be sent to create a Listing Entity.
+ */
+export interface ListingPayload
+  extends ListingRequest,
+    ListingComputedProperties {}
 
 /**
  * ListingResponse Interface that contains the fields of the Response that

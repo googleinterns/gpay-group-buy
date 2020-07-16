@@ -21,7 +21,6 @@ import {useRouteMatch, Switch, Route} from 'react-router-dom';
 
 // Customer Pages
 const CustomerExplorePage = lazy(() => import('components/customer/explore'));
-// Common Pages
 const ListingDetailsPage = lazy(() => import('components/listing-details'));
 
 const CustomerRoutes: React.FC = () => {
