@@ -17,9 +17,31 @@
 import React, {useEffect, useState} from 'react';
 
 import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
+import CentralisedContainer from 'components/common/CentralisedContainer';
+import MerchantDetailRow from 'components/common/MerchantDetailRow';
 import {MerchantResponse} from 'interfaces';
+import {CreditCard, Mail} from 'react-feather';
+import styled from 'styled-components';
 
-const OngoingListingsPage: React.FC = () => {
+import {ReactComponent as Shop} from 'assets/merchant/shop.svg';
+
+const Header = styled.h1`
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+`;
+
+const DetailsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+`;
+
+/**
+ * This is the profile of the signed-up merchant, shown on the side bar of merchant pages.
+ */
+const MerchantProfile: React.FC = () => {
   const [merchant, setMerchant] = useState<MerchantResponse | undefined>(
     undefined
   );
@@ -34,7 +56,16 @@ const OngoingListingsPage: React.FC = () => {
     populateMerchantData();
   }, [getMerchant]);
 
-  return <div>{JSON.stringify(merchant)}</div>;
+  return (
+    <CentralisedContainer>
+      <Shop />
+      <Header>{merchant?.name}</Header>
+      <DetailsContainer>
+        <MerchantDetailRow icon={Mail} text={merchant?.email || ''} />
+        <MerchantDetailRow icon={CreditCard} text={merchant?.vpa || ''} />
+      </DetailsContainer>
+    </CentralisedContainer>
+  );
 };
 
-export default OngoingListingsPage;
+export default MerchantProfile;

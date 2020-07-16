@@ -97,7 +97,7 @@ const useSignUpForm = () => {
         firebaseIdToken
       );
       setMerchant(merchant);
-      history.push('/merchant/home');
+      history.push('home');
     } catch (err) {
       switch (err.code) {
         case FirebaseErrors.EMAIL_INVALID:

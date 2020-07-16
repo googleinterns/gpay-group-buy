@@ -63,7 +63,7 @@ const useSignInForm = () => {
       const firebaseUid = await getFirebaseUid();
       const merchant = await getMerchantWithFirebaseUid(firebaseUid);
       setMerchant(merchant);
-      history.push('/merchant/home');
+      history.push('home');
     } catch (err) {
       switch (err.code) {
         case 'auth/user-not-found':
