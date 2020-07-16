@@ -59,7 +59,7 @@ const SuccessfulPaymentPrompt: React.FC<PromptProps> = ({
 }) => (
   <MobilePrompt
     isVisible={isVisible}
-    title="You have committed to the listing!"
+    title="You have successfully paid for your item!"
     header={<PaymentSvg />}
     buttons={[
       {
