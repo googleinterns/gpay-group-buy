@@ -19,6 +19,7 @@ import React, {lazy} from 'react';
 import MerchantProvider from 'components/merchant/contexts/MerchantContext';
 import {useRouteMatch, Switch, Route} from 'react-router-dom';
 
+const MerchantLandingPage = lazy(() => import('components/merchant/landing'));
 const MerchantSignUpPage = lazy(() => import('components/merchant/sign-up'));
 const MerchantSignInPage = lazy(() => import('components/merchant/sign-in'));
 const MerchantListingsPage = lazy(() => import('components/merchant/listings'));
@@ -28,6 +29,7 @@ const MerchantRoutes: React.FC = () => {
   return (
     <Switch>
       <MerchantProvider>
+        <Route exact path={path} component={MerchantLandingPage} />
         <Route exact path={`${path}sign-up`} component={MerchantSignUpPage} />
         <Route exact path={`${path}sign-in`} component={MerchantSignInPage} />
         <Route exact path={`${path}home`} component={MerchantListingsPage} />
