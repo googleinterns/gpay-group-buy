@@ -19,7 +19,7 @@ import {Filter, CommitResponse, CommitPayload} from '../interfaces';
 import {
   get,
   getAll,
-  insertAndUpdateRelatedEntity,
+  addAndUpdateRelatedEntity,
   deleteAndUpdateRelatedEntity,
 } from './datastore';
 
@@ -45,7 +45,7 @@ const getAllCommits = async (filters?: Filter[]): Promise<CommitResponse[]> =>
  * @param uniqueProperties The properties that should be unique to the commit
  */
 const addCommit = async (commit: CommitPayload, uniqueProperties?: Filter[]): Promise<CommitResponse> => {
-  const commitId = await insertAndUpdateRelatedEntity(
+  const commitId = await addAndUpdateRelatedEntity(
     COMMIT_KIND,
     commit,
     LISTING_KIND,

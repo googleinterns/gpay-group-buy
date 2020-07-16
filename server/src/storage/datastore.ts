@@ -94,7 +94,7 @@ const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
 };
 
 /**
- * Inserts an entity and updates a related entity in the same transaction.
+ * A Datastore wrapper that inserts an entity and updates a related entity in the same transaction.
  * Returns the id of the entity that is inserted.
  * If uniqueProperties are specified,
  * An error is thrown if an entity with the same set of unique properties already exists.
@@ -104,7 +104,7 @@ const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
  * @param updateRules Rules to update the related entity
  * @param uniqueProperties The properties that should be unique for the specified kindToInsert
  */
-export const insertAndUpdateRelatedEntity = async (
+export const addAndUpdateRelatedEntity = async (
   kindToInsert: string,
   dataToInsert: object,
   relatedKindToUpdate: string,
