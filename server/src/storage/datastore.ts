@@ -95,18 +95,22 @@ const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
 
 /**
  * Inserts an entity and updates a related entity in the same transaction.
- * Returns the id of the entity that is inserted,
+ * Returns the id of the entity that is inserted.
+ * If uniqueProperties are specified,
+ * An error is thrown if an entity with the same set of unique properties already exists.
  * @param kindToInsert Kind of the entity to be inserted
  * @param dataToInsert Data of the entity to be inserted
  * @param relatedKindToUpdate Kind of the related entity to be updated
  * @param updateRules Rules to update the related entity
+ * @param uniqueProperties The properties that should be unique for the specified kindToInsert
  */
 export const insertAndUpdateRelatedEntity = async (
   kindToInsert: string,
   dataToInsert: object,
   relatedKindToUpdate: string,
   relatedIdToUpdate: number,
-  updateRules: UpdateRule[]
+  updateRules: UpdateRule[],
+  uniqueProperties?: Filter[],
 ): Promise<number> => {
   const transaction = datastore.transaction();
 
@@ -117,6 +121,21 @@ export const insertAndUpdateRelatedEntity = async (
 
   try {
     await transaction.run();
+    if (uniqueProperties) {
+      let query = transaction.createQuery(kindToInsert);
+      uniqueProperties?.forEach(filter => {
+        query = query.filter(filter.property, filter.value);
+      });
+      const [queryRes] = await transaction.runQuery(query);
+      if (queryRes.length > 0) {
+        // An entity with the unqiue properties already exists
+        const properties = uniqueProperties.map(unique => unique.property).join(', ');
+        throw new Error(
+          `Another entity with the same ${properties} already exists.`
+        );
+      }
+    }
+
     transaction.insert(entityToInsert);
 
     const [data] = await transaction.get(keyToUpdate);

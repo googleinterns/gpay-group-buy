@@ -38,12 +38,13 @@ const getAllCommits = async (filters?: Filter[]): Promise<CommitResponse[]> =>
   getAll(COMMIT_KIND, filters);
 
 /**
- * Adds a commit with the specified data to datastore.
+ * Adds a unique commit with the specified data to datastore.
  * Returns the added commit if adding is successful.
  * Throws an error if adding is not successful.
  * @param commit Data of the commit to be added
+ * @param uniqueProperties The properties that should be unique to the commit
  */
-const addCommit = async (commit: CommitPayload): Promise<CommitResponse> => {
+const addCommit = async (commit: CommitPayload, uniqueProperties?: Filter[]): Promise<CommitResponse> => {
   const commitId = await insertAndUpdateRelatedEntity(
     COMMIT_KIND,
     commit,
@@ -55,7 +56,8 @@ const addCommit = async (commit: CommitPayload): Promise<CommitResponse> => {
         op: 'add',
         value: 1,
       },
-    ]
+    ],
+    uniqueProperties,
   );
   return getCommit(commitId);
 };

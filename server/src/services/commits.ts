@@ -91,11 +91,23 @@ const addCommit = async (
     );
   }
 
+  // Ensure that another commit between the customer and listing does not already exist.
+  const uniqueProperties = [
+    {
+      property: 'customerId',
+      value: commitData.customerId,
+    },
+    {
+      property: 'listingId',
+      value: commitData.listingId,
+    }
+  ];
+
   return commitStorage.addCommit({
     ...DEFAULT_COMMIT_PAYLOAD,
     ...commitData,
     createdAt: new Date(),
-  });
+  }, uniqueProperties);
 };
 
 /**
