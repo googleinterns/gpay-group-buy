@@ -38,8 +38,7 @@ const SignUpCard: React.FC = () => {
       {...useSignUpForm()}
       signInSignUpLink={
         <>
-          Already have an account?{' '}
-          <Link to="/merchant/sign-in">Sign&nbsp;in</Link> now!
+          Already have an account? <Link to="sign-in">Sign&nbsp;in</Link> now!
         </>
       }
     />
