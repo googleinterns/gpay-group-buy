@@ -22,7 +22,7 @@ import {Plus} from 'react-feather';
 import {useHistory, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 
-import {ReactComponent as BlankCanvas} from 'assets/blank-canvas.svg';
+import {ReactComponent as BlankCanvas} from 'assets/merchant/blank-canvas.svg';
 
 const SmallPlus = styled(Plus)`
   height: 50%;

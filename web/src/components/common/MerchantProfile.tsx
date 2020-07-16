@@ -21,7 +21,7 @@ import MerchantDetailRow from 'components/common/MerchantDetailRow';
 import {CreditCard, Mail} from 'react-feather';
 import styled from 'styled-components';
 
-import {ReactComponent as Shop} from 'assets/shop.svg';
+import {ReactComponent as Shop} from 'assets/merchant/shop.svg';
 
 const Header = styled.h1`
   text-align: center;
