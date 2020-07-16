@@ -58,7 +58,7 @@ const PromptContent = styled.section`
   padding-top: 18px;
 
   & > * {
-    padding: 6px 0 6px 0;
+    margin: 6px 0 6px 0;
   }
 `;
 
