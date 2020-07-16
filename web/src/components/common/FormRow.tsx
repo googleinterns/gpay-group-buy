@@ -90,7 +90,9 @@ interface FormRowProps {
   name: string;
   label: string;
   inputType: string;
-  forwardedRef: ((ref: HTMLInputElement) => void) | ((ref: HTMLTextAreaElement) => void);
+  forwardedRef:
+    | ((ref: HTMLInputElement) => void)
+    | ((ref: HTMLTextAreaElement) => void);
   error: ReactHookFormErrorMessage;
 }
 
@@ -111,10 +113,19 @@ const FormRow: React.FC<FormRowProps> = ({
       <Label>{label}</Label>
     </StyledCol>
     <StyledCol>
-      {inputType === 'textarea'
-        ? <TextArea name={name} rows={5} ref={forwardedRef as (ref: HTMLTextAreaElement) => void} />
-        : <Input type={inputType} name={name} ref={forwardedRef as (ref: HTMLInputElement) => void} />
-      }
+      {inputType === 'textarea' ? (
+        <TextArea
+          name={name}
+          rows={5}
+          ref={forwardedRef as (ref: HTMLTextAreaElement) => void}
+        />
+      ) : (
+        <Input
+          type={inputType}
+          name={name}
+          ref={forwardedRef as (ref: HTMLInputElement) => void}
+        />
+      )}
       <ErrorContainer>{error}</ErrorContainer>
     </StyledCol>
   </StyledRow>

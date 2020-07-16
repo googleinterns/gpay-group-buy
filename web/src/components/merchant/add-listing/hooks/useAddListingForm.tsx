@@ -28,12 +28,9 @@ type AddListingData = {
  * invalid inputs and adding listing to database upon clicking 'ADD LISTING' button.
  */
 const useAddListingForm = () => {
-  const {
-    errors: formErrors,
-    formState,
-    handleSubmit,
-    register,
-  } = useForm<AddListingData>({
+  const {errors: formErrors, formState, handleSubmit, register} = useForm<
+    AddListingData
+  >({
     mode: 'onChange',
   });
   const [generalError, setGeneralError] = useState<Error | undefined>();
