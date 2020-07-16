@@ -24,7 +24,7 @@ type PromptBackgroundProps = {
   isVisible: boolean;
 };
 
-const PromptBackground = styled.div`
+const PromptBackground = styled(Container)`
   display: ${({isVisible}: PromptBackgroundProps) =>
     isVisible ? 'block' : 'none'};
 
@@ -140,8 +140,8 @@ const MobilePrompt: React.FC<MobilePromptProps> = ({
   useEffect(enableBodyScroll, []);
 
   return (
-    <PromptBackground isVisible={isVisible}>
-      <OverlayPromptCard>
+    <PromptBackground isVisible={isVisible} fluid>
+      <OverlayPromptCard fluid>
         <PromptContent>
           {header}
           {title && <TitleText>{title}</TitleText>}
