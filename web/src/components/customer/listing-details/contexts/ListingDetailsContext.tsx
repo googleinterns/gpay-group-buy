@@ -97,9 +97,9 @@ const ListingDetailsProvider: React.FC<ListingDetailsProviderProps> = ({
       token
     );
     // TODO: Handle addition error
-    onOpenPrompt('successful-commit');
     setCommitId(commit.id);
     setCommitStatus(commit.commitStatus);
+    onOpenPrompt('successful-commit');
   };
 
   const onUncommit = async () => {
