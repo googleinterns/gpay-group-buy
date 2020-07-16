@@ -87,7 +87,9 @@ const uniqueInsertInTransaction = async (
   });
   const [queryRes] = await transaction.runQuery(query);
   if (queryRes.length > 0) {
-    const properties = uniqueProperties.map(unique => unique.property).join(', ');
+    const properties = uniqueProperties
+      .map(unique => unique.property)
+      .join(', ');
     throw new Error(
       `Another entity with the same ${properties} already exists.`
     );
@@ -138,7 +140,7 @@ export const addAndUpdateRelatedEntity = async (
   relatedKindToUpdate: string,
   relatedIdToUpdate: number,
   updateRules: UpdateRule[],
-  uniqueProperties?: Filter[],
+  uniqueProperties?: Filter[]
 ): Promise<number> => {
   const transaction = datastore.transaction();
 
@@ -151,7 +153,12 @@ export const addAndUpdateRelatedEntity = async (
     await transaction.run();
 
     if (uniqueProperties) {
-      await uniqueInsertInTransaction(transaction, kindToInsert, entityToInsert, uniqueProperties);
+      await uniqueInsertInTransaction(
+        transaction,
+        kindToInsert,
+        entityToInsert,
+        uniqueProperties
+      );
     } else {
       transaction.insert(entityToInsert);
     }
@@ -228,7 +235,12 @@ const insertUniqueEntity = async (
 
   try {
     await transaction.run();
-    await uniqueInsertInTransaction(transaction, kind, entity, uniqueProperties);
+    await uniqueInsertInTransaction(
+      transaction,
+      kind,
+      entity,
+      uniqueProperties
+    );
     await transaction.commit();
   } catch (err) {
     await transaction.rollback();

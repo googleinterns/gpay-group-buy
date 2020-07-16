@@ -44,7 +44,10 @@ const getAllCommits = async (filters?: Filter[]): Promise<CommitResponse[]> =>
  * @param commit Data of the commit to be added
  * @param uniqueProperties The properties that should be unique to the commit
  */
-const addCommit = async (commit: CommitPayload, uniqueProperties?: Filter[]): Promise<CommitResponse> => {
+const addCommit = async (
+  commit: CommitPayload,
+  uniqueProperties?: Filter[]
+): Promise<CommitResponse> => {
   const commitId = await addAndUpdateRelatedEntity(
     COMMIT_KIND,
     commit,
@@ -57,7 +60,7 @@ const addCommit = async (commit: CommitPayload, uniqueProperties?: Filter[]): Pr
         value: 1,
       },
     ],
-    uniqueProperties,
+    uniqueProperties
   );
   return getCommit(commitId);
 };

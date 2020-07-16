@@ -100,14 +100,17 @@ const addCommit = async (
     {
       property: 'listingId',
       value: Number(commitData.listingId),
-    }
+    },
   ];
 
-  return commitStorage.addCommit({
-    ...DEFAULT_COMMIT_PAYLOAD,
-    ...commitData,
-    createdAt: new Date(),
-  }, uniqueProperties);
+  return commitStorage.addCommit(
+    {
+      ...DEFAULT_COMMIT_PAYLOAD,
+      ...commitData,
+      createdAt: new Date(),
+    },
+    uniqueProperties
+  );
 };
 
 /**
