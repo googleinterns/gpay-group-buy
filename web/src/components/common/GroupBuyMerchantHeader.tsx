@@ -18,7 +18,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import {ReactComponent as GPayLogo} from 'assets/gpay-logo.svg';
+import {ReactComponent as GPayLogo} from 'assets/merchant/gpay-logo.svg';
 
 const HeaderContainer = styled.div`
   display: flex;
