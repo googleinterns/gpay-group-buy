@@ -84,10 +84,10 @@ const getCustomerWithGpayId = async (
 const addCustomer = async (
   customer: CustomerPayload
 ): Promise<CustomerResponse> => {
-  const customerId = await add(CUSTOMER_KIND, customer, {
+  const customerId = await add(CUSTOMER_KIND, customer, [{
     property: 'gpayId',
     value: customer.gpayId,
-  });
+  }]);
   return getCustomer(customerId);
 };
 
