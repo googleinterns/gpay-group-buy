@@ -91,11 +91,8 @@ const useSignUpForm = () => {
       await firebaseAuth.createUserWithEmailAndPassword(email, password);
       const firebaseIdToken = await getFirebaseIdToken();
       const firebaseUid = await getFirebaseUid();
-      const merchant = await addMerchant(
-        {name, email, vpa, firebaseUid},
-        firebaseIdToken
-      );
-      history.push(`/merchant/${merchant.id}`);
+      await addMerchant({name, email, vpa, firebaseUid}, firebaseIdToken);
+      history.push('home');
     } catch (err) {
       switch (err.code) {
         case FirebaseErrors.EMAIL_INVALID:
