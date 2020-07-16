@@ -16,9 +16,9 @@
 
 import React, {useEffect, useState} from 'react';
 
-import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
 import CentralisedContainer from 'components/common/CentralisedContainer';
 import MerchantDetailRow from 'components/common/MerchantDetailRow';
+import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
 import {MerchantResponse} from 'interfaces';
 import {CreditCard, Mail} from 'react-feather';
 import styled from 'styled-components';
