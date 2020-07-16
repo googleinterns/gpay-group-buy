@@ -56,27 +56,32 @@ const MerchantProvider: React.FC = ({children}) => {
   const [merchant, setMerchant] = useState<MerchantType>(undefined);
   const history = useHistory();
 
-  // Returns merchant stored in the context state if not undefined, otherwise
-  // fetch merchant from server and update context state.
+  // A helper method that fetches merchant data from database and updates
+  // merchant object stored in this context.
+  const fetchAndUpdateMerchant = async () => {
+    try {
+      const firebaseUid = await getFirebaseUid(); // Throws 'User not signed in' error.
+      const result = await getMerchantWithFirebaseUid(firebaseUid);
+      setMerchant(result);
+    } catch (err) {
+      if (
+        err.message === USER_NOT_SIGNED_IN ||
+        err.message === NO_MERCHANT_WITH_FIREBASE_UID
+      ) {
+        history.push('sign-in');
+        return;
+      }
+
+      throw err;
+    }
+  };
+
+  // Returns merchant stored in the context state if not `undefined`, otherwise
+  // fetch merchant from server and update context state before returning the fetched object.
   const getMerchant = async () => {
     if (merchant === undefined) {
-      try {
-        const firebaseUid = await getFirebaseUid(); // Throws 'User not signed in' error.
-        const result = await getMerchantWithFirebaseUid(firebaseUid);
-        setMerchant(result);
-      } catch (err) {
-        if (
-          err.message === USER_NOT_SIGNED_IN ||
-          err.message === NO_MERCHANT_WITH_FIREBASE_UID
-        ) {
-          history.push('sign-in');
-          return;
-        }
-
-        throw err;
-      }
+      await fetchAndUpdateMerchant();
     }
-
     return merchant;
   };
 
