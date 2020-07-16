@@ -16,10 +16,89 @@
 
 /**
  * @fileoverview Handles routing of /commits endpoints.
- * @author Karen Frilya Celine
  */
 
-import express from 'express';
-const router: express.Router = express.Router();
+import express, {Request, Response, NextFunction} from 'express';
 
-export const commitRouter: express.Router = router;
+import {CommitRequest} from '../interfaces';
+import customerAuth from '../middleware/customer-auth';
+import {commitService} from '../services';
+
+const commitRouter = express.Router();
+
+/**
+ * Handles the get request for retrieving all commits.
+ */
+commitRouter.get(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const queryParams = req.query;
+      if (Object.keys(queryParams).length === 0) {
+        res.sendStatus(400);
+        return;
+      }
+      // TODO: Parse queryParams json to make it CommitPayload type in runtime, which
+      // throws the appropriate type errors.
+      // Right now services is handling the type casting and throwing of errors.
+      const commits = await commitService.getAllCommits(queryParams);
+      res.status(200).json(commits);
+      // TODO: Add error handling with the appropriate response codes.
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+/**
+ * Handles the post requests to create new commits.
+ */
+commitRouter.post(
+  '/',
+  customerAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    // TODO: Parse req.body json to make it CommitRequest type in runtime.
+    // Right now I am forcing it to be of the correct types.
+    const commitData: CommitRequest = {
+      customerId: Number(req.body.customerId),
+      listingId: Number(req.body.listingId),
+    };
+
+    try {
+      const addedCommit = await commitService.addCommit(commitData);
+      const resourceUrl = `${process.env.SERVER_URL}/commits/${addedCommit.id}`;
+      res.setHeader('Content-Location', resourceUrl);
+      res.location(resourceUrl);
+      res.status(201).send(addedCommit);
+      // TODO: Add error handling with the appropriate response codes.
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+/**
+ * Handles the delete requests to delete a commit with the specified commitId.
+ */
+commitRouter.delete(
+  '/:commitId',
+  customerAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {commitId: commitIdStr} = req.params;
+    const commitId = Number(commitIdStr);
+
+    try {
+      if (Number.isNaN(commitId)) {
+        throw new Error('Invalid commitId params.');
+      }
+
+      await commitService.deleteCommit(commitId);
+      res.sendStatus(204);
+      // TODO: Add error handling with the appropriate response codes.
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+export default commitRouter;

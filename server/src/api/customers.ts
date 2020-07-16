@@ -19,8 +19,8 @@
  */
 
 import {Router, Request, Response, NextFunction} from 'express';
-import {CustomerPayload} from 'interfaces';
 
+import {CustomerPayload} from '../interfaces';
 import customerAuth from '../middleware/customer-auth';
 import {customerService} from '../services';
 
@@ -33,6 +33,10 @@ customerRouter.get(
     const customerId = Number(customerIdStr);
 
     try {
+      if (Number.isNaN(customerId)) {
+        throw new Error('Invalid customerId params.');
+      }
+
       const customer = await customerService.getCustomer(customerId);
       res.send(customer);
     } catch (error) {

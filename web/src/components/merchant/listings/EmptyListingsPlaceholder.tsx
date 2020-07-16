@@ -16,13 +16,13 @@
 
 import React from 'react';
 
-import Button from 'components/common/Button';
 import CentralisedContainer from 'components/common/CentralisedContainer';
+import RoundedButton from 'components/common/RoundedButton';
 import {Plus} from 'react-feather';
 import {useHistory, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 
-import {ReactComponent as BlankCanvas} from 'assets/blank-canvas.svg';
+import {ReactComponent as BlankCanvas} from 'assets/merchant/blank-canvas.svg';
 
 const SmallPlus = styled(Plus)`
   height: 50%;
@@ -33,10 +33,13 @@ const TextContainer = styled.div`
   font-size: 1.5em;
 `;
 
-const StyledButton = styled(Button)`
+const StyledRoundedButton = styled(RoundedButton)`
   font-size: 1.1em;
 `;
 
+/**
+ * The component shown in listings container if merchant has no listings.
+ */
 const EmptyListingsPlaceholder: React.FC = () => {
   const history = useHistory();
   const {hash} = useLocation();
@@ -48,10 +51,13 @@ const EmptyListingsPlaceholder: React.FC = () => {
         You have no {hash === '#past-listings' ? 'past' : 'ongoing'} listings
         yet.
       </TextContainer>
-      <StyledButton color="green" onClick={() => history.push('add-listing')}>
+      <StyledRoundedButton
+        color="green"
+        onClick={() => history.push('add-listing')}
+      >
         <SmallPlus />
         <div>Add Listing</div>
-      </StyledButton>
+      </StyledRoundedButton>
     </CentralisedContainer>
   );
 };

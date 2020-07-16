@@ -20,16 +20,20 @@ import MerchantPage from 'components/common/MerchantPage';
 import EmptyListingsPlaceholder from 'components/merchant/listings/EmptyListingsPlaceholder';
 import {useLocation} from 'react-router-dom';
 
-const AddListingPage: React.FC = () => {
+const ListingsPage: React.FC = () => {
   const {hash} = useLocation();
 
   return (
     <MerchantPage
       header={`${hash === '#past-listings' ? 'Past' : 'Ongoing'} Listings`}
     >
-      <EmptyListingsPlaceholder />
+      {
+        // TODO: Add checks to show this only if merchant has no listings and
+        // show merchant's listings otherwise.
+        <EmptyListingsPlaceholder />
+      }
     </MerchantPage>
   );
 };
 
-export default AddListingPage;
+export default ListingsPage;

@@ -17,12 +17,11 @@
 import React from 'react';
 
 import CentralisedContainer from 'components/common/CentralisedContainer';
+import MerchantDetailRow from 'components/common/MerchantDetailRow';
 import {CreditCard, Mail} from 'react-feather';
 import styled from 'styled-components';
 
-import {ReactComponent as Shop} from 'assets/shop.svg';
-
-import MerchantDetail from './MerchantDetail';
+import {ReactComponent as Shop} from 'assets/merchant/shop.svg';
 
 const Header = styled.h1`
   text-align: center;
@@ -38,8 +37,7 @@ const DetailsContainer = styled.div`
 `;
 
 /**
- * This is a side bar for merchant pages. It shows merchant's profile and buttons
- * to view merchant's ongoing and past listings.
+ * This is the profile of the signed-up merchant, shown on the side bar of merchant pages.
  */
 const MerchantProfile: React.FC = () => {
   const dummyMerchant = {
@@ -54,8 +52,8 @@ const MerchantProfile: React.FC = () => {
       <Shop />
       <Header>{dummyMerchant.name}</Header>
       <DetailsContainer>
-        <MerchantDetail icon={Mail} text={dummyMerchant.email} />
-        <MerchantDetail icon={CreditCard} text={dummyMerchant.vpa} />
+        <MerchantDetailRow icon={Mail} text={dummyMerchant.email} />
+        <MerchantDetailRow icon={CreditCard} text={dummyMerchant.vpa} />
       </DetailsContainer>
     </CentralisedContainer>
   );

@@ -14,38 +14,39 @@
  * limitations under the License.
  */
 
+import customerFixtures from './customers';
+import listingFixtures from './listings';
+
 /**
- * Test data of customers.
+ * Test data of commits.
  */
 const data = [
   {
-    address: 'Blk 42, Serangoon Road, #01-22',
-    contactNumber: '+6591234567',
-    gpayId: 1,
+    createdAt: new Date('2020-06-23T03:34:00.000Z'),
+    listingId: listingFixtures.ids[0],
+    customerId: customerFixtures.ids[0],
+    commitStatus: 'ongoing',
   },
   {
-    address: 'Blk 2, Ang Mo Kio Ave 10, #18-02',
-    contactNumber: '+6593320321',
-    gpayId: 2,
-  },
-  {
-    address: 'Blk 7, Pasir Ris St 72, #05-01',
-    contactNumber: '+6581045287',
-    gpayId: 3,
+    createdAt: new Date('2020-06-29T03:34:00.000Z'),
+    listingId: listingFixtures.ids[0],
+    customerId: customerFixtures.ids[1],
+    commitStatus: 'ongoing',
   },
 ];
 
 /**
- * Test datastore ids for customers.
+ * Test datastore ids for commits.
  */
 const ids = data.map((_, idx) => idx + 1);
 
 /**
- * Test response data for customers.
+ * Test response data for commits.
  */
-const responseData = data.map((customer, idx) => ({
-  ...customer,
+const responseData = data.map((commit, idx) => ({
+  ...commit,
   id: ids[idx],
+  createdAt: commit.createdAt.toISOString(),
 }));
 
 export default {data, ids, responseData};

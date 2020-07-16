@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import MuiButton from 'muicss/lib/react/button';
+import Button from 'muicss/lib/react/button';
 import styled from 'styled-components';
 
 const BUTTON_FONT_COLORS: {[key: string]: string} = {
@@ -28,7 +28,7 @@ const BUTTON_FONT_COLORS: {[key: string]: string} = {
 /**
  * Button with dark gray background, white uppercase fonts and rounder corners.
  */
-const Button = styled(MuiButton)`
+const RoundedButton = styled(Button)`
   height: 40px;
   width: 200px;
   border-radius: 20px;
@@ -56,4 +56,4 @@ const Button = styled(MuiButton)`
   align-items: center;
 `;
 
-export default Button;
+export default RoundedButton;
