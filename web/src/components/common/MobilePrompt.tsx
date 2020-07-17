@@ -19,6 +19,7 @@ import React, {useEffect} from 'react';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
 import styled from 'styled-components';
+import { NonEmptyArray } from 'interfaces';
 
 type PromptBackgroundProps = {
   isVisible: boolean;
@@ -114,20 +115,21 @@ interface ButtonDetails {
 
 interface MobilePromptProps {
   isVisible: boolean;
-  title?: string;
+  title: string;
+  buttons: NonEmptyArray<ButtonDetails>;
   header?: JSX.Element;
-  buttons?: ButtonDetails[];
 }
 
 /**
  * A prompt component optimised for mobile view.
+ * To dismiss the prompt, it is important to set isVisible to false for the same prompt.
  */
 const MobilePrompt: React.FC<MobilePromptProps> = ({
   children,
   isVisible,
   title,
-  header,
   buttons,
+  header,
 }) => {
   useEffect(() => {
     if (isVisible) {
@@ -148,7 +150,7 @@ const MobilePrompt: React.FC<MobilePromptProps> = ({
           {children}
         </PromptContent>
         <ButtonRow>
-          {buttons?.map(({name, onClick}, idx) => (
+          {buttons.map(({name, onClick}, idx) => (
             <LinkButton key={idx} onClick={onClick} variant="flat">
               {name}
             </LinkButton>
