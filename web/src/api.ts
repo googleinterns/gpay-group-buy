@@ -18,12 +18,68 @@ import {GENERIC_ERROR} from 'constants/errors/server-errors';
 import {USER_NOT_FOUND} from 'constants/errors/sign-in-errors';
 
 import {
+  Commit,
+  CommitPayload,
+  CommitQuery,
   Customer,
-  Listing,
   CustomerPayload,
+  Listing,
   MerchantPayload,
   MerchantResponse,
 } from 'interfaces';
+
+/**
+ * Helper method that wraps the fetch call to make a post request with Auth headers.
+ * @param endpoint Endpoint of the request
+ * @param data Request body data
+ * @param token Auth token
+ */
+const postWithAuth = async (
+  endpoint: string,
+  data: object,
+  token: string
+): Promise<Response> => {
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  };
+  return fetch(endpoint, requestOptions);
+};
+
+/**
+ * Helper method that wraps the fetch call to make a delete request with Auth headers.
+ * @param endpoint Endpoint of the request
+ * @param token Auth token
+ */
+const deleteWithAuth = async (endpoint: string, token: string) => {
+  const requestOptions = {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return fetch(endpoint, requestOptions);
+};
+
+/**
+ * Helper method that wraps the fetch call to make a get request with query params.
+ * @param endpoint Endpoint of the request
+ * @param queryParams Query params of the request
+ */
+const query = async (
+  endpoint: string,
+  queryParams: Record<string, string>
+): Promise<Response> => {
+  const url = new URL(endpoint);
+  const params = new URLSearchParams(queryParams).toString();
+  url.search = params;
+
+  return fetch(url.toString());
+};
 
 /**
  * Fetches a particular customer with the specified customerId.
@@ -45,17 +101,10 @@ export const loginCustomer = async (
   customerData: CustomerPayload,
   idToken: string
 ): Promise<Customer> => {
-  const requestOptions = {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${idToken}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(customerData),
-  };
-  const res = await fetch(
+  const res = await postWithAuth(
     `${process.env.REACT_APP_SERVER_URL}/customers`,
-    requestOptions
+    customerData,
+    idToken
   );
 
   return res.json();
@@ -78,6 +127,54 @@ export const getListing = async (listingId: number): Promise<Listing> => {
     `${process.env.REACT_APP_SERVER_URL}/listings/${listingId}`
   );
   return res.json();
+};
+
+/**
+ * Gets commits that satisfy the query.
+ * @param commitQuery Query params of the request
+ */
+export const getCommits = async (
+  commitQuery: CommitQuery
+): Promise<Commit[]> => {
+  const queryParams = {
+    listingId: String(commitQuery.listingId),
+    customerId: String(commitQuery.customerId),
+  };
+
+  const res = await query(
+    `${process.env.REACT_APP_SERVER_URL}/commits/`,
+    queryParams
+  );
+  return res.json();
+};
+
+/**
+ * Adds a new commit with the specified commitData.
+ * @param commitData Data of the commit to add
+ * @param idToken Authentication token of customer
+ */
+export const addCommit = async (
+  commitData: CommitPayload,
+  idToken: string
+): Promise<Commit> => {
+  const res = await postWithAuth(
+    `${process.env.REACT_APP_SERVER_URL}/commits/`,
+    commitData,
+    idToken
+  );
+  return res.json();
+};
+
+/**
+ * Deletes a commit with the specified commitId.
+ * @param commitId Id of the commit to delete
+ * @param idToken Authentication token of customer
+ */
+export const deleteCommit = async (commitId: number, idToken: string) => {
+  await deleteWithAuth(
+    `${process.env.REACT_APP_SERVER_URL}/commits/${commitId}`,
+    idToken
+  );
 };
 
 /**
@@ -110,17 +207,10 @@ export const addMerchant = async (
   merchantPayload: MerchantPayload,
   idToken: string
 ): Promise<MerchantResponse> => {
-  const requestOptions = {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${idToken}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(merchantPayload),
-  };
-  const res = await fetch(
+  const res = await postWithAuth(
     `${process.env.REACT_APP_SERVER_URL}/merchants`,
-    requestOptions
+    merchantPayload,
+    idToken
   );
 
   if (res.status !== 201) {
