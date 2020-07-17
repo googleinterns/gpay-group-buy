@@ -29,7 +29,14 @@ listingRouter.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const listings = await listingService.getAllListings();
+      const filters = Object.keys(req.query).map(key => ({
+        property: key,
+        value:
+          key === 'customerId' || key === 'merchantId'
+            ? Number(req.query[key])
+            : req.query[key],
+      }));
+      const listings = await listingService.getAllListings(filters);
       res.send(listings);
     } catch (error) {
       return next(error);

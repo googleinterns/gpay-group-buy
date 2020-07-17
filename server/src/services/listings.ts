@@ -15,7 +15,7 @@
  */
 
 import {DEFAULT_LISTING_PAYLOAD} from '../constants/default-payload';
-import {ListingRequest, ListingResponse} from '../interfaces';
+import {Filter, ListingRequest, ListingResponse} from '../interfaces';
 import {listingStorage} from '../storage';
 
 const addListing = async (listing: ListingRequest): Promise<ListingResponse> =>
@@ -24,8 +24,8 @@ const addListing = async (listing: ListingRequest): Promise<ListingResponse> =>
     ...DEFAULT_LISTING_PAYLOAD,
   });
 
-const getAllListings = async (): Promise<ListingResponse[]> =>
-  listingStorage.getAllListings();
+const getAllListings = async (filters?: Filter[]): Promise<ListingResponse[]> =>
+  listingStorage.getAllListings(filters);
 
 const getListing = async (listingId: number): Promise<ListingResponse> =>
   listingStorage.getListing(listingId);
