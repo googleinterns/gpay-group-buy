@@ -26,13 +26,14 @@ import {
   Customer,
   CustomerPayload,
   Listing,
+  ListingPayload,
   MerchantPayload,
   MerchantResponse,
   Filter,
 } from 'interfaces';
 
 /**
- * Helper method that wraps the fetch call to make a post request with Auth headers.
+ * Helper function that wraps the fetch call to make a post request with Auth headers.
  * @param endpoint Endpoint of the request
  * @param data Request body data
  * @param token Auth token
@@ -110,6 +111,23 @@ export const loginCustomer = async (
     idToken
   );
 
+  return res.json();
+};
+
+/**
+ * Adds a new listing with the specified listingData.
+ * @param listingData Data of the listing to add
+ * @param idToken Authentication token of customer
+ */
+export const addListing = async (
+  listingData: ListingPayload,
+  idToken: string
+): Promise<Listing> => {
+  const res = await postWithAuth(
+    `${process.env.REACT_APP_SERVER_URL}/listings/`,
+    listingData,
+    idToken
+  );
   return res.json();
 };
 

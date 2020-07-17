@@ -44,10 +44,10 @@ export type ListingStatus =
   | 'unsuccessful';
 
 /**
- * Listing Interface that contains the fields of a Lisiting.
+ * ListingPayload Interface that contains the fields of the payload that
+ * would be sent to the server.
  */
-export interface Listing {
-  id: number;
+export interface ListingPayload {
   merchantId: number;
   name: string;
   price: Money;
@@ -56,6 +56,13 @@ export interface Listing {
   description: string;
   deadline: string; // RFC 3339 string
   minCommits: number;
+}
+
+/**
+ * Listing Interface that contains the fields of a Listing,
+ */
+export interface Listing extends ListingPayload {
+  id: number;
   numCommits: number;
   numPaid: number;
   numCompleted: number;
