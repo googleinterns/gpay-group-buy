@@ -37,7 +37,7 @@ const addMerchant = async (
     property: 'firebaseUid',
     value: merchant.firebaseUid,
   };
-  const merchantId = await add(MERCHANT_KIND, merchant, uniqueFirebaseUid);
+  const merchantId = await add(MERCHANT_KIND, merchant, [uniqueFirebaseUid]);
   return getMerchant(merchantId);
 };
 
