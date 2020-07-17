@@ -17,6 +17,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 
 import {getListing, getCommits, addCommit, deleteCommit} from 'api';
+import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import {useCommitFeedbackPromptContext} from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
 import {CommitStatus, Listing} from 'interfaces';
 
@@ -55,16 +56,13 @@ const ListingDetailsProvider: React.FC<ListingDetailsProviderProps> = ({
   children,
   listingId,
 }) => {
+  const {customer, idToken, login, refetchCustomer} = useCustomerContext();
+  const {onOpen: onOpenPrompt} = useCommitFeedbackPromptContext();
+
   const [listing, setListing] = useState<Listing>();
 
   const [commitStatus, setCommitStatus] = useState<CommitStatus>();
   const [commitId, setCommitId] = useState<number | undefined>();
-
-  const {onOpen: onOpenPrompt} = useCommitFeedbackPromptContext();
-
-  // TODO: Use actual gpay customer & token
-  const sampleCustomerId = 5634161670881280;
-  const token = 'replace-with-a-valid-token';
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -75,10 +73,15 @@ const ListingDetailsProvider: React.FC<ListingDetailsProviderProps> = ({
   }, [commitStatus, listingId]);
 
   useEffect(() => {
+    if (customer === undefined) {
+      setCommitStatus(undefined);
+      return;
+    }
+
     const fetchCommit = async () => {
       const [commit] = await getCommits({
         listingId,
-        customerId: sampleCustomerId,
+        customerId: customer.id,
       });
       if (commit !== undefined) {
         setCommitId(commit.id);
@@ -86,18 +89,28 @@ const ListingDetailsProvider: React.FC<ListingDetailsProviderProps> = ({
       }
     };
     fetchCommit();
-  }, [listingId]);
+  }, [listingId, customer]);
 
   const onCommit = async () => {
+    if (customer === undefined || idToken === undefined) {
+      await login();
+    }
+
+    if (customer === undefined || idToken === undefined) {
+      // TODO: Handle case when user refuse to login even after prompted
+      return;
+    }
+
     const commit = await addCommit(
       {
         listingId,
-        customerId: sampleCustomerId,
+        customerId: customer.id,
       },
-      token
+      idToken
     );
     // TODO: Handle addition error
     setCommitId(commit.id);
+    await refetchCustomer();
     setCommitStatus(commit.commitStatus);
     onOpenPrompt('successful-commit');
   };
@@ -107,9 +120,19 @@ const ListingDetailsProvider: React.FC<ListingDetailsProviderProps> = ({
       return;
     }
 
-    await deleteCommit(commitId, token);
+    if (customer === undefined || idToken === undefined) {
+      await login();
+    }
+
+    if (customer === undefined || idToken === undefined) {
+      // TODO: Handle case when user refuse to login even after prompted
+      return;
+    }
+
+    await deleteCommit(commitId, idToken);
     // TODO: Handle deletion error
     setCommitId(undefined);
+    await refetchCustomer();
     setCommitStatus(undefined);
   };
 
