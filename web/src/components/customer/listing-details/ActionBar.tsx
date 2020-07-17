@@ -57,7 +57,6 @@ type ActionButtonState =
   | 'awaitingDelivery'
   | 'unsuccessful';
 
-
 const commitStatusToButtonState = (
   commitStatus: CommitStatus | undefined
 ): ActionButtonState => {
