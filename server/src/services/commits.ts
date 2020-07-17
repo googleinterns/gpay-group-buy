@@ -73,32 +73,44 @@ const getAllCommits = async (
 const addCommit = async (
   commitData: CommitRequest
 ): Promise<CommitResponse> => {
-  // Make sure that listing and customer exists
-  await listingStorage.getListing(commitData.listingId);
-  await customerStorage.getCustomer(commitData.customerId);
+  // Check that listing and customer exists
+  const listing = await listingStorage.getListing(commitData.listingId);
+  const customer = await customerStorage.getCustomer(commitData.customerId);
+
+  // Check that listing is ongoing
+  if (listing.listingStatus !== 'ongoing') {
+    throw new Error(
+      `Not allowed to commit to ${listing.listingStatus} listing.`
+    );
+  }
 
   // Check that customer has not reached max num of ongoing commits
-  const customerCommits = await commitStorage.getAllCommits([
-    {
-      property: 'customerId',
-      value: commitData.customerId,
-    },
-    {
-      property: 'commitStatus',
-      value: 'ongoing',
-    },
-  ]);
-  if (customerCommits.length >= MAX_NUM_COMMITS) {
+  if (customer.numOngoingCommits >= MAX_NUM_COMMITS) {
     throw new Error(
       `Customer has reached max number of ${MAX_NUM_COMMITS} ongoing commits.`
     );
   }
 
-  return commitStorage.addCommit({
-    ...DEFAULT_COMMIT_PAYLOAD,
-    ...commitData,
-    createdAt: new Date(),
-  });
+  // Ensure that another commit between the customer and listing does not already exist.
+  const uniqueProperties = [
+    {
+      property: 'customerId',
+      value: Number(commitData.customerId),
+    },
+    {
+      property: 'listingId',
+      value: Number(commitData.listingId),
+    },
+  ];
+
+  return commitStorage.addCommit(
+    {
+      ...DEFAULT_COMMIT_PAYLOAD,
+      ...commitData,
+      createdAt: new Date(),
+    },
+    uniqueProperties
+  );
 };
 
 /**

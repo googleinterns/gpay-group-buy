@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+/**
+ * NonEmptyArray type enforces at least 1 element of type T in the array.
+ */
+export type NonEmptyArray<T> = [T, ...T[]];
+
 export interface Image {
   url: string;
   alt?: string;
