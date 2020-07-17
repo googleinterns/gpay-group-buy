@@ -58,7 +58,7 @@ const MerchantProvider: React.FC = ({children}) => {
 
   // A helper method that fetches merchant data from database and updates
   // merchant object stored in this context.
-  const fetchAndUpdateMerchant = async () => {
+  const fetchMerchant = async () => {
     try {
       const firebaseUid = await getFirebaseUid(); // Throws 'User not signed in' error.
       const result = await getMerchantWithFirebaseUid(firebaseUid);
@@ -80,7 +80,7 @@ const MerchantProvider: React.FC = ({children}) => {
   // fetch merchant from server and update context state before returning the fetched object.
   const getMerchant = async () => {
     if (merchant === undefined) {
-      await fetchAndUpdateMerchant();
+      await fetchMerchant();
     }
     return merchant;
   };
