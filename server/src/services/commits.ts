@@ -73,7 +73,7 @@ const getAllCommits = async (
 const addCommit = async (
   commitData: CommitRequest
 ): Promise<CommitResponse> => {
-  // Make sure that listing and customer exists
+  // Check that listing and customer exists
   const listing = await listingStorage.getListing(commitData.listingId);
   const customer = await customerStorage.getCustomer(commitData.customerId);
 
