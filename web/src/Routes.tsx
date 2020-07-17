@@ -17,33 +17,19 @@
 import React, {lazy, Suspense} from 'react';
 
 import Loading from 'components/common/Loading';
-import CustomerCommitCountProvider from 'components/customer/contexts/CommitCountContext';
+import CustomerRoutes from 'components/customer/Routes';
+import MerchantRoutes from 'components/merchant/Routes';
 import {Switch, Route} from 'react-router-dom';
 
-// Customer Pages
-const CustomerExplorePage = lazy(() => import('components/customer/explore'));
-// Merchant Pages
-const MerchantLandingPage = lazy(() => import('components/merchant/landing'));
-const MerchantSignUpPage = lazy(() => import('components/merchant/sign-up'));
-const MerchantSignInPage = lazy(() => import('components/merchant/sign-in'));
-const MerchantListingsPage = lazy(() => import('components/merchant/listings'));
-// Common Pages
-const ListingDetailsPage = lazy(() => import('components/listing-details'));
 // Design samples
 const DesignSamplesPage = lazy(() => import('components/design-samples'));
 
 const Routes: React.FC = () => (
   <Suspense fallback={<Loading />}>
     <Switch>
-      <Route exact path="/merchant" component={MerchantLandingPage} />
-      <Route exact path="/merchant/sign-up" component={MerchantSignUpPage} />
-      <Route exact path="/merchant/sign-in" component={MerchantSignInPage} />
-      <Route exact path="/merchant/home" component={MerchantListingsPage} />
       <Route exact path="/design-samples" component={DesignSamplesPage} />
-      <CustomerCommitCountProvider>
-        <Route exact path="/" component={CustomerExplorePage} />
-        <Route path="/listing/:listingId" component={ListingDetailsPage} />
-      </CustomerCommitCountProvider>
+      <Route path="/merchant/" component={MerchantRoutes} />
+      <Route path="/" component={CustomerRoutes} />
     </Switch>
   </Suspense>
 );
