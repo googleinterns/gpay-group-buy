@@ -35,5 +35,5 @@ export const formatMoney = ({currency, dollars, cents}: Money): string => {
 export const parseMoney = (value: number, currency: string): Money => ({
   currency,
   dollars: Math.floor(value),
-  cents: (value % 1) * 100,
+  cents: Math.floor((value % 1) * 100),
 });
