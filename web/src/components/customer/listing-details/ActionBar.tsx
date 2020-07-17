@@ -23,8 +23,6 @@ import Container from 'muicss/lib/react/container';
 import {Plus} from 'react-feather';
 import styled from 'styled-components';
 
-type ActionButtonState = CommitStatus | 'loading' | 'initial';
-
 const ActionBarContainer = styled(Container)`
   display: flex;
   justify-content: center;
@@ -49,6 +47,34 @@ const SmallPlus = styled(Plus)`
   width: 1em;
   padding-right: 6px;
 `;
+
+type ActionButtonState =
+  | 'loading'
+  | 'initial'
+  | 'maxCommitsReached'
+  | 'uncommit'
+  | 'awaitingPayment'
+  | 'awaitingDelivery'
+  | 'unsuccessful';
+
+
+const commitStatusToButtonState = (
+  commitStatus: CommitStatus | undefined
+): ActionButtonState => {
+  switch (commitStatus) {
+    case 'ongoing':
+      return 'uncommit';
+    case 'successful':
+      return 'awaitingPayment';
+    case 'paid':
+    case 'completed':
+      return 'awaitingDelivery';
+    case 'unsuccessful':
+      return commitStatus;
+    case undefined:
+      return 'initial';
+  }
+};
 
 /**
  * ActionBar that contains a button to commit/uncommit/pay a listing.
@@ -79,7 +105,7 @@ const ActionBar: React.FC = () => {
               Commit to listing
             </ActionButton>
           );
-        case 'ongoing':
+        case 'uncommit':
           return (
             <ActionButton
               onClick={() => onClickButton(onUncommit)}
@@ -89,7 +115,7 @@ const ActionBar: React.FC = () => {
             </ActionButton>
           );
         default:
-          // TODO: Deal with other cases, such as paid & successful cases
+          // TODO: Deal with other cases of ActionButtonState
           return <></>;
       }
     },
@@ -97,11 +123,7 @@ const ActionBar: React.FC = () => {
   );
 
   useEffect(() => {
-    if (commitStatus === undefined) {
-      setButtonState('initial');
-    } else {
-      setButtonState(commitStatus);
-    }
+    setButtonState(commitStatusToButtonState(commitStatus));
   }, [commitStatus]);
 
   useEffect(() => {
