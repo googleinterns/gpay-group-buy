@@ -20,6 +20,7 @@ import Card from 'components/common/Card';
 import CommitProgress from 'components/common/CommitProgress';
 import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
+import MobilePromptSample from 'components/design-samples/MobilePromptSample';
 import {formatRFC3339} from 'date-fns';
 import {Money} from 'interfaces';
 import Container from 'muicss/lib/react/container';
@@ -111,6 +112,10 @@ const DesignSamplesPage: React.FC = () => (
           thicker
         />
       </StrippedCol>
+    </Container>
+    <Container>
+      <h2>Mobile Prompt</h2>
+      <MobilePromptSample />
     </Container>
   </Container>
 );
