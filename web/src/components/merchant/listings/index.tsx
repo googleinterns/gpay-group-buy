@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
+import {USER_NOT_SIGNED_IN} from 'constants/errors/sign-in-errors';
+
 import React, {useEffect, useState} from 'react';
 
 import {getAllListings} from 'api';
 import CentralisedContainer from 'components/common/CentralisedContainer';
 import ListingCollection from 'components/common/ListingCollection';
 import MerchantSideBar from 'components/common/MerchantSideBar';
+import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
 import {Listing} from 'interfaces';
 import Row from 'muicss/lib/react/row';
 import {useLocation} from 'react-router-dom';
@@ -76,11 +79,19 @@ const ListingsContainer = styled.div`
 
 const ListingsPage: React.FC = () => {
   const {hash} = useLocation();
+  const {getMerchant} = useMerchantContext();
   const [listings, setListings] = useState<Listing[]>([]);
 
   useEffect(() => {
     const fetchListings = async () => {
-      const listings = await getAllListings();
+      const merchant = await getMerchant();
+      if (merchant === undefined) {
+        throw new Error(USER_NOT_SIGNED_IN);
+      }
+
+      const listings = await getAllListings({
+        merchantId: merchant.id.toString(),
+      });
       setListings(listings);
     };
     fetchListings();
