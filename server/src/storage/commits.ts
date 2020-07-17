@@ -19,7 +19,7 @@ import {Filter, CommitResponse, CommitPayload} from '../interfaces';
 import {
   get,
   getAll,
-  insertAndUpdateRelatedEntity,
+  addAndUpdateRelatedEntity,
   deleteAndUpdateRelatedEntity,
 } from './datastore';
 
@@ -39,12 +39,18 @@ const getAllCommits = async (filters?: Filter[]): Promise<CommitResponse[]> =>
 
 /**
  * Adds a commit with the specified data to datastore.
+ * If uniqueProperties is specified, adding will only occur if an existing commit
+ * with the same unique properties don't already exist.
  * Returns the added commit if adding is successful.
  * Throws an error if adding is not successful.
  * @param commit Data of the commit to be added
+ * @param uniqueProperties The properties that should be unique to the commit
  */
-const addCommit = async (commit: CommitPayload): Promise<CommitResponse> => {
-  const commitId = await insertAndUpdateRelatedEntity(
+const addCommit = async (
+  commit: CommitPayload,
+  uniqueProperties?: Filter[]
+): Promise<CommitResponse> => {
+  const commitId = await addAndUpdateRelatedEntity(
     COMMIT_KIND,
     commit,
     LISTING_KIND,
@@ -55,7 +61,8 @@ const addCommit = async (commit: CommitPayload): Promise<CommitResponse> => {
         op: 'add',
         value: 1,
       },
-    ]
+    ],
+    uniqueProperties
   );
   return getCommit(commitId);
 };

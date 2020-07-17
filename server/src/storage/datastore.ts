@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {Datastore} from '@google-cloud/datastore';
+import {Datastore, Transaction} from '@google-cloud/datastore';
 import {Entity} from '@google-cloud/datastore/build/src/entity';
 
 import {Filter, StringKeyObject} from '../interfaces';
@@ -68,6 +68,36 @@ export const getAll = async (kind: string, filters?: Filter[]) => {
 };
 
 /**
+ * Inserts an entity if another entity with the same unique properties does not exist.
+ * Throws an error if such an entity exists.
+ * @param transaction Transaction that will carry out the insertion
+ * @param kind Kind of the entity to be inserted
+ * @param entity Entity to be inserted
+ * @param uniqueProperties The properties that should be unique for the specified kind
+ */
+const uniqueInsertInTransaction = async (
+  transaction: Transaction,
+  kind: string,
+  entity: Entity,
+  uniqueProperties: Filter[]
+) => {
+  let query = transaction.createQuery(kind);
+  uniqueProperties.forEach(filter => {
+    query = query.filter(filter.property, filter.value);
+  });
+  const [queryRes] = await transaction.runQuery(query);
+  if (queryRes.length > 0) {
+    const properties = uniqueProperties
+      .map(unique => unique.property)
+      .join(', ');
+    throw new Error(
+      `Another entity with the same ${properties} already exists.`
+    );
+  }
+  transaction.insert(entity);
+};
+
+/**
  * Update original data in-place according to the update field.
  * @param original Original data to be updated
  * @param updateRule Rule to update the data by
@@ -94,19 +124,23 @@ const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
 };
 
 /**
- * Inserts an entity and updates a related entity in the same transaction.
- * Returns the id of the entity that is inserted,
+ * A Datastore wrapper that inserts an entity and updates a related entity in the same transaction.
+ * Returns the id of the entity that is inserted.
+ * If uniqueProperties are specified,
+ * An error is thrown if an entity with the same set of unique properties already exists.
  * @param kindToInsert Kind of the entity to be inserted
  * @param dataToInsert Data of the entity to be inserted
  * @param relatedKindToUpdate Kind of the related entity to be updated
  * @param updateRules Rules to update the related entity
+ * @param uniqueProperties The properties that should be unique for the specified kindToInsert
  */
-export const insertAndUpdateRelatedEntity = async (
+export const addAndUpdateRelatedEntity = async (
   kindToInsert: string,
   dataToInsert: object,
   relatedKindToUpdate: string,
   relatedIdToUpdate: number,
-  updateRules: UpdateRule[]
+  updateRules: UpdateRule[],
+  uniqueProperties?: Filter[]
 ): Promise<number> => {
   const transaction = datastore.transaction();
 
@@ -117,7 +151,17 @@ export const insertAndUpdateRelatedEntity = async (
 
   try {
     await transaction.run();
-    transaction.insert(entityToInsert);
+
+    if (uniqueProperties) {
+      await uniqueInsertInTransaction(
+        transaction,
+        kindToInsert,
+        entityToInsert,
+        uniqueProperties
+      );
+    } else {
+      transaction.insert(entityToInsert);
+    }
 
     const [data] = await transaction.get(keyToUpdate);
     updateRules.forEach(updateRule => updateData(data, updateRule));
@@ -185,24 +229,18 @@ export const deleteAndUpdateRelatedEntity = async (
 const insertUniqueEntity = async (
   kind: string,
   entity: Entity,
-  uniqueProperty: Filter
+  uniqueProperties: Filter[]
 ) => {
   const transaction = datastore.transaction();
-  const query = transaction
-    .createQuery(kind)
-    .filter(uniqueProperty.property, uniqueProperty.value);
 
   try {
     await transaction.run();
-    const [queryRes] = await transaction.runQuery(query);
-    if (queryRes.length > 0) {
-      // An entity with the unqiue property already exists
-      throw new Error(
-        `Another entity with the same ${uniqueProperty.property} already exists.`
-      );
-    }
-    // Create the entity
-    transaction.insert(entity);
+    await uniqueInsertInTransaction(
+      transaction,
+      kind,
+      entity,
+      uniqueProperties
+    );
     await transaction.commit();
   } catch (err) {
     await transaction.rollback();
@@ -222,13 +260,13 @@ const insertUniqueEntity = async (
 export const add = async (
   kind: string,
   data: object,
-  uniqueProperty?: Filter
+  uniqueProperties?: Filter[]
 ): Promise<number> => {
   const key = datastore.key(kind);
   const entity = {key, data};
 
-  if (uniqueProperty !== undefined) {
-    await insertUniqueEntity(kind, entity, uniqueProperty);
+  if (uniqueProperties !== undefined) {
+    await insertUniqueEntity(kind, entity, uniqueProperties);
   } else {
     await datastore.insert(entity);
   }
