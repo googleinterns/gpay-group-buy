@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
-import {getAllListings} from 'api';
 import CommitProgress from 'components/common/CommitProgress';
 import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
 import {Listing} from 'interfaces';
+import {useMediaQuery} from 'react-responsive';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -44,44 +44,41 @@ const ListingItem: React.FC<ListingProps> = ({
     minCommits,
     imgUrl,
   },
-}) => (
-  <StrippedCol xs={6} key={id}>
-    <Link
-      to={{
-        pathname: `/listing/${id}`,
-        state: {
-          fromExplore: true,
-        },
-      }}
-    >
-      <ListingCard
-        listingName={name}
-        price={price}
-        oldPrice={oldPrice}
-        endDate={deadline}
-        imgUrl={imgUrl}
+}) => {
+  const isMobile = useMediaQuery({query: '(max-device-width: 768px)'});
+  return (
+    <StrippedCol xs={isMobile ? 6 : 2} key={id}>
+      <Link
+        to={{
+          pathname: `listing/${id}`,
+          state: {
+            fromExplore: true,
+          },
+        }}
       >
-        <CommitProgress
-          numCommits={numCommits}
-          minCommits={minCommits}
-          textPos="none"
-        />
-      </ListingCard>
-    </Link>
-  </StrippedCol>
-);
+        <ListingCard
+          listingName={name}
+          price={price}
+          oldPrice={oldPrice}
+          endDate={deadline}
+          imgUrl={imgUrl}
+        >
+          <CommitProgress
+            numCommits={numCommits}
+            minCommits={minCommits}
+            textPos="none"
+          />
+        </ListingCard>
+      </Link>
+    </StrippedCol>
+  );
+};
 
-const ListingCollection: React.FC = () => {
-  const [listings, setListings] = useState<Listing[]>([]);
+interface ListingCollectionProps {
+  listings: Listing[];
+}
 
-  useEffect(() => {
-    const fetchListings = async () => {
-      const listings = await getAllListings();
-      setListings(listings);
-    };
-    fetchListings();
-  }, []);
-
+const ListingCollection: React.FC<ListingCollectionProps> = ({listings}) => {
   return (
     <ListingsContainer>
       {listings?.map(listing => (

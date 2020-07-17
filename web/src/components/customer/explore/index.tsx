@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
-import {getCustomer, loginCustomer} from 'api';
+import {getCustomer, loginCustomer, getAllListings} from 'api';
 import CommitsBadge from 'components/common/CommitsBadge';
+import ListingCollection from 'components/common/ListingCollection';
 import {useCommitCountContext} from 'components/customer/contexts/CommitCountContext';
-import ListingCollection from 'components/customer/explore/ListingCollection';
+import {Listing} from 'interfaces';
 import {getIdentity} from 'microapps';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
@@ -56,13 +57,23 @@ const CustomerExplorePage: React.FC = () => {
     setNumCommits(numOngoingCommits);
   };
 
+  const [listings, setListings] = useState<Listing[]>([]);
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      const listings = await getAllListings();
+      setListings(listings);
+    };
+    fetchListings();
+  }, []);
+
   return (
     <PageContainer>
       <CommitsBadgeContainer>
         <CommitsBadge />
       </CommitsBadgeContainer>
       <h1>Explore</h1>
-      <ListingCollection />
+      <ListingCollection listings={listings} />
       <Button color="primary" onClick={handleGetSampleCustomer}>
         Click for commit info of sample customer
       </Button>

@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
+import {getAllListings} from 'api';
 import CentralisedContainer from 'components/common/CentralisedContainer';
+import ListingCollection from 'components/common/ListingCollection';
 import MerchantSideBar from 'components/common/MerchantSideBar';
-import EmptyListingsPlaceholder from 'components/merchant/listings/EmptyListingsPlaceholder';
+import {Listing} from 'interfaces';
 import Row from 'muicss/lib/react/row';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
@@ -60,12 +62,29 @@ const Header = styled.h1`
 `;
 
 const ListingsBody = styled(CentralisedContainer)`
+  height: 74%;
+  width: 100%;
+  margin-bottom: 5%;
+  padding: 0;
+`;
+
+const ListingsContainer = styled.div`
   height: 100%;
   width: 100%;
+  overflow: scroll;
 `;
 
 const ListingsPage: React.FC = () => {
   const {hash} = useLocation();
+  const [listings, setListings] = useState<Listing[]>([]);
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      const listings = await getAllListings();
+      setListings(listings);
+    };
+    fetchListings();
+  }, []);
 
   return (
     <PageContainer>
@@ -80,7 +99,9 @@ const ListingsPage: React.FC = () => {
           {
             // TODO: Add checks to show this only if merchant has no listings and
             // show merchant's listings otherwise.
-            <EmptyListingsPlaceholder />
+            <ListingsContainer>
+              <ListingCollection listings={listings} />
+            </ListingsContainer>
           }
         </ListingsBody>
       </PageContent>
