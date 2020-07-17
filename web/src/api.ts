@@ -28,7 +28,6 @@ import {
   Listing,
   MerchantPayload,
   MerchantResponse,
-  Filter,
 } from 'interfaces';
 
 /**
@@ -184,19 +183,13 @@ export const deleteCommit = async (commitId: number, idToken: string) => {
  * Retrieves all merchants from the database.
  * @param filters Filters used to restrict merchants retrieved
  */
-const getAllMerchants = async (
-  filters?: Filter[]
-): Promise<MerchantResponse[]> => {
-  let queryString;
-  if (filters) {
-    queryString = filters
-      .map(({property, value}) => `${property}=${value}`)
-      .join('&');
-  }
-
-  const res = await fetch(
-    `${process.env.REACT_APP_SERVER_URL}/merchants?${queryString}`
-  );
+const getAllMerchants = async (queryParams?: {
+  [key: string]: string;
+}): Promise<MerchantResponse[]> => {
+  const endpoint = `${process.env.REACT_APP_SERVER_URL}/merchants`;
+  const res = queryParams
+    ? await query(endpoint, queryParams)
+    : await fetch(endpoint);
 
   if (res.status !== 200) {
     throw new Error(GENERIC_ERROR);
@@ -211,12 +204,9 @@ const getAllMerchants = async (
 export const getMerchantWithFirebaseUid = async (
   firebaseUid: string
 ): Promise<MerchantResponse> => {
-  const merchants = await getAllMerchants([
-    {
-      property: 'firebaseUid',
-      value: firebaseUid,
-    },
-  ]);
+  const merchants = await getAllMerchants({
+    firebaseUid,
+  });
 
   if (merchants.length === 0) {
     throw new Error(NO_MERCHANT_WITH_FIREBASE_UID);
