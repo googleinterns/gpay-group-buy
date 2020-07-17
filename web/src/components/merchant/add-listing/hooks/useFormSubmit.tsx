@@ -21,8 +21,9 @@ import {useState} from 'react';
 import {addListing} from 'api';
 import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
 import {getFirebaseIdToken} from 'firebase-auth';
-import {ListingPayload, Money} from 'interfaces';
+import {ListingPayload} from 'interfaces';
 import {useHistory} from 'react-router-dom';
+import {parseMoney} from 'utils/money';
 
 const DUMMY_LISTING_VALUES = {
   name: 'Drone',
@@ -54,12 +55,6 @@ const useFormSubmit = (values: AddListingData = DUMMY_LISTING_VALUES) => {
   const [generalError, setGeneralError] = useState<Error | undefined>();
   const {getMerchant} = useMerchantContext();
   const history = useHistory();
-
-  const parseMoney = (value: number, currency: string): Money => ({
-    currency,
-    dollars: Math.floor(value),
-    cents: (value % 1) * 100,
-  });
 
   const formatAddListingData = async (
     values: AddListingData

@@ -26,3 +26,14 @@ export const formatMoney = ({currency, dollars, cents}: Money): string => {
     amount
   );
 };
+
+/**
+ * Formats value number and currency string into Money type.
+ * @param number The value of the Money in number type
+ * @param currency The 3-letter currency code defined in ISO 4217
+ */
+export const parseMoney = (value: number, currency: string): Money => ({
+  currency,
+  dollars: Math.floor(value),
+  cents: (value % 1) * 100,
+});
