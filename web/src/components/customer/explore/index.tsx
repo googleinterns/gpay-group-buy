@@ -21,6 +21,7 @@ import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import ListingCollection from 'components/customer/explore/ListingCollection';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
+import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
 const PageContainer = styled(Container)`
@@ -44,6 +45,11 @@ const CustomerExplorePage: React.FC = () => {
       <CommitsBadgeContainer>
         <CommitsBadge />
       </CommitsBadgeContainer>
+      <Link to="/commits">
+        <Button color="primary" variant="flat">
+          View My Commits
+        </Button>
+      </Link>
       <h1>Explore</h1>
       <ListingCollection />
       <Button color="primary" onClick={handleGetIdentity}>
