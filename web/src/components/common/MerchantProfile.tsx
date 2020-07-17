@@ -59,11 +59,15 @@ const MerchantProfile: React.FC = () => {
   return (
     <CentralisedContainer>
       <Shop />
-      <Header>{merchant?.name}</Header>
-      <DetailsContainer>
-        <MerchantDetailRow icon={Mail} text={merchant?.email || ''} />
-        <MerchantDetailRow icon={CreditCard} text={merchant?.vpa || ''} />
-      </DetailsContainer>
+      {merchant && (
+        <>
+          <Header>{merchant.name}</Header>
+          <DetailsContainer>
+            <MerchantDetailRow icon={Mail} text={merchant.email} />
+            <MerchantDetailRow icon={CreditCard} text={merchant.vpa} />
+          </DetailsContainer>
+        </>
+      )}
     </CentralisedContainer>
   );
 };
