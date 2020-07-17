@@ -16,10 +16,10 @@
 
 import React, {useEffect} from 'react';
 
+import {NonEmptyArray} from 'interfaces';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
 import styled from 'styled-components';
-import { NonEmptyArray } from 'interfaces';
 
 type PromptBackgroundProps = {
   isVisible: boolean;
