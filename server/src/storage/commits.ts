@@ -38,7 +38,9 @@ const getAllCommits = async (filters?: Filter[]): Promise<CommitResponse[]> =>
   getAll(COMMIT_KIND, filters);
 
 /**
- * Adds a unique commit with the specified data to datastore.
+ * Adds a commit with the specified data to datastore.
+ * If uniqueProperties is specified, adding will only occur if an existing commit
+ * with the same unique properties don't already exist.
  * Returns the added commit if adding is successful.
  * Throws an error if adding is not successful.
  * @param commit Data of the commit to be added
