@@ -19,7 +19,6 @@ import React, {lazy} from 'react';
 import CustomerCommitCountProvider from 'components/customer/contexts/CommitCountContext';
 import {useRouteMatch, Switch, Route} from 'react-router-dom';
 
-// Customer Pages
 const CustomerExplorePage = lazy(() => import('components/customer/explore'));
 const ListingDetailsPage = lazy(() => import('components/listing-details'));
 
