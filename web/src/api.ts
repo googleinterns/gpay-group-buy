@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-import {GENERIC_ERROR} from 'constants/errors/server-errors';
-import {USER_NOT_FOUND} from 'constants/errors/sign-in-errors';
+import {
+  GENERIC_ERROR,
+  NO_MERCHANT_WITH_FIREBASE_UID,
+} from 'constants/errors/server-errors';
 
 import {
   Commit,
@@ -178,23 +180,36 @@ export const deleteCommit = async (commitId: number, idToken: string) => {
 };
 
 /**
- * Retrieves merchant with the given email from the database.
+ * Retrieves all merchants from the database.
+ * @param filters Filters used to restrict merchants retrieved
  */
-export const getMerchantWithEmail = async (
-  email: string
-): Promise<MerchantResponse> => {
-  const res = await fetch(
-    `${process.env.REACT_APP_SERVER_URL}/merchants?email=${email}`
-  );
+const getAllMerchants = async (queryParams?: {
+  [key: string]: string;
+}): Promise<MerchantResponse[]> => {
+  const endpoint = `${process.env.REACT_APP_SERVER_URL}/merchants`;
+  const res = queryParams
+    ? await query(endpoint, queryParams)
+    : await fetch(endpoint);
 
   if (res.status !== 200) {
     throw new Error(GENERIC_ERROR);
   }
 
-  const merchants = await res.json();
+  return res.json();
+};
+
+/**
+ * Retrieves merchant with the given Firebase UID from the database.
+ */
+export const getMerchantWithFirebaseUid = async (
+  firebaseUid: string
+): Promise<MerchantResponse> => {
+  const merchants = await getAllMerchants({
+    firebaseUid,
+  });
 
   if (merchants.length === 0) {
-    throw new Error(USER_NOT_FOUND);
+    throw new Error(NO_MERCHANT_WITH_FIREBASE_UID);
   }
 
   return merchants[0];
