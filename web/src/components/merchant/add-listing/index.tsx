@@ -17,23 +17,22 @@
 import React from 'react';
 
 import MerchantPage from 'components/common/MerchantPage';
-import EmptyListingsPlaceholder from 'components/merchant/listings/EmptyListingsPlaceholder';
-import {useLocation} from 'react-router-dom';
+import AddListingForm from 'components/merchant/add-listing/AddListingForm';
+import styled from 'styled-components';
 
-const ListingsPage: React.FC = () => {
-  const {hash} = useLocation();
+const LeftAlignedContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`;
 
-  return (
-    <MerchantPage
-      header={`${hash === '#past-listings' ? 'Past' : 'Ongoing'} Listings`}
-    >
-      {
-        // TODO: Add checks to show this only if merchant has no listings and
-        // show merchant's listings otherwise.
-        <EmptyListingsPlaceholder />
-      }
-    </MerchantPage>
-  );
-};
+const AddListingPage: React.FC = () => (
+  <MerchantPage header="Add Listing">
+    <LeftAlignedContainer>
+      <AddListingForm />
+    </LeftAlignedContainer>
+  </MerchantPage>
+);
 
-export default ListingsPage;
+export default AddListingPage;
