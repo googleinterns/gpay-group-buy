@@ -2,3 +2,4 @@ node_modules/
 build/
 
 .env.development.local
+app.secret.yaml
