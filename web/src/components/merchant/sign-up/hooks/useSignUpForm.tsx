@@ -54,34 +54,34 @@ const useSignUpForm = () => {
   const history = useHistory();
 
   const validations = {
-    name: register({
+    name: {
       required: SignUpErrors.NAME_EMPTY,
-    }),
-    email: register({
+    },
+    email: {
       required: SignUpErrors.EMAIL_EMPTY,
       pattern: {
         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
         message: SignUpErrors.EMAIL_INVALID,
       },
-    }),
-    password: register({
+    },
+    password: {
       required: SignUpErrors.PASSWORD_EMPTY,
       minLength: {
         value: 8,
         message: SignUpErrors.PASSWORD_WEAK,
       },
-    }),
-    confirmPassword: register({
-      validate: value =>
+    },
+    confirmPassword: {
+      validate: (value: string) =>
         value === watch('password') || SignUpErrors.PASSWORDS_DO_NOT_MATCH,
-    }),
-    vpa: register({
+    },
+    vpa: {
       required: SignUpErrors.VPA_EMPTY,
       pattern: {
         value: /^[A-Z0-9]+@[A-Z0-9]+/i,
         message: SignUpErrors.VPA_INVALID,
       },
-    }),
+    },
   };
   const disabled = !formState.isValid;
 
@@ -124,6 +124,7 @@ const useSignUpForm = () => {
       general: generalError,
     },
     onSubmit,
+    register,
     validations,
   };
 };

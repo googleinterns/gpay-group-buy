@@ -46,12 +46,12 @@ const useSignInForm = () => {
   const history = useHistory();
 
   const validations = {
-    email: register({
+    email: {
       required: true,
-    }),
-    password: register({
+    },
+    password: {
       required: true,
-    }),
+    },
   };
   const disabled = !formState.isValid;
 
@@ -84,6 +84,7 @@ const useSignInForm = () => {
       general: generalError,
     },
     onSubmit,
+    register,
     validations,
   };
 };

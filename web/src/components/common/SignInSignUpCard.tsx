@@ -16,7 +16,7 @@
 
 import React from 'react';
 
-import Form, {FormProps} from 'components/common/Form';
+import Form from 'components/common/Form';
 import GroupBuyMerchantHeader from 'components/common/GroupBuyMerchantHeader';
 import Row from 'muicss/lib/react/row';
 import styled from 'styled-components';
@@ -43,7 +43,7 @@ const StyledRow = styled(Row)`
   }
 `;
 
-interface SignInSignUpCardProps extends FormProps {
+interface SignInSignUpCardProps {
   signInSignUpLink: React.ReactNode;
 }
 
@@ -52,25 +52,12 @@ interface SignInSignUpCardProps extends FormProps {
  * It is displayed in the Sign In/Sign Up page respectively.
  */
 const SignInSignUpCard: React.FC<SignInSignUpCardProps> = ({
-  buttonText,
-  disabled,
-  errors,
-  fields,
-  onSubmit,
-  validations,
   signInSignUpLink,
 }) => {
   return (
     <CardContainer>
       <GroupBuyMerchantHeader />
-      <Form
-        buttonText={buttonText}
-        disabled={disabled}
-        errors={errors}
-        fields={fields}
-        onSubmit={onSubmit}
-        validations={validations}
-      />
+      <Form />
       <StyledRow>{signInSignUpLink}</StyledRow>
     </CardContainer>
   );
