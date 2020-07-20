@@ -16,7 +16,7 @@
 
 import React, {lazy} from 'react';
 
-import CustomerCommitCountProvider from 'components/customer/contexts/CommitCountContext';
+import CustomerProvider from 'components/customer/contexts/CustomerContext';
 import {useRouteMatch, Switch, Route} from 'react-router-dom';
 
 const CustomerExplorePage = lazy(() => import('components/customer/explore'));
@@ -26,13 +26,13 @@ const CustomerRoutes: React.FC = () => {
   const {path} = useRouteMatch();
   return (
     <Switch>
-      <CustomerCommitCountProvider>
+      <CustomerProvider>
         <Route exact path={path} component={CustomerExplorePage} />
         <Route
           path={`${path}listing/:listingId`}
           component={ListingDetailsPage}
         />
-      </CustomerCommitCountProvider>
+      </CustomerProvider>
     </Switch>
   );
 };
