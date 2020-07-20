@@ -66,6 +66,9 @@ interface MerchantPageProps {
   header: ReactNode;
 }
 
+/**
+ * The common format of Merchant Page which includes side bar, header and body.
+ */
 const MerchantPage: React.FC<MerchantPageProps> = ({header, children}) => {
   return (
     <PageContainer>
