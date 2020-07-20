@@ -86,6 +86,8 @@ const CommitStatusPrompt: React.FC = () => {
           />
         );
         break;
+      default:
+        throw new Error('Unsupported prompt content.');
     }
   }, [isPromptVisible, promptContent, onClose]);
 
