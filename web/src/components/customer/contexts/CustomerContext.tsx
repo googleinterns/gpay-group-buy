@@ -24,7 +24,7 @@ type ContextType =
   | {
       idToken: string | undefined;
       customer: Customer | undefined;
-      login: () => Promise<void>;
+      getCustomerWithLogin: () => Promise<Customer | undefined>;
       refetchCustomer: () => Promise<void>;
     }
   | undefined;
@@ -61,6 +61,7 @@ const CustomerProvider: React.FC = ({children}) => {
 
     const customer = await loginCustomer({gpayId}, idToken);
     setCustomer(customer);
+    return customer;
   }, []);
 
   useEffect(() => {
@@ -71,6 +72,21 @@ const CustomerProvider: React.FC = ({children}) => {
     }
   }, [idToken, login]);
 
+  /**
+   * Gets current customer. Attempts a login if customer is undefined.
+   * @param attemptLogin Whether to attempt a login when customer is undefined
+   */
+  const getCustomerWithLogin = async () => {
+    if (customer === undefined) {
+      return login();
+    }
+    return customer;
+  };
+
+  /**
+   * Refetches new customer data.
+   * If customer is undefined, triggers a login.
+   */
   const refetchCustomer = async () => {
     if (customer === undefined) {
       await login();
@@ -84,7 +100,7 @@ const CustomerProvider: React.FC = ({children}) => {
   const value = {
     idToken,
     customer,
-    login,
+    getCustomerWithLogin,
     refetchCustomer,
   };
 

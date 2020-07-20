@@ -35,9 +35,9 @@ const CommitsBadgeContainer = styled.div`
 `;
 
 const CustomerExplorePage: React.FC = () => {
-  const {login} = useCustomerContext();
+  const {getCustomerWithLogin} = useCustomerContext();
 
-  const handleGetIdentity = async () => login();
+  const handleGetIdentity = async () => getCustomerWithLogin();
 
   return (
     <PageContainer>

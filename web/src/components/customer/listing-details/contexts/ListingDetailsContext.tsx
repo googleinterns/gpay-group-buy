@@ -56,7 +56,13 @@ const ListingDetailsProvider: React.FC<ListingDetailsProviderProps> = ({
   children,
   listingId,
 }) => {
-  const {customer, idToken, login, refetchCustomer} = useCustomerContext();
+  const {
+    customer,
+    idToken,
+    getCustomerWithLogin,
+    refetchCustomer,
+  } = useCustomerContext();
+
   const {onOpen: onOpenPrompt} = useCommitFeedbackPromptContext();
 
   const [listing, setListing] = useState<Listing>();
@@ -92,9 +98,7 @@ const ListingDetailsProvider: React.FC<ListingDetailsProviderProps> = ({
   }, [listingId, customer]);
 
   const onCommit = async () => {
-    if (customer === undefined || idToken === undefined) {
-      await login();
-    }
+    const customer = await getCustomerWithLogin();
 
     if (customer === undefined || idToken === undefined) {
       // TODO: Handle case when user refuse to login even after prompted
@@ -120,9 +124,7 @@ const ListingDetailsProvider: React.FC<ListingDetailsProviderProps> = ({
       return;
     }
 
-    if (customer === undefined || idToken === undefined) {
-      await login();
-    }
+    const customer = await getCustomerWithLogin();
 
     if (customer === undefined || idToken === undefined) {
       // TODO: Handle case when user refuse to login even after prompted
