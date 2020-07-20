@@ -21,10 +21,11 @@ import BackButton from 'components/common/BackButton';
 import CommitsBadge from 'components/common/CommitsBadge';
 import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import Commits from 'components/customer/my-commits/Commits';
-import {Commit, GroupedCommits} from 'interfaces';
+import {GroupedCommits} from 'interfaces';
 import Container from 'muicss/lib/react/container';
 import {useHistory} from 'react-router-dom';
 import styled from 'styled-components';
+import {groupByCommitStatus} from 'utils/commit-status';
 
 const PageContainer = styled(Container)`
   padding-top: 20px;
@@ -36,19 +37,6 @@ const PageContainer = styled(Container)`
 const CommitsBadgeContainer = styled.div`
   align-self: flex-end;
 `;
-
-/**
- * Groups commits by their commit status.
- * @param commits Commits to be grouped
- */
-const groupByCommitStatus = (commits: Commit[]): GroupedCommits =>
-  commits.reduce(
-    (result, commit) => ({
-      ...result,
-      [commit.commitStatus]: [...(result[commit.commitStatus] || []), commit],
-    }),
-    {} as GroupedCommits
-  );
 
 /**
  * Page containing all the commits of the current customer.
