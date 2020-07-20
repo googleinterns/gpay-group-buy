@@ -14,19 +14,28 @@
  * limitations under the License.
  */
 
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 
-import {getListing} from 'api';
 import BackButton from 'components/common/BackButton';
 import CommitsBadge from 'components/common/CommitsBadge';
+import ActionBar from 'components/customer/listing-details/ActionBar';
+import ListingDetailsContext from 'components/customer/listing-details/contexts/ListingDetailsContext';
 import ListingDetails from 'components/customer/listing-details/ListingDetails';
-import {Listing} from 'interfaces';
 import {useHistory, useParams, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  overflow: scroll;
 `;
 
 interface ListingParams {
@@ -40,27 +49,24 @@ interface ListingLocation {
 const ListingDetailsPage: React.FC = () => {
   const history = useHistory();
   const location = useLocation<ListingLocation>();
-  const {listingId} = useParams<ListingParams>();
+  const {listingId: listingIdStr} = useParams<ListingParams>();
 
-  const [listing, setListing] = useState<Listing>();
-
-  useEffect(() => {
-    const fetchListings = async () => {
-      const listing = await getListing(Number(listingId));
-      setListing(listing);
-    };
-    fetchListings();
-  }, [listingId]);
+  const listingId = Number(listingIdStr);
 
   const handleBack = () =>
     location.state?.fromExplore ? history.goBack() : history.push('/');
 
   return (
-    <PageContainer>
-      <BackButton pos="absolute" onClick={handleBack} />
-      <CommitsBadge pos="absolute" />
-      {listing && <ListingDetails listing={listing} />}
-    </PageContainer>
+    <ListingDetailsContext listingId={listingId}>
+      <PageContainer>
+        <BackButton pos="absolute" onClick={handleBack} />
+        <CommitsBadge pos="absolute" />
+        <ContentContainer>
+          <ListingDetails />
+        </ContentContainer>
+        <ActionBar />
+      </PageContainer>
+    </ListingDetailsContext>
   );
 };
 
