@@ -17,11 +17,11 @@
 import React, { useState, useEffect } from 'react';
 
 import styled from 'styled-components';
-import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
 import { MerchantResponse } from 'interfaces';
 import { getMerchantWithId } from 'api';
 import { ReactComponent as Shop } from 'assets/merchant/shop.svg';
+import { Link } from 'react-router-dom';
 
 const MerchantDetailsContainer = styled(Container)`
   display: flex;
@@ -40,23 +40,21 @@ const MerchantIcon = styled(Shop)`
   max-width: 55px;
 `;
 
-const MerchantName = styled.span`
+const ContentContainer = styled.div`
+  & > * {
+    padding: 6px 0;
+  }
+`;
+
+const MerchantName = styled.div`
   font-size: 1rem;
   color: var(--dark-gray);
 `;
 
-const LinkButton = styled(Button)`
-  display: flex;
-  align-items: center;
-
-  padding-left: 0;
-
+const LinkButton = styled(Link)`
+  color: var(--green);
   font-weight: bold;
-
-  && {
-    color: var(--green);
-    text-transform: capitalize;
-  }
+  text-transform: capitalize;
 `;
 
 interface MerchantDetailsProps {
@@ -85,10 +83,10 @@ const MerchantDetails: React.FC<MerchantDetailsProps> = ({
       {merchant &&
         <MerchantDetailsContainer>
           <MerchantIcon />
-          <div>
+          <ContentContainer>
             <MerchantName>{merchant.name}</MerchantName>
-            <LinkButton variant="flat">View Merchant Profile</LinkButton>
-          </div>
+            <LinkButton to="/">View Merchant Profile</LinkButton>
+          </ContentContainer>
         </MerchantDetailsContainer>
       }
     </>
