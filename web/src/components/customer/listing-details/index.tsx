@@ -18,9 +18,9 @@ import React from 'react';
 
 import BackButton from 'components/common/BackButton';
 import CommitsBadge from 'components/common/CommitsBadge';
+import ListingDetailsContext from 'components/common/contexts/ListingDetailsContext';
+import ListingDetails from 'components/common/ListingDetails';
 import ActionBar from 'components/customer/listing-details/ActionBar';
-import ListingDetailsContext from 'components/customer/listing-details/contexts/ListingDetailsContext';
-import ListingDetails from 'components/customer/listing-details/ListingDetails';
 import {useHistory, useParams, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 

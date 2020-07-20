@@ -16,9 +16,9 @@
 
 import React from 'react';
 
+import ListingDetailsContext from 'components/common/contexts/ListingDetailsContext';
+import ListingDetails from 'components/common/ListingDetails';
 import MerchantPage from 'components/common/MerchantPage';
-import ListingDetails from 'components/customer/listing-details/ListingDetails';
-import ListingDetailsContext from 'components/customer/listing-details/contexts/ListingDetailsContext';
 import {useParams} from 'react-router-dom';
 
 const ListingDetailsPage: React.FC = () => {

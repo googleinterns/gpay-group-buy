@@ -16,8 +16,8 @@
 
 import React from 'react';
 
+import {useListingDetailsContext} from 'components/common/contexts/ListingDetailsContext';
 import ListingDescription from 'components/common/ListingDescription';
-import {useListingDetailsContext} from 'components/customer/listing-details/contexts/ListingDetailsContext';
 import Container from 'muicss/lib/react/container';
 import styled from 'styled-components';
 

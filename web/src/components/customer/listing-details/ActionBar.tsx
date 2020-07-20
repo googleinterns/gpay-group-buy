@@ -16,7 +16,7 @@
 
 import React, {useState, useEffect, useCallback} from 'react';
 
-import {useListingDetailsContext} from 'components/customer/listing-details/contexts/ListingDetailsContext';
+import {useListingDetailsContext} from 'components/common/contexts/ListingDetailsContext';
 import {CommitStatus} from 'interfaces';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
