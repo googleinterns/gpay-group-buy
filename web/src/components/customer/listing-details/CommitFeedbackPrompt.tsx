@@ -18,11 +18,10 @@ import React, {useState, useEffect} from 'react';
 
 import CommitsBadge from 'components/common/CommitsBadge';
 import MobilePrompt from 'components/common/MobilePrompt';
+import {useCommitFeedbackPromptContext} from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
 
 import {ReactComponent as CelebrateSvg} from 'assets/celebrate.svg';
 import {ReactComponent as PaymentSvg} from 'assets/customer/payment.svg';
-
-import {useCommitFeedbackPromptContext} from './contexts/CommitFeedbackPromptContext';
 
 interface PromptProps {
   isVisible: boolean;
