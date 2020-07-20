@@ -26,6 +26,9 @@ const MerchantListingsPage = lazy(() => import('components/merchant/listings'));
 const MerchantAddListingPage = lazy(() =>
   import('components/merchant/add-listing')
 );
+const MerchantListingDetailsPage = lazy(() =>
+  import('components/merchant/listing-details')
+);
 
 const MerchantRoutes: React.FC = () => {
   const {path} = useRouteMatch();
@@ -40,6 +43,11 @@ const MerchantRoutes: React.FC = () => {
           exact
           path={`${path}add-listing`}
           component={MerchantAddListingPage}
+        />
+        <Route
+          exact
+          path={`${path}listing/:listingId`}
+          component={MerchantListingDetailsPage}
         />
       </MerchantProvider>
     </Switch>

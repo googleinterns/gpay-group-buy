@@ -74,9 +74,11 @@ const MerchantPage: React.FC<MerchantPageProps> = ({header, children}) => {
     <PageContainer>
       <MerchantSideBar />
       <PageContent>
-        <HeaderRow>
-          <PageHeader>{header}</PageHeader>
-        </HeaderRow>
+        {header && (
+          <HeaderRow>
+            <PageHeader>{header}</PageHeader>
+          </HeaderRow>
+        )}
         <PageBody>{children}</PageBody>
       </PageContent>
     </PageContainer>
