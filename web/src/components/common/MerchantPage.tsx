@@ -53,11 +53,11 @@ const HeaderRow = styled(Row)`
   align-items: flex-end;
 `;
 
-const Header = styled.h1`
+const PageHeader = styled.h1`
   font-weight: bolder;
 `;
 
-const ListingsBody = styled(CentralisedContainer)`
+const PageBody = styled(CentralisedContainer)`
   height: 100%;
   width: 100%;
 `;
@@ -75,9 +75,9 @@ const MerchantPage: React.FC<MerchantPageProps> = ({header, children}) => {
       <MerchantSideBar />
       <PageContent>
         <HeaderRow>
-          <Header>{header}</Header>
+          <PageHeader>{header}</PageHeader>
         </HeaderRow>
-        <ListingsBody>{children}</ListingsBody>
+        <PageBody>{children}</PageBody>
       </PageContent>
     </PageContainer>
   );
