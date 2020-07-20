@@ -96,7 +96,7 @@ const ListingsPage: React.FC = () => {
       setListings(listings);
     };
     fetchListings();
-  }, []);
+  }, [getMerchant]);
 
   return (
     <PageContainer>
