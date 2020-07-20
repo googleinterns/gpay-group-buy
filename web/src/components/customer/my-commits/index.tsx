@@ -37,6 +37,10 @@ const CommitsBadgeContainer = styled.div`
   align-self: flex-end;
 `;
 
+/**
+ * Groups commits by their commit status.
+ * @param commits Commits to be grouped
+ */
 const groupByCommitStatus = (commits: Commit[]): GroupedCommits =>
   commits.reduce(
     (result, commit) => ({
