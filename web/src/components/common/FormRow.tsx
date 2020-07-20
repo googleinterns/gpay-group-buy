@@ -16,9 +16,9 @@
 
 import React from 'react';
 
+import {useFormPropsContext} from 'components/common/contexts/FormPropsContext';
 import Col from 'muicss/lib/react/col';
 import Row from 'muicss/lib/react/row';
-import {FieldError, NestDataObject} from 'react-hook-form';
 import styled from 'styled-components';
 
 const StyledRow = styled(Row)`
@@ -81,19 +81,8 @@ const ErrorContainer = styled.div`
   color: var(--bright-red);
 `;
 
-type ReactHookFormErrorMessage =
-  | string
-  | NestDataObject<any, FieldError>
-  | undefined;
-
 interface FormRowProps {
-  name: string;
-  label: string;
-  inputType: string;
-  forwardedRef:
-    | ((ref: HTMLInputElement) => void)
-    | ((ref: HTMLTextAreaElement) => void);
-  error: ReactHookFormErrorMessage;
+  index: number;
 }
 
 /**
@@ -101,34 +90,23 @@ interface FormRowProps {
  * side by side. This also contains a container for error message which is
  * displayed below the input field where applicable.
  */
-const FormRow: React.FC<FormRowProps> = ({
-  name,
-  label,
-  inputType,
-  forwardedRef,
-  error,
-}) => (
-  <StyledRow>
-    <StyledCol>
-      <Label>{label}</Label>
-    </StyledCol>
-    <StyledCol>
-      {inputType === 'textarea' ? (
-        <TextArea
-          name={name}
-          rows={5}
-          ref={forwardedRef as (ref: HTMLTextAreaElement) => void}
-        />
-      ) : (
-        <Input
-          type={inputType}
-          name={name}
-          ref={forwardedRef as (ref: HTMLInputElement) => void}
-        />
-      )}
-      <ErrorContainer>{error}</ErrorContainer>
-    </StyledCol>
-  </StyledRow>
-);
-
+const FormRow: React.FC<FormRowProps> = ({index}) => {
+  const {fields, errors, register, validations} = useFormPropsContext();
+  const {name, label, type} = fields[index];
+  return (
+    <StyledRow>
+      <StyledCol>
+        <Label>{label}</Label>
+      </StyledCol>
+      <StyledCol>
+        {type === 'textarea' ? (
+          <TextArea name={name} rows={5} ref={register(validations[name])} />
+        ) : (
+          <Input type={type} name={name} ref={register(validations[name])} />
+        )}
+        <ErrorContainer>{errors.form[name]?.message}</ErrorContainer>
+      </StyledCol>
+    </StyledRow>
+  );
+};
 export default FormRow;

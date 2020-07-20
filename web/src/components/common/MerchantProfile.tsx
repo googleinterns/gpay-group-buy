@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import CentralisedContainer from 'components/common/CentralisedContainer';
 import MerchantDetailRow from 'components/common/MerchantDetailRow';
+import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
+import {MerchantResponse} from 'interfaces';
 import {CreditCard, Mail} from 'react-feather';
 import styled from 'styled-components';
 
@@ -40,21 +42,32 @@ const DetailsContainer = styled.div`
  * This is the profile of the signed-up merchant, shown on the side bar of merchant pages.
  */
 const MerchantProfile: React.FC = () => {
-  const dummyMerchant = {
-    name: 'Merchant Name',
-    email: 'merchant@email.com',
-    vpa: 'merchantVpa@bank',
-  };
-  // TODO: Get merchant details from context instead of using dummy data.
+  const [merchant, setMerchant] = useState<MerchantResponse | undefined>(
+    undefined
+  );
+  const {getMerchant} = useMerchantContext();
+
+  useEffect(() => {
+    const populateMerchantData = async () => {
+      const merchant = await getMerchant();
+      setMerchant(merchant);
+    };
+
+    populateMerchantData();
+  }, [getMerchant]);
 
   return (
     <CentralisedContainer>
       <Shop />
-      <Header>{dummyMerchant.name}</Header>
-      <DetailsContainer>
-        <MerchantDetailRow icon={Mail} text={dummyMerchant.email} />
-        <MerchantDetailRow icon={CreditCard} text={dummyMerchant.vpa} />
-      </DetailsContainer>
+      {merchant && (
+        <>
+          <Header>{merchant.name}</Header>
+          <DetailsContainer>
+            <MerchantDetailRow icon={Mail} text={merchant.email} />
+            <MerchantDetailRow icon={CreditCard} text={merchant.vpa} />
+          </DetailsContainer>
+        </>
+      )}
     </CentralisedContainer>
   );
 };

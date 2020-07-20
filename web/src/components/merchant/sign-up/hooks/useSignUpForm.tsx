@@ -20,8 +20,8 @@ import SignUpErrors from 'constants/errors/sign-up-errors';
 import {useState} from 'react';
 
 import {addMerchant} from 'api';
-import firebaseAuth from 'firebase-auth';
-import {getFirebaseIdToken, getFirebaseUid} from 'firebase-auth';
+import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
+import firebaseAuth, {getFirebaseIdToken, getFirebaseUid} from 'firebase-auth';
 import {useForm} from 'react-hook-form';
 import {useHistory} from 'react-router-dom';
 
@@ -50,37 +50,38 @@ const useSignUpForm = () => {
     mode: 'onChange',
   });
   const [generalError, setGeneralError] = useState<Error | undefined>();
+  const {setMerchant} = useMerchantContext();
   const history = useHistory();
 
   const validations = {
-    name: register({
+    name: {
       required: SignUpErrors.NAME_EMPTY,
-    }),
-    email: register({
+    },
+    email: {
       required: SignUpErrors.EMAIL_EMPTY,
       pattern: {
         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
         message: SignUpErrors.EMAIL_INVALID,
       },
-    }),
-    password: register({
+    },
+    password: {
       required: SignUpErrors.PASSWORD_EMPTY,
       minLength: {
         value: 8,
         message: SignUpErrors.PASSWORD_WEAK,
       },
-    }),
-    confirmPassword: register({
-      validate: value =>
+    },
+    confirmPassword: {
+      validate: (value: string) =>
         value === watch('password') || SignUpErrors.PASSWORDS_DO_NOT_MATCH,
-    }),
-    vpa: register({
+    },
+    vpa: {
       required: SignUpErrors.VPA_EMPTY,
       pattern: {
         value: /^[A-Z0-9]+@[A-Z0-9]+/i,
         message: SignUpErrors.VPA_INVALID,
       },
-    }),
+    },
   };
   const disabled = !formState.isValid;
 
@@ -91,7 +92,11 @@ const useSignUpForm = () => {
       await firebaseAuth.createUserWithEmailAndPassword(email, password);
       const firebaseIdToken = await getFirebaseIdToken();
       const firebaseUid = await getFirebaseUid();
-      await addMerchant({name, email, vpa, firebaseUid}, firebaseIdToken);
+      const merchant = await addMerchant(
+        {name, email, vpa, firebaseUid},
+        firebaseIdToken
+      );
+      setMerchant(merchant);
       history.push('home');
     } catch (err) {
       switch (err.code) {
@@ -119,6 +124,7 @@ const useSignUpForm = () => {
       general: generalError,
     },
     onSubmit,
+    register,
     validations,
   };
 };

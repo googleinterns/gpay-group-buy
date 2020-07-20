@@ -16,6 +16,7 @@
 
 import React from 'react';
 
+import FormPropsProvider from 'components/common/contexts/FormPropsContext';
 import SignInSignUpCard from 'components/common/SignInSignUpCard';
 import useSignInForm from 'components/merchant/sign-in/hooks/useSignInForm';
 import {Link} from 'react-router-dom';
@@ -24,15 +25,16 @@ import {Link} from 'react-router-dom';
  * This is the card containing the sign up form for the Merchant app.
  * It is displayed in the Sign Up page.
  */
-const SignUpCard: React.FC = () => {
-  return (
+const SignUpCard: React.FC = () => (
+  <FormPropsProvider
+    buttonText="Sign In"
+    fields={[
+      {label: 'Email', name: 'email', type: 'email'},
+      {label: 'Password', name: 'password', type: 'password'},
+    ]}
+    {...useSignInForm()}
+  >
     <SignInSignUpCard
-      buttonText="Sign In"
-      fields={[
-        {label: 'Email', name: 'email', type: 'email'},
-        {label: 'Password', name: 'password', type: 'password'},
-      ]}
-      {...useSignInForm()}
       signInSignUpLink={
         <>
           Don&apos;t have an account yet? <Link to="sign-up">Sign&nbsp;up</Link>{' '}
@@ -40,7 +42,7 @@ const SignUpCard: React.FC = () => {
         </>
       }
     />
-  );
-};
+  </FormPropsProvider>
+);
 
 export default SignUpCard;

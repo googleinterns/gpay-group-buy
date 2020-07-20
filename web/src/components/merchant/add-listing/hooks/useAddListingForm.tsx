@@ -36,9 +36,9 @@ const useAddListingForm = () => {
   const [generalError, setGeneralError] = useState<Error | undefined>();
 
   const validations = {
-    name: register({
+    name: {
       required: 'Product name cannot be empty.',
-    }),
+    },
   };
   // TODO(#139): Add form input validations.
   const disabled = !formState.isValid;
@@ -57,6 +57,7 @@ const useAddListingForm = () => {
       general: generalError,
     },
     onSubmit,
+    register,
     validations,
   };
 };

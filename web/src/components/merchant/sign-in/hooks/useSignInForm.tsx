@@ -21,8 +21,9 @@ import {
 
 import {useState} from 'react';
 
-import {getMerchantWithEmail} from 'api';
-import firebaseAuth from 'firebase-auth';
+import {getMerchantWithFirebaseUid} from 'api';
+import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
+import firebaseAuth, {getFirebaseUid} from 'firebase-auth';
 import {useForm} from 'react-hook-form';
 import {useHistory} from 'react-router-dom';
 
@@ -41,15 +42,16 @@ const useSignInForm = () => {
     mode: 'onChange',
   });
   const [generalError, setGeneralError] = useState<Error | undefined>();
+  const {setMerchant} = useMerchantContext();
   const history = useHistory();
 
   const validations = {
-    email: register({
+    email: {
       required: true,
-    }),
-    password: register({
+    },
+    password: {
       required: true,
-    }),
+    },
   };
   const disabled = !formState.isValid;
 
@@ -58,8 +60,9 @@ const useSignInForm = () => {
     try {
       const {email, password} = values;
       await firebaseAuth.signInWithEmailAndPassword(email, password);
-      await getMerchantWithEmail(email);
-      // TODO(#116): Store merchant object returned by getMerchantWithEmail function in context.
+      const firebaseUid = await getFirebaseUid();
+      const merchant = await getMerchantWithFirebaseUid(firebaseUid);
+      setMerchant(merchant);
       history.push('home');
     } catch (err) {
       switch (err.code) {
@@ -81,6 +84,7 @@ const useSignInForm = () => {
       general: generalError,
     },
     onSubmit,
+    register,
     validations,
   };
 };

@@ -16,11 +16,12 @@
 
 import React from 'react';
 
+import FormPropsProvider from 'components/common/contexts/FormPropsContext';
 import Form from 'components/common/Form';
 import useAddListingForm from 'components/merchant/add-listing/hooks/useAddListingForm';
 
 const AddListingForm: React.FC = () => (
-  <Form
+  <FormPropsProvider
     buttonText="Add Listing"
     fields={[
       {label: 'Product Name', name: 'name', type: 'text'},
@@ -32,7 +33,9 @@ const AddListingForm: React.FC = () => (
       {label: 'Image URL', name: 'imgUrl', type: 'url'},
     ]}
     {...useAddListingForm()}
-  />
+  >
+    <Form />
+  </FormPropsProvider>
 );
 
 export default AddListingForm;
