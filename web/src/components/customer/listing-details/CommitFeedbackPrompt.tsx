@@ -20,47 +20,23 @@ import CommitsBadge from 'components/common/CommitsBadge';
 import MobilePrompt from 'components/common/MobilePrompt';
 
 import {ReactComponent as CelebrateSvg} from 'assets/celebrate.svg';
-import {ReactComponent as PaymentSvg} from 'assets/payment.svg';
+import {ReactComponent as PaymentSvg} from 'assets/customer/payment.svg';
 
 import {useCommitFeedbackPromptContext} from './contexts/CommitFeedbackPromptContext';
 
 interface PromptProps {
   isVisible: boolean;
+  title: string;
+  header?: JSX.Element;
   onClose: () => void;
 }
 
-const SuccessfulCommitPrompt: React.FC<PromptProps> = ({
-  isVisible,
+const Prompt: React.FC<PromptProps> = ({
   onClose,
+  ...props
 }) => (
   <MobilePrompt
-    isVisible={isVisible}
-    title="You have committed to the listing!"
-    header={<CelebrateSvg />}
-    buttons={[
-      {
-        name: 'Manage',
-        // TODO: Link to My Commits page onClick instead
-        onClick: onClose,
-      },
-      {
-        name: 'Dismiss',
-        onClick: onClose,
-      },
-    ]}
-  >
-    <CommitsBadge />
-  </MobilePrompt>
-);
-
-const SuccessfulPaymentPrompt: React.FC<PromptProps> = ({
-  isVisible,
-  onClose,
-}) => (
-  <MobilePrompt
-    isVisible={isVisible}
-    title="You have successfully paid for your item!"
-    header={<PaymentSvg />}
+    {...props}
     buttons={[
       {
         name: 'Manage',
@@ -85,29 +61,33 @@ const CommitStatusPrompt: React.FC = () => {
   const {
     isPromptVisible,
     promptContent,
-    onClose: onClosePrompt,
+    onClose,
   } = useCommitFeedbackPromptContext();
 
   useEffect(() => {
     switch (promptContent) {
       case 'successful-commit':
         setPrompt(
-          <SuccessfulCommitPrompt
+          <Prompt
+            title="You have committed to the listing!"
+            header={<CelebrateSvg />}
             isVisible={isPromptVisible}
-            onClose={onClosePrompt}
+            onClose={onClose}
           />
         );
         break;
       case 'successful-payment':
         setPrompt(
-          <SuccessfulPaymentPrompt
+          <Prompt
+            title="You have successfully paid for your item!"
+            header={<PaymentSvg />}
             isVisible={isPromptVisible}
-            onClose={onClosePrompt}
+            onClose={onClose}
           />
         );
         break;
     }
-  }, [isPromptVisible, promptContent, onClosePrompt]);
+  }, [isPromptVisible, promptContent, onClose]);
 
   return prompt;
 };
