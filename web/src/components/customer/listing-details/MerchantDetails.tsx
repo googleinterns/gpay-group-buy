@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 
-import styled from 'styled-components';
+import {getMerchantWithId} from 'api';
+import {MerchantResponse} from 'interfaces';
 import Container from 'muicss/lib/react/container';
-import { MerchantResponse } from 'interfaces';
-import { getMerchantWithId } from 'api';
-import { ReactComponent as Shop } from 'assets/merchant/shop.svg';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import styled from 'styled-components';
+
+import {ReactComponent as Shop} from 'assets/merchant/shop.svg';
 
 const MerchantDetailsContainer = styled(Container)`
   display: flex;
@@ -65,9 +66,7 @@ interface MerchantDetailsProps {
  * MerchantDetails that contains basic merchant details,
  * as well as a link to the merchant profile page.
  */
-const MerchantDetails: React.FC<MerchantDetailsProps> = ({
-  merchantId,
-}) => {
+const MerchantDetails: React.FC<MerchantDetailsProps> = ({merchantId}) => {
   const [merchant, setMerchant] = useState<MerchantResponse>();
 
   useEffect(() => {
@@ -80,7 +79,7 @@ const MerchantDetails: React.FC<MerchantDetailsProps> = ({
 
   return (
     <>
-      {merchant &&
+      {merchant && (
         <MerchantDetailsContainer>
           <MerchantIcon />
           <ContentContainer>
@@ -88,7 +87,7 @@ const MerchantDetails: React.FC<MerchantDetailsProps> = ({
             <LinkButton to="/">View Merchant Profile</LinkButton>
           </ContentContainer>
         </MerchantDetailsContainer>
-      }
+      )}
     </>
   );
 };

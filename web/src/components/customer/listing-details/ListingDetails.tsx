@@ -18,8 +18,8 @@ import React from 'react';
 
 import ListingDescription from 'components/common/ListingDescription';
 import {useListingDetailsContext} from 'components/customer/listing-details/contexts/ListingDetailsContext';
-import styled from 'styled-components';
 import MerchantDetails from 'components/customer/listing-details/MerchantDetails';
+import styled from 'styled-components';
 
 const ListingDetailsContainer = styled.div`
   & > section {
