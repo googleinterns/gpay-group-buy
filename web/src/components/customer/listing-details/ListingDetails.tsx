@@ -18,8 +18,23 @@ import React from 'react';
 
 import ListingDescription from 'components/common/ListingDescription';
 import {useListingDetailsContext} from 'components/customer/listing-details/contexts/ListingDetailsContext';
-import Container from 'muicss/lib/react/container';
 import styled from 'styled-components';
+import MerchantDetails from 'components/customer/listing-details/MerchantDetails';
+
+const ListingDetailsContainer = styled.div`
+  & > section {
+    border-top: 1px solid var(--light-gray);
+    margin: 0 1.8rem;
+    padding: 1.8rem 0;
+  }
+  section:first-of-type {
+    border-top: 0;
+    padding-top: 0;
+  }
+  section:last-of-type {
+    padding-bottom: 0;
+  }
+`;
 
 const ListingImage = styled.img`
   width: 100%;
@@ -28,8 +43,9 @@ const ListingImage = styled.img`
   background-color: var(--light-gray);
 `;
 
-const SectionContainer = styled(Container)`
-  padding: 0 1.8rem;
+const SectionTitle = styled.span`
+  font-size: 1.2rem;
+  color: var(--dark-gray);
 `;
 
 /**
@@ -41,12 +57,16 @@ const ListingDetails: React.FC = () => {
   return (
     <>
       {listing && (
-        <>
+        <ListingDetailsContainer>
           <ListingImage src={listing.imgUrl} alt={`Image of ${listing.name}`} />
-          <SectionContainer>
+          <section>
             <ListingDescription listing={listing} />
-          </SectionContainer>
-        </>
+          </section>
+          <section>
+            <SectionTitle>Merchant Details</SectionTitle>
+            <MerchantDetails merchantId={listing.merchantId} />
+          </section>
+        </ListingDetailsContainer>
       )}
     </>
   );

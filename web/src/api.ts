@@ -216,6 +216,17 @@ export const getMerchantWithFirebaseUid = async (
 };
 
 /**
+ * Retrieves merchant with the given Firebase UID from the database.
+ * @param merchantId Id of the merchant to retrieve
+ */
+export const getMerchantWithId = async (merchantId: number): Promise<MerchantResponse> => {
+  const res = await fetch(
+    `${process.env.REACT_APP_SERVER_URL}/merchants/${merchantId}`
+  );
+  return res.json();
+};
+
+/**
  * Stores new merchant into the database.
  */
 export const addMerchant = async (
