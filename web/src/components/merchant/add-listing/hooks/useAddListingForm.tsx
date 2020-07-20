@@ -40,12 +40,14 @@ const useAddListingForm = () => {
       required: 'Product name cannot be empty.',
     }),
   };
+  // TODO(#139): Add form input validations.
   const disabled = !formState.isValid;
 
   const onSubmit = handleSubmit(async (values: AddListingData) => {
     setGeneralError(undefined); // Reset general error message.
     const {name} = values;
     alert(name);
+    // TODO(143): Add listing to database.
   });
 
   return {
