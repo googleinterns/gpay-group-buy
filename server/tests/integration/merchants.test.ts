@@ -30,5 +30,29 @@ describe('Merchants endpoints', () => {
       expect(res.status).toBe(200);
       expect(res.body).toMatchObject(expectedMerchantData);
     });
+
+    test('Should not fetch by invalid id param', async () => {
+      const merchantId = 'invalid-merchant-id-type';
+
+      const res = await request(app).get(`/merchants/${merchantId}`);
+
+      // TODO: Test for actual error status codes when implemented
+      expect(res.status).not.toBe(200);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe('Invalid merchantId params.');
+    });
+
+    test('Should not fetch by non-existent merchantId', async () => {
+      const merchantId = merchantFixtures.ids.length + 1;
+
+      const res = await request(app).get(`/merchants/${merchantId}`);
+
+      // TODO: Test for actual error status codes when implemented
+      expect(res.status).not.toBe(200);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe(
+        `Merchant ${merchantId} does not exist`
+      );
+    });
   });
 });
