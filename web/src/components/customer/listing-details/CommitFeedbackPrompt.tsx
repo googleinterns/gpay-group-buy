@@ -31,10 +31,7 @@ interface PromptProps {
   onClose: () => void;
 }
 
-const Prompt: React.FC<PromptProps> = ({
-  onClose,
-  ...props
-}) => (
+const Prompt: React.FC<PromptProps> = ({onClose, ...props}) => (
   <MobilePrompt
     {...props}
     buttons={[
