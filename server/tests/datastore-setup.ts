@@ -17,10 +17,16 @@
 import {Datastore} from '@google-cloud/datastore';
 import portfinder from 'portfinder';
 
-import {CUSTOMER_KIND, COMMIT_KIND, LISTING_KIND} from '../src/constants/kinds';
+import {
+  CUSTOMER_KIND,
+  COMMIT_KIND,
+  LISTING_KIND,
+  MERCHANT_KIND,
+} from '../src/constants/kinds';
 import commitFixtures from './fixtures/commits';
 import customerFixtures from './fixtures/customers';
 import listingFixtures from './fixtures/listings';
+import merchantFixtures from './fixtures/merchants';
 
 const datastore = new Datastore();
 
@@ -75,11 +81,17 @@ const initDatastoreEmulator = async () => {
     const key = datastore.key([COMMIT_KIND, id]);
     return {key, data};
   });
+  const merchantEntities = merchantFixtures.data.map((data, idx) => {
+    const id = merchantFixtures.ids[idx];
+    const key = datastore.key([MERCHANT_KIND, id]);
+    return {key, data};
+  });
 
   await datastore.upsert([
     ...customerEntities,
     ...listingEntities,
     ...commitEntities,
+    ...merchantEntities,
   ]);
 };
 
