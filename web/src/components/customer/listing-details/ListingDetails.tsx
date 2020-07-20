@@ -27,10 +27,12 @@ const ListingDetailsContainer = styled.div`
     margin: 0 1.8rem;
     padding: 1.8rem 0;
   }
+
   section:first-of-type {
     border-top: 0;
     padding-top: 0;
   }
+
   section:last-of-type {
     padding-bottom: 0;
   }
