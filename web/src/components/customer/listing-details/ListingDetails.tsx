@@ -49,7 +49,7 @@ const SectionTitle = styled.span`
 `;
 
 /**
- * ListingDetailsSection that contains full listing details.
+ * ListingDetails that contains full listing details.
  */
 const ListingDetails: React.FC = () => {
   const {listing} = useListingDetailsContext();

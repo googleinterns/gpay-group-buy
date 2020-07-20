@@ -64,7 +64,8 @@ interface MerchantDetailsProps {
 }
 
 /**
- * ListingDetailsSection that contains full listing details.
+ * MerchantDetails that contains basic merchant details,
+ * as well as a link to the merchant profile page.
  */
 const MerchantDetails: React.FC<MerchantDetailsProps> = ({
   merchantId,
