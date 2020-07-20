@@ -5,6 +5,22 @@ This is the Group Buy server which serves the web client through REST API.
 ## Prerequisites
 Install [Node 10](nodejs.org) and [Yarn](classic.yarnpkg.com/en/docs/install/).
 
+## Getting Started
+
+### Environment Variables
+
+You can find development environment variables in the `.env.development` file
+, and production environment variables in the `app.yaml` file.
+
+Some environment variables with the `<Secret>` tag are not meant to be exposed in this repo. Please make a copy of these variables in the appropriate local files `.env.development.local` and `app.secret.yaml` with valid values. These local files are ignored by git and will overwrite the `<Secret>` values.
+
+For example, the `app.secret.yaml` file will look like
+
+```
+env_variables:
+  OAUTH_CLIENT_ID: "real-oauth-client-id"
+```
+
 ## Development
 
 In the project directory, you can run:
