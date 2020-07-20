@@ -23,6 +23,7 @@ import CentralisedContainer from 'components/common/CentralisedContainer';
 import ListingCollection from 'components/common/ListingCollection';
 import MerchantSideBar from 'components/common/MerchantSideBar';
 import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
+import EmptyListingsPlaceholder from 'components/merchant/listings/EmptyListingsPlaceholder';
 import {Listing} from 'interfaces';
 import Row from 'muicss/lib/react/row';
 import {useLocation} from 'react-router-dom';
@@ -107,13 +108,13 @@ const ListingsPage: React.FC = () => {
           </Header>
         </HeaderRow>
         <ListingsBody>
-          {
-            // TODO: Add checks to show this only if merchant has no listings and
-            // show merchant's listings otherwise.
+          {listings && listings.length === 0 ? (
+            <EmptyListingsPlaceholder />
+          ) : (
             <ListingsContainer>
               <ListingCollection listings={listings} />
             </ListingsContainer>
-          }
+          )}
         </ListingsBody>
       </PageContent>
     </PageContainer>
