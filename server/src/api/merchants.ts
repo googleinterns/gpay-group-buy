@@ -29,7 +29,7 @@ const merchantRouter: Router = Router();
 merchantRouter.get(
   '/:merchantId',
   async (req: Request, res: Response, next: NextFunction) => {
-    const { merchantId: merchantIdStr } = req.params;
+    const {merchantId: merchantIdStr} = req.params;
     const merchantId = Number(merchantIdStr);
 
     try {
