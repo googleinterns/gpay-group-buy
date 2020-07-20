@@ -27,6 +27,25 @@ import {merchantService} from '../services';
 const merchantRouter: Router = Router();
 
 merchantRouter.get(
+  '/:merchantId',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { merchantId: merchantIdStr } = req.params;
+    const merchantId = Number(merchantIdStr);
+
+    try {
+      if (Number.isNaN(merchantId)) {
+        throw new Error('Invalid merchantId params.');
+      }
+
+      const merchant = await merchantService.getMerchant(merchantId);
+      res.send(merchant);
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+merchantRouter.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
