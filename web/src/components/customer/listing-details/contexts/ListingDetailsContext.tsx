@@ -17,6 +17,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 
 import {getListing, getCommits, addCommit, deleteCommit} from 'api';
+import {useCommitFeedbackPromptContext} from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
 import {CommitStatus, Listing} from 'interfaces';
 
 type ContextType =
@@ -59,6 +60,8 @@ const ListingDetailsProvider: React.FC<ListingDetailsProviderProps> = ({
   const [commitStatus, setCommitStatus] = useState<CommitStatus>();
   const [commitId, setCommitId] = useState<number | undefined>();
 
+  const {onOpen: onOpenPrompt} = useCommitFeedbackPromptContext();
+
   // TODO: Use actual gpay customer & token
   const sampleCustomerId = 5634161670881280;
   const token = 'replace-with-a-valid-token';
@@ -96,6 +99,7 @@ const ListingDetailsProvider: React.FC<ListingDetailsProviderProps> = ({
     // TODO: Handle addition error
     setCommitId(commit.id);
     setCommitStatus(commit.commitStatus);
+    onOpenPrompt('successful-commit');
   };
 
   const onUncommit = async () => {
