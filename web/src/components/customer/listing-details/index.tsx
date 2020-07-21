@@ -20,6 +20,7 @@ import BackButton from 'components/common/BackButton';
 import CommitsBadge from 'components/common/CommitsBadge';
 import ActionBar from 'components/customer/listing-details/ActionBar';
 import CommitStatusPrompt from 'components/customer/listing-details/CommitFeedbackPrompt';
+import CommitContext from 'components/customer/listing-details/contexts/CommitContext';
 import CommitFeedbackPromptContext from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
 import ListingDetailsContext from 'components/customer/listing-details/contexts/ListingDetailsContext';
 import ListingDetails from 'components/customer/listing-details/ListingDetails';
@@ -60,16 +61,18 @@ const ListingDetailsPage: React.FC = () => {
 
   return (
     <CommitFeedbackPromptContext>
-      <ListingDetailsContext listingId={listingId}>
-        <PageContainer>
-          <BackButton pos="absolute" onClick={handleBack} />
-          <CommitsBadge pos="absolute" />
-          <ContentContainer>
-            <ListingDetails />
-          </ContentContainer>
-          <ActionBar />
-        </PageContainer>
-      </ListingDetailsContext>
+      <CommitContext listingId={listingId}>
+        <ListingDetailsContext listingId={listingId}>
+          <PageContainer>
+            <BackButton pos="absolute" onClick={handleBack} />
+            <CommitsBadge pos="absolute" />
+            <ContentContainer>
+              <ListingDetails />
+            </ContentContainer>
+            <ActionBar />
+          </PageContainer>
+        </ListingDetailsContext>
+      </CommitContext>
       <CommitStatusPrompt />
     </CommitFeedbackPromptContext>
   );

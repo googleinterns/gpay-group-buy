@@ -16,17 +16,14 @@
 
 import React, {useContext, useState, useEffect} from 'react';
 
-import {getListing, getCommits, addCommit, deleteCommit} from 'api';
-import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
-import {useCommitFeedbackPromptContext} from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
-import {CommitStatus, Listing} from 'interfaces';
+import {getListing} from 'api';
+import {Listing} from 'interfaces';
+
+import {useCommitContext} from './CommitContext';
 
 type ContextType =
   | {
       listing: Listing | undefined;
-      commitStatus: CommitStatus | undefined;
-      onCommit: () => Promise<void>;
-      onUncommit: () => Promise<void>;
     }
   | undefined;
 
@@ -50,25 +47,15 @@ interface ListingDetailsProviderProps {
 }
 
 /**
- * ListingDetailsProvider provider with stateful listing and commit details.
+ * ListingDetailsProvider provider with stateful listing.
  */
 const ListingDetailsProvider: React.FC<ListingDetailsProviderProps> = ({
   children,
   listingId,
 }) => {
-  const {
-    customer,
-    idToken,
-    getCustomerWithLogin,
-    refetchCustomer,
-  } = useCustomerContext();
-
-  const {onOpen: onOpenPrompt} = useCommitFeedbackPromptContext();
-
   const [listing, setListing] = useState<Listing>();
 
-  const [commitStatus, setCommitStatus] = useState<CommitStatus>();
-  const [commitId, setCommitId] = useState<number | undefined>();
+  const {commitStatus} = useCommitContext();
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -78,71 +65,8 @@ const ListingDetailsProvider: React.FC<ListingDetailsProviderProps> = ({
     fetchListings();
   }, [commitStatus, listingId]);
 
-  useEffect(() => {
-    if (customer === undefined) {
-      setCommitStatus(undefined);
-      return;
-    }
-
-    const fetchCommit = async () => {
-      const [commit] = await getCommits({
-        listingId,
-        customerId: customer.id,
-      });
-      if (commit !== undefined) {
-        setCommitId(commit.id);
-        setCommitStatus(commit.commitStatus);
-      }
-    };
-    fetchCommit();
-  }, [listingId, customer]);
-
-  const onCommit = async () => {
-    const customer = await getCustomerWithLogin();
-
-    if (customer === undefined || idToken === undefined) {
-      // TODO: Handle case when user refuse to login even after prompted
-      return;
-    }
-
-    const commit = await addCommit(
-      {
-        listingId,
-        customerId: customer.id,
-      },
-      idToken
-    );
-    // TODO: Handle addition error
-    setCommitId(commit.id);
-    await refetchCustomer();
-    setCommitStatus(commit.commitStatus);
-    onOpenPrompt('successful-commit');
-  };
-
-  const onUncommit = async () => {
-    if (commitId === undefined) {
-      return;
-    }
-
-    const customer = await getCustomerWithLogin();
-
-    if (customer === undefined || idToken === undefined) {
-      // TODO: Handle case when user refuse to login even after prompted
-      return;
-    }
-
-    await deleteCommit(commitId, idToken);
-    // TODO: Handle deletion error
-    setCommitId(undefined);
-    await refetchCustomer();
-    setCommitStatus(undefined);
-  };
-
   const value = {
     listing,
-    commitStatus,
-    onCommit,
-    onUncommit,
   };
 
   return (
