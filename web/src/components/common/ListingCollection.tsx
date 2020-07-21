@@ -20,7 +20,7 @@ import CommitProgress from 'components/common/CommitProgress';
 import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
 import {Listing} from 'interfaces';
-import {useMediaQuery} from 'react-responsive';
+import {isMobile} from 'react-device-detect';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -45,7 +45,6 @@ const ListingItem: React.FC<ListingProps> = ({
     imgUrl,
   },
 }) => {
-  const isMobile = useMediaQuery({query: '(max-device-width: 768px)'});
   return (
     <StrippedCol xs={isMobile ? 6 : 2} key={id}>
       <Link
