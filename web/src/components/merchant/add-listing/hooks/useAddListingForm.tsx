@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-import {useForm} from 'react-hook-form';
-
 import useFormSubmit from 'components/merchant/add-listing/hooks/useFormSubmit';
 import {AddListingFormData} from 'interfaces';
+import {useForm} from 'react-hook-form';
 
 /**
  * This custom hook handles all the logic related to Add Listing Form.
