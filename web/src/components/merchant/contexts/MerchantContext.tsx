@@ -67,7 +67,7 @@ const MerchantProvider: React.FC = ({children}) => {
     } catch (err) {
       if (
         err.message === USER_NOT_SIGNED_IN ||
-        err.message === `${NO_MERCHANT_WITH_FIREBASE_UID} ${firebaseUid}`
+        err.message === `${NO_MERCHANT_WITH_FIREBASE_UID} ${firebaseUid}.`
       ) {
         history.push('sign-in');
         return;

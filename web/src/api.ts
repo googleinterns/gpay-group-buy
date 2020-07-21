@@ -227,7 +227,7 @@ export const getMerchantWithFirebaseUid = async (
   });
 
   if (merchants.length === 0) {
-    throw new Error(`${NO_MERCHANT_WITH_FIREBASE_UID} ${firebaseUid}`);
+    throw new Error(`${NO_MERCHANT_WITH_FIREBASE_UID} ${firebaseUid}.`);
   }
 
   return merchants[0];
