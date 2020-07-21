@@ -19,15 +19,17 @@ import React, {lazy} from 'react';
 import CustomerProvider from 'components/customer/contexts/CustomerContext';
 import {useRouteMatch, Switch, Route} from 'react-router-dom';
 
-const CustomerExplorePage = lazy(() => import('components/customer/explore'));
-const ListingDetailsPage = lazy(() => import('components/listing-details'));
+const ExplorePage = lazy(() => import('components/customer/explore'));
+const ListingDetailsPage = lazy(() =>
+  import('components/customer/listing-details')
+);
 
 const CustomerRoutes: React.FC = () => {
   const {path} = useRouteMatch();
   return (
     <Switch>
       <CustomerProvider>
-        <Route exact path={path} component={CustomerExplorePage} />
+        <Route exact path={path} component={ExplorePage} />
         <Route
           path={`${path}listing/:listingId`}
           component={ListingDetailsPage}
