@@ -62,7 +62,10 @@ const ListingDetails: React.FC = () => {
         <ListingDetailsContainer>
           <ListingImage src={listing.imgUrl} alt={`Image of ${listing.name}`} />
           <section>
-            <ListingDescription listing={listing} />
+            <ListingDescription
+              listing={listing}
+              commitProgressFontSize="medium"
+            />
           </section>
           <section>
             <SectionTitle>Merchant Details</SectionTitle>

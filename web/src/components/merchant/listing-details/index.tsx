@@ -26,7 +26,7 @@ const ListingDetailsPage: React.FC = () => {
 
   return (
     <MerchantPage header={null}>
-      <ListingDetails listingId={listingId}/>
+      <ListingDetails listingId={listingId} />
     </MerchantPage>
   );
 };

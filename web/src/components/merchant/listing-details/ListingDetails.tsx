@@ -55,7 +55,11 @@ const ListingDetails: React.FC<ListingDetailsProps> = ({listingId}) => {
       {listing && (
         <ListingDetailsContainer>
           <ListingImage src={listing.imgUrl} alt={`Image of ${listing.name}`} />
-          <ListingDescription listing={listing} />
+          <ListingDescription
+            listing={listing}
+            priceFontSize="small"
+            commitProgressFontSize="large"
+          />
         </ListingDetailsContainer>
       )}
     </>

@@ -25,6 +25,11 @@ export interface Image {
 }
 
 /**
+ * FontSize type that provides several preset options for a font size.
+ */
+export type FontSize = 'small' | 'medium' | 'large';
+
+/**
  * Money Interface that represents an amount of money with its currency type.
  * Value = dollars + (cents / 100)
  */
