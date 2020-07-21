@@ -23,6 +23,9 @@ const MerchantLandingPage = lazy(() => import('components/merchant/landing'));
 const MerchantSignUpPage = lazy(() => import('components/merchant/sign-up'));
 const MerchantSignInPage = lazy(() => import('components/merchant/sign-in'));
 const MerchantListingsPage = lazy(() => import('components/merchant/listings'));
+const MerchantAddListingPage = lazy(() =>
+  import('components/merchant/add-listing')
+);
 
 const MerchantRoutes: React.FC = () => {
   const {path} = useRouteMatch();
@@ -33,6 +36,11 @@ const MerchantRoutes: React.FC = () => {
         <Route exact path={`${path}sign-up`} component={MerchantSignUpPage} />
         <Route exact path={`${path}sign-in`} component={MerchantSignInPage} />
         <Route exact path={`${path}home`} component={MerchantListingsPage} />
+        <Route
+          exact
+          path={`${path}add-listing`}
+          component={MerchantAddListingPage}
+        />
       </MerchantProvider>
     </Switch>
   );
