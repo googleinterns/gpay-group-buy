@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-import {useState} from 'react';
-
+import useFormSubmit from 'components/merchant/add-listing/hooks/useFormSubmit';
+import {AddListingFormData} from 'interfaces';
 import {useForm} from 'react-hook-form';
-
-type AddListingData = {
-  name: string;
-};
 
 /**
  * This custom hook handles all the logic related to Add Listing Form.
@@ -29,11 +25,11 @@ type AddListingData = {
  */
 const useAddListingForm = () => {
   const {errors: formErrors, formState, handleSubmit, register} = useForm<
-    AddListingData
+    AddListingFormData
   >({
     mode: 'onChange',
   });
-  const [generalError, setGeneralError] = useState<Error | undefined>();
+  const {generalError, submitAddListingFormData} = useFormSubmit();
 
   const validations = {
     name: {
@@ -43,12 +39,7 @@ const useAddListingForm = () => {
   // TODO(#139): Add form input validations.
   const disabled = !formState.isValid;
 
-  const onSubmit = handleSubmit(async (values: AddListingData) => {
-    setGeneralError(undefined); // Reset general error message.
-    const {name} = values;
-    alert(name);
-    // TODO(143): Add listing to database.
-  });
+  const onSubmit = handleSubmit(submitAddListingFormData);
 
   return {
     disabled,
