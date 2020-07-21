@@ -216,7 +216,7 @@ export const getMerchantWithFirebaseUid = async (
 };
 
 /**
- * Retrieves merchant with the given Firebase UID from the database.
+ * Retrieves merchant with the specified merchantId.
  * @param merchantId Id of the merchant to retrieve
  */
 export const getMerchantWithId = async (
