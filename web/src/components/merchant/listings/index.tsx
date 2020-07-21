@@ -14,24 +14,56 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import {USER_NOT_SIGNED_IN} from 'constants/errors/sign-in-errors';
 
+import React, {useEffect, useState} from 'react';
+
+import {getAllListings} from 'api';
+import ListingCollection from 'components/common/ListingCollection';
 import MerchantPage from 'components/common/MerchantPage';
+import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
 import EmptyListingsPlaceholder from 'components/merchant/listings/EmptyListingsPlaceholder';
+import {Listing} from 'interfaces';
 import {useLocation} from 'react-router-dom';
+import styled from 'styled-components';
+
+const ListingsContainer = styled.div`
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+`;
 
 const ListingsPage: React.FC = () => {
   const {hash} = useLocation();
+  const {getMerchant} = useMerchantContext();
+  const [listings, setListings] = useState<Listing[]>([]);
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      const merchant = await getMerchant();
+      if (merchant === undefined) {
+        throw new Error(USER_NOT_SIGNED_IN);
+      }
+
+      const listings = await getAllListings({
+        merchantId: merchant.id.toString(),
+      });
+      setListings(listings);
+    };
+    fetchListings();
+  }, [getMerchant]);
 
   return (
     <MerchantPage
       header={`${hash === '#past-listings' ? 'Past' : 'Ongoing'} Listings`}
     >
-      {
-        // TODO: Add checks to show this only if merchant has no listings and
-        // show merchant's listings otherwise.
+      {listings && listings.length === 0 ? (
         <EmptyListingsPlaceholder />
-      }
+      ) : (
+        <ListingsContainer>
+          <ListingCollection listings={listings} />
+        </ListingsContainer>
+      )}
     </MerchantPage>
   );
 };

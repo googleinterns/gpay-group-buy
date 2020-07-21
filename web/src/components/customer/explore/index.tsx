@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
+import {getAllListings} from 'api';
 import CommitsBadge from 'components/common/CommitsBadge';
+import ListingCollection from 'components/common/ListingCollection';
 import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
-import ListingCollection from 'components/customer/explore/ListingCollection';
+import {Listing} from 'interfaces';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
 import {Link} from 'react-router-dom';
@@ -40,6 +42,16 @@ const CustomerExplorePage: React.FC = () => {
 
   const handleGetIdentity = async () => getCustomerWithLogin();
 
+  const [listings, setListings] = useState<Listing[]>([]);
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      const listings = await getAllListings();
+      setListings(listings);
+    };
+    fetchListings();
+  }, []);
+
   return (
     <PageContainer>
       <CommitsBadgeContainer>
@@ -51,7 +63,7 @@ const CustomerExplorePage: React.FC = () => {
         </Button>
       </Link>
       <h1>Explore</h1>
-      <ListingCollection />
+      <ListingCollection listings={listings} />
       <Button color="primary" onClick={handleGetIdentity}>
         Get Identity
       </Button>
