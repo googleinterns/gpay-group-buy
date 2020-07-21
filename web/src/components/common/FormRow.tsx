@@ -60,6 +60,17 @@ const Input = styled.input`
   box-shadow: 4px 2px 4px rgba(0, 0, 0, 0.25);
 `;
 
+const TextArea = styled.textarea`
+  width: 350px;
+  font-size: 14px;
+  line-height: 16.1px;
+  padding: 5px 15px;
+
+  border-radius: 15px;
+  border: none;
+  box-shadow: 4px 2px 4px rgba(0, 0, 0, 0.25);
+`;
+
 const ErrorContainer = styled.div`
   height: 12px;
   margin-left: 15px;
@@ -88,7 +99,11 @@ const FormRow: React.FC<FormRowProps> = ({index}) => {
         <Label>{label}</Label>
       </StyledCol>
       <StyledCol>
-        <Input type={type} name={name} ref={register(validations[name])} />
+        {type === 'textarea' ? (
+          <TextArea name={name} rows={5} ref={register(validations[name])} />
+        ) : (
+          <Input type={type} name={name} ref={register(validations[name])} />
+        )}
         <ErrorContainer>{errors.form[name]?.message}</ErrorContainer>
       </StyledCol>
     </StyledRow>

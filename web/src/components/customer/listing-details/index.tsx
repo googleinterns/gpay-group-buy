@@ -19,6 +19,8 @@ import React from 'react';
 import BackButton from 'components/common/BackButton';
 import CommitsBadge from 'components/common/CommitsBadge';
 import ActionBar from 'components/customer/listing-details/ActionBar';
+import CommitStatusPrompt from 'components/customer/listing-details/CommitFeedbackPrompt';
+import CommitFeedbackPromptContext from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
 import ListingDetailsContext from 'components/customer/listing-details/contexts/ListingDetailsContext';
 import ListingDetails from 'components/customer/listing-details/ListingDetails';
 import {useHistory, useParams, useLocation} from 'react-router-dom';
@@ -57,16 +59,19 @@ const ListingDetailsPage: React.FC = () => {
     location.state?.fromExplore ? history.goBack() : history.push('/');
 
   return (
-    <ListingDetailsContext listingId={listingId}>
-      <PageContainer>
-        <BackButton pos="absolute" onClick={handleBack} />
-        <CommitsBadge pos="absolute" />
-        <ContentContainer>
-          <ListingDetails />
-        </ContentContainer>
-        <ActionBar />
-      </PageContainer>
-    </ListingDetailsContext>
+    <CommitFeedbackPromptContext>
+      <ListingDetailsContext listingId={listingId}>
+        <PageContainer>
+          <BackButton pos="absolute" onClick={handleBack} />
+          <CommitsBadge pos="absolute" />
+          <ContentContainer>
+            <ListingDetails />
+          </ContentContainer>
+          <ActionBar />
+        </PageContainer>
+      </ListingDetailsContext>
+      <CommitStatusPrompt />
+    </CommitFeedbackPromptContext>
   );
 };
 

@@ -16,13 +16,23 @@
 
 import React from 'react';
 
-import CustomerListingDetailsPage from 'components/customer/listing-details';
+import MerchantPage from 'components/common/MerchantPage';
+import AddListingForm from 'components/merchant/add-listing/AddListingForm';
+import styled from 'styled-components';
 
-const CommonListingDetailsPage: React.FC = () => (
-  // TODO: In this file, do a check for whether vistor is a merchant or not.
-  // If visitor is a merchant, show the merchant facing listing details page.
-  // Else, show them the customer facing listing details page.
-  <CustomerListingDetailsPage />
+const LeftAlignedContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`;
+
+const AddListingPage: React.FC = () => (
+  <MerchantPage header="Add Listing">
+    <LeftAlignedContainer>
+      <AddListingForm />
+    </LeftAlignedContainer>
+  </MerchantPage>
 );
 
-export default CommonListingDetailsPage;
+export default AddListingPage;

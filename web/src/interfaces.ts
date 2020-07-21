@@ -97,6 +97,13 @@ export interface Commit extends CommitPayload {
 }
 
 /**
+ * GroupedCommits type of commits grouped by their commit status.
+ */
+export type GroupedCommits = {
+  [key in CommitStatus]?: Commit[];
+};
+
+/**
  * CustomerPayload Interface that contains the fields of the payload that
  * would be sent to the server.
  */
