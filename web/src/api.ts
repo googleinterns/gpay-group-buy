@@ -137,9 +137,16 @@ export const addListing = async (
 
 /**
  * Fetches all Listings.
+ * @param queryParams Query parameters used to filter listings to retrieve.
  */
-export const getAllListings = async (): Promise<Listing[]> => {
-  const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/listings`);
+export const getAllListings = async (queryParams?: {
+  [key: string]: string;
+}): Promise<Listing[]> => {
+  const endpoint = `${process.env.REACT_APP_SERVER_URL}/listings`;
+  const res = queryParams
+    ? await query(endpoint, queryParams)
+    : await fetch(endpoint);
+
   return res.json();
 };
 
@@ -199,7 +206,7 @@ export const deleteCommit = async (commitId: number, idToken: string) => {
 
 /**
  * Retrieves all merchants from the database.
- * @param filters Filters used to restrict merchants retrieved
+ * @param queryParams Query parameters used to filter merchants to retrieve
  */
 const getAllMerchants = async (queryParams?: {
   [key: string]: string;
