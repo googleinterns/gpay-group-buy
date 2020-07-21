@@ -77,6 +77,7 @@ const MerchantDetails: React.FC<MerchantDetailsProps> = ({merchantId}) => {
     fetchMerchant();
   }, [merchantId]);
 
+  // TODO: Update Link to redirect to merchant profile when it is up.
   return (
     <>
       {merchant && (
