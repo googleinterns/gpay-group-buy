@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {formatMoney} from 'utils/money';
+import {formatMoney, parseMoney} from 'utils/money';
 
 describe('formatMoney', () => {
   test('it should format money accurately', () => {
@@ -59,6 +59,74 @@ describe('formatMoney', () => {
 
     moneyInputs.forEach((moneyInput, idx) => {
       expect(formatMoney(moneyInput)).toBe(expectedValues[idx]);
+    });
+  });
+});
+
+describe('parseMoney', () => {
+  test('it should parse money accurately', () => {
+    const inputs = [
+      {
+        currency: 'INR',
+        value: 400.3,
+      },
+      {
+        currency: 'USD',
+        value: 0.49,
+      },
+      {
+        currency: 'SGD',
+        value: 1,
+      },
+      {
+        currency: 'INR',
+        value: 1.999,
+      },
+      {
+        currency: 'INR',
+        value: 3e5,
+      },
+      {
+        currency: 'INR',
+        value: 3e-5,
+      },
+    ];
+    const expectedValues = [
+      {
+        currency: 'INR',
+        dollars: 400,
+        cents: 30,
+      },
+      {
+        currency: 'USD',
+        dollars: 0,
+        cents: 49,
+      },
+      {
+        currency: 'SGD',
+        dollars: 1,
+        cents: 0,
+      },
+      {
+        currency: 'INR',
+        dollars: 1,
+        cents: 99,
+      },
+      {
+        currency: 'INR',
+        dollars: 300000,
+        cents: 0,
+      },
+      {
+        currency: 'INR',
+        dollars: 0,
+        cents: 0,
+      },
+    ];
+
+    inputs.forEach((input, idx) => {
+      const {currency, value} = input;
+      expect(parseMoney(value, currency)).toEqual(expectedValues[idx]);
     });
   });
 });

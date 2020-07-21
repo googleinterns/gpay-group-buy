@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
-import {getAllListings} from 'api';
+import {getCommits} from 'api';
+import BackButton from 'components/common/BackButton';
 import CommitsBadge from 'components/common/CommitsBadge';
-import ListingCollection from 'components/common/ListingCollection';
 import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
-import {Listing} from 'interfaces';
-import Button from 'muicss/lib/react/button';
+import Commits from 'components/customer/my-commits/Commits';
+import {GroupedCommits} from 'interfaces';
 import Container from 'muicss/lib/react/container';
-import {Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import styled from 'styled-components';
+import {groupByCommitStatus} from 'utils/commit-status';
 
 const PageContainer = styled(Container)`
   padding-top: 20px;
@@ -37,38 +38,44 @@ const CommitsBadgeContainer = styled.div`
   align-self: flex-end;
 `;
 
-const CustomerExplorePage: React.FC = () => {
-  const {getCustomerWithLogin} = useCustomerContext();
+/**
+ * Page containing all the commits of the current customer.
+ */
+const MyCommitsPage: React.FC = () => {
+  const {customer, getCustomerWithLogin} = useCustomerContext();
 
-  const handleGetIdentity = async () => getCustomerWithLogin();
+  const [commits, setCommits] = useState<GroupedCommits>({});
 
-  const [listings, setListings] = useState<Listing[]>([]);
+  const history = useHistory();
 
   useEffect(() => {
-    const fetchListings = async () => {
-      const listings = await getAllListings();
-      setListings(listings);
+    const fetchCommits = async () => {
+      if (customer === undefined) {
+        await getCustomerWithLogin();
+        return;
+      }
+
+      const fetchedCommits = await getCommits({
+        customerId: customer.id,
+      });
+      setCommits(groupByCommitStatus(fetchedCommits));
     };
-    fetchListings();
-  }, []);
+
+    fetchCommits();
+  }, [customer, getCustomerWithLogin]);
+
+  const handleBack = () => history.goBack();
 
   return (
     <PageContainer>
+      <BackButton pos="absolute" onClick={handleBack} />
       <CommitsBadgeContainer>
         <CommitsBadge />
       </CommitsBadgeContainer>
-      <Link to="/commits">
-        <Button color="primary" variant="flat">
-          View My Commits
-        </Button>
-      </Link>
-      <h1>Explore</h1>
-      <ListingCollection listings={listings} />
-      <Button color="primary" onClick={handleGetIdentity}>
-        Get Identity
-      </Button>
+      <h1>My Commits</h1>
+      <Commits commits={commits} />
     </PageContainer>
   );
 };
 
-export default CustomerExplorePage;
+export default MyCommitsPage;

@@ -19,58 +19,14 @@ import {USER_NOT_SIGNED_IN} from 'constants/errors/sign-in-errors';
 import React, {useEffect, useState} from 'react';
 
 import {getAllListings} from 'api';
-import CentralisedContainer from 'components/common/CentralisedContainer';
 import ListingCollection from 'components/common/ListingCollection';
-import MerchantSideBar from 'components/common/MerchantSideBar';
-import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
+import MerchantPage from 'components/common/MerchantPage';
 import EmptyListingsPlaceholder from 'components/merchant/listings/EmptyListingsPlaceholder';
 import {Listing} from 'interfaces';
-import Row from 'muicss/lib/react/row';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 
-const PageContainer = styled.div`
-  min-height: 100vh;
-  height: 100%;
-  width: 100%;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-`;
-
-const PageContent = styled(CentralisedContainer)`
-  height: 100vh;
-  width: 100%;
-  max-width: none;
-  margin: 0;
-  padding: 0 5%;
-`;
-
-const HeaderRow = styled(Row)`
-  width: 100%;
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 5%;
-  margin-bottom: 1%;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-end;
-`;
-
-const Header = styled.h1`
-  font-weight: bolder;
-`;
-
-const ListingsBody = styled(CentralisedContainer)`
-  height: 74%;
-  width: 100%;
-  margin-bottom: 5%;
-  padding: 0;
-`;
+import {useMerchantContext} from '../contexts/MerchantContext';
 
 const ListingsContainer = styled.div`
   height: 100%;
@@ -99,25 +55,17 @@ const ListingsPage: React.FC = () => {
   }, [getMerchant]);
 
   return (
-    <PageContainer>
-      <MerchantSideBar />
-      <PageContent>
-        <HeaderRow>
-          <Header>
-            {hash === '#past-listings' ? 'Past' : 'Ongoing'} Listings
-          </Header>
-        </HeaderRow>
-        <ListingsBody>
-          {listings && listings.length === 0 ? (
-            <EmptyListingsPlaceholder />
-          ) : (
-            <ListingsContainer>
-              <ListingCollection listings={listings} />
-            </ListingsContainer>
-          )}
-        </ListingsBody>
-      </PageContent>
-    </PageContainer>
+    <MerchantPage
+      header={`${hash === '#past-listings' ? 'Past' : 'Ongoing'} Listings`}
+    >
+      {listings && listings.length === 0 ? (
+        <EmptyListingsPlaceholder />
+      ) : (
+        <ListingsContainer>
+          <ListingCollection listings={listings} />
+        </ListingsContainer>
+      )}
+    </MerchantPage>
   );
 };
 

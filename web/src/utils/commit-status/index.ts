@@ -14,7 +14,16 @@
  * limitations under the License.
  */
 
-export const GENERIC_ERROR =
-  'Oops, something went wrong. Please try again later!';
-export const NO_MERCHANT_WITH_FIREBASE_UID =
-  'There is no user registered with Firebase User ID';
+import {Commit, GroupedCommits} from 'interfaces';
+
+/**
+ * Groups commits by their commit status.
+ * @param commits Commits to be grouped
+ */
+export const groupByCommitStatus = (commits: Commit[]): GroupedCommits =>
+  commits.reduce((result, commit) => {
+    const currValue = result[commit.commitStatus] || [];
+    currValue.push(commit);
+    result[commit.commitStatus] = currValue;
+    return result;
+  }, {} as GroupedCommits);
