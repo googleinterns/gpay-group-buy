@@ -21,12 +21,11 @@ import React, {useEffect, useState} from 'react';
 import {getAllListings} from 'api';
 import ListingCollection from 'components/common/ListingCollection';
 import MerchantPage from 'components/common/MerchantPage';
+import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
 import EmptyListingsPlaceholder from 'components/merchant/listings/EmptyListingsPlaceholder';
 import {Listing} from 'interfaces';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
-
-import {useMerchantContext} from '../contexts/MerchantContext';
 
 const ListingsContainer = styled.div`
   height: 100%;
