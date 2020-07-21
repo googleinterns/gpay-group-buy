@@ -44,10 +44,25 @@ export type ListingStatus =
   | 'unsuccessful';
 
 /**
- * Listing Interface that contains the fields of a Lisiting.
+ * Interface that contains the fields of Listing that are provided by the user through
+ * the Add Listing Form.
  */
-export interface Listing {
-  id: number;
+export interface AddListingFormData {
+  name: string;
+  currency: string; // The 3-letter currency code defined in ISO 4217
+  price: number;
+  oldPrice: number;
+  imgUrl: string;
+  description: string;
+  deadline: string; // RFC 3339 string
+  minCommits: number;
+}
+
+/**
+ * ListingPayload Interface that contains the fields of the payload that
+ * would be sent to the server.
+ */
+export interface ListingPayload {
   merchantId: number;
   name: string;
   price: Money;
@@ -56,6 +71,13 @@ export interface Listing {
   description: string;
   deadline: string; // RFC 3339 string
   minCommits: number;
+}
+
+/**
+ * Listing Interface that contains the fields of a Listing,
+ */
+export interface Listing extends ListingPayload {
+  id: number;
   numCommits: number;
   numPaid: number;
   numCompleted: number;
