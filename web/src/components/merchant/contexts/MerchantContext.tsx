@@ -59,14 +59,15 @@ const MerchantProvider: React.FC = ({children}) => {
   // A helper method that fetches merchant data from database and updates
   // merchant object stored in this context.
   const fetchMerchant = async () => {
+    let firebaseUid = '';
     try {
-      const firebaseUid = await getFirebaseUid(); // Throws 'User not signed in' error.
+      firebaseUid = await getFirebaseUid(); // Throws USER_NOT_SIGNED_IN error.
       const result = await getMerchantWithFirebaseUid(firebaseUid);
       setMerchant(result);
     } catch (err) {
       if (
         err.message === USER_NOT_SIGNED_IN ||
-        err.message === NO_MERCHANT_WITH_FIREBASE_UID
+        err.message === `${NO_MERCHANT_WITH_FIREBASE_UID} ${firebaseUid}`
       ) {
         history.push('sign-in');
         return;

@@ -17,4 +17,4 @@
 export const GENERIC_ERROR =
   'Oops, something went wrong. Please try again later!';
 export const NO_MERCHANT_WITH_FIREBASE_UID =
-  'There is no user registered with this Firebase User ID.';
+  `There is no user registered with Firebase User ID`;
