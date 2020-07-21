@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import {Commit, GroupedCommits} from 'interfaces';
 
-import CustomerListingDetailsPage from 'components/customer/listing-details';
-
-const CommonListingDetailsPage: React.FC = () => (
-  // TODO: In this file, do a check for whether vistor is a merchant or not.
-  // If visitor is a merchant, show the merchant facing listing details page.
-  // Else, show them the customer facing listing details page.
-  <CustomerListingDetailsPage />
-);
-
-export default CommonListingDetailsPage;
+/**
+ * Groups commits by their commit status.
+ * @param commits Commits to be grouped
+ */
+export const groupByCommitStatus = (commits: Commit[]): GroupedCommits =>
+  commits.reduce((result, commit) => {
+    const currValue = result[commit.commitStatus] || [];
+    currValue.push(commit);
+    result[commit.commitStatus] = currValue;
+    return result;
+  }, {} as GroupedCommits);

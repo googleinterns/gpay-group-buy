@@ -16,13 +16,23 @@
 
 import React from 'react';
 
-import RoundedButton from 'components/common/RoundedButton';
-import useFormSubmit from 'components/merchant/add-listing/hooks/useFormSubmit';
+import MerchantPage from 'components/common/MerchantPage';
+import AddListingForm from 'components/merchant/add-listing/AddListingForm';
+import styled from 'styled-components';
 
-const AddListingPage: React.FC = () => {
-  const {handleSubmit} = useFormSubmit();
-  return (
-    <RoundedButton onClick={handleSubmit}>Add Dummy Listing</RoundedButton>
-  );
-};
+const LeftAlignedContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`;
+
+const AddListingPage: React.FC = () => (
+  <MerchantPage header="Add Listing">
+    <LeftAlignedContainer>
+      <AddListingForm />
+    </LeftAlignedContainer>
+  </MerchantPage>
+);
+
 export default AddListingPage;

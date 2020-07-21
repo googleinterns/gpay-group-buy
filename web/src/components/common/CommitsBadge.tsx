@@ -18,7 +18,7 @@ import {MAX_NUM_COMMITS} from 'constants/customer';
 
 import React from 'react';
 
-import {useCommitCountContext} from 'components/customer/contexts/CommitCountContext';
+import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import styled, {css} from 'styled-components';
 
 type PosType = 'absolute' | 'static';
@@ -80,7 +80,8 @@ interface CommitsBadgeProps {
  * has left.
  */
 const CommitsBadge: React.FC<CommitsBadgeProps> = ({pos = 'static'}) => {
-  const {numCommits} = useCommitCountContext();
+  const {customer} = useCustomerContext();
+  const numCommits = customer?.numOngoingCommits;
 
   return (
     <CommitBadgeContainer pos={pos} visible={numCommits !== undefined}>

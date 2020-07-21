@@ -17,32 +17,25 @@
 import React from 'react';
 
 import FormPropsProvider from 'components/common/contexts/FormPropsContext';
-import SignInSignUpCard from 'components/common/SignInSignUpCard';
-import useSignInForm from 'components/merchant/sign-in/hooks/useSignInForm';
-import {Link} from 'react-router-dom';
+import Form from 'components/common/Form';
+import useAddListingForm from 'components/merchant/add-listing/hooks/useAddListingForm';
 
-/**
- * This is the card containing the sign up form for the Merchant app.
- * It is displayed in the Sign Up page.
- */
-const SignUpCard: React.FC = () => (
+const AddListingForm: React.FC = () => (
   <FormPropsProvider
-    buttonText="Sign In"
+    buttonText="Add Listing"
     fields={[
-      {label: 'Email', name: 'email', type: 'email'},
-      {label: 'Password', name: 'password', type: 'password'},
+      {label: 'Product Name', name: 'name', type: 'text'},
+      {label: 'Discounted Price', name: 'price', type: 'number'},
+      {label: 'Original Price', name: 'oldPrice', type: 'number'},
+      {label: 'Deadline', name: 'deadline', type: 'date'},
+      {label: 'Min. Buyers', name: 'minCommits', type: 'number'},
+      {label: 'Description', name: 'description', type: 'textarea'},
+      {label: 'Image URL', name: 'imgUrl', type: 'url'},
     ]}
-    {...useSignInForm()}
+    {...useAddListingForm()}
   >
-    <SignInSignUpCard
-      signInSignUpLink={
-        <>
-          Don&apos;t have an account yet? <Link to="sign-up">Sign&nbsp;up</Link>{' '}
-          now!
-        </>
-      }
-    />
+    <Form />
   </FormPropsProvider>
 );
 
-export default SignUpCard;
+export default AddListingForm;

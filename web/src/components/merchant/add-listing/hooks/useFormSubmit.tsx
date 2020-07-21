@@ -21,43 +21,20 @@ import {useState} from 'react';
 import {addListing} from 'api';
 import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
 import {getFirebaseIdToken} from 'firebase-auth';
-import {ListingPayload} from 'interfaces';
+import {AddListingFormData, ListingPayload} from 'interfaces';
 import {useHistory} from 'react-router-dom';
 import {parseMoney} from 'utils/money';
-
-const DUMMY_LISTING_VALUES = {
-  name: 'Drone',
-  currency: 'INR',
-  price: 27000,
-  oldPrice: 37000,
-  imgUrl: 'https://images.unsplash.com/photo-1557343569-b1d5b655b7cb',
-  description:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-  deadline: '08/08/2020',
-  minCommits: 20,
-};
-
-interface AddListingData {
-  name: string;
-  currency: string; // The 3-letter currency code defined in ISO 4217
-  price: number;
-  oldPrice: number;
-  imgUrl: string;
-  description: string;
-  deadline: string; // RFC 3339 string
-  minCommits: number;
-}
 
 /**
  * This custom hook handles adding listing to database upon clicking 'ADD LISTING' button.
  */
-const useFormSubmit = (values: AddListingData = DUMMY_LISTING_VALUES) => {
+const useFormSubmit = () => {
   const [generalError, setGeneralError] = useState<Error | undefined>();
   const {getMerchant} = useMerchantContext();
   const history = useHistory();
 
   const formatAddListingData = async (
-    values: AddListingData
+    values: AddListingFormData
   ): Promise<ListingPayload> => {
     const {
       currency,
@@ -73,14 +50,14 @@ const useFormSubmit = (values: AddListingData = DUMMY_LISTING_VALUES) => {
 
     const listingPayload: ListingPayload = {
       ...rest,
-      price: parseMoney(priceValue, currency),
-      oldPrice: parseMoney(oldPriceValue, currency),
+      price: parseMoney(priceValue, currency || 'INR'),
+      oldPrice: parseMoney(oldPriceValue, currency || 'INR'),
       merchantId: merchant.id,
     };
     return listingPayload;
   };
 
-  const handleSubmit = async () => {
+  const submitAddListingFormData = async (values: AddListingFormData) => {
     setGeneralError(undefined); // Reset general error message.
 
     try {
@@ -95,7 +72,7 @@ const useFormSubmit = (values: AddListingData = DUMMY_LISTING_VALUES) => {
 
   return {
     generalError,
-    handleSubmit,
+    submitAddListingFormData,
   };
 };
 

@@ -16,6 +16,7 @@
 
 import React from 'react';
 
+import FormPropsProvider from 'components/common/contexts/FormPropsContext';
 import SignInSignUpCard from 'components/common/SignInSignUpCard';
 import useSignUpForm from 'components/merchant/sign-up/hooks/useSignUpForm';
 import {Link} from 'react-router-dom';
@@ -26,7 +27,7 @@ import {Link} from 'react-router-dom';
  */
 const SignUpCard: React.FC = () => {
   return (
-    <SignInSignUpCard
+    <FormPropsProvider
       buttonText="Sign Up"
       fields={[
         {label: 'Name', name: 'name', type: 'text'},
@@ -36,12 +37,15 @@ const SignUpCard: React.FC = () => {
         {label: 'VPA', name: 'vpa', type: 'text'},
       ]}
       {...useSignUpForm()}
-      signInSignUpLink={
-        <>
-          Already have an account? <Link to="sign-in">Sign&nbsp;in</Link> now!
-        </>
-      }
-    />
+    >
+      <SignInSignUpCard
+        signInSignUpLink={
+          <>
+            Already have an account? <Link to="sign-in">Sign&nbsp;in</Link> now!
+          </>
+        }
+      />
+    </FormPropsProvider>
   );
 };
 

@@ -75,8 +75,13 @@ const deleteWithAuth = async (endpoint: string, token: string) => {
  */
 const query = async (
   endpoint: string,
-  queryParams: Record<string, string>
+  queryParams: Record<string, any>
 ): Promise<Response> => {
+  const strParams: Record<string, string> = {};
+  Object.keys(queryParams).forEach(
+    key => (strParams[key] = String(queryParams[key]))
+  );
+
   const url = new URL(endpoint);
   const params = new URLSearchParams(queryParams).toString();
   url.search = params;
@@ -154,16 +159,11 @@ export const getListing = async (listingId: number): Promise<Listing> => {
  * @param commitQuery Query params of the request
  */
 export const getCommits = async (
-  commitQuery: CommitQuery
+  commitQuery: Partial<CommitQuery>
 ): Promise<Commit[]> => {
-  const queryParams = {
-    listingId: String(commitQuery.listingId),
-    customerId: String(commitQuery.customerId),
-  };
-
   const res = await query(
     `${process.env.REACT_APP_SERVER_URL}/commits/`,
-    queryParams
+    commitQuery
   );
   return res.json();
 };
@@ -231,6 +231,19 @@ export const getMerchantWithFirebaseUid = async (
   }
 
   return merchants[0];
+};
+
+/**
+ * Retrieves merchant with the specified merchantId.
+ * @param merchantId Id of the merchant to retrieve
+ */
+export const getMerchantWithId = async (
+  merchantId: number
+): Promise<MerchantResponse> => {
+  const res = await fetch(
+    `${process.env.REACT_APP_SERVER_URL}/merchants/${merchantId}`
+  );
+  return res.json();
 };
 
 /**
