@@ -23,6 +23,7 @@ const ExplorePage = lazy(() => import('components/customer/explore'));
 const ListingDetailsPage = lazy(() =>
   import('components/customer/listing-details')
 );
+const MyCommitsPage = lazy(() => import('components/customer/my-commits'));
 
 const CustomerRoutes: React.FC = () => {
   const {path} = useRouteMatch();
@@ -31,9 +32,11 @@ const CustomerRoutes: React.FC = () => {
       <CustomerProvider>
         <Route exact path={path} component={ExplorePage} />
         <Route
+          exact
           path={`${path}listing/:listingId`}
           component={ListingDetailsPage}
         />
+        <Route exact path={`${path}commits`} component={MyCommitsPage} />
       </CustomerProvider>
     </Switch>
   );
