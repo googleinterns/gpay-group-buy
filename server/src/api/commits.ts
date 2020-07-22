@@ -22,6 +22,7 @@ import express, {Request, Response, NextFunction} from 'express';
 
 import {CommitRequest} from '../interfaces';
 import customerAuth from '../middleware/customer-auth';
+import validateAndFormatPhoneNumber from '../middleware/validation/phone-number';
 import {commitService} from '../services';
 
 const commitRouter = express.Router();
@@ -83,6 +84,7 @@ commitRouter.post(
 commitRouter.post(
   '/:commitId/pay',
   customerAuth,
+  validateAndFormatPhoneNumber('deliveryContactNumber'),
   async (req: Request, res: Response, next: NextFunction) => {
     const {commitId: commitIdStr} = req.params;
     const commitId = Number(commitIdStr);

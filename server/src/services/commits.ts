@@ -133,7 +133,6 @@ const payForCommit = async (
     throw new Error('Only successful commits can be paid.');
   }
 
-  // TODO: Validate paymentData
   const fieldsToEdit: CommitEditPayload = {
     ...paymentData,
     commitStatus: 'paid',
