@@ -82,7 +82,7 @@ commitRouter.post(
  */
 commitRouter.post(
   '/:commitId/pay',
-  // customerAuth,
+  customerAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     const {commitId: commitIdStr} = req.params;
     const commitId = Number(commitIdStr);
