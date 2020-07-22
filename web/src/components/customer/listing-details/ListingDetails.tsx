@@ -64,6 +64,7 @@ const ListingDetails: React.FC = () => {
           <section>
             <ListingDescription
               listing={listing}
+              priceFontSize="large"
               commitProgressFontSize="medium"
             />
           </section>

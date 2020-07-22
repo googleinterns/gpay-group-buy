@@ -45,7 +45,7 @@ const Description = styled.p`
 
 interface ListingDescriptionProps {
   listing: Listing;
-  priceFontSize?: FontSize;
+  priceFontSize?: Omit<FontSize, 'small'>;
   commitProgressFontSize?: FontSize;
 }
 
@@ -71,7 +71,7 @@ const ListingDescription: React.FC<ListingDescriptionProps> = ({
     <ListingPrice
       price={price}
       oldPrice={oldPrice}
-      largerFont={priceFontSize !== 'small'}
+      largerFont={priceFontSize === 'large'}
     />
     <Description>{description}</Description>
     <CommitProgress
