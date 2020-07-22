@@ -78,6 +78,33 @@ commitRouter.post(
 );
 
 /**
+ * Handles the post requests to pay for commits.
+ */
+commitRouter.post(
+  '/:commitId/pay',
+  // customerAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {commitId: commitIdStr} = req.params;
+    const commitId = Number(commitIdStr);
+
+    // TODO: Parse req.body json to make it CommitPaymentRequest type in runtime.
+    // TODO: Ensure that the commit belongs to the authenticated customer.
+
+    try {
+      if (Number.isNaN(commitId)) {
+        throw new Error('Invalid commitId params.');
+      }
+
+      const commit = await commitService.payForCommit(commitId, req.body);
+      res.status(200).json(commit);
+      // TODO: Add error handling with the appropriate response codes.
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+/**
  * Handles the delete requests to delete a commit with the specified commitId.
  */
 commitRouter.delete(

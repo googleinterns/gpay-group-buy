@@ -31,6 +31,8 @@ export const DEFAULT_CUSTOMER_PAYLOAD = {
  */
 export const DEFAULT_COMMIT_PAYLOAD = {
   commitStatus: 'ongoing' as CommitStatus,
+  deliveryAddress: '',
+  deliveryContactNumber: '',
 };
 
 /**

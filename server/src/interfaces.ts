@@ -61,7 +61,7 @@ export interface CommitComputedProperties {
 
 /**
  * CommitRequest Interface that contains the fields that will be provided
- * by the client in the POST/PUT request body.
+ * by the client in the request body to create a Commit.
  */
 export interface CommitRequest {
   customerId: number;
@@ -69,17 +69,33 @@ export interface CommitRequest {
 }
 
 /**
+ * CommitPaymentRequest Interface that contains the fields that will be provided
+ * by the client in the request body.
+ */
+export interface CommitPaymentRequest {
+  deliveryAddress: string;
+  deliveryContactNumber: string;
+}
+
+/**
  * CommitPayload Interface that contains the fields of the payload that
- * would be sent to create a Listing Entity.
+ * would be sent to create a Commit Entity.
  */
 export interface CommitPayload
   extends CommitComputedProperties,
-    CommitRequest {}
+    CommitRequest,
+    CommitPaymentRequest {}
 
 /**
  * Union type of the keys of CommitPayload.
  */
 export type CommitPayloadKey = keyof CommitPayload;
+
+/**
+ * CommitEditPayload Interface that contains the fields of the payload that
+ * would be sent to edit a Commit Entity.
+ */
+export type CommitEditPayload = Partial<CommitPayload>;
 
 /**
  * CommitResponse Interface that contains the fields of the Response that
