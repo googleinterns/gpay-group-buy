@@ -74,7 +74,7 @@ export interface CommitRequest {
  */
 export interface CommitPaymentRequest {
   deliveryAddress: string;
-  deliveryContactNumber: string;
+  deliveryContactNumber: string; // E164 format
 }
 
 /**
