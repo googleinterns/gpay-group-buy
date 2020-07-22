@@ -49,6 +49,7 @@ const CommitProgressContainer = styled.div`
         return '2em';
       case 'medium':
         return '1em';
+      case 'small':
       default:
         return '0.8em';
     }
