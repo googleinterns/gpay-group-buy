@@ -37,7 +37,9 @@ interface ListingDetailsProps {
 }
 
 /**
- * ListingDetails that contains full listing details.
+ * ListingDetails that contains full listing details. It is different from
+ * ListingDetails in components/customer/ because it doesn't contain merchant details
+ * and has a smaller font for price and a larger font for commit progress.
  */
 const ListingDetails: React.FC<ListingDetailsProps> = ({listingId}) => {
   const [listing, setListing] = useState<Listing | undefined>();
