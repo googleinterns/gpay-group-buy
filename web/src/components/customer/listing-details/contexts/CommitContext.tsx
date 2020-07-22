@@ -16,16 +16,17 @@
 
 import React, {useContext, useState, useEffect} from 'react';
 
-import {getCommits, addCommit, deleteCommit} from 'api';
+import {getCommits, addCommit, deleteCommit, payForCommit} from 'api';
 import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import {useCommitFeedbackPromptContext} from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
-import {CommitStatus} from 'interfaces';
+import {CommitStatus, CommitPaymentPayload} from 'interfaces';
 
 type ContextType =
   | {
       commitStatus: CommitStatus | undefined;
       onCommit: () => Promise<void>;
       onUncommit: () => Promise<void>;
+      onPayment: () => Promise<void>;
     }
   | undefined;
 
@@ -125,10 +126,35 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
     setCommitStatus(undefined);
   };
 
+  const onPayment = async () => {
+    if (commitId === undefined) {
+      return;
+    }
+
+    await getCustomerWithLogin();
+    if (idToken === undefined) {
+      // TODO: Handle case when user refuse to login even after prompted
+      return;
+    }
+
+    // TODO: Ask customer for actual payment data
+    const dummyPaymentData: CommitPaymentPayload = {
+      deliveryAddress:
+        '3 North Avenue, Maker Maxity, Bandra Kurla Complex, Bandra East, Mumbai, 400051',
+      deliveryContactNumber: '+912266117150',
+    };
+
+    const commit = await payForCommit(commitId, dummyPaymentData, idToken);
+    await refetchCustomer();
+    setCommitStatus(commit.commitStatus);
+    onOpenPrompt('successful-payment');
+  };
+
   const value = {
     commitStatus,
     onCommit,
     onUncommit,
+    onPayment,
   };
 
   return (

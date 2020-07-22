@@ -79,7 +79,7 @@ const commitStatusToButtonState = (
  * ActionBar that contains a button to commit/uncommit/pay a listing.
  */
 const ActionBar: React.FC = () => {
-  const {commitStatus, onCommit, onUncommit} = useCommitContext();
+  const {commitStatus, onCommit, onUncommit, onPayment} = useCommitContext();
 
   const [buttonState, setButtonState] = useState<ActionButtonState>('initial');
   const [button, setButton] = useState(<></>);
@@ -113,12 +113,23 @@ const ActionBar: React.FC = () => {
               Uncommit listing
             </ActionButton>
           );
+        case 'awaitingPayment':
+          return (
+            <ActionButton
+              onClick={() => onClickButton(onPayment)}
+              color="primary"
+            >
+              Pay
+            </ActionButton>
+          );
+        case 'awaitingDelivery':
+          return <ActionButton disabled>Waiting for Delivery</ActionButton>;
         default:
-          // TODO: Deal with other cases of ActionButtonState
+          // TODO: Deal with delivered case ActionButtonState
           return <></>;
       }
     },
-    [onCommit, onUncommit]
+    [onCommit, onUncommit, onPayment]
   );
 
   useEffect(() => {
