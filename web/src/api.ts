@@ -29,6 +29,7 @@ import {
   ListingPayload,
   MerchantPayload,
   MerchantResponse,
+  CommitPaymentPayload,
 } from 'interfaces';
 
 /**
@@ -202,6 +203,25 @@ export const deleteCommit = async (commitId: number, idToken: string) => {
     `${process.env.REACT_APP_SERVER_URL}/commits/${commitId}`,
     idToken
   );
+};
+
+/**
+ * Pay for a commit with the specified commitId.
+ * @param commitId Id of the commit to pay for
+ * @param paymentData Payment data for the commit
+ * @param idToken Authentication token of customer
+ */
+export const payForCommit = async (
+  commitId: number,
+  paymentData: CommitPaymentPayload,
+  idToken: string
+): Promise<Commit> => {
+  const res = await postWithAuth(
+    `${process.env.REACT_APP_SERVER_URL}/commits/${commitId}/pay`,
+    paymentData,
+    idToken
+  );
+  return res.json();
 };
 
 /**

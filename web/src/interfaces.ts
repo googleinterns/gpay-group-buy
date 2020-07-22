@@ -127,6 +127,15 @@ export interface CommitPayload {
 }
 
 /**
+ * CommitPaymentPayload Interface that contains the fields of the payload that
+ * would be sent to the server to pay for commits.
+ */
+export interface CommitPaymentPayload {
+  deliveryAddress: string;
+  deliveryContactNumber: string;
+}
+
+/**
  * CommitQuery Interface that contains the fields of the query that
  * would be sent to the server to query for commits.
  */
@@ -135,7 +144,7 @@ export type CommitQuery = CommitPayload;
 /**
  * Commit Interface that contains the fields of a Commit.
  */
-export interface Commit extends CommitPayload {
+export interface Commit extends CommitPayload, CommitPaymentPayload {
   id: number;
   createdAt: Date;
   commitStatus: CommitStatus;
