@@ -63,7 +63,7 @@ const PageBody = styled(CentralisedContainer)`
 `;
 
 interface MerchantPageProps {
-  header: ReactNode;
+  header?: ReactNode;
 }
 
 /**
