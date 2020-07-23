@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-import {USER_NOT_SIGNED_IN} from 'constants/errors/sign-in-errors';
+import React from 'react';
 
-import React, {useEffect, useState} from 'react';
-
-import {getAllListings} from 'api';
 import ListingCollection from 'components/common/ListingCollection';
 import MerchantPage from 'components/common/MerchantPage';
-import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
 import EmptyListingsPlaceholder from 'components/merchant/listings/EmptyListingsPlaceholder';
-import {Listing} from 'interfaces';
+import useListingsApi from 'components/merchant/listings/hooks/useListingsApi';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -35,35 +31,19 @@ const ListingsContainer = styled.div`
 
 const ListingsPage: React.FC = () => {
   const {hash} = useLocation();
-  const {getMerchant} = useMerchantContext();
-  const [listings, setListings] = useState<Listing[]>([]);
-
-  useEffect(() => {
-    const fetchListings = async () => {
-      const merchant = await getMerchant();
-      if (merchant === undefined) {
-        throw new Error(USER_NOT_SIGNED_IN);
-      }
-
-      const listings = await getAllListings({
-        merchantId: merchant.id.toString(),
-      });
-      setListings(listings);
-    };
-    fetchListings();
-  }, [getMerchant]);
+  const listingsType = hash === '#past-listings' ? 'Past' : 'Ongoing';
+  const {listings} = useListingsApi(listingsType.toLowerCase());
 
   return (
-    <MerchantPage
-      header={`${hash === '#past-listings' ? 'Past' : 'Ongoing'} Listings`}
-    >
-      {listings && listings.length === 0 ? (
-        <EmptyListingsPlaceholder />
-      ) : (
-        <ListingsContainer>
-          <ListingCollection listings={listings} />
-        </ListingsContainer>
-      )}
+    <MerchantPage header={`${listingsType} Listings`}>
+      {listings &&
+        (listings.length === 0 ? (
+          <EmptyListingsPlaceholder />
+        ) : (
+          <ListingsContainer>
+            <ListingCollection listings={listings} />
+          </ListingsContainer>
+        ))}
     </MerchantPage>
   );
 };
