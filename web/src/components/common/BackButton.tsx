@@ -23,17 +23,18 @@ import styled, {css} from 'styled-components';
 
 type PosType = 'absolute' | 'static' | 'relative';
 
-const AbsolutePosStyle = css`
+const absolutePosStyle = css`
   position: absolute;
   top: 15px;
   left: 0;
   z-index: 999; /* Ensure always on top */
 `;
 
-const StaticPosStyle = css``;
+const staticPosStyle = css``;
 
-const RelativePosStyle = css`
-  ${AbsolutePosStyle}
+const relativePosStyle = css`
+  ${absolutePosStyle}   /* stylelint-disable-line value-keyword-case */
+
   position: relative;
 `;
 
@@ -59,12 +60,12 @@ const StyledBackButton = styled(Button)`
   ${({pos}: BackButtonProps) => {
     switch (pos) {
       case 'absolute':
-        return AbsolutePosStyle;
+        return absolutePosStyle;
       case 'relative':
-        return RelativePosStyle;
+        return relativePosStyle;
       case 'static':
       default:
-        return StaticPosStyle;
+        return staticPosStyle;
     }
   }};
   /* stylelint-enable value-keyword-case */
