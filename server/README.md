@@ -108,6 +108,22 @@ Each of these folders contain the following files:
 Each file in this folder contains a group of constants that are closely related.
 The file name specifies the constants inside it.
 
+## Configuring Database
+
+### Configuring Indexes
+
+In Datastore, single-property indexes are built in and do not need to be created.
+
+To make changes to composite indexes, edit `index.yaml` file accordingly and then deploy using the following command:
+```
+gcloud app deploy index.yaml
+```
+
+It may take some time for Datastore to prepare these indexes before they are ready to serve.
+
+For more information regarding the format of the `index.yaml` file, see
+[this page](https://cloud.google.com/appengine/docs/flexible/nodejs/configuring-datastore-indexes-with-index-yaml).
+
 ## Running tests locally
 
 ### Installing Google Cloud Datastore Emulator
