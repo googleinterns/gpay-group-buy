@@ -33,7 +33,7 @@ const absolutePosStyle = css`
 const staticPosStyle = css``;
 
 const relativePosStyle = css`
-  ${absolutePosStyle}   /* stylelint-disable-line value-keyword-case */
+  ${absolutePosStyle} /* stylelint-disable-line value-keyword-case */
 
   position: relative;
 `;
