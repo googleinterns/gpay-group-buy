@@ -106,7 +106,7 @@ const MerchantProfilePage: React.FC = () => {
     <PageContainer>
       <BackButton pos="relative" onClick={handleBack} />
       <CommitsBadgeContainer>
-        <CommitsBadge />
+        <CommitsBadge pos="absolute" />
       </CommitsBadgeContainer>
       <ContentContainer>
         {merchant && (
