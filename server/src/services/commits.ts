@@ -134,12 +134,12 @@ const payForCommit = async (
   }
 
   // TODO: Validate paymentData
-  const editFields: CommitEditPayload = {
+  const fieldsToEdit: CommitEditPayload = {
     ...paymentData,
     commitStatus: 'paid',
   };
 
-  return commitStorage.editCommit(commitId, editFields, commit.listingId);
+  return commitStorage.editCommit(commitId, fieldsToEdit, commit.listingId);
 };
 
 /**

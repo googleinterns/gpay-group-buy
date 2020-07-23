@@ -79,22 +79,22 @@ const addCommit = async (
  * Returns the edited commit data.
  * Throws an error if edit is not successful.
  * @param commitId Id of the commit to be edited
- * @param editFields Fields of the commit to be edited
+ * @param fieldsToEdit Fields of the commit to be edited
  * @param affectedListingId Id of the listing that might be affected
  */
 const editCommit = async (
   commitId: number,
-  editFields: CommitEditPayload,
+  fieldsToEdit: CommitEditPayload,
   affectedListingId: number
 ): Promise<CommitResponse> => {
-  const commitEditRules: UpdateRule[] = Object.keys(editFields).map(field => ({
+  const commitEditRules: UpdateRule[] = Object.keys(fieldsToEdit).map(field => ({
     property: field,
     op: 'replace',
-    value: editFields[field as keyof CommitEditPayload],
+    value: fieldsToEdit[field as keyof CommitEditPayload],
   }));
 
   const listingUpdateRules: UpdateRule[] = [];
-  if (editFields.commitStatus === 'paid') {
+  if (fieldsToEdit.commitStatus === 'paid') {
     listingUpdateRules.push({
       property: 'numPaid',
       op: 'add',
