@@ -87,11 +87,13 @@ const editCommit = async (
   fieldsToEdit: CommitEditPayload,
   affectedListingId: number
 ): Promise<CommitResponse> => {
-  const commitEditRules: UpdateRule[] = Object.keys(fieldsToEdit).map(field => ({
-    property: field,
-    op: 'replace',
-    value: fieldsToEdit[field as keyof CommitEditPayload],
-  }));
+  const commitEditRules: UpdateRule[] = Object.keys(fieldsToEdit).map(
+    field => ({
+      property: field,
+      op: 'replace',
+      value: fieldsToEdit[field as keyof CommitEditPayload],
+    })
+  );
 
   const listingUpdateRules: UpdateRule[] = [];
   if (fieldsToEdit.commitStatus === 'paid') {
