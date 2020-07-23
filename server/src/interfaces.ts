@@ -178,6 +178,14 @@ export interface Filter {
 }
 
 /**
+ * OrderRule Interface that contains order rules for sorting.
+ */
+export interface OrderRule {
+  property: string;
+  descending?: boolean;
+}
+
+/**
  * A generic string key object.
  */
 export interface StringKeyObject {

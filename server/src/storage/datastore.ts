@@ -17,7 +17,7 @@
 import {Datastore, Transaction} from '@google-cloud/datastore';
 import {Entity} from '@google-cloud/datastore/build/src/entity';
 
-import {Filter, StringKeyObject} from '../interfaces';
+import {Filter, OrderRule, StringKeyObject} from '../interfaces';
 import {UpdateRule} from './interfaces';
 
 const datastore = new Datastore();
@@ -55,11 +55,20 @@ export const get = async (kind: string, id: number) => {
  * A Datastore wrapper that gets all entities of a specified Kind.
  * @param kind The Kind that is being queried
  * @param filters Any filters that will be applied to the query
+ * @param orderRules Any order rules that will be used to sort the query result
  */
-export const getAll = async (kind: string, filters?: Filter[]) => {
+export const getAll = async (
+  kind: string,
+  filters?: Filter[],
+  orderRules?: OrderRule[]
+) => {
   let query = datastore.createQuery(kind);
-  filters?.forEach(filter => {
-    query = query.filter(filter.property, filter.value);
+  filters?.forEach(({property, value}) => {
+    query = query.filter(property, value);
+  });
+
+  orderRules?.forEach(({property, descending}) => {
+    query = query.order(property, {descending});
   });
 
   const [res] = await datastore.runQuery(query);
