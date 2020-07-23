@@ -51,7 +51,7 @@ const ListingItem: React.FC<ListingProps> = ({
         to={{
           pathname: `listing/${id}`,
           state: {
-            fromExplore: true,
+            hasBack: true,
           },
         }}
       >

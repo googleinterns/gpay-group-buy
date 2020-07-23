@@ -46,7 +46,7 @@ const ListingsPage: React.FC = () => {
       }
 
       const listings = await getAllListings({
-        merchantId: merchant.id.toString(),
+        merchantId: merchant.id,
       });
       setListings(listings);
     };

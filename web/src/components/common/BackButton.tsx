@@ -21,7 +21,7 @@ import {ButtonProps} from 'muicss/react';
 import {ChevronLeft} from 'react-feather';
 import styled, {css} from 'styled-components';
 
-type PosType = 'absolute' | 'static';
+type PosType = 'absolute' | 'static' | 'relative';
 
 const AbsolutePosStyle = css`
   position: absolute;
@@ -31,6 +31,11 @@ const AbsolutePosStyle = css`
 `;
 
 const StaticPosStyle = css``;
+
+const RelativePosStyle = css`
+  ${AbsolutePosStyle}
+  position: relative;
+`;
 
 const StyledBackButton = styled(Button)`
   display: flex;
@@ -55,8 +60,9 @@ const StyledBackButton = styled(Button)`
     switch (pos) {
       case 'absolute':
         return AbsolutePosStyle;
+      case 'relative':
+        return RelativePosStyle;
       case 'static':
-        return StaticPosStyle;
       default:
         return StaticPosStyle;
     }

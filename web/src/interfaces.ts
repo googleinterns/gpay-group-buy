@@ -85,6 +85,12 @@ export interface Listing extends ListingPayload {
 }
 
 /**
+ * ListingQuery Interface that contains the fields of the query that
+ * would be sent to the server to query for commits.
+ */
+export type ListingQuery = Partial<Listing>;
+
+/**
  * CommitStatus type contains the different states of a Commit.
  */
 export type CommitStatus =
@@ -107,7 +113,7 @@ export interface CommitPayload {
  * CommitQuery Interface that contains the fields of the query that
  * would be sent to the server to query for commits.
  */
-export type CommitQuery = CommitPayload;
+export type CommitQuery = Partial<CommitPayload>;
 
 /**
  * Commit Interface that contains the fields of a Commit.
