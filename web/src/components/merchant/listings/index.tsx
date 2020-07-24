@@ -61,7 +61,7 @@ const ListingsPage: React.FC = () => {
         <EmptyListingsPlaceholder />
       ) : (
         <ListingsContainer>
-          <ListingCollection listings={listings} />
+          <ListingCollection listings={listings} listingRootPath="/merchant/" />
         </ListingsContainer>
       )}
     </MerchantPage>
