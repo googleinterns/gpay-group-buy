@@ -84,10 +84,10 @@ const addCommit = async (
     );
   }
 
-  // Check that customer has not reached max num of ongoing commits
-  if (customer.numOngoingCommits >= MAX_NUM_COMMITS) {
+  // Check that customer has not used up max num of commits
+  if (customer.numUsedCommits >= MAX_NUM_COMMITS) {
     throw new Error(
-      `Customer has reached max number of ${MAX_NUM_COMMITS} ongoing commits.`
+      `Customer has reached max number of ${MAX_NUM_COMMITS} commits used.`
     );
   }
 
