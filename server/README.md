@@ -120,6 +120,13 @@ To make changes to composite indexes, edit `index.yaml` file accordingly and the
 gcloud app deploy index.yaml
 ```
 
+That command only adds new indexes. The original index is not deleted automatically in case it is still used by an
+older version of the app. To remove unused old indexes, use the following command:
+
+```
+gcloud datastore cleanup-indexes index.yaml
+```
+
 It may take some time for Datastore to prepare these indexes before they are ready to serve.
 
 For more information regarding the format of the `index.yaml` file, see
