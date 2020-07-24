@@ -22,11 +22,12 @@ import {
   CommitEditPayload,
 } from '../interfaces';
 import {
-  get,
-  getAll,
-  addAndUpdateRelatedEntity,
-  deleteAndUpdateRelatedEntity,
-  editAndUpdateRelatedEntity,
+  getEntity,
+  getAllEntities,
+  makeTransaction,
+  deleteInTransaction,
+  updateInTransaction,
+  addInTransaction,
 } from './datastore';
 import {UpdateRule} from './interfaces';
 
@@ -35,14 +36,14 @@ import {UpdateRule} from './interfaces';
  * @param commitId The id of the commit to be retrieved
  */
 const getCommit = async (commitId: number): Promise<CommitResponse> =>
-  get(COMMIT_KIND, commitId);
+  getEntity(COMMIT_KIND, commitId);
 
 /**
  * Retrieves all commits satisfying the filters, if provided.
  * @param filters Filters on the get query
  */
 const getAllCommits = async (filters?: Filter[]): Promise<CommitResponse[]> =>
-  getAll(COMMIT_KIND, filters);
+  getAllEntities(COMMIT_KIND, filters);
 
 /**
  * Adds a commit with the specified data to datastore.
@@ -57,21 +58,17 @@ const addCommit = async (
   commit: CommitPayload,
   uniqueProperties?: Filter[]
 ): Promise<CommitResponse> => {
-  const commitId = await addAndUpdateRelatedEntity(
-    COMMIT_KIND,
-    commit,
-    LISTING_KIND,
-    commit.listingId,
-    [
+  const [commitId] = await makeTransaction(
+    addInTransaction(COMMIT_KIND, commit, uniqueProperties),
+    updateInTransaction(LISTING_KIND, commit.listingId, [
       {
         property: 'numCommits',
         op: 'add',
         value: 1,
       },
-    ],
-    uniqueProperties
+    ])
   );
-  return getCommit(commitId);
+  return getCommit(commitId as number);
 };
 
 /**
@@ -104,13 +101,9 @@ const editCommit = async (
     });
   }
 
-  await editAndUpdateRelatedEntity(
-    COMMIT_KIND,
-    commitId,
-    commitEditRules,
-    LISTING_KIND,
-    affectedListingId,
-    listingUpdateRules
+  await makeTransaction(
+    updateInTransaction(COMMIT_KIND, commitId, commitEditRules),
+    updateInTransaction(LISTING_KIND, affectedListingId, listingUpdateRules)
   );
   return getCommit(commitId);
 };
@@ -122,18 +115,15 @@ const editCommit = async (
  * @param listingId Id of the listing affected
  */
 const deleteCommit = async (commitId: number, listingId: number) =>
-  await deleteAndUpdateRelatedEntity(
-    COMMIT_KIND,
-    commitId,
-    LISTING_KIND,
-    listingId,
-    [
+  await makeTransaction(
+    deleteInTransaction(COMMIT_KIND, commitId),
+    updateInTransaction(LISTING_KIND, listingId, [
       {
         property: 'numCommits',
         op: 'subtract',
         value: 1,
       },
-    ]
+    ])
   );
 
 export default {getCommit, getAllCommits, addCommit, editCommit, deleteCommit};

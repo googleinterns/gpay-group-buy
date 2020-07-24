@@ -22,6 +22,38 @@ import {UpdateRule} from './interfaces';
 
 const datastore = new Datastore();
 
+type TransactionResponse = number | void;
+type TransactionOperation = (
+  transaction: Transaction
+) => Promise<TransactionResponse>;
+
+/**
+ * A higher order function that creates a transaction and carries out all
+ * input datastore operations in the same transaction.
+ * @param opFns Operations to be carried out in the same transaction
+ */
+export const makeTransaction = async (
+  ...opFns: TransactionOperation[]
+): Promise<TransactionResponse[]> => {
+  const transaction = datastore.transaction();
+
+  const res = [];
+
+  try {
+    await transaction.run();
+
+    for (const fn of opFns) {
+      res.push(await fn(transaction));
+    }
+
+    await transaction.commit();
+  } catch (err) {
+    await transaction.rollback();
+    throw new Error(`Transaction failed. ${err.message}`);
+  }
+  return res;
+};
+
 /**
  * Strips the key from the datastore response object, extracts the id,
  * and append the id to the object.
@@ -38,13 +70,20 @@ const extractAndAppendId = (res: Entity) => {
 
 /**
  * A Datastore wrapper that gets a particular entity with the specified Kind and id.
- * @param kind The Kind that is being queried
- * @param id The id of the Entity being queried
+ * If actor is not specified, gets using datastore.
+ * @param kind The Kind that is being retrieved
+ * @param id The id of the Entity being retrieved
+ * @param actor Datastore or Transaction that will carry out the retrieval
  */
-export const get = async (kind: string, id: number) => {
+export const getEntity = async (
+  kind: string,
+  id: number,
+  actor: Transaction | Datastore = datastore
+) => {
+  const key = datastore.key([kind, id]);
+
   try {
-    const key = datastore.key([kind, id]);
-    const [res] = await datastore.get(key);
+    const [res] = await actor.get(key);
     return extractAndAppendId(res);
   } catch (err) {
     throw new Error(`${kind} ${id} does not exist`);
@@ -52,46 +91,81 @@ export const get = async (kind: string, id: number) => {
 };
 
 /**
+ * A higher order function.
+ * Returns a function that takes in a transaction object and gets
+ * the entity in the transaction.
+ * @param kind The Kind that is being retrieved
+ * @param id The id of the Entity being retrieved
+ */
+export const getEntityInTransaction = async (kind: string, id: number) => (
+  transaction: Transaction
+) => getEntity(kind, id, transaction);
+
+/**
  * A Datastore wrapper that gets all entities of a specified Kind.
+ * If actor is not specified, gets using datastore.
+ * @param kind The Kind that is being queried
+ * @param filters Any filters that will be applied to the query
+ * @param orderRules Any order rules that will be used to sort the query result.
+ * If an orderRule doesn't have a descending property specified, the default
+ * direction is ascending.
+ * @param actor Datastore or Transaction that will carry out the query
+ */
+export const getAllEntities = async (
+  kind: string,
+  filters?: Filter[],
+  orderRules?: OrderRule[],
+  actor: Transaction | Datastore = datastore
+) => {
+  try {
+    let query = actor.createQuery(kind);
+    filters?.forEach(filter => {
+      query = query.filter(filter.property, filter.value);
+    });
+
+    orderRules?.forEach(({property, descending}) => {
+      query = query.order(property, {descending});
+    });
+
+    const [res] = await actor.runQuery(query);
+    const resWithId = res.map(item => extractAndAppendId(item));
+    return resWithId;
+  } catch (err) {
+    throw new Error(`Failed to get entities of ${kind}.`);
+  }
+};
+
+/**
+ * A higher order function.
+ * Returns a function that takes in a transaction object and gets
+ * the entity in the transaction.
  * @param kind The Kind that is being queried
  * @param filters Any filters that will be applied to the query
  * @param orderRules Any order rules that will be used to sort the query result.
  * If an orderRule doesn't have a descending property specified, the default
  * direction is ascending.
  */
-export const getAll = async (
+export const getAllEntitiesInTransaction = async (
   kind: string,
   filters?: Filter[],
   orderRules?: OrderRule[]
-) => {
-  let query = datastore.createQuery(kind);
-  filters?.forEach(({property, value}) => {
-    query = query.filter(property, value);
-  });
-
-  orderRules?.forEach(({property, descending}) => {
-    query = query.order(property, {descending});
-  });
-
-  const [res] = await datastore.runQuery(query);
-  const resWithId = res.map(item => extractAndAppendId(item));
-  return resWithId;
-};
+) => (transaction: Transaction) => getAllEntities(kind, filters, orderRules, transaction);
 
 /**
- * Inserts an entity if another entity with the same unique properties does not exist.
+ * A higher order function.
+ * Returns a function that takes in a transaction object and
+ * inserts an entity if another entity with the same unique properties does not exist.
  * Throws an error if such an entity exists.
  * @param transaction Transaction that will carry out the insertion
  * @param kind Kind of the entity to be inserted
  * @param entity Entity to be inserted
  * @param uniqueProperties The properties that should be unique for the specified kind
  */
-const uniqueInsertInTransaction = async (
-  transaction: Transaction,
+const uniqueInsertInTransaction = (
   kind: string,
   entity: Entity,
   uniqueProperties: Filter[]
-) => {
+) => async (transaction: Transaction) => {
   let query = transaction.createQuery(kind);
   uniqueProperties.forEach(filter => {
     query = query.filter(filter.property, filter.value);
@@ -107,6 +181,69 @@ const uniqueInsertInTransaction = async (
   }
   transaction.insert(entity);
 };
+
+/**
+ * Inserts a particular entity with the specified Kind if another
+ * entity with the same value for the specified unique property does not already exist.
+ * An error is thrown if an entity with the same unique property value already exists.
+ * @param kind The Kind of the Entity
+ * @param entity The Entity to be added
+ * @param uniqueProperty The property that should be unique for the specified kind
+ */
+const insertUniqueEntity = async (
+  kind: string,
+  entity: Entity,
+  uniqueProperties: Filter[]
+) => makeTransaction(uniqueInsertInTransaction(kind, entity, uniqueProperties));
+
+/**
+ * A Datastore wrapper that inserts a particular entity with the specified Kind and returns
+ * the id of the inserted entity.
+ * If uniqueProperties are specified, the entity would not be added if another entity with the
+ * same value for the unique properties already exists.
+ * If actor is not specified, adds using datastore.
+ * @param kind The Kind of the Entity to be added
+ * @param data The data of the Entity to be added
+ * @param uniqueProperties The properties that should be unique for the specified kind
+ * @param actor Datastore or Transaction that will carry out the adding
+ */
+export const addEntity = async (
+  kind: string,
+  data: object,
+  uniqueProperties?: Filter[],
+  actor: Transaction | Datastore = datastore
+) => {
+  const key = datastore.key(kind);
+  const entity = {key, data};
+
+  try {
+    if (uniqueProperties === undefined) {
+      actor.insert(entity);
+    } else if (actor instanceof Datastore) {
+      await insertUniqueEntity(kind, entity, uniqueProperties);
+    } else if (actor instanceof Transaction) {
+      await uniqueInsertInTransaction(kind, entity, uniqueProperties)(actor);
+    }
+  } catch (err) {
+    throw new Error(`Failed to add ${key}. ${err.message}`);
+  }
+  return Number(key.id);
+};
+
+/**
+ * A higher order function.
+ * Returns a function that takes in a transaction object and adds
+ * the entity in the transaction.
+ * @param kind The Kind of the Entity to be added
+ * @param data The data of the Entity to be added
+ * @param uniqueProperties The properties that should be unique for the specified kind
+ */
+export const addInTransaction = (
+  kind: string,
+  data: object,
+  uniqueProperties?: Filter[]
+) => async (transaction: Transaction) =>
+  addEntity(kind, data, uniqueProperties, transaction);
 
 /**
  * Update original data in-place according to the update field.
@@ -135,217 +272,79 @@ const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
 };
 
 /**
- * Updates an entity with the specified kind and id in a transaction
+ * A Datastore wrapper that updates an entity with the specified kind and id
  * according to the update rules.
- * @param transaction Transaction that will carry out the update
+ * If actor is not specified, updates using datastore.
+ * @param kind Kind of the entity to be updated
+ * @param id id of the entity to be updated
+ * @param updateRules Rules to update the entity
+ * @param actor Datastore or Transaction that will carry out the update
+ */
+export const updateEntity = async (
+  kind: string,
+  id: number,
+  updateRules: UpdateRule[],
+  actor: Transaction | Datastore = datastore
+) => {
+  const key = datastore.key([kind, id]);
+
+  try {
+    const [data] = await actor.get(key);
+    updateRules.forEach(updateRule => updateData(data, updateRule));
+
+    const entity = {
+      key,
+      data,
+    };
+    actor.update(entity);
+  } catch (err) {
+    throw new Error(`Failed to update ${key}. ${err.message}`);
+  }
+};
+
+/**
+ * A higher order function.
+ * Returns a function that takes in a transaction object and updates
+ * an entity in the transaction.
  * @param kind Kind of the entity to be updated
  * @param id id of the entity to be updated
  * @param updateRules Rules to update the entity
  */
-const updateEntityInTransaction = async (
-  transaction: Transaction,
+export const updateInTransaction = (
   kind: string,
   id: number,
   updateRules: UpdateRule[]
+) => async (transaction: Transaction) =>
+  updateEntity(kind, id, updateRules, transaction);
+
+/**
+ * A Datastore wrapper that deletes an entity with the specified id.
+ * If actor is not specified, deletes using datastore.
+ * @param kind Kind of the entity to be deleted
+ * @param id Id of the entity to be deleted
+ * @param actor Datastore or Transaction that will carry out the deletion
+ */
+export const deleteEntity = async (
+  kind: string,
+  id: number,
+  actor: Transaction | Datastore = datastore
 ) => {
   const key = datastore.key([kind, id]);
 
-  const [data] = await transaction.get(key);
-  updateRules.forEach(updateRule => updateData(data, updateRule));
-
-  const entity = {
-    key,
-    data,
-  };
-  transaction.update(entity);
-};
-
-/**
- * A Datastore wrapper that inserts an entity and updates a related entity in the same transaction.
- * Returns the id of the entity that is inserted.
- * If uniqueProperties are specified,
- * An error is thrown if an entity with the same set of unique properties already exists.
- * @param kindToInsert Kind of the entity to be inserted
- * @param dataToInsert Data of the entity to be inserted
- * @param relatedKindToUpdate Kind of the related entity to be updated
- * @param updateRules Rules to update the related entity
- * @param uniqueProperties The properties that should be unique for the specified kindToInsert
- */
-export const addAndUpdateRelatedEntity = async (
-  kindToInsert: string,
-  dataToInsert: object,
-  relatedKindToUpdate: string,
-  relatedIdToUpdate: number,
-  updateRules: UpdateRule[],
-  uniqueProperties?: Filter[]
-): Promise<number> => {
-  const transaction = datastore.transaction();
-
-  const keyToInsert = datastore.key(kindToInsert);
-  const entityToInsert = {key: keyToInsert, data: dataToInsert};
-
   try {
-    await transaction.run();
-
-    if (uniqueProperties) {
-      await uniqueInsertInTransaction(
-        transaction,
-        kindToInsert,
-        entityToInsert,
-        uniqueProperties
-      );
-    } else {
-      transaction.insert(entityToInsert);
-    }
-
-    await updateEntityInTransaction(
-      transaction,
-      relatedKindToUpdate,
-      relatedIdToUpdate,
-      updateRules
-    );
-    await transaction.commit();
+    actor.delete(key);
   } catch (err) {
-    await transaction.rollback();
-    throw new Error(`Failed to add ${kindToInsert}. ${err}`);
-  }
-  return Number(keyToInsert.id);
-};
-
-/**
- * Edits an entity and updates a related entity in the same transaction.
- * @param kindToEdit Kind of the entity to be edited
- * @param idToEdit Id of the entity to be edited
- * @param editRules Rules to edit the entity
- * @param relatedKindToUpdate Kind of the related entity to be updated
- * @param relatedIdToUpdate Id of the entity to be updated
- * @param updateRules Rules to update the related entity
- */
-export const editAndUpdateRelatedEntity = async (
-  kindToEdit: string,
-  idToEdit: number,
-  editRules: UpdateRule[],
-  relatedKindToUpdate: string,
-  relatedIdToUpdate: number,
-  updateRules: UpdateRule[]
-) => {
-  const transaction = datastore.transaction();
-
-  const keyToEdit = datastore.key([kindToEdit, idToEdit]);
-
-  try {
-    await transaction.run();
-    await updateEntityInTransaction(
-      transaction,
-      kindToEdit,
-      idToEdit,
-      editRules
-    );
-
-    await updateEntityInTransaction(
-      transaction,
-      relatedKindToUpdate,
-      relatedIdToUpdate,
-      updateRules
-    );
-    await transaction.commit();
-  } catch (err) {
-    await transaction.rollback();
-    throw new Error(`Failed to edit ${keyToEdit}. ${err}`);
+    throw new Error(`Failed to delete ${key}. ${err.message}`);
   }
 };
 
 /**
- * Deletes an entity and updates a related entity in the same transaction.
- * @param kindToDelete Kind of the entity to be deleted
- * @param idToDelete Id of the entity to be deleted
- * @param relatedKindToUpdate Kind of the related entity to be updated
- * @param updateRules Rules to update the related entity
+ * A higher order function.
+ * Returns a function that takes in a transaction object and deletes
+ * an entity in the transaction.
+ * @param kind Kind of the entity to be deleted
+ * @param id Id of the entity to be deleted
  */
-export const deleteAndUpdateRelatedEntity = async (
-  kindToDelete: string,
-  idToDelete: number,
-  relatedKindToUpdate: string,
-  relatedIdToUpdate: number,
-  updateRules: UpdateRule[]
-) => {
-  const transaction = datastore.transaction();
-
-  const keyToDelete = datastore.key([kindToDelete, idToDelete]);
-
-  try {
-    await transaction.run();
-    transaction.delete(keyToDelete);
-
-    await updateEntityInTransaction(
-      transaction,
-      relatedKindToUpdate,
-      relatedIdToUpdate,
-      updateRules
-    );
-    await transaction.commit();
-  } catch (err) {
-    await transaction.rollback();
-    throw new Error(`Failed to delete ${keyToDelete}. ${err}`);
-  }
-};
-
-/**
- * A Datastore wrapper that inserts a particular entity with the specified Kind if another
- * entity with the same value for the specified unique property does not already exist.
- * An error is thrown if an entity with the same unique property value already exists.
- * @param kind The Kind of the Entity
- * @param entity The Entity to be added
- * @param uniqueProperty The property that should be unique for the specified kind
- */
-const insertUniqueEntity = async (
-  kind: string,
-  entity: Entity,
-  uniqueProperties: Filter[]
-) => {
-  const transaction = datastore.transaction();
-
-  try {
-    await transaction.run();
-    await uniqueInsertInTransaction(
-      transaction,
-      kind,
-      entity,
-      uniqueProperties
-    );
-    await transaction.commit();
-  } catch (err) {
-    await transaction.rollback();
-    throw new Error(`Failed to add ${kind}. ${err}`);
-  }
-};
-
-/**
- * A Datastore wrapper that inserts a particular entity with the specified Kind and returns
- * the id of the inserted entity.
- * If uniqueProperty is specified, the entity would not be added if another entity with the
- * same unique property value already exists.
- * @param kind The Kind of the Entity
- * @param data The data of the Entity to be added
- * @param uniqueProperty The property that should be unique for the specified kind
- */
-export const add = async (
-  kind: string,
-  data: object,
-  uniqueProperties?: Filter[]
-): Promise<number> => {
-  const key = datastore.key(kind);
-  const entity = {key, data};
-
-  if (uniqueProperties !== undefined) {
-    await insertUniqueEntity(kind, entity, uniqueProperties);
-  } else {
-    await datastore.insert(entity);
-  }
-
-  const id = key.id;
-  if (id === null || id === undefined) {
-    throw new Error(`Failed to add ${kind}.`);
-  }
-  return Number(id);
-};
+export const deleteInTransaction = (kind: string, id: number) => async (
+  transaction: Transaction
+) => deleteEntity(kind, id, transaction);
