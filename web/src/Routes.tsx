@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import {MERCHANT_ROOT} from 'constants/routes';
+
 import React, {lazy, Suspense} from 'react';
 
 import Loading from 'components/common/Loading';
@@ -28,7 +30,7 @@ const Routes: React.FC = () => (
   <Suspense fallback={<Loading />}>
     <Switch>
       <Route exact path="/design-samples" component={DesignSamplesPage} />
-      <Route path="/merchant/" component={MerchantRoutes} />
+      <Route path={MERCHANT_ROOT} component={MerchantRoutes} />
       <Route path="/" component={CustomerRoutes} />
     </Switch>
   </Suspense>

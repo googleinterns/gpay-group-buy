@@ -15,6 +15,7 @@
  */
 
 import {USER_NOT_SIGNED_IN} from 'constants/errors/sign-in-errors';
+import {MERCHANT_ROOT} from 'constants/routes';
 
 import React, {useEffect, useState} from 'react';
 
@@ -61,7 +62,10 @@ const ListingsPage: React.FC = () => {
         <EmptyListingsPlaceholder />
       ) : (
         <ListingsContainer>
-          <ListingCollection listings={listings} listingRootPath="/merchant/" />
+          <ListingCollection
+            listings={listings}
+            listingRootPath={MERCHANT_ROOT}
+          />
         </ListingsContainer>
       )}
     </MerchantPage>
