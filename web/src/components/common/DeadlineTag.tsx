@@ -17,11 +17,12 @@
 import React from 'react';
 
 import {isPast} from 'date-fns';
+import {DeadlineFontSize} from 'interfaces';
 import styled from 'styled-components';
 import {formatDeadlineFromNowText} from 'utils/date';
 
 interface StyledDeadlineProps {
-  largerFont?: boolean;
+  fontSize?: DeadlineFontSize;
 }
 
 const StyledDeadline = styled.span`
@@ -29,8 +30,15 @@ const StyledDeadline = styled.span`
   justify-content: flex-end;
 
   color: var(--dark-gray);
-  font-size: ${({largerFont}: StyledDeadlineProps) =>
-    largerFont ? '1em' : '0.9em'};
+  font-size: ${({fontSize}: StyledDeadlineProps) => {
+    switch (fontSize) {
+      case 'medium':
+        return '1em';
+      case 'small':
+      default:
+        return '0.9em';
+    }
+  }};
 `;
 
 const RedText = styled.span`
@@ -39,7 +47,7 @@ const RedText = styled.span`
 
 interface DeadlineTagProps {
   deadline: string;
-  largerFont?: boolean;
+  fontSize?: DeadlineFontSize;
 }
 
 /**
@@ -48,11 +56,11 @@ interface DeadlineTagProps {
  * is not over.
  * Displays number of days since deadline if listing has ended.
  */
-const DeadlineTag: React.FC<DeadlineTagProps> = ({deadline, largerFont}) => {
+const DeadlineTag: React.FC<DeadlineTagProps> = ({deadline, fontSize}) => {
   const deadlineDate = new Date(deadline);
   const tag = formatDeadlineFromNowText(deadlineDate);
   return (
-    <StyledDeadline largerFont={largerFont}>
+    <StyledDeadline fontSize={fontSize}>
       {isPast(deadlineDate) ? <>{tag}</> : <RedText>{tag}</RedText>}
     </StyledDeadline>
   );

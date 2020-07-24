@@ -19,7 +19,7 @@ import React from 'react';
 import CommitProgress from 'components/common/CommitProgress';
 import DeadlineTag from 'components/common/DeadlineTag';
 import ListingPrice from 'components/common/ListingPrice';
-import {FontSize, Listing} from 'interfaces';
+import {CommitProgressFontSize, Listing, PriceFontSize} from 'interfaces';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -45,8 +45,8 @@ const Description = styled.p`
 
 interface ListingDescriptionProps {
   listing: Listing;
-  priceFontSize?: Omit<FontSize, 'small'>;
-  commitProgressFontSize?: FontSize;
+  priceFontSize?: PriceFontSize;
+  commitProgressFontSize?: CommitProgressFontSize;
 }
 
 /**
@@ -66,13 +66,9 @@ const ListingDescription: React.FC<ListingDescriptionProps> = ({
   commitProgressFontSize,
 }) => (
   <Container>
-    <DeadlineTag deadline={deadline} largerFont />
+    <DeadlineTag deadline={deadline} fontSize="medium" />
     <ListingName>{name}</ListingName>
-    <ListingPrice
-      price={price}
-      oldPrice={oldPrice}
-      largerFont={priceFontSize === 'large'}
-    />
+    <ListingPrice price={price} oldPrice={oldPrice} fontSize={priceFontSize} />
     <Description>{description}</Description>
     <CommitProgress
       minCommits={minCommits}

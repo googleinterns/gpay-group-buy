@@ -16,7 +16,7 @@
 
 import React from 'react';
 
-import {FontSize} from 'interfaces';
+import {CommitProgressFontSize} from 'interfaces';
 import {Line} from 'rc-progress';
 import styled from 'styled-components';
 
@@ -26,7 +26,7 @@ type CommitTextPos = 'none' | 'top' | 'bottom';
 
 interface CommitProgressContainerProps {
   textPos?: CommitTextPos;
-  fontSize?: FontSize;
+  fontSize?: CommitProgressFontSize;
 }
 
 const CommitProgressContainer = styled.div`
@@ -73,7 +73,7 @@ interface CommitProgressProps {
   minCommits: number;
   textPos?: CommitTextPos;
   thicker?: boolean;
-  fontSize?: FontSize;
+  fontSize?: CommitProgressFontSize;
 }
 
 /**
