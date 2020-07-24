@@ -1,0 +1,6 @@
+indexes:
+
+- kind: Listing
+  properties:
+  - name: merchantId
+  - name: deadline
