@@ -115,6 +115,7 @@ The file name specifies the constants inside it.
 In Datastore, single-property indexes are built in and do not need to be created.
 
 To make changes to composite indexes, edit `index.yaml` file accordingly and then deploy using the following command:
+
 ```
 gcloud app deploy index.yaml
 ```
