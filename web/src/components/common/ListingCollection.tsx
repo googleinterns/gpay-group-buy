@@ -45,7 +45,7 @@ const ListingItem: React.FC<ListingProps> = ({
     minCommits,
     imgUrl,
   },
-  listingRootPath
+  listingRootPath,
 }) => {
   return (
     <StrippedCol xs={isMobile ? 6 : 2} key={id}>
@@ -82,7 +82,7 @@ interface ListingCollectionProps {
 
 const ListingCollection: React.FC<ListingCollectionProps> = ({
   listings,
-  listingRootPath = '/'
+  listingRootPath = '/',
 }) => {
   return (
     <ListingsContainer>
