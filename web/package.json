@@ -44,8 +44,7 @@
     "typecheck": "tsc",
     "fix": "gts fix",
     "prepare": "yarn typecheck",
-    "pretest": "yarn typecheck",
-    "posttest": ""
+    "pretest": "yarn typecheck"
   },
   "eslintConfig": {
     "extends": "react-app"
