@@ -41,10 +41,10 @@
     "lint:code": "gts check",
     "lint:css": "stylelint ./src/**/*.tsx",
     "clean": "gts clean",
-    "compile": "tsc",
+    "typecheck": "tsc",
     "fix": "gts fix",
-    "prepare": "yarn compile",
-    "pretest": "yarn compile",
+    "prepare": "yarn typecheck",
+    "pretest": "yarn typecheck",
     "posttest": ""
   },
   "eslintConfig": {
