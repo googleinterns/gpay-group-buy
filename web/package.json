@@ -45,7 +45,7 @@
     "fix": "gts fix",
     "prepare": "yarn compile",
     "pretest": "yarn compile",
-    "posttest": "yarn lint"
+    "posttest": ""
   },
   "eslintConfig": {
     "extends": "react-app"

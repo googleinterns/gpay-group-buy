@@ -12,7 +12,7 @@
     "compile": "tsc",
     "prepare": "yarn run compile",
     "pretest": "yarn run compile",
-    "posttest": "yarn run lint",
+    "posttest": "",
     "test": "$(gcloud beta emulators datastore env-init) && cross-env NODE_ENV=test jest --forceExit",
     "test:watch": "yarn test --watch",
     "test:emulator": "gcloud beta emulators datastore start --no-store-on-disk --host-port=localhost:8081"
