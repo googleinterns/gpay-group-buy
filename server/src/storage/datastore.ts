@@ -30,6 +30,8 @@ type TransactionOperation = (
 /**
  * A higher order function that creates a transaction and carries out all
  * input datastore operations in the same transaction.
+ * Returns the response of each operation carried out in the transaction in
+ * an array, in the same order they are called.
  * @param opFns Operations to be carried out in the same transaction
  */
 export const makeTransaction = async (
