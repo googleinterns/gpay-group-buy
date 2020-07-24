@@ -17,6 +17,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 
 import {useCommitContext} from 'components/customer/listing-details/contexts/CommitContext';
+import {useDeliveryDetailsPromptContext} from 'components/customer/listing-details/contexts/DeliveryDetailsPromptContext';
 import {CommitStatus} from 'interfaces';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
@@ -79,14 +80,18 @@ const commitStatusToButtonState = (
  * ActionBar that contains a button to commit/uncommit/pay a listing.
  */
 const ActionBar: React.FC = () => {
-  const {commitStatus, onCommit, onUncommit, onPayment} = useCommitContext();
+  const {commitStatus, onCommit, onUncommit} = useCommitContext();
+  const {
+    onOpen: onOpenDeliveryDetailsPrompt,
+    isPromptVisible: isDeliveryDetailsPromptVisible,
+  } = useDeliveryDetailsPromptContext();
 
   const [buttonState, setButtonState] = useState<ActionButtonState>('initial');
   const [button, setButton] = useState(<></>);
 
   const getButton = useCallback(
     (buttonState: ActionButtonState): JSX.Element => {
-      const onClickButton = async (callback: () => Promise<void>) => {
+      const onClickButton = async (callback: () => Promise<void> | void) => {
         setButtonState('loading');
         await callback();
       };
@@ -116,7 +121,7 @@ const ActionBar: React.FC = () => {
         case 'awaitingPayment':
           return (
             <ActionButton
-              onClick={() => onClickButton(onPayment)}
+              onClick={() => onClickButton(onOpenDeliveryDetailsPrompt)}
               color="primary"
             >
               Pay
@@ -129,12 +134,12 @@ const ActionBar: React.FC = () => {
           return <></>;
       }
     },
-    [onCommit, onUncommit, onPayment]
+    [onCommit, onUncommit, onOpenDeliveryDetailsPrompt]
   );
 
   useEffect(() => {
     setButtonState(commitStatusToButtonState(commitStatus));
-  }, [commitStatus]);
+  }, [commitStatus, isDeliveryDetailsPromptVisible]);
 
   useEffect(() => {
     setButton(getButton(buttonState));

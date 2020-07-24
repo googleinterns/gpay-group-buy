@@ -26,7 +26,7 @@ type ContextType =
       commitStatus: CommitStatus | undefined;
       onCommit: () => Promise<void>;
       onUncommit: () => Promise<void>;
-      onPayment: () => Promise<void>;
+      onPayment: (paymentDetails: CommitPaymentPayload) => Promise<void>;
     }
   | undefined;
 
@@ -126,7 +126,7 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
     setCommitStatus(undefined);
   };
 
-  const onPayment = async () => {
+  const onPayment = async (paymentDetails: CommitPaymentPayload) => {
     if (commitId === undefined) {
       return;
     }
@@ -137,17 +137,7 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
       return;
     }
 
-    // TODO: Ask customer for actual payment data
-    const dummyPaymentData: CommitPaymentPayload = {
-      fulfilmentDetails: {
-        name: 'Shopaholic',
-        address:
-          '3 North Avenue, Maker Maxity, Bandra Kurla Complex, Bandra East, Mumbai, 400051',
-        contactNumber: '+912266117150',
-      },
-    };
-
-    const commit = await payForCommit(commitId, dummyPaymentData, idToken);
+    const commit = await payForCommit(commitId, paymentDetails, idToken);
     // TODO: Handle payment error
     await refetchCustomer();
     setCommitStatus(commit.commitStatus);

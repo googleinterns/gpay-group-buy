@@ -110,7 +110,7 @@ const enableBodyScroll = () => {
 
 interface ButtonDetails {
   name: string;
-  onClick: () => void;
+  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 interface MobilePromptProps {

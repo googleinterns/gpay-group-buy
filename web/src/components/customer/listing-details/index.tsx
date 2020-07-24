@@ -27,6 +27,9 @@ import ListingDetails from 'components/customer/listing-details/ListingDetails';
 import {useHistory, useParams, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 
+import DeliveryDetailsPromptProvider from './contexts/DeliveryDetailsPromptContext';
+import DeliveryDetailsPrompt from './DeliveryDetailsPrompt';
+
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -62,16 +65,19 @@ const ListingDetailsPage: React.FC = () => {
   return (
     <CommitFeedbackPromptContext>
       <CommitContext listingId={listingId}>
-        <ListingDetailsContext listingId={listingId}>
-          <PageContainer>
-            <BackButton pos="absolute" onClick={handleBack} />
-            <CommitsBadge pos="absolute" />
-            <ContentContainer>
-              <ListingDetails />
-            </ContentContainer>
-            <ActionBar />
-          </PageContainer>
-        </ListingDetailsContext>
+        <DeliveryDetailsPromptProvider>
+          <ListingDetailsContext listingId={listingId}>
+            <PageContainer>
+              <BackButton pos="absolute" onClick={handleBack} />
+              <CommitsBadge pos="absolute" />
+              <ContentContainer>
+                <ListingDetails />
+              </ContentContainer>
+              <ActionBar />
+            </PageContainer>
+          </ListingDetailsContext>
+          <DeliveryDetailsPrompt />
+        </DeliveryDetailsPromptProvider>
       </CommitContext>
       <CommitStatusPrompt />
     </CommitFeedbackPromptContext>
