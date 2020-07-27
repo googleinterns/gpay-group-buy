@@ -69,7 +69,7 @@ const DeliveryDetailsPromptProvider: React.FC = ({children}) => {
       <FormPropsProvider
         buttonText="Confirm"
         fields={[
-          {label: 'Contact Number', name: 'deliveryContactNumber', type: 'tel'},
+          {label: 'Contact Number', name: 'deliveryContactNumber', type: 'number'},
           {
             label: 'Delivery Address',
             name: 'deliveryAddress',

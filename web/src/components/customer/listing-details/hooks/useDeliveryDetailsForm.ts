@@ -33,6 +33,8 @@ const useDeliveryDetailsForm = () => {
   const validations = {
     deliveryContactNumber: {
       required: true,
+      minLength: 10,
+      maxLength: 10,
     },
     deliveryAddress: {
       required: true,

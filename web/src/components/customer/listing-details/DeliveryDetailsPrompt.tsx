@@ -26,7 +26,7 @@ import {ReactComponent as DeliverySvg} from 'assets/customer/delivery.svg';
 const DeliveryDetailsPrompt: React.FC = () => {
   const {isPromptVisible, onClose} = useDeliveryDetailsPromptContext();
 
-  const {fields, onSubmit} = useFormPropsContext();
+  const {fields, disabled, onSubmit} = useFormPropsContext();
 
   const onClickSubmit = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -48,6 +48,7 @@ const DeliveryDetailsPrompt: React.FC = () => {
         {
           name: 'Confirm',
           onClick: onClickSubmit,
+          disabled,
         },
       ]}
     >

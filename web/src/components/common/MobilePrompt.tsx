@@ -111,6 +111,7 @@ const enableBodyScroll = () => {
 interface ButtonDetails {
   name: string;
   onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  disabled?: boolean;
 }
 
 interface MobilePromptProps {
@@ -150,8 +151,8 @@ const MobilePrompt: React.FC<MobilePromptProps> = ({
           {children}
         </PromptContent>
         <ButtonRow>
-          {buttons.map(({name, onClick}, idx) => (
-            <LinkButton key={idx} onClick={onClick} variant="flat">
+          {buttons.map(({name, onClick, disabled=false}, idx) => (
+            <LinkButton key={idx} onClick={onClick} disabled={disabled} variant="flat">
               {name}
             </LinkButton>
           ))}
