@@ -66,10 +66,7 @@ const DeliveryDetailsPromptProvider: React.FC = ({children}) => {
 
   return (
     <DeliveryDetailsPromptContext.Provider value={value}>
-      <FormPropsProvider
-        buttonText="Confirm"
-        {...useDeliveryDetailsForm()}
-      >
+      <FormPropsProvider buttonText="Confirm" {...useDeliveryDetailsForm()}>
         {children}
       </FormPropsProvider>
     </DeliveryDetailsPromptContext.Provider>

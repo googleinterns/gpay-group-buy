@@ -151,8 +151,13 @@ const MobilePrompt: React.FC<MobilePromptProps> = ({
           {children}
         </PromptContent>
         <ButtonRow>
-          {buttons.map(({name, onClick, disabled=false}, idx) => (
-            <LinkButton key={idx} onClick={onClick} disabled={disabled} variant="flat">
+          {buttons.map(({name, onClick, disabled = false}, idx) => (
+            <LinkButton
+              key={idx}
+              onClick={onClick}
+              disabled={disabled}
+              variant="flat"
+            >
               {name}
             </LinkButton>
           ))}

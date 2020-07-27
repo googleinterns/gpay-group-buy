@@ -31,7 +31,7 @@ const useDeliveryDetailsForm = () => {
   const {onPayment} = useCommitContext();
 
   const fields = [
-    { label: 'Contact Number', name: 'deliveryContactNumber', type: 'number' },
+    {label: 'Contact Number', name: 'deliveryContactNumber', type: 'number'},
     {
       label: 'Delivery Address',
       name: 'deliveryAddress',
