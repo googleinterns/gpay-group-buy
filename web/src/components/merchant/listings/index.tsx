@@ -21,10 +21,12 @@ import React, {useEffect, useState} from 'react';
 import {getAllListings} from 'api';
 import ListingCollection from 'components/common/ListingCollection';
 import MerchantPage from 'components/common/MerchantPage';
+import RoundedButton from 'components/common/RoundedButton';
 import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
 import EmptyListingsPlaceholder from 'components/merchant/listings/EmptyListingsPlaceholder';
 import {Listing} from 'interfaces';
-import {useLocation} from 'react-router-dom';
+import {Plus} from 'react-feather';
+import {useHistory, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 
 const ListingsContainer = styled.div`
@@ -33,8 +35,22 @@ const ListingsContainer = styled.div`
   overflow: scroll;
 `;
 
+const ButtonContainer = styled.div`
+  height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+`;
+
+const AddListingButton = styled(RoundedButton)`
+  margin-bottom: 2%;
+`;
+
 const ListingsPage: React.FC = () => {
   const {hash} = useLocation();
+  const history = useHistory();
   const {getMerchant} = useMerchantContext();
   const [listings, setListings] = useState<Listing[]>([]);
 
@@ -60,9 +76,20 @@ const ListingsPage: React.FC = () => {
       {listings && listings.length === 0 ? (
         <EmptyListingsPlaceholder />
       ) : (
-        <ListingsContainer>
-          <ListingCollection listings={listings} />
-        </ListingsContainer>
+        <>
+          <ButtonContainer>
+            <AddListingButton
+              color="green"
+              onClick={() => history.push('add-listing')}
+            >
+              <Plus />
+              Add Listing
+            </AddListingButton>
+          </ButtonContainer>
+          <ListingsContainer>
+            <ListingCollection listings={listings} />
+          </ListingsContainer>
+        </>
       )}
     </MerchantPage>
   );

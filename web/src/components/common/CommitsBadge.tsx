@@ -81,7 +81,7 @@ interface CommitsBadgeProps {
  */
 const CommitsBadge: React.FC<CommitsBadgeProps> = ({pos = 'static'}) => {
   const {customer} = useCustomerContext();
-  const numCommits = customer?.numOngoingCommits;
+  const numCommits = customer?.numUsedCommits;
 
   return (
     <CommitBadgeContainer pos={pos} visible={numCommits !== undefined}>
