@@ -21,9 +21,10 @@ import CommitProgress from 'components/common/CommitProgress';
 import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
 import MobilePromptSample from 'components/design-samples/MobilePromptSample';
+import PaidCommitCollectionProvider from 'components/merchant/listing-details/contexts/PaidCommitCollectionContext';
 import PaidCommitCollection from 'components/merchant/listing-details/PaidCommitCollection';
 import {formatRFC3339} from 'date-fns';
-import {Money} from 'interfaces';
+import {Commit, Money} from 'interfaces';
 import Container from 'muicss/lib/react/container';
 
 const SAMPLE_IMG_URL = 'https://picsum.photos/seed/picsum/200/300';
@@ -39,6 +40,44 @@ const SAMPLE_OLD_PRICE: Money = {
   cents: 0,
 };
 
+const SAMPLE_PAID_COMMITS: Commit[] = [
+  {
+    commitStatus: 'successful',
+    createdAt: new Date('2020-07-17T10:29:30.639Z'),
+    listingId: 5068871128055808,
+    customerId: 5683780991844352,
+    fulfilmentDetails: {
+      name: 'Buyer Name',
+      contactNumber: '+911234567890',
+      address: 'Rainbow Land, Pusheen St',
+    },
+    id: 5759630718271488,
+  },
+  {
+    commitStatus: 'successful',
+    createdAt: new Date('2020-07-17T10:29:30.639Z'),
+    listingId: 5068871128055808,
+    customerId: 5683780991844352,
+    fulfilmentDetails: {
+      name: 'Slightly Longer Name',
+      contactNumber: '+911234567890',
+      address: 'Rainbow Land, Pusheen St',
+    },
+    id: 5759630718271488,
+  },
+  {
+    commitStatus: 'successful',
+    createdAt: new Date('2020-07-17T10:29:30.639Z'),
+    listingId: 5068871128055808,
+    customerId: 5683780991844352,
+    fulfilmentDetails: {
+      name: 'Very Very Longgggggggggggggggggg Buyer Name',
+      contactNumber: '+911234567890',
+      address: 'Rainbow Land, Pusheen St',
+    },
+    id: 5759630718271488,
+  },
+];
 const DesignSamplesPage: React.FC = () => (
   <Container>
     <h1>Design Samples</h1>
@@ -120,7 +159,9 @@ const DesignSamplesPage: React.FC = () => (
     </Container>
     <Container>
       <h2>Paid Committed Customers</h2>
-      <PaidCommitCollection />
+      <PaidCommitCollectionProvider value={SAMPLE_PAID_COMMITS}>
+        <PaidCommitCollection />
+      </PaidCommitCollectionProvider>
     </Container>
   </Container>
 );

@@ -16,49 +16,9 @@
 
 import React from 'react';
 
-import PaidCommitProvider from 'components/merchant/listing-details/contexts/PaidCommitContext';
+import {usePaidCommitCollectionContext} from 'components/merchant/listing-details/contexts/PaidCommitCollectionContext';
 import PaidCommitCard from 'components/merchant/listing-details/PaidCommitCard';
-import {Commit} from 'interfaces';
 import styled from 'styled-components';
-
-const DUMMY_PAID_COMMITS: Commit[] = [
-  {
-    commitStatus: 'successful',
-    createdAt: new Date('2020-07-17T10:29:30.639Z'),
-    listingId: 5068871128055808,
-    customerId: 5683780991844352,
-    fulfilmentDetails: {
-      name: 'Buyer Name',
-      contactNumber: '+911234567890',
-      address: 'Rainbow Land, Pusheen St',
-    },
-    id: 5759630718271488,
-  },
-  {
-    commitStatus: 'successful',
-    createdAt: new Date('2020-07-17T10:29:30.639Z'),
-    listingId: 5068871128055808,
-    customerId: 5683780991844352,
-    fulfilmentDetails: {
-      name: 'Very Very Longgggggggggggggggggg Buyer Name',
-      contactNumber: '+911234567890',
-      address: 'Rainbow Land, Pusheen St',
-    },
-    id: 5759630718271488,
-  },
-  {
-    commitStatus: 'successful',
-    createdAt: new Date('2020-07-17T10:29:30.639Z'),
-    listingId: 5068871128055808,
-    customerId: 5683780991844352,
-    fulfilmentDetails: {
-      name: 'Buyer Name',
-      contactNumber: '+911234567890',
-      address: 'Rainbow Land, Pusheen St',
-    },
-    id: 5759630718271488,
-  },
-];
 
 const Container = styled.div`
   max-width: 350px;
@@ -71,14 +31,11 @@ const Container = styled.div`
  * committed and paid for a successful listing.
  */
 const PaidCommitCollection: React.FC = () => {
-  // TODO: Fetch paid commits from the server.
-  const paidCommits = DUMMY_PAID_COMMITS;
+  const paidCommits = usePaidCommitCollectionContext();
   return (
     <Container>
-      {paidCommits.map((commit, key) => (
-        <PaidCommitProvider value={commit} key={key}>
-          <PaidCommitCard />
-        </PaidCommitProvider>
+      {paidCommits.map((_, key) => (
+        <PaidCommitCard key={key} index={key} />
       ))}
     </Container>
   );
