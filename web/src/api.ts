@@ -206,7 +206,7 @@ export const deleteCommit = async (commitId: number, idToken: string) => {
 };
 
 /**
- * Pay for a commit with the specified commitId.
+ * Pays for a commit with the specified commitId.
  * @param commitId Id of the commit to pay for
  * @param paymentData Payment data for the commit
  * @param idToken Authentication token of customer
