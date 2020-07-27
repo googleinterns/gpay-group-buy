@@ -30,20 +30,20 @@ export interface Image {
 type FontSize = 'small' | 'medium' | 'large';
 
 /**
- * CommitProgressFontSize type that provides several preset options for the font size of CommitProgress.
- * It allows 3 values: 'small', 'medium' and 'large';
+ * CommitProgressFontSize type that provides several preset options for the font
+ * size of CommitProgress. It allows 3 values: 'small', 'medium' and 'large';
  */
 export type CommitProgressFontSize = FontSize;
 
 /**
- * DeadlineFontSize type that provides several preset options for the font size of DeadlineTag.
- * It allows 2 values: 'small' and 'medium';
+ * DeadlineFontSize type that provides several preset options for the font size
+ * of DeadlineTag. It allows 2 values: 'small' and 'medium';
  */
 export type DeadlineFontSize = Omit<FontSize, 'large'>;
 
 /**
- * PriceFontSize type that provides several preset options for the font size of ListingPrice.
- * It allows 2 values: 'medium' and 'large';
+ * PriceFontSize type that provides several preset options for the font size of
+ * ListingPrice. It allows 2 values: 'medium' and 'large';
  */
 export type PriceFontSize = Omit<FontSize, 'small'>;
 
