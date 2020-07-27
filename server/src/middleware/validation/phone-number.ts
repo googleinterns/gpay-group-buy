@@ -34,11 +34,16 @@ const validateAndFormatPhoneNumber = (phoneNumberField: string) => {
         REGION_CODE_IN
       );
 
-      if (!phoneUtil.isValidNumberForRegion(parsedPhoneNumber, REGION_CODE_IN)) {
+      if (
+        !phoneUtil.isValidNumberForRegion(parsedPhoneNumber, REGION_CODE_IN)
+      ) {
         throw new Error('Invalid phone number.');
       }
 
-      const formattedPhoneNumber = phoneUtil.format(parsedPhoneNumber, e164Format);
+      const formattedPhoneNumber = phoneUtil.format(
+        parsedPhoneNumber,
+        e164Format
+      );
       req.body[phoneNumberField] = formattedPhoneNumber;
       next();
     } catch (err) {
