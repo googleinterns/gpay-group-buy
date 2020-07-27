@@ -19,7 +19,7 @@ import React from 'react';
 import ListingCollection from 'components/common/ListingCollection';
 import MerchantPage from 'components/common/MerchantPage';
 import EmptyListingsPlaceholder from 'components/merchant/listings/EmptyListingsPlaceholder';
-import useListingsApi from 'components/merchant/listings/hooks/useListingsApi';
+import useListings from 'components/merchant/listings/hooks/useListings';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -32,7 +32,7 @@ const ListingsContainer = styled.div`
 const ListingsPage: React.FC = () => {
   const {hash} = useLocation();
   const listingsType = hash === '#past-listings' ? 'past' : 'ongoing';
-  const {listings} = useListingsApi(listingsType);
+  const listings = useListings(listingsType);
 
   return (
     <MerchantPage header={`${listingsType} Listings`}>

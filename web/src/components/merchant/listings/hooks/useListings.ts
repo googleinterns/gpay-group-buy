@@ -24,7 +24,7 @@ import {Listing} from 'interfaces';
 
 type ListingsType = 'ongoing' | 'past';
 
-const useListingsApi = (listingsType: ListingsType) => {
+const useListings = (listingsType: ListingsType) => {
   const [listings, setListings] = useState<Listing[] | undefined>();
   const {getMerchant} = useMerchantContext();
 
@@ -55,7 +55,7 @@ const useListingsApi = (listingsType: ListingsType) => {
     fetchListings();
   }, [getMerchant, listingsType]);
 
-  return {listings};
+  return listings;
 };
 
-export default useListingsApi;
+export default useListings;
