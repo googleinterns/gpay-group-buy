@@ -26,6 +26,7 @@ matrix:
       before_install:
         - cd web
       script:
+        - yarn typecheck
         - yarn lint
         - yarn test
         - yarn build
