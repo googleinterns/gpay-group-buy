@@ -50,7 +50,7 @@ export type PriceFontSize = Omit<FontSize, 'small'>;
 /**
  * FulfilmentDetails Interface that contains the fields of a fulfilment.
  */
-interface FulfilmentDetails {
+export interface FulfilmentDetails {
   name: string;
   address: string;
   contactNumber: string; // E164 format

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {CommitPaymentPayload} from 'interfaces';
+import {FulfilmentDetails} from 'interfaces';
 import {useForm} from 'react-hook-form';
 
 import {useCommitContext} from '../contexts/CommitContext';
@@ -25,33 +25,33 @@ import {useCommitContext} from '../contexts/CommitContext';
  * invalid inputs and signing in merchant upon clicking 'SIGN IN' button.
  */
 const useDeliveryDetailsForm = () => {
-  const {formState, handleSubmit, register} = useForm<CommitPaymentPayload>({
+  const {formState, handleSubmit, register} = useForm<FulfilmentDetails>({
     mode: 'onChange',
   });
   const {onPayment} = useCommitContext();
 
   const fields = [
-    {label: 'Contact Number', name: 'deliveryContactNumber', type: 'number'},
+    {label: 'Contact Number', name: 'contactNumber', type: 'number'},
     {
       label: 'Delivery Address',
-      name: 'deliveryAddress',
+      name: 'address',
       type: 'textarea',
     },
   ];
 
   const validations = {
-    deliveryContactNumber: {
+    contactNumber: {
       required: true,
       minLength: 10,
       maxLength: 10,
     },
-    deliveryAddress: {
+    address: {
       required: true,
     },
   };
   const disabled = !formState.isValid;
 
-  const onSubmit = handleSubmit(async (values: CommitPaymentPayload) => {
+  const onSubmit = handleSubmit(async (values: FulfilmentDetails) => {
     return onPayment(values);
   });
 

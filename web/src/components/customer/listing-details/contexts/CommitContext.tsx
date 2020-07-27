@@ -19,14 +19,14 @@ import React, {useContext, useState, useEffect} from 'react';
 import {getCommits, addCommit, deleteCommit, payForCommit} from 'api';
 import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import {useCommitFeedbackPromptContext} from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
-import {CommitStatus, CommitPaymentPayload} from 'interfaces';
+import {CommitStatus, FulfilmentDetails} from 'interfaces';
 
 type ContextType =
   | {
       commitStatus: CommitStatus | undefined;
       onCommit: () => Promise<void>;
       onUncommit: () => Promise<void>;
-      onPayment: (paymentDetails: CommitPaymentPayload) => Promise<void>;
+      onPayment: (fulfilmentDetails: FulfilmentDetails) => Promise<void>;
     }
   | undefined;
 
@@ -126,7 +126,7 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
     setCommitStatus(undefined);
   };
 
-  const onPayment = async (paymentDetails: CommitPaymentPayload) => {
+  const onPayment = async (fulfilmentDetails: FulfilmentDetails) => {
     if (commitId === undefined) {
       return;
     }
@@ -137,7 +137,7 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
       return;
     }
 
-    const commit = await payForCommit(commitId, paymentDetails, idToken);
+    const commit = await payForCommit(commitId, {fulfilmentDetails}, idToken);
     // TODO: Handle payment error
     await refetchCustomer();
     setCommitStatus(commit.commitStatus);
