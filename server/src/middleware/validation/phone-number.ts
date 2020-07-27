@@ -22,13 +22,19 @@ import {REGION_CODE_IN} from '../../constants/common';
 const e164Format = PhoneNumberFormat.E164;
 const phoneUtil = PhoneNumberUtil.getInstance();
 
+type PhoneNumberGetter = (body: any) => string;
+type PhoneNumberSetter = (body: any, phoneNumber: string) => void;
+
 /**
  * Validates and format a phone number.
  */
-const validateAndFormatPhoneNumber = (phoneNumberField: string) => {
+const validateAndFormatPhoneNumber = (
+  getPhoneNumber: PhoneNumberGetter,
+  setPhoneNumber: PhoneNumberSetter
+) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
-      const rawPhoneNumber = req.body[phoneNumberField];
+      const rawPhoneNumber = getPhoneNumber(req.body);
       const parsedPhoneNumber = phoneUtil.parseAndKeepRawInput(
         rawPhoneNumber,
         REGION_CODE_IN
@@ -44,7 +50,7 @@ const validateAndFormatPhoneNumber = (phoneNumberField: string) => {
         parsedPhoneNumber,
         e164Format
       );
-      req.body[phoneNumberField] = formattedPhoneNumber;
+      setPhoneNumber(req.body, formattedPhoneNumber);
       next();
     } catch (err) {
       err.status = 400;
