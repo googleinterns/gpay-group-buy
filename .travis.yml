@@ -1,7 +1,4 @@
 dist: xenial
-apt:
-  packages:
-    - google-cloud-sdk
 language: node_js
 node_js: 10
 cache: yarn
