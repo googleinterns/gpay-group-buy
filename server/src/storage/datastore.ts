@@ -55,7 +55,9 @@ export const get = async (kind: string, id: number) => {
  * A Datastore wrapper that gets all entities of a specified Kind.
  * @param kind The Kind that is being queried
  * @param filters Any filters that will be applied to the query
- * @param orderRules Any order rules that will be used to sort the query result
+ * @param orderRules Any order rules that will be used to sort the query result.
+ * If an orderRule doesn't have a descending property specified, the default
+ * direction is ascending.
  */
 export const getAll = async (
   kind: string,
