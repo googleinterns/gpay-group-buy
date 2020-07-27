@@ -86,7 +86,7 @@ export interface Listing extends ListingPayload {
 
 /**
  * ListingQuery Interface that contains the fields of the query that
- * would be sent to the server to query for commits.
+ * would be sent to the server to query for listings.
  */
 export type ListingQuery = Partial<Listing>;
 
