@@ -22,6 +22,8 @@ import {
   CommitRequest,
   StringKeyObject,
   CommitPayloadKey,
+  CommitPaymentRequest,
+  CommitEditPayload,
 } from '../interfaces';
 import {commitStorage, listingStorage, customerStorage} from '../storage';
 
@@ -114,6 +116,32 @@ const addCommit = async (
 };
 
 /**
+ * Pays for the commit with the specified commitId.
+ * An error will be thrown if the commit is not SUCCESSFUL.
+ * @param commitId Id of the commit to be deleted
+ * @param paymentData Data of the payment request
+ */
+const payForCommit = async (
+  commitId: number,
+  paymentData: CommitPaymentRequest
+) => {
+  // Check that listing exists
+  const commit = await commitStorage.getCommit(commitId);
+
+  // Check that listing is successful
+  if (commit.commitStatus !== 'successful') {
+    throw new Error('Only successful commits can be paid.');
+  }
+
+  const fieldsToEdit: CommitEditPayload = {
+    ...paymentData,
+    commitStatus: 'paid',
+  };
+
+  return commitStorage.editCommit(commitId, fieldsToEdit, commit.listingId);
+};
+
+/**
  * Deletes the commit with the specified commitId.
  * An error would be thrown if commit does not already exist,
  * or if the commit is not ONGOING,
@@ -130,4 +158,4 @@ const deleteCommit = async (commitId: number) => {
   return commitStorage.deleteCommit(commitId, commit.listingId);
 };
 
-export default {getAllCommits, addCommit, deleteCommit};
+export default {getAllCommits, addCommit, payForCommit, deleteCommit};
