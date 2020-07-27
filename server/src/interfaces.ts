@@ -37,7 +37,7 @@ export interface CustomerDatastoreReponse extends Required<CustomerPayload> {
  * client side would receive.
  */
 export interface CustomerResponse extends CustomerDatastoreReponse {
-  numOngoingCommits: number;
+  numUsedCommits: number;
 }
 
 /**

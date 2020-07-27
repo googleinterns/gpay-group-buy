@@ -38,9 +38,9 @@ Automatically fixes formatting and linting problems (if possible) according to [
 
 Removes output files.
 
-### `yarn compile`
+### `yarn typecheck`
 
-Compiles the source code using TypeScript compiler.
+Runs typechecking with the TypeScript compiler without emitting JS files.
 
 ### `yarn test`
 

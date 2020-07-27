@@ -1,7 +1,4 @@
 dist: xenial
-apt:
-  packages:
-    - google-cloud-sdk
 language: node_js
 node_js: 10
 cache: yarn
@@ -29,6 +26,7 @@ matrix:
       before_install:
         - cd web
       script:
+        - yarn typecheck
         - yarn lint
         - yarn test
         - yarn build

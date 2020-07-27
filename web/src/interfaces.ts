@@ -163,7 +163,7 @@ export interface CustomerPayload {
  */
 export interface Customer extends Required<CustomerPayload> {
   id: number;
-  numOngoingCommits: number;
+  numUsedCommits: number;
 }
 
 /**
