@@ -30,6 +30,15 @@ const useDeliveryDetailsForm = () => {
   });
   const {onPayment} = useCommitContext();
 
+  const fields = [
+    { label: 'Contact Number', name: 'deliveryContactNumber', type: 'number' },
+    {
+      label: 'Delivery Address',
+      name: 'deliveryAddress',
+      type: 'textarea',
+    },
+  ];
+
   const validations = {
     deliveryContactNumber: {
       required: true,
@@ -47,6 +56,7 @@ const useDeliveryDetailsForm = () => {
   });
 
   return {
+    fields,
     disabled,
     errors: {
       form: {},
