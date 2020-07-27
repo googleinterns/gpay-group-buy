@@ -22,7 +22,9 @@ import {getAllListings} from 'api';
 import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
 import {Listing} from 'interfaces';
 
-const useListingsApi = (listingsType: string) => {
+type ListingsType = 'ongoing' | 'past';
+
+const useListingsApi = (listingsType: ListingsType) => {
   const [listings, setListings] = useState<Listing[] | undefined>();
   const {getMerchant} = useMerchantContext();
 

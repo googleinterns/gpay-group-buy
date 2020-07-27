@@ -31,8 +31,8 @@ const ListingsContainer = styled.div`
 
 const ListingsPage: React.FC = () => {
   const {hash} = useLocation();
-  const listingsType = hash === '#past-listings' ? 'Past' : 'Ongoing';
-  const {listings} = useListingsApi(listingsType.toLowerCase());
+  const listingsType = hash === '#past-listings' ? 'past' : 'ongoing';
+  const {listings} = useListingsApi(listingsType);
 
   return (
     <MerchantPage header={`${listingsType} Listings`}>
