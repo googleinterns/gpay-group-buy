@@ -22,6 +22,7 @@ import styled, {css} from 'styled-components';
 
 const StyledRow = styled(Row)`
   margin: 5px 0;
+  min-width: 100%;
 `;
 
 const inputStyle = css`
