@@ -20,8 +20,9 @@
 
 import express, {Request, Response, NextFunction} from 'express';
 
-import {CommitRequest} from '../interfaces';
+import {CommitRequest, CommitPaymentRequest} from '../interfaces';
 import customerAuth from '../middleware/customer-auth';
+import validateAndFormatPhoneNumber from '../middleware/validation/phone-number';
 import {commitService} from '../services';
 
 const commitRouter = express.Router();
@@ -70,6 +71,38 @@ commitRouter.post(
       res.setHeader('Content-Location', resourceUrl);
       res.location(resourceUrl);
       res.status(201).send(addedCommit);
+      // TODO: Add error handling with the appropriate response codes.
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+/**
+ * Handles the post requests to pay for commits.
+ */
+commitRouter.post(
+  '/:commitId/pay',
+  customerAuth,
+  validateAndFormatPhoneNumber(
+    (body: CommitPaymentRequest) => body.fulfilmentDetails.contactNumber,
+    (body: CommitPaymentRequest, phoneNumber: string) =>
+      (body.fulfilmentDetails.contactNumber = phoneNumber)
+  ),
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {commitId: commitIdStr} = req.params;
+    const commitId = Number(commitIdStr);
+
+    // TODO: Parse req.body json to make it CommitPaymentRequest type in runtime.
+    // TODO: Ensure that the commit belongs to the authenticated customer.
+
+    try {
+      if (Number.isNaN(commitId)) {
+        throw new Error('Invalid commitId params.');
+      }
+
+      const commit = await commitService.payForCommit(commitId, req.body);
+      res.status(200).json(commit);
       // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);

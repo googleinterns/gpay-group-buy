@@ -25,6 +25,38 @@ export interface Image {
 }
 
 /**
+ * FontSize type that provides several preset options for a font size.
+ */
+type FontSize = 'small' | 'medium' | 'large';
+
+/**
+ * CommitProgressFontSize type that provides several preset options for the font
+ * size of CommitProgress. It allows 3 values: 'small', 'medium' and 'large';
+ */
+export type CommitProgressFontSize = FontSize;
+
+/**
+ * DeadlineFontSize type that provides several preset options for the font size
+ * of DeadlineTag. It allows 2 values: 'small' and 'medium';
+ */
+export type DeadlineFontSize = Omit<FontSize, 'large'>;
+
+/**
+ * PriceFontSize type that provides several preset options for the font size of
+ * ListingPrice. It allows 2 values: 'medium' and 'large';
+ */
+export type PriceFontSize = Omit<FontSize, 'small'>;
+
+/**
+ * FulfilmentDetails Interface that contains the fields of a fulfilment.
+ */
+interface FulfilmentDetails {
+  name: string;
+  address: string;
+  contactNumber: string; // E164 format
+}
+
+/**
  * Money Interface that represents an amount of money with its currency type.
  * Value = dollars + (cents / 100)
  */
@@ -104,6 +136,14 @@ export interface CommitPayload {
 }
 
 /**
+ * CommitPaymentPayload Interface that contains the fields of the payload that
+ * would be sent to the server to pay for commits.
+ */
+export interface CommitPaymentPayload {
+  fulfilmentDetails: FulfilmentDetails;
+}
+
+/**
  * CommitQuery Interface that contains the fields of the query that
  * would be sent to the server to query for commits.
  */
@@ -112,7 +152,7 @@ export type CommitQuery = CommitPayload;
 /**
  * Commit Interface that contains the fields of a Commit.
  */
-export interface Commit extends CommitPayload {
+export interface Commit extends CommitPayload, CommitPaymentPayload {
   id: number;
   createdAt: Date;
   commitStatus: CommitStatus;
@@ -140,7 +180,7 @@ export interface CustomerPayload {
  */
 export interface Customer extends Required<CustomerPayload> {
   id: number;
-  numOngoingCommits: number;
+  numUsedCommits: number;
 }
 
 /**
