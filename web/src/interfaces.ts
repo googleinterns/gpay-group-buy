@@ -48,6 +48,15 @@ export type DeadlineFontSize = Omit<FontSize, 'large'>;
 export type PriceFontSize = Omit<FontSize, 'small'>;
 
 /**
+ * FulfilmentDetails Interface that contains the fields of a fulfilment.
+ */
+interface FulfilmentDetails {
+  name: string;
+  address: string;
+  contactNumber: string; // E164 format
+}
+
+/**
  * Money Interface that represents an amount of money with its currency type.
  * Value = dollars + (cents / 100)
  */
@@ -131,8 +140,7 @@ export interface CommitPayload {
  * would be sent to the server to pay for commits.
  */
 export interface CommitPaymentPayload {
-  deliveryAddress: string;
-  deliveryContactNumber: string;
+  fulfilmentDetails: FulfilmentDetails;
 }
 
 /**

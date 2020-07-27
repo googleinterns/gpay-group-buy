@@ -139,9 +139,12 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
 
     // TODO: Ask customer for actual payment data
     const dummyPaymentData: CommitPaymentPayload = {
-      deliveryAddress:
-        '3 North Avenue, Maker Maxity, Bandra Kurla Complex, Bandra East, Mumbai, 400051',
-      deliveryContactNumber: '+912266117150',
+      fulfilmentDetails: {
+        name: 'Shopaholic',
+        address:
+          '3 North Avenue, Maker Maxity, Bandra Kurla Complex, Bandra East, Mumbai, 400051',
+        contactNumber: '+912266117150',
+      }
     };
 
     const commit = await payForCommit(commitId, dummyPaymentData, idToken);
