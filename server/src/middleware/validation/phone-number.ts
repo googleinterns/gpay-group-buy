@@ -17,7 +17,7 @@
 import {Request, Response, NextFunction} from 'express';
 import {PhoneNumberUtil, PhoneNumberFormat} from 'google-libphonenumber';
 
-import {REGION_CODE} from '../../constants/common';
+import {REGION_CODE_IN} from '../../constants/common';
 
 const e164Format = PhoneNumberFormat.E164;
 const phoneUtil = PhoneNumberUtil.getInstance();
@@ -29,16 +29,16 @@ const validateAndFormatPhoneNumber = (phoneNumberField: string) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       const rawPhoneNumber = req.body[phoneNumberField];
-      const number = phoneUtil.parseAndKeepRawInput(
+      const parsedPhoneNumber = phoneUtil.parseAndKeepRawInput(
         rawPhoneNumber,
-        REGION_CODE
+        REGION_CODE_IN
       );
 
-      if (!phoneUtil.isValidNumberForRegion(number, REGION_CODE)) {
+      if (!phoneUtil.isValidNumberForRegion(parsedPhoneNumber, REGION_CODE_IN)) {
         throw new Error('Invalid phone number.');
       }
 
-      const formattedPhoneNumber = phoneUtil.format(number, e164Format);
+      const formattedPhoneNumber = phoneUtil.format(parsedPhoneNumber, e164Format);
       req.body[phoneNumberField] = formattedPhoneNumber;
       next();
     } catch (err) {

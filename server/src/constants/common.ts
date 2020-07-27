@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export const REGION_CODE = 'IN';
+export const REGION_CODE_IN = 'IN';
