@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import React, {ReactNode} from 'react';
+import React from 'react';
 
 import CentralisedContainer from 'components/common/CentralisedContainer';
 import MerchantSideBar from 'components/common/MerchantSideBar';
@@ -63,7 +63,7 @@ const PageBody = styled(CentralisedContainer)`
 `;
 
 interface MerchantPageProps {
-  header: ReactNode;
+  header?: string;
 }
 
 /**
@@ -74,9 +74,11 @@ const MerchantPage: React.FC<MerchantPageProps> = ({header, children}) => {
     <PageContainer>
       <MerchantSideBar />
       <PageContent>
-        <HeaderRow>
-          <PageHeader>{header}</PageHeader>
-        </HeaderRow>
+        {header && (
+          <HeaderRow>
+            <PageHeader>{header}</PageHeader>
+          </HeaderRow>
+        )}
         <PageBody>{children}</PageBody>
       </PageContent>
     </PageContainer>

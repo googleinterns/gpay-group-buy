@@ -14,28 +14,15 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
+import {getListing} from 'api';
 import ListingDescription from 'components/common/ListingDescription';
-import {useListingDetailsContext} from 'components/customer/listing-details/contexts/ListingDetailsContext';
-import MerchantDetails from 'components/customer/listing-details/MerchantDetails';
+import {Listing} from 'interfaces';
 import styled from 'styled-components';
 
 const ListingDetailsContainer = styled.div`
-  & > section {
-    border-top: 1px solid var(--light-gray);
-    margin: 0 1.8rem;
-    padding: 1.8rem 0;
-  }
-
-  section:first-of-type {
-    border-top: 0;
-    padding-top: 0;
-  }
-
-  section:last-of-type {
-    padding-bottom: 0;
-  }
+  max-width: 500px;
 `;
 
 const ListingImage = styled.img`
@@ -45,33 +32,37 @@ const ListingImage = styled.img`
   background-color: var(--light-gray);
 `;
 
-const SectionTitle = styled.span`
-  font-size: 1.2rem;
-  color: var(--dark-gray);
-`;
+interface ListingDetailsProps {
+  listingId: number;
+}
 
 /**
- * ListingDetails that contains full listing details.
+ * ListingDetails that contains details of a listing with specified listingId.
+ * This component is different from ListingDetails in components/customer/
+ * because the former doesn't contain merchant details and has a smaller font
+ * for price and a larger font for commit progress.
  */
-const ListingDetails: React.FC = () => {
-  const {listing} = useListingDetailsContext();
+const ListingDetails: React.FC<ListingDetailsProps> = ({listingId}) => {
+  const [listing, setListing] = useState<Listing | undefined>();
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      const listing = await getListing(listingId);
+      setListing(listing);
+    };
+    fetchListings();
+  }, [listingId]);
 
   return (
     <>
       {listing && (
         <ListingDetailsContainer>
           <ListingImage src={listing.imgUrl} alt={`Image of ${listing.name}`} />
-          <section>
-            <ListingDescription
-              listing={listing}
-              priceFontSize="large"
-              commitProgressFontSize="medium"
-            />
-          </section>
-          <section>
-            <SectionTitle>Merchant Details</SectionTitle>
-            <MerchantDetails merchantId={listing.merchantId} />
-          </section>
+          <ListingDescription
+            listing={listing}
+            priceFontSize="medium"
+            commitProgressFontSize="large"
+          />
         </ListingDetailsContainer>
       )}
     </>

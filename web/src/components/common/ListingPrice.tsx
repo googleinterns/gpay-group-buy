@@ -16,7 +16,7 @@
 
 import React from 'react';
 
-import {Money} from 'interfaces';
+import {Money, PriceFontSize} from 'interfaces';
 import styled from 'styled-components';
 import {formatMoney} from 'utils/money';
 
@@ -31,11 +31,19 @@ const PriceContainer = styled.div`
 `;
 
 interface PriceProps {
-  largerFont?: boolean;
+  fontSize?: PriceFontSize;
 }
 
 const Price = styled.div`
-  font-size: ${({largerFont}: PriceProps) => (largerFont ? '2.3em' : '1.7em')};
+  font-size: ${({fontSize}: PriceProps) => {
+    switch (fontSize) {
+      case 'large':
+        return '2.3em';
+      case 'medium':
+      default:
+        return '1.7em';
+    }
+  }};
   padding-right: 5px;
 `;
 
@@ -47,7 +55,7 @@ const OldPrice = styled.div`
 interface ListingPriceProps {
   price: Money;
   oldPrice?: Money;
-  largerFont?: boolean;
+  fontSize?: PriceFontSize;
 }
 
 /**
@@ -56,10 +64,10 @@ interface ListingPriceProps {
 const ListingPrice: React.FC<ListingPriceProps> = ({
   price,
   oldPrice,
-  largerFont,
+  fontSize,
 }) => (
   <PriceContainer>
-    <Price largerFont={largerFont}>{formatMoney(price)}</Price>
+    <Price fontSize={fontSize}>{formatMoney(price)}</Price>
     {oldPrice && <OldPrice>{formatMoney(oldPrice)}</OldPrice>}
   </PriceContainer>
 );
