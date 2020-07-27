@@ -48,7 +48,7 @@ const useListingsApi = (listingsType: ListingsType) => {
             getAllListings({merchantId, listingStatus})
           )
         );
-        listings = listingGroups.flat(1);
+        listings = listingGroups.flat();
       }
       setListings(listings);
     };
