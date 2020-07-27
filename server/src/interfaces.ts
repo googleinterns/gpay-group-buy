@@ -69,12 +69,20 @@ export interface CommitRequest {
 }
 
 /**
+ * FulfilmentDetails Interface that contains the fields of a fulfilment.
+ */
+interface FulfilmentDetails {
+  name: string;
+  address: string;
+  contactNumber: string; // E164 format
+}
+
+/**
  * CommitPaymentRequest Interface that contains the fields that will be provided
  * by the client in the request body.
  */
 export interface CommitPaymentRequest {
-  deliveryAddress: string;
-  deliveryContactNumber: string; // E164 format
+  fulfilmentDetails: FulfilmentDetails;
 }
 
 /**
