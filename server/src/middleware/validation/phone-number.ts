@@ -19,11 +19,11 @@ import {PhoneNumberUtil, PhoneNumberFormat} from 'google-libphonenumber';
 
 import {REGION_CODE_IN} from '../../constants/common';
 
-const e164Format = PhoneNumberFormat.E164;
-const phoneUtil = PhoneNumberUtil.getInstance();
-
 type PhoneNumberGetter = (body: any) => string;
 type PhoneNumberSetter = (body: any, phoneNumber: string) => void;
+
+const e164Format = PhoneNumberFormat.E164;
+const phoneUtil = PhoneNumberUtil.getInstance();
 
 /**
  * Validates and format a phone number.
