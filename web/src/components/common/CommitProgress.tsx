@@ -16,6 +16,7 @@
 
 import React from 'react';
 
+import {CommitProgressFontSize} from 'interfaces';
 import {Line} from 'rc-progress';
 import styled from 'styled-components';
 
@@ -25,7 +26,7 @@ type CommitTextPos = 'none' | 'top' | 'bottom';
 
 interface CommitProgressContainerProps {
   textPos?: CommitTextPos;
-  largerFont?: boolean;
+  fontSize?: CommitProgressFontSize;
 }
 
 const CommitProgressContainer = styled.div`
@@ -42,8 +43,17 @@ const CommitProgressContainer = styled.div`
   }};
 
   text-align: right;
-  font-size: ${({largerFont}: CommitProgressContainerProps) =>
-    largerFont ? '1em' : '0.8em'};
+  font-size: ${({fontSize}: CommitProgressContainerProps) => {
+    switch (fontSize) {
+      case 'large':
+        return '2em';
+      case 'medium':
+        return '1em';
+      case 'small':
+      default:
+        return '0.8em';
+    }
+  }};
 `;
 
 const StyledLine = styled(Line)`
@@ -63,7 +73,7 @@ interface CommitProgressProps {
   minCommits: number;
   textPos?: CommitTextPos;
   thicker?: boolean;
-  largerFont?: boolean;
+  fontSize?: CommitProgressFontSize;
 }
 
 /**
@@ -74,12 +84,12 @@ const CommitProgress: React.FC<CommitProgressProps> = ({
   numCommits,
   minCommits,
   textPos = 'bottom',
-  largerFont,
+  fontSize,
 }) => {
   const percent = Math.min(100, (numCommits / minCommits) * 100);
 
   return (
-    <CommitProgressContainer textPos={textPos} largerFont={largerFont}>
+    <CommitProgressContainer textPos={textPos} fontSize={fontSize}>
       {textPos !== 'none' && (
         <div>
           <span>Commiters: </span>
