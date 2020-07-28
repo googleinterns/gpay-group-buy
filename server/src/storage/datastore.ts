@@ -33,10 +33,11 @@ type TransactionOperation = (
  * input datastore operations in the same transaction.
  * Returns the response of each operation carried out in the transaction in
  * an array, in the same order they are called.
- * @param opFns Operations to be carried out in the same transaction
+ * Throws an error and rollsback the transaction if any of the operation fails.
+ * @param operations Operations to be carried out in the same transaction
  */
 export const makeTransaction = async (
-  ...opFns: TransactionOperation[]
+  ...operations: TransactionOperation[]
 ): Promise<ResolvedResponse[]> => {
   const transaction = datastore.transaction();
 
@@ -45,8 +46,8 @@ export const makeTransaction = async (
   try {
     await transaction.run();
 
-    for (const fn of opFns) {
-      resArr.push(await fn(transaction));
+    for (const operation of operations) {
+      resArr.push(await operation(transaction));
     }
 
     await transaction.commit();
