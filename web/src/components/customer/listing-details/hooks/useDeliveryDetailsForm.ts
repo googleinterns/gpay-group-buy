@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
+import {useCommitContext} from 'components/customer/listing-details/contexts/CommitContext';
 import {FulfilmentDetails} from 'interfaces';
 import {useForm} from 'react-hook-form';
-
-import {useCommitContext} from '../contexts/CommitContext';
 
 /**
  * useDeliveryDetailsForm that contains all the logic and details concering

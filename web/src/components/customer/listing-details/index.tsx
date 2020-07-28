@@ -22,13 +22,12 @@ import ActionBar from 'components/customer/listing-details/ActionBar';
 import CommitStatusPrompt from 'components/customer/listing-details/CommitFeedbackPrompt';
 import CommitContext from 'components/customer/listing-details/contexts/CommitContext';
 import CommitFeedbackPromptContext from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
+import DeliveryDetailsPromptProvider from 'components/customer/listing-details/contexts/DeliveryDetailsPromptContext';
 import ListingDetailsContext from 'components/customer/listing-details/contexts/ListingDetailsContext';
+import DeliveryDetailsPrompt from 'components/customer/listing-details/DeliveryDetailsPrompt';
 import ListingDetails from 'components/customer/listing-details/ListingDetails';
 import {useHistory, useParams, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
-
-import DeliveryDetailsPromptProvider from './contexts/DeliveryDetailsPromptContext';
-import DeliveryDetailsPrompt from './DeliveryDetailsPrompt';
 
 const PageContainer = styled.div`
   display: flex;
