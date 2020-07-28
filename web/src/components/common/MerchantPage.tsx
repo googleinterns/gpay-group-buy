@@ -55,6 +55,7 @@ const HeaderRow = styled(Row)`
 
 const PageHeader = styled.h1`
   font-weight: bolder;
+  text-transform: capitalize;
 `;
 
 const PageBody = styled(CentralisedContainer)`
