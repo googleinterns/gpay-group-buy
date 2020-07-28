@@ -59,8 +59,8 @@ interface FormRowProps {
 }
 
 /**
- * This is a row in a form, consisting of a label and an input field shown
- * side by side. This also contains a container for error message which is
+ * This is a row in a form, consisting of a label and an input field.
+ * This also contains a container for error message which is
  * displayed below the input field where applicable.
  */
 const MobileFormRow: React.FC<FormRowProps> = ({index}) => {

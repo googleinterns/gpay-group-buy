@@ -20,9 +20,8 @@ import {useForm} from 'react-hook-form';
 import {useCommitContext} from '../contexts/CommitContext';
 
 /**
- * This custom hook handles all the logic related to Delivery Details Form.
- * This includes validating form inputs, disabling submit button when there are
- * invalid inputs and signing in merchant upon clicking 'SIGN IN' button.
+ * useDeliveryDetailsForm that contains all the logic and details concering
+ * the Delivery Details form.
  */
 const useDeliveryDetailsForm = () => {
   const {formState, handleSubmit, register} = useForm<FulfilmentDetails>({

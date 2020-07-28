@@ -23,6 +23,9 @@ import MobileFormRow from 'components/customer/listing-details/MobileFormRow';
 
 import {ReactComponent as DeliverySvg} from 'assets/customer/delivery.svg';
 
+/**
+ * DeliveryDetailsPrompt that shows the delivery details prompt.
+ */
 const DeliveryDetailsPrompt: React.FC = () => {
   const {isPromptVisible, onClose} = useDeliveryDetailsPromptContext();
 

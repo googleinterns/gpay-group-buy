@@ -45,7 +45,7 @@ const useDeliveryDetailsPromptContext = () => {
 };
 
 /**
- * DeliveryDetailsPromptProvider with stateful promptContent and isPromptVisible.
+ * DeliveryDetailsPromptProvider with stateful isPromptVisible.
  */
 const DeliveryDetailsPromptProvider: React.FC = ({children}) => {
   const [isPromptVisible, setIsPromptVisible] = useState(false);
