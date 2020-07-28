@@ -124,7 +124,7 @@ That command only adds new indexes. The original index is not deleted automatica
 older version of the app. To remove unused old indexes, use the following command:
 
 ```
-gcloud datastore cleanup-indexes index.yaml
+gcloud datastore indexes cleanup index.yaml
 ```
 
 It may take some time for Datastore to prepare these indexes before they are ready to serve.
