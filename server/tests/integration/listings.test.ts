@@ -33,27 +33,28 @@ describe('Listings endpoints', () => {
 
     test('Should filter by listing ids', async () => {
       const expectedResults = [
-        [
-          listingsFixtures.responseData?.[1],
-        ],
+        [listingsFixtures.responseData?.[1]],
         [
           listingsFixtures.responseData?.[0],
           listingsFixtures.responseData?.[1],
         ],
       ];
       const listingIdsInputs = expectedResults.map(expectedListingData =>
-        expectedListingData.map(listing => listing.id));
+        expectedListingData.map(listing => listing.id)
+      );
 
       expectedResults.forEach(async (expectedListingData, idx) => {
         const listingIds = listingIdsInputs[idx];
 
-        const res = await request(app).get('/listings').query({
-          ids: listingIds.join(','),
-        });
+        const res = await request(app)
+          .get('/listings')
+          .query({
+            ids: listingIds.join(','),
+          });
 
         expect(res.status).toBe(200);
         expect(res.body).toMatchObject(expectedListingData);
-      })
+      });
     });
 
     test('Should not filter by other fields when filtering by listing ids', async () => {
