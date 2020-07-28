@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {Filter, ListingPayload, ListingResponse} from 'interfaces';
+import {Filter, ListingPayload, ListingResponse, OrderRule} from 'interfaces';
 
 import {LISTING_KIND} from '../constants/kinds';
 import {add, getAll, get} from './datastore';
@@ -26,8 +26,14 @@ const addListing = async (
   return getListing(listingId);
 };
 
-const getAllListings = async (filters?: Filter[]): Promise<ListingResponse[]> =>
-  getAll(LISTING_KIND, filters);
+const defaultOrderRule = {
+  property: 'deadline',
+};
+
+const getAllListings = async (
+  filters?: Filter[],
+  orderRules: OrderRule[] = [defaultOrderRule]
+): Promise<ListingResponse[]> => getAll(LISTING_KIND, filters, orderRules);
 
 const getListing = async (listingId: number): Promise<ListingResponse> =>
   get(LISTING_KIND, listingId);
