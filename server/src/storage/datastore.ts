@@ -22,7 +22,8 @@ import {UpdateRule} from './interfaces';
 
 const datastore = new Datastore();
 
-type TransactionResponse = number | void;
+type TransactionResponse = void | (() => number);
+type ResolvedResponse = void | number;
 type TransactionOperation = (
   transaction: Transaction
 ) => Promise<TransactionResponse>;
@@ -36,16 +37,16 @@ type TransactionOperation = (
  */
 export const makeTransaction = async (
   ...opFns: TransactionOperation[]
-): Promise<TransactionResponse[]> => {
+): Promise<ResolvedResponse[]> => {
   const transaction = datastore.transaction();
 
-  const res = [];
+  const resArr = [];
 
   try {
     await transaction.run();
 
     for (const fn of opFns) {
-      res.push(await fn(transaction));
+      resArr.push(await fn(transaction));
     }
 
     await transaction.commit();
@@ -53,7 +54,10 @@ export const makeTransaction = async (
     await transaction.rollback();
     throw new Error(`Transaction failed. ${err.message}`);
   }
-  return res;
+  return resArr.map(res => {
+    if (res === undefined) return res;
+    return res();
+  });
 };
 
 /**
@@ -200,7 +204,7 @@ const insertUniqueEntity = async (
 
 /**
  * A Datastore wrapper that inserts a particular entity with the specified Kind and returns
- * the id of the inserted entity.
+ * a function that resolves to the id of the inserted entity.
  * If uniqueProperties are specified, the entity would not be added if another entity with the
  * same value for the unique properties already exists.
  * If actor is not specified, adds using datastore.
@@ -209,14 +213,14 @@ const insertUniqueEntity = async (
  * @param uniqueProperties The properties that should be unique for the specified kind
  * @param actor Datastore or Transaction that will carry out the adding
  */
-export const addEntity = async (
+const addEntityHelper = async (
   kind: string,
   data: object,
   uniqueProperties?: Filter[],
   actor: Transaction | Datastore = datastore
-) => {
+): Promise<() => number> => {
   const key = datastore.key(kind);
-  const entity = {key, data};
+  const entity = { key, data };
 
   try {
     if (uniqueProperties === undefined) {
@@ -229,8 +233,24 @@ export const addEntity = async (
   } catch (err) {
     throw new Error(`Failed to add ${kind}. ${err.message}`);
   }
-  return Number(key.id);
+  return () => Number(key.id);
 };
+
+/**
+ * A Datastore wrapper that inserts a particular entity with the specified Kind and returns
+ * the id of the inserted entity.
+ * If uniqueProperties are specified, the entity would not be added if another entity with the
+ * same value for the unique properties already exists.
+ * If actor is not specified, adds using datastore.
+ * @param kind The Kind of the Entity to be added
+ * @param data The data of the Entity to be added
+ * @param uniqueProperties The properties that should be unique for the specified kind
+ */
+export const addEntity = async (
+  kind: string,
+  data: object,
+  uniqueProperties?: Filter[],
+): Promise<number> => (await addEntityHelper(kind, data, uniqueProperties))();
 
 /**
  * A higher order function.
@@ -244,8 +264,8 @@ export const addInTransaction = (
   kind: string,
   data: object,
   uniqueProperties?: Filter[]
-) => async (transaction: Transaction) =>
-  addEntity(kind, data, uniqueProperties, transaction);
+) => async (transaction: Transaction): Promise<() => number> =>
+  addEntityHelper(kind, data, uniqueProperties, transaction);
 
 /**
  * Update original data in-place according to the update field.
