@@ -35,12 +35,17 @@ const nonStackedRowStyle = css`
   justify-content: center;
 `;
 
+const fullWidthRowStyle = css`
+  min-width: 100%;
+`;
+
 const StyledRow = styled(Row)`
   margin: 5px 0;
 
   /* stylelint-disable value-keyword-case */
-  ${({fullWidth}: RowProps) => fullWidth && 'min-width: 100%;'}
-  ${({stacked}: RowProps) => !stacked && nonStackedRowStyle}
+  ${({fullWidth}: RowProps) => fullWidth && fullWidthRowStyle};
+  ${({stacked}: RowProps) => !stacked && nonStackedRowStyle};
+  /* stylelint-enable value-keyword-case */
 `;
 
 const StyledCol = styled(Col)`
