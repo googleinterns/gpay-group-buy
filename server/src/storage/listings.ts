@@ -17,7 +17,7 @@
 import {Filter, ListingPayload, ListingResponse, OrderRule} from 'interfaces';
 
 import {LISTING_KIND} from '../constants/kinds';
-import {add, getAll, get} from './datastore';
+import {add, getAll, getAllWithIds, get} from './datastore';
 
 const addListing = async (
   listing: ListingPayload
@@ -35,7 +35,11 @@ const getAllListings = async (
   orderRules: OrderRule[] = [defaultOrderRule]
 ): Promise<ListingResponse[]> => getAll(LISTING_KIND, filters, orderRules);
 
+const getAllListingsWithIds = async (
+  listingIds: number[]
+): Promise<ListingResponse[]> => getAllWithIds(LISTING_KIND, listingIds);
+
 const getListing = async (listingId: number): Promise<ListingResponse> =>
   get(LISTING_KIND, listingId);
 
-export default {addListing, getAllListings, getListing};
+export default {addListing, getAllListings, getAllListingsWithIds, getListing};

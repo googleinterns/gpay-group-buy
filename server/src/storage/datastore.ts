@@ -28,7 +28,7 @@ const datastore = new Datastore();
  * Returns an object with its id.
  * @param res The response object from datastore
  */
-const extractAndAppendId = (res: Entity) => {
+const extractAndAppendId = (res: Entity): Entity => {
   const {[datastore.KEY]: key, ...properties} = res;
   return {
     ...properties,
@@ -48,6 +48,24 @@ export const get = async (kind: string, id: number) => {
     return extractAndAppendId(res);
   } catch (err) {
     throw new Error(`${kind} ${id} does not exist`);
+  }
+};
+
+/**
+ * A Datastore wrapper that gets a particular entity with the specified Kind and id.
+ * @param kind The Kind that is being queried
+ * @param id The id of the Entity being queried
+ */
+export const getAllWithIds = async (
+  kind: string,
+  ids: number[]
+): Promise<Entity[]> => {
+  try {
+    const keys = ids.map(id => datastore.key([kind, id]));
+    const [res] = await datastore.get(keys);
+    return res.map(extractAndAppendId);
+  } catch (err) {
+    throw new Error(`Failed to get ${ids} from ${kind}. ${err.message}`);
   }
 };
 
