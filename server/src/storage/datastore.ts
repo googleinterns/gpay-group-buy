@@ -221,7 +221,7 @@ const addEntityHelper = async (
   actor: Transaction | Datastore = datastore
 ): Promise<() => number> => {
   const key = datastore.key(kind);
-  const entity = { key, data };
+  const entity = {key, data};
 
   try {
     if (uniqueProperties === undefined) {
@@ -250,7 +250,7 @@ const addEntityHelper = async (
 export const addEntity = async (
   kind: string,
   data: object,
-  uniqueProperties?: Filter[],
+  uniqueProperties?: Filter[]
 ): Promise<number> => (await addEntityHelper(kind, data, uniqueProperties))();
 
 /**
