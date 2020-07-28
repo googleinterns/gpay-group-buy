@@ -227,7 +227,7 @@ export const addEntity = async (
       await uniqueInsertInTransaction(kind, entity, uniqueProperties)(actor);
     }
   } catch (err) {
-    throw new Error(`Failed to add ${key}. ${err.message}`);
+    throw new Error(`Failed to add ${kind}. ${err.message}`);
   }
   return Number(key.id);
 };
@@ -300,7 +300,7 @@ export const updateEntity = async (
     };
     actor.update(entity);
   } catch (err) {
-    throw new Error(`Failed to update ${key}. ${err.message}`);
+    throw new Error(`Failed to update ${kind} ${id}. ${err.message}`);
   }
 };
 
@@ -336,7 +336,7 @@ export const deleteEntity = async (
   try {
     actor.delete(key);
   } catch (err) {
-    throw new Error(`Failed to delete ${key}. ${err.message}`);
+    throw new Error(`Failed to delete ${kind} ${id}. ${err.message}`);
   }
 };
 
