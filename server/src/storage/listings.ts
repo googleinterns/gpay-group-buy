@@ -33,7 +33,8 @@ const defaultOrderRule = {
 const getAllListings = async (
   filters?: Filter[],
   orderRules: OrderRule[] = [defaultOrderRule]
-): Promise<ListingResponse[]> => getAllEntities(LISTING_KIND, filters, orderRules);
+): Promise<ListingResponse[]> =>
+  getAllEntities(LISTING_KIND, filters, orderRules);
 
 const getListing = async (listingId: number): Promise<ListingResponse> =>
   getEntity(LISTING_KIND, listingId);

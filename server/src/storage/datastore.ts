@@ -156,7 +156,8 @@ export const getAllEntitiesInTransaction = async (
   kind: string,
   filters?: Filter[],
   orderRules?: OrderRule[]
-) => (transaction: Transaction) => getAllEntities(kind, filters, orderRules, transaction);
+) => (transaction: Transaction) =>
+  getAllEntities(kind, filters, orderRules, transaction);
 
 /**
  * A higher order function.
