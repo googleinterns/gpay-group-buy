@@ -21,6 +21,7 @@ import CommitProgress from 'components/common/CommitProgress';
 import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
 import MobilePromptSample from 'components/design-samples/MobilePromptSample';
+import SendItemModalSample from 'components/design-samples/SendItemModalSample';
 import {formatRFC3339} from 'date-fns';
 import {Money} from 'interfaces';
 import Container from 'muicss/lib/react/container';
@@ -116,6 +117,10 @@ const DesignSamplesPage: React.FC = () => (
     <Container>
       <h2>Mobile Prompt</h2>
       <MobilePromptSample />
+    </Container>
+    <Container>
+      <h2>Send Item Modal</h2>
+      <SendItemModalSample />
     </Container>
   </Container>
 );
