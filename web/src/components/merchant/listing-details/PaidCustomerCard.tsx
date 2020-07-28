@@ -18,7 +18,7 @@ import React from 'react';
 
 import Card from 'components/common/Card';
 import RoundedButton from 'components/common/RoundedButton';
-import {usePaidCustomerCollectionContext} from 'components/merchant/listing-details/contexts/PaidCustomerCollectionContext';
+import {useCommitsContext} from 'components/merchant/listing-details/contexts/CommitsContext';
 import styled from 'styled-components';
 
 const CardWithLeftBorder = styled(Card)`
@@ -51,9 +51,10 @@ interface PaidCustomerCardProps {
  * A card that shows the name of product recipient and a 'SEND ITEM' button.
  */
 const PaidCustomerCard: React.FC<PaidCustomerCardProps> = ({index}) => {
+  const commits = useCommitsContext();
   const {
     fulfilmentDetails: {name},
-  } = usePaidCustomerCollectionContext()[index];
+  } = commits[index];
   return (
     <CardWithLeftBorder>
       <Row>

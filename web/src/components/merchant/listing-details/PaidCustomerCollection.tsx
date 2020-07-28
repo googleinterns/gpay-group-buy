@@ -16,7 +16,7 @@
 
 import React from 'react';
 
-import {usePaidCustomerCollectionContext} from 'components/merchant/listing-details/contexts/PaidCustomerCollectionContext';
+import {useCommitsContext} from 'components/merchant/listing-details/contexts/CommitsContext';
 import PaidCustomerCard from 'components/merchant/listing-details/PaidCustomerCard';
 import styled from 'styled-components';
 
@@ -31,7 +31,7 @@ const Container = styled.div`
  * committed and paid for a successful listing.
  */
 const PaidCustomerCollection: React.FC = () => {
-  const paidCommits = usePaidCustomerCollectionContext();
+  const paidCommits = useCommitsContext();
   return (
     <Container>
       {paidCommits.map((_, key) => (
