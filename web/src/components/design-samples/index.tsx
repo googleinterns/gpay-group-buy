@@ -21,8 +21,8 @@ import CommitProgress from 'components/common/CommitProgress';
 import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
 import MobilePromptSample from 'components/design-samples/MobilePromptSample';
-import PaidCommitCollectionProvider from 'components/merchant/listing-details/contexts/PaidCommitCollectionContext';
-import PaidCommitCollection from 'components/merchant/listing-details/PaidCommitCollection';
+import PaidCustomerCollectionProvider from 'components/merchant/listing-details/contexts/PaidCustomerCollectionContext';
+import PaidCustomerCollection from 'components/merchant/listing-details/PaidCustomerCollection';
 import {formatRFC3339} from 'date-fns';
 import {Commit, Money} from 'interfaces';
 import Container from 'muicss/lib/react/container';
@@ -159,9 +159,9 @@ const DesignSamplesPage: React.FC = () => (
     </Container>
     <Container>
       <h2>Paid Committed Customers</h2>
-      <PaidCommitCollectionProvider value={SAMPLE_PAID_COMMITS}>
-        <PaidCommitCollection />
-      </PaidCommitCollectionProvider>
+      <PaidCustomerCollectionProvider value={SAMPLE_PAID_COMMITS}>
+        <PaidCustomerCollection />
+      </PaidCustomerCollectionProvider>
     </Container>
   </Container>
 );

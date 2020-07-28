@@ -18,7 +18,7 @@ import React from 'react';
 
 import Card from 'components/common/Card';
 import RoundedButton from 'components/common/RoundedButton';
-import {usePaidCommitCollectionContext} from 'components/merchant/listing-details/contexts/PaidCommitCollectionContext';
+import {usePaidCustomerCollectionContext} from 'components/merchant/listing-details/contexts/PaidCustomerCollectionContext';
 import styled from 'styled-components';
 
 const CardWithLeftBorder = styled(Card)`
@@ -43,17 +43,17 @@ const SendItemButton = styled(RoundedButton)`
   font-size: 0.8em;
 `;
 
-interface PaidCommitCardProps {
+interface PaidCustomerCardProps {
   index: number;
 }
 
 /**
  * A card that shows the name of product recipient and a 'SEND ITEM' button.
  */
-const PaidCommitCard: React.FC<PaidCommitCardProps> = ({index}) => {
+const PaidCustomerCard: React.FC<PaidCustomerCardProps> = ({index}) => {
   const {
     fulfilmentDetails: {name},
-  } = usePaidCommitCollectionContext()[index];
+  } = usePaidCustomerCollectionContext()[index];
   return (
     <CardWithLeftBorder>
       <Row>
@@ -64,4 +64,4 @@ const PaidCommitCard: React.FC<PaidCommitCardProps> = ({index}) => {
   );
 };
 
-export default PaidCommitCard;
+export default PaidCustomerCard;

@@ -16,8 +16,8 @@
 
 import React from 'react';
 
-import {usePaidCommitCollectionContext} from 'components/merchant/listing-details/contexts/PaidCommitCollectionContext';
-import PaidCommitCard from 'components/merchant/listing-details/PaidCommitCard';
+import {usePaidCustomerCollectionContext} from 'components/merchant/listing-details/contexts/PaidCustomerCollectionContext';
+import PaidCustomerCard from 'components/merchant/listing-details/PaidCustomerCard';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -27,18 +27,18 @@ const Container = styled.div`
 `;
 
 /**
- * A collection of PaidCommitCard components showing customers who have
+ * A collection of PaidCustomerCard components showing customers who have
  * committed and paid for a successful listing.
  */
-const PaidCommitCollection: React.FC = () => {
-  const paidCommits = usePaidCommitCollectionContext();
+const PaidCustomerCollection: React.FC = () => {
+  const paidCommits = usePaidCustomerCollectionContext();
   return (
     <Container>
       {paidCommits.map((_, key) => (
-        <PaidCommitCard key={key} index={key} />
+        <PaidCustomerCard key={key} index={key} />
       ))}
     </Container>
   );
 };
 
-export default PaidCommitCollection;
+export default PaidCustomerCollection;

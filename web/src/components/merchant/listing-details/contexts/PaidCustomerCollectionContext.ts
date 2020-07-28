@@ -20,20 +20,22 @@ import {Commit} from 'interfaces';
 
 type ContextType = Commit[] | undefined;
 
-const PaidCommitCollectionContext = React.createContext<ContextType>(undefined);
+const PaidCustomerCollectionContext = React.createContext<ContextType>(
+  undefined
+);
 
 /**
- * usePaidCommitCollectionContext hook that ensures it is used within a PaidCommitCollectionProvider.
+ * usePaidCustomerCollectionContext hook that ensures it is used within a PaidCustomerCollectionProvider.
  */
-const usePaidCommitCollectionContext = () => {
-  const context = useContext(PaidCommitCollectionContext);
+const usePaidCustomerCollectionContext = () => {
+  const context = useContext(PaidCustomerCollectionContext);
   if (context === undefined) {
     throw new Error(
-      'useCommitCountContext must be used within a PaidCommitCollectionProvider'
+      'usePaidCustomerCollectionContext must be used within a PaidCustomerCollectionProvider'
     );
   }
   return context;
 };
 
-export default PaidCommitCollectionContext.Provider;
-export {usePaidCommitCollectionContext};
+export default PaidCustomerCollectionContext.Provider;
+export {usePaidCustomerCollectionContext};
