@@ -51,7 +51,13 @@ const Form: React.FC = () => {
   return (
     <StyledForm>
       {fields.map((_, index) => (
-        <FormRow index={index} key={index} />
+        <FormRow
+          index={index}
+          key={index}
+          inputStyle="shadow"
+          inputWidth="350px"
+          textAreaRows={5}
+        />
       ))}
       <ErrorContainer>{errors.general?.message}</ErrorContainer>
       <RoundedButton onClick={onSubmit} disabled={disabled}>
