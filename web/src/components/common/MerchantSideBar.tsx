@@ -52,7 +52,7 @@ const MerchantSideBar: React.FC = () => {
       <CentralisedContainer>
         <Row>
           <StyledRoundedButton
-            onClick={() => history.push('home')}
+            onClick={() => history.push('/merchant/home')}
             disabled={
               pathname === '/merchant/home' && hash !== '#past-listings'
             }
@@ -62,7 +62,7 @@ const MerchantSideBar: React.FC = () => {
         </Row>
         <Row>
           <StyledRoundedButton
-            onClick={() => history.push('#past-listings')}
+            onClick={() => history.push('/merchant/home#past-listings')}
             disabled={
               pathname === '/merchant/home' && hash === '#past-listings'
             }

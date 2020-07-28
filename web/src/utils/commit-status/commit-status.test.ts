@@ -25,6 +25,11 @@ describe('groupByCommitStatus', () => {
       listingId: 1,
       customerId: 1,
       commitStatus: 'ongoing',
+      fulfilmentDetails: {
+        name: '',
+        address: '',
+        contactNumber: '',
+      },
     },
     {
       id: 2,
@@ -32,6 +37,11 @@ describe('groupByCommitStatus', () => {
       listingId: 1,
       customerId: 1,
       commitStatus: 'ongoing',
+      fulfilmentDetails: {
+        name: '',
+        address: '',
+        contactNumber: '',
+      },
     },
   ];
 
@@ -42,6 +52,11 @@ describe('groupByCommitStatus', () => {
       listingId: 1,
       customerId: 1,
       commitStatus: 'successful',
+      fulfilmentDetails: {
+        name: '',
+        address: '',
+        contactNumber: '',
+      },
     },
   ];
 
@@ -52,6 +67,11 @@ describe('groupByCommitStatus', () => {
       listingId: 1,
       customerId: 1,
       commitStatus: 'paid',
+      fulfilmentDetails: {
+        name: '',
+        address: '',
+        contactNumber: '',
+      },
     },
   ];
 

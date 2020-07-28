@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-import {USER_NOT_SIGNED_IN} from 'constants/errors/sign-in-errors';
+import React from 'react';
 
-import React, {useEffect, useState} from 'react';
-
-import {getAllListings} from 'api';
 import ListingCollection from 'components/common/ListingCollection';
 import MerchantPage from 'components/common/MerchantPage';
-import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
+import RoundedButton from 'components/common/RoundedButton';
 import EmptyListingsPlaceholder from 'components/merchant/listings/EmptyListingsPlaceholder';
-import {Listing} from 'interfaces';
-import {useLocation} from 'react-router-dom';
+import useListings from 'components/merchant/listings/hooks/useListings';
+import {Plus} from 'react-feather';
+import {useHistory, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 
 const ListingsContainer = styled.div`
@@ -33,37 +31,46 @@ const ListingsContainer = styled.div`
   overflow: scroll;
 `;
 
+const ButtonContainer = styled.div`
+  height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+`;
+
+const AddListingButton = styled(RoundedButton)`
+  margin-bottom: 2%;
+`;
+
 const ListingsPage: React.FC = () => {
+  const history = useHistory();
   const {hash} = useLocation();
-  const {getMerchant} = useMerchantContext();
-  const [listings, setListings] = useState<Listing[]>([]);
-
-  useEffect(() => {
-    const fetchListings = async () => {
-      const merchant = await getMerchant();
-      if (merchant === undefined) {
-        throw new Error(USER_NOT_SIGNED_IN);
-      }
-
-      const listings = await getAllListings({
-        merchantId: merchant.id.toString(),
-      });
-      setListings(listings);
-    };
-    fetchListings();
-  }, [getMerchant]);
+  const listingsType = hash === '#past-listings' ? 'past' : 'ongoing';
+  const listings = useListings(listingsType);
 
   return (
-    <MerchantPage
-      header={`${hash === '#past-listings' ? 'Past' : 'Ongoing'} Listings`}
-    >
-      {listings && listings.length === 0 ? (
-        <EmptyListingsPlaceholder />
-      ) : (
-        <ListingsContainer>
-          <ListingCollection listings={listings} />
-        </ListingsContainer>
-      )}
+    <MerchantPage header={`${listingsType} Listings`}>
+      {listings &&
+        (listings.length === 0 ? (
+          <EmptyListingsPlaceholder />
+        ) : (
+          <>
+            <ButtonContainer>
+              <AddListingButton
+                color="green"
+                onClick={() => history.push('add-listing')}
+              >
+                <Plus />
+                Add Listing
+              </AddListingButton>
+            </ButtonContainer>
+            <ListingsContainer>
+              <ListingCollection listings={listings} />
+            </ListingsContainer>
+          </>
+        ))}
     </MerchantPage>
   );
 };

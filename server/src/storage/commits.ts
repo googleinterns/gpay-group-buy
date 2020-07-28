@@ -15,13 +15,20 @@
  */
 
 import {COMMIT_KIND, LISTING_KIND} from '../constants/kinds';
-import {Filter, CommitResponse, CommitPayload} from '../interfaces';
+import {
+  Filter,
+  CommitResponse,
+  CommitPayload,
+  CommitEditPayload,
+} from '../interfaces';
 import {
   get,
   getAll,
   addAndUpdateRelatedEntity,
   deleteAndUpdateRelatedEntity,
+  editAndUpdateRelatedEntity,
 } from './datastore';
+import {UpdateRule} from './interfaces';
 
 /**
  * Gets a commit with the specified id from datastore.
@@ -68,6 +75,47 @@ const addCommit = async (
 };
 
 /**
+ * Edits a commit with the specified id according to the edit rules.
+ * Returns the edited commit data.
+ * Throws an error if edit is not successful.
+ * @param commitId Id of the commit to be edited
+ * @param fieldsToEdit Fields of the commit to be edited
+ * @param affectedListingId Id of the listing that might be affected
+ */
+const editCommit = async (
+  commitId: number,
+  fieldsToEdit: CommitEditPayload,
+  affectedListingId: number
+): Promise<CommitResponse> => {
+  const commitEditRules: UpdateRule[] = Object.keys(fieldsToEdit).map(
+    field => ({
+      property: field,
+      op: 'replace',
+      value: fieldsToEdit[field as keyof CommitEditPayload],
+    })
+  );
+
+  const listingUpdateRules: UpdateRule[] = [];
+  if (fieldsToEdit.commitStatus === 'paid') {
+    listingUpdateRules.push({
+      property: 'numPaid',
+      op: 'add',
+      value: 1,
+    });
+  }
+
+  await editAndUpdateRelatedEntity(
+    COMMIT_KIND,
+    commitId,
+    commitEditRules,
+    LISTING_KIND,
+    affectedListingId,
+    listingUpdateRules
+  );
+  return getCommit(commitId);
+};
+
+/**
  * Deletes a commit with the specified id from datastore.
  * Throws an error if deleting is not successful.
  * @param commitId Id of the commit to be deleted
@@ -88,4 +136,4 @@ const deleteCommit = async (commitId: number, listingId: number) =>
     ]
   );
 
-export default {getCommit, getAllCommits, addCommit, deleteCommit};
+export default {getCommit, getAllCommits, addCommit, editCommit, deleteCommit};
