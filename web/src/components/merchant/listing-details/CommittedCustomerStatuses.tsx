@@ -79,6 +79,11 @@ interface CommittedCustomerStatusesProps {
   listing: Listing;
 }
 
+/**
+ * A component that shows the number of customers committed to a listing who have
+ * their items sent ('Completed'), have yet to pay ('Awaiting Payment') and have
+ * paid but do not have their items sent yet ('Pending Action').
+ */
 const CommittedCustomerStatuses: React.FC<CommittedCustomerStatusesProps> = ({
   listing,
 }) => {
