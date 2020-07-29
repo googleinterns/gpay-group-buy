@@ -31,7 +31,7 @@ const Brand = styled(BrandSvg)`
  */
 const LoadingPage: React.FC = () => (
   <CentralisedPage>
-    <Brand />
+    <Brand aria-label="GPay GroupBuy Brand" />
     <Loading big />
   </CentralisedPage>
 );
