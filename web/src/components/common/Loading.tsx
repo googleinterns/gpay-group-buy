@@ -37,6 +37,7 @@ const Loading: React.FC<LoadingProps> = ({big, className}) => {
   return (
     <CentralisedContainer className={className}>
       <Loader
+        aria-label="Loader"
         type="ThreeDots"
         color="var(--green)"
         width={width}
