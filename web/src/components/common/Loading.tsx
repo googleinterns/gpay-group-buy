@@ -24,17 +24,18 @@ const BIG_LOADER_WIDTH = 75;
 
 interface LoadingProps {
   big?: boolean;
+  className?: string; // Prop passed by styled-components wrapper
 }
 
 /**
  * Loading component in a centralised container.
  */
-const Loading: React.FC<LoadingProps> = ({big}) => {
+const Loading: React.FC<LoadingProps> = ({big, className}) => {
   const width = big ? BIG_LOADER_WIDTH : DEFAULT_LOADER_WIDTH;
   const height = width / 2;
 
   return (
-    <CentralisedContainer>
+    <CentralisedContainer className={className}>
       <Loader
         type="ThreeDots"
         color="var(--green)"
