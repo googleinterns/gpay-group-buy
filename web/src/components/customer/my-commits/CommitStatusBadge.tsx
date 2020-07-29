@@ -46,6 +46,7 @@ const BadgeContainer = styled.div`
   font-size: 0.9em;
   letter-spacing: 0.5px;
 
+  /* stylelint-disable value-keyword-case */
   ${({commitStatus}: CommitStatusBadgeProps) => {
     switch (commitStatus) {
       case 'successful':
@@ -59,7 +60,7 @@ const BadgeContainer = styled.div`
       default:
         return '';
     }
-  }}
+  }}/* stylelint-enable value-keyword-case */
 `;
 
 const getBadgeText = (commitStatus: CommitStatus) => {
