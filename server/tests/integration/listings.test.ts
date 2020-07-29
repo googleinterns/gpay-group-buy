@@ -31,30 +31,35 @@ describe('Listings endpoints', () => {
       expect(res.body).toMatchObject(expectedListingData);
     });
 
-    test('Should filter by listing ids', async () => {
-      const expectedResults = [
-        [listingsFixtures.responseData?.[1]],
-        [
-          listingsFixtures.responseData?.[0],
-          listingsFixtures.responseData?.[1],
-        ],
+    test('Should filter by a single listing id', async () => {
+      const expectedListingsData = [listingsFixtures.responseData?.[1]];
+      const listingIds = expectedListingsData.map(listing => listing.id);
+
+      const res = await request(app)
+        .get('/listings')
+        .query({
+          ids: listingIds.join(','),
+        });
+
+      expect(res.status).toBe(200);
+      expect(res.body).toMatchObject(expectedListingsData);
+    });
+
+    test('Should filter by multiple listing ids', async () => {
+      const expectedListingsData = [
+        listingsFixtures.responseData?.[0],
+        listingsFixtures.responseData?.[1],
       ];
-      const listingIdsInputs = expectedResults.map(expectedListingData =>
-        expectedListingData.map(listing => listing.id)
-      );
+      const listingIds = expectedListingsData.map(listing => listing.id);
 
-      expectedResults.forEach(async (expectedListingData, idx) => {
-        const listingIds = listingIdsInputs[idx];
+      const res = await request(app)
+        .get('/listings')
+        .query({
+          ids: listingIds.join(','),
+        });
 
-        const res = await request(app)
-          .get('/listings')
-          .query({
-            ids: listingIds.join(','),
-          });
-
-        expect(res.status).toBe(200);
-        expect(res.body).toMatchObject(expectedListingData);
-      });
+      expect(res.status).toBe(200);
+      expect(res.body).toMatchObject(expectedListingsData);
     });
 
     test('Should not filter by other fields when filtering by listing ids', async () => {
@@ -64,6 +69,14 @@ describe('Listings endpoints', () => {
       const res = await request(app).get('/listings').query({
         ids: targetListingId,
         merchantId: targetMerchantId,
+      });
+
+      expect(res.status).toBe(400);
+    });
+
+    test('Should not filter by empty listing ids', async () => {
+      const res = await request(app).get('/listings').query({
+        ids: '',
       });
 
       expect(res.status).toBe(400);
