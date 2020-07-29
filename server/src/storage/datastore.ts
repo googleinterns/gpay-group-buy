@@ -54,7 +54,7 @@ export const get = async (kind: string, id: number) => {
 /**
  * A Datastore wrapper that gets a particular entity with the specified Kind and id.
  * @param kind The Kind that is being queried
- * @param id The id of the Entity being queried
+ * @param ids The ids of the Entity being queried
  */
 export const getAllWithIds = async (
   kind: string,

@@ -28,17 +28,19 @@ const listingRouter = Router();
 /**
  * Handles the get request for retrieving all listings that satisfy the query
  * parameters.
- * Querying by ids is a restricted query, once the id field is specified, requester
- * would not be allowed to filter by any other query params.
- * Otherwise, it would be a Bad Request.
  */
 listingRouter.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      /**
+       * Querying by ids is a restricted query, once the id field is specified, requester
+       * would not be allowed to filter by any other query params.
+       * Otherwise, it would be a Bad Request.
+       */
       const {ids: idsStr} = req.query;
       if (idsStr !== undefined) {
-        if (Object.keys(req.query).length > 1) {
+        if (Object.keys(req.query).length > 1 || idsStr === '') {
           res.sendStatus(400);
           return;
         }
