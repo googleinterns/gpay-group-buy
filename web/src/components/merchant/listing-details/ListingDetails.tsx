@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
-import {getListing} from 'api';
 import ListingDescription from 'components/common/ListingDescription';
 import {Listing} from 'interfaces';
 import styled from 'styled-components';
@@ -33,7 +32,7 @@ const ListingImage = styled.img`
 `;
 
 interface ListingDetailsProps {
-  listingId: number;
+  listing: Listing;
 }
 
 /**
@@ -42,31 +41,15 @@ interface ListingDetailsProps {
  * because the former doesn't contain merchant details and has a smaller font
  * for price and a larger font for commit progress.
  */
-const ListingDetails: React.FC<ListingDetailsProps> = ({listingId}) => {
-  const [listing, setListing] = useState<Listing | undefined>();
-
-  useEffect(() => {
-    const fetchListings = async () => {
-      const listing = await getListing(listingId);
-      setListing(listing);
-    };
-    fetchListings();
-  }, [listingId]);
-
-  return (
-    <>
-      {listing && (
-        <ListingDetailsContainer>
-          <ListingImage src={listing.imgUrl} alt={`Image of ${listing.name}`} />
-          <ListingDescription
-            listing={listing}
-            priceFontSize="medium"
-            commitProgressFontSize="large"
-          />
-        </ListingDetailsContainer>
-      )}
-    </>
-  );
-};
+const ListingDetails: React.FC<ListingDetailsProps> = ({listing}) => (
+  <ListingDetailsContainer>
+    <ListingImage src={listing.imgUrl} alt={`Image of ${listing.name}`} />
+    <ListingDescription
+      listing={listing}
+      priceFontSize="medium"
+      commitProgressFontSize="large"
+    />
+  </ListingDetailsContainer>
+);
 
 export default ListingDetails;
