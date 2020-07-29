@@ -20,7 +20,7 @@ import {useEffect, useState} from 'react';
 
 import {getAllListings} from 'api';
 import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
-import {Listing} from 'interfaces';
+import {Listing, ListingStatus} from 'interfaces';
 
 type ListingsType = 'ongoing' | 'past';
 
@@ -44,7 +44,11 @@ const useListings = (listingsType: ListingsType) => {
         });
       } else {
         const listingGroups = await Promise.all(
-          ['successful', 'completed', 'unsuccessful'].map(listingStatus =>
+          ([
+            'successful',
+            'completed',
+            'unsuccessful',
+          ] as ListingStatus[]).map(listingStatus =>
             getAllListings({merchantId, listingStatus})
           )
         );
