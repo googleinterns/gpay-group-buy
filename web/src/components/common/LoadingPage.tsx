@@ -15,31 +15,20 @@
  */
 
 import React from 'react';
+import CentralisedPage from 'components/common/CentralisedPage';
+import Loading from 'components/common/Loading';
+import { ReactComponent as GpayLogoSvg } from 'assets/gpay-groupbuy-brand.svg';
+import styled from 'styled-components';
 
-import Loader from 'react-loader-spinner';
-import CentralisedContainer from 'components/common/CentralisedContainer';
+const GpayLogo = styled(GpayLogoSvg)`
+  max-width: 200px;
+`;
 
-const DEFAULT_LOADER_WIDTH = 45;
-const BIG_LOADER_WIDTH = 75;
+const LoadingPage: React.FC = () => (
+  <CentralisedPage>
+    <GpayLogo />
+    <Loading big />
+  </CentralisedPage>
+);
 
-interface LoadingProps {
-  big?: boolean;
-}
-
-const Loading: React.FC<LoadingProps> = ({big}) => {
-  const width = big ? BIG_LOADER_WIDTH : DEFAULT_LOADER_WIDTH;
-  const height = width / 2;
-
-  return (
-    <CentralisedContainer>
-      <Loader
-        type="ThreeDots"
-        color="var(--green)"
-        width={width}
-        height={height}
-      />
-    </CentralisedContainer>
-  );
-};
-
-export default Loading;
+export default LoadingPage;

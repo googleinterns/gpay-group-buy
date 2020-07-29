@@ -18,16 +18,16 @@ import {MERCHANT_ROOT} from 'constants/routes';
 
 import React, {lazy, Suspense} from 'react';
 
-import Loading from 'components/common/Loading';
 import CustomerRoutes from 'components/customer/Routes';
 import MerchantRoutes from 'components/merchant/Routes';
 import {Switch, Route} from 'react-router-dom';
+import LoadingPage from 'components/common/LoadingPage';
 
 // Design samples
 const DesignSamplesPage = lazy(() => import('components/design-samples'));
 
 const Routes: React.FC = () => (
-  <Suspense fallback={<Loading />}>
+  <Suspense fallback={<LoadingPage />}>
     <Switch>
       <Route exact path="/design-samples" component={DesignSamplesPage} />
       <Route path={MERCHANT_ROOT} component={MerchantRoutes} />
