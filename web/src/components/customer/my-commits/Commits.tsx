@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
-import {Commit, GroupedCommits} from 'interfaces';
+import {getAllListings} from 'api';
+import {Commit, GroupedCommits, Listing} from 'interfaces';
 import styled from 'styled-components';
+
+import ListingCardWithCommitStatus from './ListingCardWithCommitStatus';
 
 const CommitsContainer = styled.div`
   display: flex;
@@ -33,10 +36,31 @@ interface CommitSectionProps {
   commits: Commit[];
 }
 
-// TODO: Change this to show horizontal listing cards
-const CommitSection: React.FC<CommitSectionProps> = ({commits}) => (
-  <>{JSON.stringify(commits)}</>
-);
+const CommitSection: React.FC<CommitSectionProps> = ({commits}) => {
+  const [listings, setListings] = useState<Listing[]>([]);
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      const listingIds = commits.map(commit => commit.listingId);
+      const listings = await getAllListings({ids: listingIds.join(',')});
+      setListings(listings);
+    };
+
+    fetchListings();
+  }, [commits]);
+
+  return (
+    <>
+      {listings.map((listing, idx) => (
+        <ListingCardWithCommitStatus
+          key={idx}
+          listing={listing}
+          commitStatus={commits[idx].commitStatus}
+        />
+      ))}
+    </>
+  );
+};
 
 interface CommitsProps {
   commits: GroupedCommits;
