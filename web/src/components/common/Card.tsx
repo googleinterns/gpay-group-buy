@@ -20,7 +20,7 @@ import CardImage from 'components/common/CardImage';
 import {Image} from 'interfaces';
 import styled from 'styled-components';
 
-const DEFAULT_IMG_WIDTH = '150px';
+const DEFAULT_IMG_WIDTH = '116px';
 
 interface CardContainerProps {
   horizontal?: boolean;

@@ -21,11 +21,43 @@ import DeadlineTag from 'components/common/DeadlineTag';
 import LazyWrapper from 'components/common/LazyWrapper';
 import ListingPrice from 'components/common/ListingPrice';
 import {Money} from 'interfaces';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
+
+type ChildrenPos = 'bottom' | 'right';
 
 const CardContent = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+interface DetailsProps {
+  childrenPos?: ChildrenPos;
+}
+
+const detailsColStyle = css`
+  flex-direction: column;
+`;
+
+const detailsRowStyle = css`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Details = styled.div`
+  display: flex;
+
+  /* stylelint-disable value-keyword-case */
+  ${({childrenPos}: DetailsProps) => {
+    switch (childrenPos) {
+      case 'right':
+        return detailsRowStyle;
+      case 'bottom':
+      default:
+        return detailsColStyle;
+    }
+  }};
+  /* stylelint-enable value-keyword-case */
 `;
 
 const ListingName = styled.span`
@@ -41,6 +73,7 @@ interface ListingCardProps {
   endDate: string;
   imgUrl: string;
   horizontal?: boolean;
+  childrenPos?: ChildrenPos;
 }
 
 /**
@@ -54,6 +87,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   imgUrl,
   endDate,
   horizontal,
+  childrenPos = 'bottom',
   children,
 }) => (
   <LazyWrapper>
@@ -66,9 +100,13 @@ const ListingCard: React.FC<ListingCardProps> = ({
     >
       <CardContent>
         <DeadlineTag deadline={endDate} />
-        <ListingName>{listingName}</ListingName>
-        <ListingPrice price={price} oldPrice={oldPrice} />
-        {children}
+        <Details childrenPos={childrenPos}>
+          <div>
+            <ListingName>{listingName}</ListingName>
+            <ListingPrice price={price} oldPrice={oldPrice} />
+          </div>
+          <div>{children}</div>
+        </Details>
       </CardContent>
     </Card>
   </LazyWrapper>
