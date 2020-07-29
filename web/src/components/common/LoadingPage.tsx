@@ -15,10 +15,12 @@
  */
 
 import React from 'react';
+
 import CentralisedPage from 'components/common/CentralisedPage';
 import Loading from 'components/common/Loading';
-import { ReactComponent as GpayLogoSvg } from 'assets/gpay-groupbuy-brand.svg';
 import styled from 'styled-components';
+
+import {ReactComponent as GpayLogoSvg} from 'assets/gpay-groupbuy-brand.svg';
 
 const GpayLogo = styled(GpayLogoSvg)`
   max-width: 200px;

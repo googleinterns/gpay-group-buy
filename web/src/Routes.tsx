@@ -18,10 +18,10 @@ import {MERCHANT_ROOT} from 'constants/routes';
 
 import React, {lazy, Suspense} from 'react';
 
+import LoadingPage from 'components/common/LoadingPage';
 import CustomerRoutes from 'components/customer/Routes';
 import MerchantRoutes from 'components/merchant/Routes';
 import {Switch, Route} from 'react-router-dom';
-import LoadingPage from 'components/common/LoadingPage';
 
 // Design samples
 const DesignSamplesPage = lazy(() => import('components/design-samples'));

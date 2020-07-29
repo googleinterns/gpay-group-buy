@@ -16,8 +16,8 @@
 
 import React from 'react';
 
-import Loader from 'react-loader-spinner';
 import CentralisedContainer from 'components/common/CentralisedContainer';
+import Loader from 'react-loader-spinner';
 
 const DEFAULT_LOADER_WIDTH = 45;
 const BIG_LOADER_WIDTH = 75;
