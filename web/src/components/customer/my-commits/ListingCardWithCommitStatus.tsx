@@ -20,18 +20,6 @@ import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
 import CommitStatusBadge from 'components/customer/my-commits/CommitStatusBadge';
 import {Listing, CommitStatus} from 'interfaces';
-import styled from 'styled-components';
-
-const CommitsContainer = styled.div`
-  display: flex;
-  flex-flow: column wrap;
-
-  word-break: break-word;
-
-  & > h2 {
-    font-size: 1.4em;
-  }
-`;
 
 interface ListingCardProps {
   listing: Listing;
