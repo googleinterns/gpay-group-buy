@@ -26,6 +26,9 @@ interface LoadingProps {
   big?: boolean;
 }
 
+/**
+ * Loading component in a centralised container.
+ */
 const Loading: React.FC<LoadingProps> = ({big}) => {
   const width = big ? BIG_LOADER_WIDTH : DEFAULT_LOADER_WIDTH;
   const height = width / 2;

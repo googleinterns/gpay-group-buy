@@ -20,15 +20,18 @@ import CentralisedPage from 'components/common/CentralisedPage';
 import Loading from 'components/common/Loading';
 import styled from 'styled-components';
 
-import {ReactComponent as GpayLogoSvg} from 'assets/gpay-groupbuy-brand.svg';
+import {ReactComponent as BrandSvg} from 'assets/gpay-groupbuy-brand.svg';
 
-const GpayLogo = styled(GpayLogoSvg)`
+const Brand = styled(BrandSvg)`
   max-width: 200px;
 `;
 
+/**
+ * Full loading page with a Group buy brand on top of the Loading spinner.
+ */
 const LoadingPage: React.FC = () => (
   <CentralisedPage>
-    <GpayLogo />
+    <Brand />
     <Loading big />
   </CentralisedPage>
 );
