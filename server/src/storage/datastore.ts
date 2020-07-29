@@ -17,7 +17,7 @@
 import {Datastore, Transaction} from '@google-cloud/datastore';
 import {Entity} from '@google-cloud/datastore/build/src/entity';
 
-import {Filter, StringKeyObject} from '../interfaces';
+import {Filter, OrderRule, StringKeyObject} from '../interfaces';
 import {UpdateRule} from './interfaces';
 
 const datastore = new Datastore();
@@ -55,11 +55,22 @@ export const get = async (kind: string, id: number) => {
  * A Datastore wrapper that gets all entities of a specified Kind.
  * @param kind The Kind that is being queried
  * @param filters Any filters that will be applied to the query
+ * @param orderRules Any order rules that will be used to sort the query result.
+ * If an orderRule doesn't have a descending property specified, the default
+ * direction is ascending.
  */
-export const getAll = async (kind: string, filters?: Filter[]) => {
+export const getAll = async (
+  kind: string,
+  filters?: Filter[],
+  orderRules?: OrderRule[]
+) => {
   let query = datastore.createQuery(kind);
-  filters?.forEach(filter => {
-    query = query.filter(filter.property, filter.value);
+  filters?.forEach(({property, value}) => {
+    query = query.filter(property, value);
+  });
+
+  orderRules?.forEach(({property, descending}) => {
+    query = query.order(property, {descending});
   });
 
   const [res] = await datastore.runQuery(query);
@@ -124,6 +135,32 @@ const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
 };
 
 /**
+ * Updates an entity with the specified kind and id in a transaction
+ * according to the update rules.
+ * @param transaction Transaction that will carry out the update
+ * @param kind Kind of the entity to be updated
+ * @param id id of the entity to be updated
+ * @param updateRules Rules to update the entity
+ */
+const updateEntityInTransaction = async (
+  transaction: Transaction,
+  kind: string,
+  id: number,
+  updateRules: UpdateRule[]
+) => {
+  const key = datastore.key([kind, id]);
+
+  const [data] = await transaction.get(key);
+  updateRules.forEach(updateRule => updateData(data, updateRule));
+
+  const entity = {
+    key,
+    data,
+  };
+  transaction.update(entity);
+};
+
+/**
  * A Datastore wrapper that inserts an entity and updates a related entity in the same transaction.
  * Returns the id of the entity that is inserted.
  * If uniqueProperties are specified,
@@ -147,8 +184,6 @@ export const addAndUpdateRelatedEntity = async (
   const keyToInsert = datastore.key(kindToInsert);
   const entityToInsert = {key: keyToInsert, data: dataToInsert};
 
-  const keyToUpdate = datastore.key([relatedKindToUpdate, relatedIdToUpdate]);
-
   try {
     await transaction.run();
 
@@ -163,20 +198,61 @@ export const addAndUpdateRelatedEntity = async (
       transaction.insert(entityToInsert);
     }
 
-    const [data] = await transaction.get(keyToUpdate);
-    updateRules.forEach(updateRule => updateData(data, updateRule));
-
-    const entityToUpdate = {
-      key: keyToUpdate,
-      data,
-    };
-    transaction.update(entityToUpdate);
+    await updateEntityInTransaction(
+      transaction,
+      relatedKindToUpdate,
+      relatedIdToUpdate,
+      updateRules
+    );
     await transaction.commit();
   } catch (err) {
     await transaction.rollback();
     throw new Error(`Failed to add ${kindToInsert}. ${err}`);
   }
   return Number(keyToInsert.id);
+};
+
+/**
+ * Edits an entity and updates a related entity in the same transaction.
+ * @param kindToEdit Kind of the entity to be edited
+ * @param idToEdit Id of the entity to be edited
+ * @param editRules Rules to edit the entity
+ * @param relatedKindToUpdate Kind of the related entity to be updated
+ * @param relatedIdToUpdate Id of the entity to be updated
+ * @param updateRules Rules to update the related entity
+ */
+export const editAndUpdateRelatedEntity = async (
+  kindToEdit: string,
+  idToEdit: number,
+  editRules: UpdateRule[],
+  relatedKindToUpdate: string,
+  relatedIdToUpdate: number,
+  updateRules: UpdateRule[]
+) => {
+  const transaction = datastore.transaction();
+
+  const keyToEdit = datastore.key([kindToEdit, idToEdit]);
+
+  try {
+    await transaction.run();
+    await updateEntityInTransaction(
+      transaction,
+      kindToEdit,
+      idToEdit,
+      editRules
+    );
+
+    await updateEntityInTransaction(
+      transaction,
+      relatedKindToUpdate,
+      relatedIdToUpdate,
+      updateRules
+    );
+    await transaction.commit();
+  } catch (err) {
+    await transaction.rollback();
+    throw new Error(`Failed to edit ${keyToEdit}. ${err}`);
+  }
 };
 
 /**
@@ -197,20 +273,16 @@ export const deleteAndUpdateRelatedEntity = async (
 
   const keyToDelete = datastore.key([kindToDelete, idToDelete]);
 
-  const keyToUpdate = datastore.key([relatedKindToUpdate, relatedIdToUpdate]);
-
   try {
     await transaction.run();
     transaction.delete(keyToDelete);
 
-    const [data] = await transaction.get(keyToUpdate);
-    updateRules.forEach(updateRule => updateData(data, updateRule));
-
-    const entityToUpdate = {
-      key: keyToUpdate,
-      data,
-    };
-    transaction.update(entityToUpdate);
+    await updateEntityInTransaction(
+      transaction,
+      relatedKindToUpdate,
+      relatedIdToUpdate,
+      updateRules
+    );
     await transaction.commit();
   } catch (err) {
     await transaction.rollback();

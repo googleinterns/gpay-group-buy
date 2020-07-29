@@ -23,18 +23,40 @@ import {
 } from '../interfaces';
 import {get, getAll, add} from './datastore';
 
-const getNumOngoingCommits = async (customerId: number) => {
-  const commits: CommitResponse[] = await getAll(COMMIT_KIND, [
-    {
-      property: 'customerId',
-      value: customerId,
-    },
+/**
+ * Gets number of commits used by the specified customer and
+ * returns a CustomerResponse containing numUsedCommits.
+ * @param customer Existing data of the customer from datastore
+ */
+const withNumUsedCommits = async (
+  customer: CustomerDatastoreReponse
+): Promise<CustomerResponse> => {
+  const customerFilter = {
+    property: 'customerId',
+    value: customer.id,
+  };
+
+  const ongoingCommits: CommitResponse[] = await getAll(COMMIT_KIND, [
+    customerFilter,
     {
       property: 'commitStatus',
       value: 'ongoing',
     },
   ]);
-  return commits.length;
+  const succesfulCommits: CommitResponse[] = await getAll(COMMIT_KIND, [
+    customerFilter,
+    {
+      property: 'commitStatus',
+      value: 'successful',
+    },
+  ]);
+
+  const numUsedCommits = ongoingCommits.length + succesfulCommits.length;
+
+  return {
+    ...customer,
+    numUsedCommits,
+  };
 };
 
 const getCustomer = async (customerId: number): Promise<CustomerResponse> => {
@@ -42,11 +64,7 @@ const getCustomer = async (customerId: number): Promise<CustomerResponse> => {
     CUSTOMER_KIND,
     customerId
   );
-  const numOngoingCommits = await getNumOngoingCommits(customerId);
-  return {
-    ...customer,
-    numOngoingCommits,
-  };
+  return withNumUsedCommits(customer);
 };
 
 /**
@@ -68,11 +86,7 @@ const getCustomerWithGpayId = async (
     return null;
   }
 
-  const numOngoingCommits = await getNumOngoingCommits(customer.id);
-  return {
-    ...customer,
-    numOngoingCommits,
-  };
+  return withNumUsedCommits(customer);
 };
 
 /**

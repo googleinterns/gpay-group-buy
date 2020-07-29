@@ -37,7 +37,7 @@ export interface CustomerDatastoreReponse extends Required<CustomerPayload> {
  * client side would receive.
  */
 export interface CustomerResponse extends CustomerDatastoreReponse {
-  numOngoingCommits: number;
+  numUsedCommits: number;
 }
 
 /**
@@ -61,7 +61,7 @@ export interface CommitComputedProperties {
 
 /**
  * CommitRequest Interface that contains the fields that will be provided
- * by the client in the POST/PUT request body.
+ * by the client in the request body to create a Commit.
  */
 export interface CommitRequest {
   customerId: number;
@@ -69,17 +69,41 @@ export interface CommitRequest {
 }
 
 /**
+ * FulfilmentDetails Interface that contains the fields of a fulfilment.
+ */
+interface FulfilmentDetails {
+  name: string;
+  address: string;
+  contactNumber: string; // E164 format
+}
+
+/**
+ * CommitPaymentRequest Interface that contains the fields that will be provided
+ * by the client in the request body.
+ */
+export interface CommitPaymentRequest {
+  fulfilmentDetails: FulfilmentDetails;
+}
+
+/**
  * CommitPayload Interface that contains the fields of the payload that
- * would be sent to create a Listing Entity.
+ * would be sent to create a Commit Entity.
  */
 export interface CommitPayload
   extends CommitComputedProperties,
-    CommitRequest {}
+    CommitRequest,
+    CommitPaymentRequest {}
 
 /**
  * Union type of the keys of CommitPayload.
  */
 export type CommitPayloadKey = keyof CommitPayload;
+
+/**
+ * CommitEditPayload Interface that contains the fields of the payload that
+ * would be sent to edit a Commit Entity.
+ */
+export type CommitEditPayload = Partial<CommitPayload>;
 
 /**
  * CommitResponse Interface that contains the fields of the Response that
@@ -175,6 +199,14 @@ export interface MerchantResponse extends MerchantPayload {
 export interface Filter {
   property: string;
   value: any;
+}
+
+/**
+ * OrderRule Interface that contains order rules for sorting.
+ */
+export interface OrderRule {
+  property: string;
+  descending?: boolean;
 }
 
 /**
