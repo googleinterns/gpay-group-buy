@@ -21,7 +21,7 @@ import {
   CustomerPayload,
   CustomerDatastoreReponse,
 } from '../interfaces';
-import {get, getAll, add} from './datastore';
+import {getEntity, getAllEntities, addEntity} from './datastore';
 
 /**
  * Gets number of commits used by the specified customer and
@@ -36,14 +36,14 @@ const withNumUsedCommits = async (
     value: customer.id,
   };
 
-  const ongoingCommits: CommitResponse[] = await getAll(COMMIT_KIND, [
+  const ongoingCommits: CommitResponse[] = await getAllEntities(COMMIT_KIND, [
     customerFilter,
     {
       property: 'commitStatus',
       value: 'ongoing',
     },
   ]);
-  const succesfulCommits: CommitResponse[] = await getAll(COMMIT_KIND, [
+  const succesfulCommits: CommitResponse[] = await getAllEntities(COMMIT_KIND, [
     customerFilter,
     {
       property: 'commitStatus',
@@ -60,7 +60,7 @@ const withNumUsedCommits = async (
 };
 
 const getCustomer = async (customerId: number): Promise<CustomerResponse> => {
-  const customer: CustomerDatastoreReponse = await get(
+  const customer: CustomerDatastoreReponse = await getEntity(
     CUSTOMER_KIND,
     customerId
   );
@@ -76,12 +76,15 @@ const getCustomer = async (customerId: number): Promise<CustomerResponse> => {
 const getCustomerWithGpayId = async (
   gpayId: string
 ): Promise<CustomerResponse | null> => {
-  const [customer]: CustomerDatastoreReponse[] = await getAll(CUSTOMER_KIND, [
-    {
-      property: 'gpayId',
-      value: gpayId,
-    },
-  ]);
+  const [customer]: CustomerDatastoreReponse[] = await getAllEntities(
+    CUSTOMER_KIND,
+    [
+      {
+        property: 'gpayId',
+        value: gpayId,
+      },
+    ]
+  );
   if (customer === undefined) {
     return null;
   }
@@ -98,7 +101,7 @@ const getCustomerWithGpayId = async (
 const addCustomer = async (
   customer: CustomerPayload
 ): Promise<CustomerResponse> => {
-  const customerId = await add(CUSTOMER_KIND, customer, [
+  const customerId = await addEntity(CUSTOMER_KIND, customer, [
     {
       property: 'gpayId',
       value: customer.gpayId,
