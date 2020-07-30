@@ -77,11 +77,10 @@ const extractAndAppendId = (res: Entity) => {
 
 /**
  * A Datastore wrapper that gets a particular entity with the specified Kind and id.
- * If actor is not specified, gets using datastore.
+ * If transaction is not specified, gets using datastore.
  * @param kind The Kind that is being retrieved
  * @param id The id of the Entity being retrieved
- * @param transaction Transaction that will carry out the retrieval,
- * if not specified, datastore will carry out the operation
+ * @param transaction Transaction that will carry out the retrieval
  */
 export const getEntity = async (
   kind: string,
@@ -113,14 +112,13 @@ export const getEntityInTransaction = async (kind: string, id: number) => (
 
 /**
  * A Datastore wrapper that gets all entities of a specified Kind.
- * If actor is not specified, gets using datastore.
+ * If transaction is not specified, gets using datastore.
  * @param kind The Kind that is being queried
  * @param filters Any filters that will be applied to the query
  * @param orderRules Any order rules that will be used to sort the query result.
  * If an orderRule doesn't have a descending property specified, the default
  * direction is ascending.
- * @param transaction Transaction that will carry out the query,
- * if not specified, datastore will carry out the operation
+ * @param transaction Transaction that will carry out the query
  */
 export const getAllEntities = async (
   kind: string,
@@ -215,12 +213,11 @@ const insertUniqueEntity = async (
  * a function that resolves to the id of the inserted entity.
  * If uniqueProperties are specified, the entity would not be added if another entity with the
  * same value for the unique properties already exists.
- * If actor is not specified, adds using datastore.
+ * If transaction is not specified, adds using datastore.
  * @param kind The Kind of the Entity to be added
  * @param data The data of the Entity to be added
  * @param uniqueProperties The properties that should be unique for the specified kind
- * @param transaction Transaction that will carry out the adding,
- * if not specified, datastore will carry out the operation
+ * @param transaction Transaction that will carry out the adding
  */
 const addEntityHelper = async (
   kind: string,
@@ -252,7 +249,6 @@ const addEntityHelper = async (
  * the id of the inserted entity.
  * If uniqueProperties are specified, the entity would not be added if another entity with the
  * same value for the unique properties already exists.
- * If actor is not specified, adds using datastore.
  * @param kind The Kind of the Entity to be added
  * @param data The data of the Entity to be added
  * @param uniqueProperties The properties that should be unique for the specified kind
@@ -307,12 +303,11 @@ const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
 /**
  * A Datastore wrapper that updates an entity with the specified kind and id
  * according to the update rules.
- * If actor is not specified, updates using datastore.
+ * If transaction is not specified, updates using datastore.
  * @param kind Kind of the entity to be updated
  * @param id id of the entity to be updated
  * @param updateRules Rules to update the entity
- * @param transaction Transaction that will carry out the update,
- * if not specified, datastore will carry out the operation
+ * @param transaction Transaction that will carry out the update
  */
 export const updateEntity = async (
   kind: string,
@@ -355,11 +350,10 @@ export const updateInTransaction = (
 
 /**
  * A Datastore wrapper that deletes an entity with the specified id.
- * If actor is not specified, deletes using datastore.
+ * If transaction is not specified, deletes using datastore.
  * @param kind Kind of the entity to be deleted
  * @param id Id of the entity to be deleted
- * @param transaction Transaction that will carry out the deletion,
- * if not specified, datastore will carry out the operation
+ * @param transaction Transaction that will carry out the deletion
  */
 export const deleteEntity = async (
   kind: string,
