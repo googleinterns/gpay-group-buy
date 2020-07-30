@@ -80,13 +80,16 @@ const extractAndAppendId = (res: Entity) => {
  * If actor is not specified, gets using datastore.
  * @param kind The Kind that is being retrieved
  * @param id The id of the Entity being retrieved
- * @param actor Datastore or Transaction that will carry out the retrieval
+ * @param transaction Transaction that will carry out the retrieval,
+ * if not specified, datastore will carry out the operation
  */
 export const getEntity = async (
   kind: string,
   id: number,
-  actor: Transaction | Datastore = datastore
+  transaction?: Transaction
 ) => {
+  const actor = transaction || datastore;
+
   const key = datastore.key([kind, id]);
 
   try {
@@ -116,14 +119,17 @@ export const getEntityInTransaction = async (kind: string, id: number) => (
  * @param orderRules Any order rules that will be used to sort the query result.
  * If an orderRule doesn't have a descending property specified, the default
  * direction is ascending.
- * @param actor Datastore or Transaction that will carry out the query
+ * @param transaction Transaction that will carry out the query,
+ * if not specified, datastore will carry out the operation
  */
 export const getAllEntities = async (
   kind: string,
   filters?: Filter[],
   orderRules?: OrderRule[],
-  actor: Transaction | Datastore = datastore
+  transaction?: Transaction
 ) => {
+  const actor = transaction || datastore;
+
   try {
     let query = actor.createQuery(kind);
     filters?.forEach(filter => {
@@ -213,14 +219,17 @@ const insertUniqueEntity = async (
  * @param kind The Kind of the Entity to be added
  * @param data The data of the Entity to be added
  * @param uniqueProperties The properties that should be unique for the specified kind
- * @param actor Datastore or Transaction that will carry out the adding
+ * @param transaction Transaction that will carry out the adding,
+ * if not specified, datastore will carry out the operation
  */
 const addEntityHelper = async (
   kind: string,
   data: object,
   uniqueProperties?: Filter[],
-  actor: Transaction | Datastore = datastore
+  transaction?: Transaction
 ): Promise<() => number> => {
+  const actor = transaction || datastore;
+
   const key = datastore.key(kind);
   const entity = {key, data};
 
@@ -302,14 +311,17 @@ const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
  * @param kind Kind of the entity to be updated
  * @param id id of the entity to be updated
  * @param updateRules Rules to update the entity
- * @param actor Datastore or Transaction that will carry out the update
+ * @param transaction Transaction that will carry out the update,
+ * if not specified, datastore will carry out the operation
  */
 export const updateEntity = async (
   kind: string,
   id: number,
   updateRules: UpdateRule[],
-  actor: Transaction | Datastore = datastore
+  transaction?: Transaction
 ) => {
+  const actor = transaction || datastore;
+
   const key = datastore.key([kind, id]);
 
   try {
@@ -346,13 +358,16 @@ export const updateInTransaction = (
  * If actor is not specified, deletes using datastore.
  * @param kind Kind of the entity to be deleted
  * @param id Id of the entity to be deleted
- * @param actor Datastore or Transaction that will carry out the deletion
+ * @param transaction Transaction that will carry out the deletion,
+ * if not specified, datastore will carry out the operation
  */
 export const deleteEntity = async (
   kind: string,
   id: number,
-  actor: Transaction | Datastore = datastore
+  transaction?: Transaction
 ) => {
+  const actor = transaction || datastore;
+
   const key = datastore.key([kind, id]);
 
   try {
