@@ -267,7 +267,7 @@ export const addEntity = async (
  * @param data The data of the Entity to be added
  * @param uniqueProperties The properties that should be unique for the specified kind
  */
-export const addInTransaction = (
+export const addEntityInTransaction = (
   kind: string,
   data: object,
   uniqueProperties?: Filter[]
@@ -341,7 +341,7 @@ export const updateEntity = async (
  * @param id id of the entity to be updated
  * @param updateRules Rules to update the entity
  */
-export const updateInTransaction = (
+export const updateEntityInTransaction = (
   kind: string,
   id: number,
   updateRules: UpdateRule[]
@@ -378,6 +378,6 @@ export const deleteEntity = async (
  * @param kind Kind of the entity to be deleted
  * @param id Id of the entity to be deleted
  */
-export const deleteInTransaction = (kind: string, id: number) => async (
+export const deleteEntityInTransaction = (kind: string, id: number) => async (
   transaction: Transaction
 ) => deleteEntity(kind, id, transaction);

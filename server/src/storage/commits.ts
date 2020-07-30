@@ -25,9 +25,9 @@ import {
   getEntity,
   getAllEntities,
   makeTransaction,
-  deleteInTransaction,
-  updateInTransaction,
-  addInTransaction,
+  deleteEntityInTransaction,
+  updateEntityInTransaction,
+  addEntityInTransaction,
 } from './datastore';
 import {UpdateRule} from './interfaces';
 
@@ -59,8 +59,8 @@ const addCommit = async (
   uniqueProperties?: Filter[]
 ): Promise<CommitResponse> => {
   const [commitId] = await makeTransaction(
-    addInTransaction(COMMIT_KIND, commit, uniqueProperties),
-    updateInTransaction(LISTING_KIND, commit.listingId, [
+    addEntityInTransaction(COMMIT_KIND, commit, uniqueProperties),
+    updateEntityInTransaction(LISTING_KIND, commit.listingId, [
       {
         property: 'numCommits',
         op: 'add',
@@ -102,8 +102,8 @@ const editCommit = async (
   }
 
   await makeTransaction(
-    updateInTransaction(COMMIT_KIND, commitId, commitEditRules),
-    updateInTransaction(LISTING_KIND, affectedListingId, listingUpdateRules)
+    updateEntityInTransaction(COMMIT_KIND, commitId, commitEditRules),
+    updateEntityInTransaction(LISTING_KIND, affectedListingId, listingUpdateRules)
   );
   return getCommit(commitId);
 };
@@ -116,8 +116,8 @@ const editCommit = async (
  */
 const deleteCommit = async (commitId: number, listingId: number) =>
   await makeTransaction(
-    deleteInTransaction(COMMIT_KIND, commitId),
-    updateInTransaction(LISTING_KIND, listingId, [
+    deleteEntityInTransaction(COMMIT_KIND, commitId),
+    updateEntityInTransaction(LISTING_KIND, listingId, [
       {
         property: 'numCommits',
         op: 'subtract',
