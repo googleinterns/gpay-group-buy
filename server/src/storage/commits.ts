@@ -103,7 +103,11 @@ const editCommit = async (
 
   await makeTransaction(
     updateEntityInTransaction(COMMIT_KIND, commitId, commitEditRules),
-    updateEntityInTransaction(LISTING_KIND, affectedListingId, listingUpdateRules)
+    updateEntityInTransaction(
+      LISTING_KIND,
+      affectedListingId,
+      listingUpdateRules
+    )
   );
   return getCommit(commitId);
 };
