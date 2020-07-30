@@ -21,6 +21,7 @@ import {Commit, GroupedCommits, Listing} from 'interfaces';
 import styled from 'styled-components';
 
 import ListingCardWithCommitStatus from './ListingCardWithCommitStatus';
+import { Link } from 'react-router-dom';
 
 const CommitsContainer = styled.div`
   display: flex;
@@ -52,11 +53,20 @@ const CommitSection: React.FC<CommitSectionProps> = ({commits}) => {
   return (
     <>
       {listings.map((listing, idx) => (
-        <ListingCardWithCommitStatus
-          key={idx}
-          listing={listing}
-          commitStatus={commits[idx].commitStatus}
-        />
+        <Link
+          to={{
+            pathname: `listing/${listing.id}`,
+            state: {
+              fromExplore: true,
+            },
+          }}
+        >
+          <ListingCardWithCommitStatus
+            key={idx}
+            listing={listing}
+            commitStatus={commits[idx].commitStatus}
+          />
+        </Link>
       ))}
     </>
   );
