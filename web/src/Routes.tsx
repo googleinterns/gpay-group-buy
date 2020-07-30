@@ -19,11 +19,10 @@ import {MERCHANT_ROOT} from 'constants/routes';
 import React, {lazy, Suspense} from 'react';
 
 import Loading from 'components/common/Loading';
-import CustomerRoutes from 'components/customer/Routes';
-import MerchantRoutes from 'components/merchant/Routes';
 import {Switch, Route} from 'react-router-dom';
 
-// Design samples
+const CustomerRoutes = lazy(() => import('components/customer/Routes'));
+const MerchantRoutes = lazy(() => import('components/merchant/Routes'));
 const DesignSamplesPage = lazy(() => import('components/design-samples'));
 
 const Routes: React.FC = () => (
