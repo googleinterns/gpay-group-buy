@@ -18,10 +18,10 @@ import React, {useState, useEffect} from 'react';
 
 import {getAllListings} from 'api';
 import {Commit, GroupedCommits, Listing} from 'interfaces';
+import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
 import ListingCardWithCommitStatus from './ListingCardWithCommitStatus';
-import { Link } from 'react-router-dom';
 
 const CommitsContainer = styled.div`
   display: flex;
@@ -60,9 +60,9 @@ const CommitSection: React.FC<CommitSectionProps> = ({commits}) => {
               fromExplore: true,
             },
           }}
+          key={idx}
         >
           <ListingCardWithCommitStatus
-            key={idx}
             listing={listing}
             commitStatus={commits[idx].commitStatus}
           />
