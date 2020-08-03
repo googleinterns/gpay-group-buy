@@ -89,6 +89,7 @@ const MerchantProfilePage: React.FC = () => {
     const fetchListings = async () => {
       const listings = await getAllListings({
         merchantId: merchantId,
+        listingStatus: 'ongoing',
       });
       setListings(listings);
     };

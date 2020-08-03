@@ -18,3 +18,8 @@ indexes:
   - name: merchantId
   - name: listingStatus
   - name: deadline
+
+- kind: Listing
+  properties:
+  - name: listingStatus
+  - name: deadline

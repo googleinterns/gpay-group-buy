@@ -15,6 +15,14 @@
  */
 
 /**
+ * CustomerIdentity object that contains the customer identity token and its decoded form.
+ */
+export interface CustomerIdentity {
+  idToken: string;
+  decodedToken: any;
+}
+
+/**
  * NonEmptyArray type enforces at least 1 element of type T in the array.
  */
 export type NonEmptyArray<T> = [T, ...T[]];
