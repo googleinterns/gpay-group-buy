@@ -27,7 +27,12 @@ const addListing = async (listing: ListingRequest): Promise<ListingResponse> =>
 const getAllListings = async (filters?: Filter[]): Promise<ListingResponse[]> =>
   listingStorage.getAllListings(filters);
 
+const getAllListingsWithIds = async (
+  listingIds: number[]
+): Promise<ListingResponse[]> =>
+  listingStorage.getAllListingsWithIds(listingIds);
+
 const getListing = async (listingId: number): Promise<ListingResponse> =>
   listingStorage.getListing(listingId);
 
-export default {addListing, getAllListings, getListing};
+export default {addListing, getAllListings, getAllListingsWithIds, getListing};

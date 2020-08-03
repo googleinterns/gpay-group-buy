@@ -25,19 +25,44 @@ import {listingService} from '../services';
 
 const listingRouter = Router();
 
+/**
+ * Handles the get request for retrieving all listings that satisfy the query
+ * parameters.
+ */
 listingRouter.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      /**
+       * Querying by ids is a restricted query, once the id field is specified, requester
+       * would not be allowed to filter by any other query params.
+       * Otherwise, it would be a Bad Request.
+       */
+      const {ids: idsStr} = req.query;
+      if (idsStr !== undefined) {
+        if (Object.keys(req.query).length > 1 || idsStr === '') {
+          res.sendStatus(400);
+          return;
+        }
+
+        const ids = (idsStr as string).split(',').map(idStr => {
+          const id = Number(idStr);
+          if (Number.isNaN(id)) {
+            throw new Error(`Invalid listingId ${idStr}`);
+          }
+          return id;
+        });
+        const listings = await listingService.getAllListingsWithIds(ids);
+        res.json(listings);
+        return;
+      }
+
       const filters = Object.keys(req.query).map(key => ({
         property: key,
-        value:
-          key === 'customerId' || key === 'merchantId'
-            ? Number(req.query[key])
-            : req.query[key],
+        value: key === 'merchantId' ? Number(req.query[key]) : req.query[key],
       }));
       const listings = await listingService.getAllListings(filters);
-      res.send(listings);
+      res.json(listings);
     } catch (error) {
       return next(error);
     }

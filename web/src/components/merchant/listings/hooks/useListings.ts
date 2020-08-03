@@ -20,7 +20,7 @@ import {useEffect, useState} from 'react';
 
 import {getAllListings} from 'api';
 import {useMerchantContext} from 'components/merchant/contexts/MerchantContext';
-import {Listing} from 'interfaces';
+import {Listing, ListingStatus} from 'interfaces';
 
 type ListingsType = 'ongoing' | 'past';
 
@@ -35,7 +35,7 @@ const useListings = (listingsType: ListingsType) => {
         throw new Error(USER_NOT_SIGNED_IN);
       }
 
-      const merchantId = merchant.id.toString();
+      const merchantId = merchant.id;
       let listings;
       if (listingsType === 'ongoing') {
         listings = await getAllListings({
@@ -44,7 +44,11 @@ const useListings = (listingsType: ListingsType) => {
         });
       } else {
         const listingGroups = await Promise.all(
-          ['successful', 'completed', 'unsuccessful'].map(listingStatus =>
+          ([
+            'successful',
+            'completed',
+            'unsuccessful',
+          ] as ListingStatus[]).map(listingStatus =>
             getAllListings({merchantId, listingStatus})
           )
         );
