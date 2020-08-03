@@ -39,19 +39,27 @@ const ModalBackground = styled(Container)`
   background: rgba(0, 0, 0, 0.5);
 `;
 
-/* Prevent body scroll code from https://css-tricks.com/prevent-page-scrolling-when-a-modal-is-open/ */
+/**
+ * A function to prevent body scroll.
+ * See https://css-tricks.com/prevent-page-scrolling-when-a-modal-is-open/
+ * for more information.
+ */
 const disableBodyScroll = () => {
   document.body.style.top = `-${window.scrollY}px`;
   document.body.style.position = 'fixed';
 };
 
+/**
+ * A function to re-enable body scroll after using disableBodyScroll.
+ * See https://css-tricks.com/prevent-page-scrolling-when-a-modal-is-open/
+ * for more information.
+ */
 const enableBodyScroll = () => {
   const scrollY = document.body.style.top;
   document.body.style.position = '';
   document.body.style.top = '';
   window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
 };
-/* End prevent body scroll code from https://css-tricks.com/prevent-page-scrolling-when-a-modal-is-open/ */
 
 interface ModalProps {
   isVisible: boolean;
