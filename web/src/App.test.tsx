@@ -21,7 +21,11 @@ import {render} from '@testing-library/react';
 import App from './App';
 
 test('renders loading page', () => {
-  const {getByText} = render(<App />);
-  const loadingText = getByText(/Loading/i);
-  expect(loadingText).toBeInTheDocument();
+  const {getByLabelText} = render(<App />);
+
+  const groupBuyBrand = getByLabelText('GPay GroupBuy Brand');
+  const loader = getByLabelText('audio-loading');
+
+  expect(groupBuyBrand).toBeInTheDocument();
+  expect(loader).toBeInTheDocument();
 });

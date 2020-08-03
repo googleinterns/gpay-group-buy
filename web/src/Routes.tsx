@@ -18,7 +18,7 @@ import {MERCHANT_ROOT} from 'constants/routes';
 
 import React, {lazy, Suspense} from 'react';
 
-import Loading from 'components/common/Loading';
+import LoadingPage from 'components/common/LoadingPage';
 import {Switch, Route} from 'react-router-dom';
 
 const CustomerRoutes = lazy(() => import('components/customer/Routes'));
@@ -26,7 +26,7 @@ const MerchantRoutes = lazy(() => import('components/merchant/Routes'));
 const DesignSamplesPage = lazy(() => import('components/design-samples'));
 
 const Routes: React.FC = () => (
-  <Suspense fallback={<Loading />}>
+  <Suspense fallback={<LoadingPage />}>
     <Switch>
       <Route exact path="/design-samples" component={DesignSamplesPage} />
       <Route path={MERCHANT_ROOT} component={MerchantRoutes} />

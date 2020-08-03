@@ -19,6 +19,7 @@ import React, {useEffect, useState} from 'react';
 import {getAllListings} from 'api';
 import CommitsBadge from 'components/common/CommitsBadge';
 import ListingCollection from 'components/common/ListingCollection';
+import Loading from 'components/common/Loading';
 import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import {Listing} from 'interfaces';
 import Button from 'muicss/lib/react/button';
@@ -42,6 +43,7 @@ const CustomerExplorePage: React.FC = () => {
 
   const handleGetIdentity = async () => getCustomerWithLogin();
 
+  const [isListingsLoading, setIsListingsLoading] = useState(true);
   const [listings, setListings] = useState<Listing[]>([]);
 
   useEffect(() => {
@@ -50,6 +52,7 @@ const CustomerExplorePage: React.FC = () => {
         listingStatus: 'ongoing',
       });
       setListings(listings);
+      setIsListingsLoading(false);
     };
     fetchListings();
   }, []);
@@ -65,7 +68,11 @@ const CustomerExplorePage: React.FC = () => {
         </Button>
       </Link>
       <h1>Explore</h1>
-      <ListingCollection listings={listings} />
+      {isListingsLoading ? (
+        <Loading />
+      ) : (
+        <ListingCollection listings={listings} />
+      )}
       <Button color="primary" onClick={handleGetIdentity}>
         Get Identity
       </Button>
