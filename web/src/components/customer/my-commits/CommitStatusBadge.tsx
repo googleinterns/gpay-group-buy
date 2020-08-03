@@ -19,7 +19,7 @@ import React from 'react';
 import {CommitStatus} from 'interfaces';
 import styled, {css} from 'styled-components';
 
-const dangerStyle = css`
+const pendingActionStyle = css`
   background-color: var(--bright-red);
   color: white;
 `;
@@ -50,7 +50,7 @@ const BadgeContainer = styled.div`
   ${({commitStatus}: CommitStatusBadgeProps) => {
     switch (commitStatus) {
       case 'successful':
-        return dangerStyle;
+        return pendingActionStyle;
       case 'paid':
       case 'completed':
         return successStyle;
