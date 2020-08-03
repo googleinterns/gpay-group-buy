@@ -20,6 +20,7 @@ import CentralisedContainer from 'components/common/CentralisedContainer';
 import Modal from 'components/common/Modal';
 import RoundedButton from 'components/common/RoundedButton';
 import CustomerFulfilmentDetailsCard from 'components/merchant/listing-details/CustomerFulfilmentDetailsCard';
+import {FulfilmentDetails} from 'interfaces';
 import {X} from 'react-feather';
 import styled from 'styled-components';
 
@@ -65,6 +66,7 @@ const IndicateButton = styled(RoundedButton)`
 interface SendItemModalProps {
   isVisible: boolean;
   closeModal: () => void;
+  fulfilmentDetails: FulfilmentDetails;
 }
 
 /**
@@ -75,12 +77,13 @@ interface SendItemModalProps {
 const SendItemModal: React.FC<SendItemModalProps> = ({
   isVisible,
   closeModal,
+  fulfilmentDetails,
 }) => (
   <Modal isVisible={isVisible}>
     <OverlayModalCard>
       <CloseButton onClick={closeModal} />
       <Header>This customer is waiting for your item!</Header>
-      <CustomerFulfilmentDetailsCard />
+      <CustomerFulfilmentDetailsCard fulfilmentDetails={fulfilmentDetails} />
       <TextContainer>
         Let them know that their item is on the way by clicking this button.
       </TextContainer>

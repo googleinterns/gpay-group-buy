@@ -67,6 +67,7 @@ const PaidCustomerCard: React.FC<PaidCustomerCardProps> = ({paidCommit}) => {
       <SendItemModal
         isVisible={isVisible}
         closeModal={() => setIsVisible(false)}
+        fulfilmentDetails={fulfilmentDetails}
       />
     </CardWithLeftBorder>
   );
