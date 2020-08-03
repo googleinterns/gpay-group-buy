@@ -18,16 +18,16 @@ import React from 'react';
 
 import {useFormPropsContext} from 'components/common/contexts/FormPropsContext';
 import MobilePrompt from 'components/common/MobilePrompt';
-import {useDeliveryDetailsPromptContext} from 'components/customer/listing-details/contexts/DeliveryDetailsPromptContext';
+import {useFulfilmentDetailsPromptContext} from 'components/customer/listing-details/contexts/FulfilmentDetailsPromptContext';
 import MobileFormRow from 'components/customer/listing-details/MobileFormRow';
 
 import {ReactComponent as DeliverySvg} from 'assets/customer/delivery.svg';
 
 /**
- * DeliveryDetailsPrompt that shows the delivery details prompt.
+ * FulfilmentDetailsPrompt that shows the fulfilment details prompt.
  */
-const DeliveryDetailsPrompt: React.FC = () => {
-  const {isPromptVisible, onClose} = useDeliveryDetailsPromptContext();
+const FulfilmentDetailsPrompt: React.FC = () => {
+  const {isPromptVisible, onClose} = useFulfilmentDetailsPromptContext();
 
   const {fields, disabled, onSubmit} = useFormPropsContext();
 
@@ -62,4 +62,4 @@ const DeliveryDetailsPrompt: React.FC = () => {
   );
 };
 
-export default DeliveryDetailsPrompt;
+export default FulfilmentDetailsPrompt;

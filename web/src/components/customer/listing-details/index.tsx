@@ -22,9 +22,9 @@ import ActionBar from 'components/customer/listing-details/ActionBar';
 import CommitStatusPrompt from 'components/customer/listing-details/CommitFeedbackPrompt';
 import CommitContext from 'components/customer/listing-details/contexts/CommitContext';
 import CommitFeedbackPromptContext from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
-import DeliveryDetailsPromptProvider from 'components/customer/listing-details/contexts/DeliveryDetailsPromptContext';
+import FulfilmentDetailsPromptProvider from 'components/customer/listing-details/contexts/FulfilmentDetailsPromptContext';
 import ListingDetailsContext from 'components/customer/listing-details/contexts/ListingDetailsContext';
-import DeliveryDetailsPrompt from 'components/customer/listing-details/DeliveryDetailsPrompt';
+import FulfilmentDetailsPrompt from 'components/customer/listing-details/FulfulmentDetailsPrompt';
 import ListingDetails from 'components/customer/listing-details/ListingDetails';
 import {useHistory, useParams, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
@@ -64,7 +64,7 @@ const ListingDetailsPage: React.FC = () => {
   return (
     <CommitFeedbackPromptContext>
       <CommitContext listingId={listingId}>
-        <DeliveryDetailsPromptProvider>
+        <FulfilmentDetailsPromptProvider>
           <ListingDetailsContext listingId={listingId}>
             <PageContainer>
               <BackButton pos="absolute" onClick={handleBack} />
@@ -75,8 +75,8 @@ const ListingDetailsPage: React.FC = () => {
               <ActionBar />
             </PageContainer>
           </ListingDetailsContext>
-          <DeliveryDetailsPrompt />
-        </DeliveryDetailsPromptProvider>
+          <FulfilmentDetailsPrompt />
+        </FulfilmentDetailsPromptProvider>
       </CommitContext>
       <CommitStatusPrompt />
     </CommitFeedbackPromptContext>

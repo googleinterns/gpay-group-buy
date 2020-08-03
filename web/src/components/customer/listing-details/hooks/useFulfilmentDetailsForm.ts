@@ -19,10 +19,10 @@ import {FulfilmentDetails} from 'interfaces';
 import {useForm} from 'react-hook-form';
 
 /**
- * useDeliveryDetailsForm that contains all the logic and details concering
- * the Delivery Details form.
+ * useFulfilmentDetailsForm that contains all the logic and details concering
+ * the Fulfilment Details form.
  */
-const useDeliveryDetailsForm = () => {
+const useFulfilmentDetailsForm = () => {
   const {formState, handleSubmit, register} = useForm<FulfilmentDetails>({
     mode: 'onChange',
   });
@@ -70,4 +70,4 @@ const useDeliveryDetailsForm = () => {
   };
 };
 
-export default useDeliveryDetailsForm;
+export default useFulfilmentDetailsForm;

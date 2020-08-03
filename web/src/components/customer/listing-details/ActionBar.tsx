@@ -17,7 +17,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 
 import {useCommitContext} from 'components/customer/listing-details/contexts/CommitContext';
-import {useDeliveryDetailsPromptContext} from 'components/customer/listing-details/contexts/DeliveryDetailsPromptContext';
+import {useFulfilmentDetailsPromptContext} from 'components/customer/listing-details/contexts/FulfilmentDetailsPromptContext';
 import {CommitStatus} from 'interfaces';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
@@ -82,9 +82,9 @@ const commitStatusToButtonState = (
 const ActionBar: React.FC = () => {
   const {commitStatus, onCommit, onUncommit} = useCommitContext();
   const {
-    onOpen: onOpenDeliveryDetailsPrompt,
-    isPromptVisible: isDeliveryDetailsPromptVisible,
-  } = useDeliveryDetailsPromptContext();
+    onOpen: onOpenFulfilmentDetailsPrompt,
+    isPromptVisible: isFulfilmentDetailsPromptVisible,
+  } = useFulfilmentDetailsPromptContext();
 
   const [buttonState, setButtonState] = useState<ActionButtonState>('initial');
   const [button, setButton] = useState(<></>);
@@ -121,7 +121,7 @@ const ActionBar: React.FC = () => {
         case 'awaitingPayment':
           return (
             <ActionButton
-              onClick={() => onClickButton(onOpenDeliveryDetailsPrompt)}
+              onClick={() => onClickButton(onOpenFulfilmentDetailsPrompt)}
               color="primary"
             >
               Pay
@@ -134,12 +134,12 @@ const ActionBar: React.FC = () => {
           return <></>;
       }
     },
-    [onCommit, onUncommit, onOpenDeliveryDetailsPrompt]
+    [onCommit, onUncommit, onOpenFulfilmentDetailsPrompt]
   );
 
   useEffect(() => {
     setButtonState(commitStatusToButtonState(commitStatus));
-  }, [commitStatus, isDeliveryDetailsPromptVisible]);
+  }, [commitStatus, isFulfilmentDetailsPromptVisible]);
 
   useEffect(() => {
     setButton(getButton(buttonState));

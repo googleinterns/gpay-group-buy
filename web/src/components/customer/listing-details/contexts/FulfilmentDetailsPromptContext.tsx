@@ -17,7 +17,7 @@
 import React, {useContext, useState} from 'react';
 
 import FormPropsProvider from 'components/common/contexts/FormPropsContext';
-import useDeliveryDetailsForm from 'components/customer/listing-details/hooks/useDeliveryDetailsForm';
+import useFulfilmentDetailsForm from 'components/customer/listing-details/hooks/useFulfilmentDetailsForm';
 
 type ContextType =
   | {
@@ -27,27 +27,27 @@ type ContextType =
     }
   | undefined;
 
-const DeliveryDetailsPromptContext = React.createContext<ContextType>(
+const FulfilmentDetailsPromptContext = React.createContext<ContextType>(
   undefined
 );
 
 /**
- * useContext hook that ensures it is used within a DeliveryDetailsPromptProvider.
+ * useContext hook that ensures it is used within a FulfilmentDetailsPromptProvider.
  */
-const useDeliveryDetailsPromptContext = () => {
-  const context = useContext(DeliveryDetailsPromptContext);
+const useFulfilmentDetailsPromptContext = () => {
+  const context = useContext(FulfilmentDetailsPromptContext);
   if (context === undefined) {
     throw new Error(
-      'useDeliveryDetailsPromptContext must be used within a DeliveryDetailsPromptProvider'
+      'useFulfilmentDetailsPromptContext must be used within a FulfilmentDetailsPromptProvider'
     );
   }
   return context;
 };
 
 /**
- * DeliveryDetailsPromptProvider with stateful isPromptVisible.
+ * FulfilmentDetailsPromptProvider with stateful isPromptVisible.
  */
-const DeliveryDetailsPromptProvider: React.FC = ({children}) => {
+const FulfilmentDetailsPromptProvider: React.FC = ({children}) => {
   const [isPromptVisible, setIsPromptVisible] = useState(false);
 
   const onClose = () => {
@@ -65,13 +65,13 @@ const DeliveryDetailsPromptProvider: React.FC = ({children}) => {
   };
 
   return (
-    <DeliveryDetailsPromptContext.Provider value={value}>
-      <FormPropsProvider buttonText="Confirm" {...useDeliveryDetailsForm()}>
+    <FulfilmentDetailsPromptContext.Provider value={value}>
+      <FormPropsProvider buttonText="Confirm" {...useFulfilmentDetailsForm()}>
         {children}
       </FormPropsProvider>
-    </DeliveryDetailsPromptContext.Provider>
+    </FulfilmentDetailsPromptContext.Provider>
   );
 };
 
-export default DeliveryDetailsPromptProvider;
-export {useDeliveryDetailsPromptContext};
+export default FulfilmentDetailsPromptProvider;
+export {useFulfilmentDetailsPromptContext};
