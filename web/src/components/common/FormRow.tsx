@@ -28,7 +28,7 @@ interface RowProps {
   stacked?: boolean;
 }
 
-const nonStackedRowStyle = css`
+const inlineRowStyle = css`
   display: flex;
   flex-direction: row;
   align-items: top;
@@ -44,7 +44,7 @@ const StyledRow = styled(Row)`
 
   /* stylelint-disable value-keyword-case */
   ${({fullWidth}: RowProps) => fullWidth && fullWidthRowStyle};
-  ${({stacked}: RowProps) => !stacked && nonStackedRowStyle};
+  ${({stacked}: RowProps) => !stacked && inlineRowStyle};
   /* stylelint-enable value-keyword-case */
 `;
 
@@ -58,7 +58,7 @@ interface LabelProps {
   stacked?: boolean;
 }
 
-const nonStackedLabelStyle = css`
+const inlineLabelStyle = css`
   width: 100px;
   height: 30px;
   margin-right: 20px;
@@ -74,7 +74,7 @@ const nonStackedLabelStyle = css`
 const Label = styled.label`
   /* stylelint-disable value-keyword-case */
   ${({stacked}: LabelProps) =>
-    !stacked && nonStackedLabelStyle}/* stylelint-enable value-keyword-case */
+    !stacked && inlineLabelStyle}/* stylelint-enable value-keyword-case */
 `;
 
 const ErrorContainer = styled.div`
@@ -149,11 +149,11 @@ interface FormRowProps {
  * FormRow is a row in a form, consisting of a label and an input field, styled according
  * to inputStyle. FormRow also contains a container for error message which is
  * displayed below the input field where applicable.
- * Index is the index of the row in the form.
- * If inputWidth is specified, form input will have fixed width of inputWidth,
- * else, input field will be full-width.
- * If stacked is specified, form label would be stacked on top of form input,
- * else, form label would be side by side with form input.
+ * @param props.index The index of the row in the form
+ * @param props.textAreaRows Number of rows in a textarea
+ * @param props.inputWidth The fixed width of input (If undefined, input field will be full-width)
+ * @param props.stacked Whether the form label would be stacked on top of form input or not
+ * @param props.inputStyle The style of the input field
  */
 const FormRow: React.FC<FormRowProps> = ({
   index,
