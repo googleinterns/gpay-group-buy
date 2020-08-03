@@ -17,11 +17,10 @@
 import React, {useState, useEffect} from 'react';
 
 import {getAllListings} from 'api';
+import ListingCardWithCommitStatus from 'components/customer/my-commits/ListingCardWithCommitStatus';
 import {Commit, GroupedCommits, Listing} from 'interfaces';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
-
-import ListingCardWithCommitStatus from './ListingCardWithCommitStatus';
 
 const CommitsContainer = styled.div`
   display: flex;
