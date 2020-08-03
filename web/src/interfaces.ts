@@ -15,6 +15,14 @@
  */
 
 /**
+ * CustomerIdentity object that contains the customer identity token and its decoded form.
+ */
+export interface CustomerIdentity {
+  idToken: string;
+  decodedToken: any;
+}
+
+/**
  * NonEmptyArray type enforces at least 1 element of type T in the array.
  */
 export type NonEmptyArray<T> = [T, ...T[]];
@@ -117,6 +125,12 @@ export interface Listing extends ListingPayload {
 }
 
 /**
+ * ListingQuery Interface that contains the fields of the query that
+ * would be sent to the server to query for listings.
+ */
+export type ListingQuery = Partial<Listing>;
+
+/**
  * CommitStatus type contains the different states of a Commit.
  */
 export type CommitStatus =
@@ -147,7 +161,7 @@ export interface CommitPaymentPayload {
  * CommitQuery Interface that contains the fields of the query that
  * would be sent to the server to query for commits.
  */
-export type CommitQuery = CommitPayload;
+export type CommitQuery = Partial<CommitPayload>;
 
 /**
  * Commit Interface that contains the fields of a Commit.

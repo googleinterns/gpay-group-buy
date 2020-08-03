@@ -23,14 +23,14 @@ import styled, {css} from 'styled-components';
 
 type PosType = 'absolute' | 'static';
 
-const AbsolutePosStyle = css`
+const absolutePosStyle = css`
   position: absolute;
   top: 20px;
   right: 15px;
   z-index: 999; /* Ensure always on top */
 `;
 
-const StaticPosStyle = css``;
+const staticPosStyle = css``;
 
 interface CommitsBadgeProps {
   pos?: PosType;
@@ -53,11 +53,10 @@ const CommitBadgeContainer = styled.div`
   ${({pos}: CommitsBadgeProps) => {
     switch (pos) {
       case 'absolute':
-        return AbsolutePosStyle;
+        return absolutePosStyle;
       case 'static':
-        return StaticPosStyle;
       default:
-        return StaticPosStyle;
+        return staticPosStyle;
     }
   }};
   ${({visible}: CommitsBadgeProps) => !visible && 'visibility: hidden;'};

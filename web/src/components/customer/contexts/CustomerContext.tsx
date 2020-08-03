@@ -61,7 +61,6 @@ const CustomerProvider: React.FC = ({children}) => {
 
     const customer = await loginCustomer({gpayId}, idToken);
     setCustomer(customer);
-    return customer;
   }, []);
 
   useEffect(() => {
@@ -78,7 +77,7 @@ const CustomerProvider: React.FC = ({children}) => {
    */
   const getCustomerWithLogin = async () => {
     if (customer === undefined) {
-      return login();
+      await login();
     }
     return customer;
   };

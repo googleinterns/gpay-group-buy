@@ -1,0 +1,25 @@
+indexes:
+
+- kind: Commit
+  properties:
+  - name: customerId
+  - name: commitStatus
+  - name: createdAt
+    direction: desc
+
+- kind: Commit
+  properties:
+  - name: listingId
+  - name: commitStatus
+  - name: createdAt
+
+- kind: Listing
+  properties:
+  - name: merchantId
+  - name: listingStatus
+  - name: deadline
+
+- kind: Listing
+  properties:
+  - name: listingStatus
+  - name: deadline

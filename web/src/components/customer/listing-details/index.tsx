@@ -48,7 +48,7 @@ interface ListingParams {
 }
 
 interface ListingLocation {
-  fromExplore: boolean;
+  hasBack: boolean;
 }
 
 const ListingDetailsPage: React.FC = () => {
@@ -59,7 +59,7 @@ const ListingDetailsPage: React.FC = () => {
   const listingId = Number(listingIdStr);
 
   const handleBack = () =>
-    location.state?.fromExplore ? history.goBack() : history.push('/');
+    location.state?.hasBack ? history.goBack() : history.push('/');
 
   return (
     <CommitFeedbackPromptContext>
