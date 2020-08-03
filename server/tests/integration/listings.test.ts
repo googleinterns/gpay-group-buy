@@ -73,12 +73,17 @@ describe('Listings endpoints', () => {
 
       // TODO: Test for actual error status codes when implemented
       expect(res.status).not.toBe(200);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe(
+        `Invalid listingId ${invalidListingId}`
+      );
     });
 
     test('Should not filter if one of the listing ids is invalid', async () => {
+      const invalidListingId = 'invalid-listing-id';
       const listingIds = [
         listingsFixtures.ids[0],
-        'invalid-listing-id',
+        invalidListingId,
         listingsFixtures.ids[1],
       ];
 
@@ -90,6 +95,10 @@ describe('Listings endpoints', () => {
 
       // TODO: Test for actual error status codes when implemented
       expect(res.status).not.toBe(200);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe(
+        `Invalid listingId ${invalidListingId}`
+      );
     });
 
     test('Should not filter by other fields when filtering by listing ids', async () => {
