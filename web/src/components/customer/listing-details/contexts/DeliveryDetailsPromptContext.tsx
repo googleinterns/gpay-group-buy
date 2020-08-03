@@ -32,7 +32,7 @@ const DeliveryDetailsPromptContext = React.createContext<ContextType>(
 );
 
 /**
- * useContext hook that ensures it is used within a CommitFeedbackPromptProvider.
+ * useContext hook that ensures it is used within a DeliveryDetailsPromptProvider.
  */
 const useDeliveryDetailsPromptContext = () => {
   const context = useContext(DeliveryDetailsPromptContext);
