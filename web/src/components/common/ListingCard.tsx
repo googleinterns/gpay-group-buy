@@ -42,6 +42,18 @@ const detailsRowStyle = css`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
+  & > div {
+    margin-left: 5px;
+
+    :first-child {
+      margin-left: 0px;
+    }
+  }
+`;
+
+const ChildrenContainer = styled.div`
+  flex: 1;
 `;
 
 const Details = styled.div`
@@ -105,7 +117,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
             <ListingName>{listingName}</ListingName>
             <ListingPrice price={price} oldPrice={oldPrice} />
           </div>
-          <div>{children}</div>
+          <ChildrenContainer>{children}</ChildrenContainer>
         </Details>
       </CardContent>
     </Card>

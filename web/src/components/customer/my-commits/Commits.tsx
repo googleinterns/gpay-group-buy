@@ -57,7 +57,7 @@ const CommitSection: React.FC<CommitSectionProps> = ({commits}) => {
           to={{
             pathname: `listing/${listing.id}`,
             state: {
-              fromExplore: true,
+              hasBack: true,
             },
           }}
           key={idx}
