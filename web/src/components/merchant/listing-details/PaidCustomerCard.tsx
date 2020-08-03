@@ -22,7 +22,7 @@ import {Commit} from 'interfaces';
 import styled from 'styled-components';
 
 const CardWithLeftBorder = styled(Card)`
-  width: 300px;
+  width: 280px;
 
   border-left-color: var(--light-gray);
   border-left-style: solid;
