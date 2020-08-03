@@ -62,6 +62,36 @@ describe('Listings endpoints', () => {
       expect(res.body).toMatchObject(expectedListingsData);
     });
 
+    test('Should not filter by an invalid listing id', async () => {
+      const invalidListingId = 'invalid-listing-id';
+
+      const res = await request(app)
+        .get('/listings')
+        .query({
+          ids: [invalidListingId],
+        });
+
+      // TODO: Test for actual error status codes when implemented
+      expect(res.status).not.toBe(200);
+    });
+
+    test('Should not filter if one of the listing ids is invalid', async () => {
+      const listingIds = [
+        listingsFixtures.ids[0],
+        'invalid-listing-id',
+        listingsFixtures.ids[1],
+      ];
+
+      const res = await request(app)
+        .get('/listings')
+        .query({
+          ids: listingIds.join(','),
+        });
+
+      // TODO: Test for actual error status codes when implemented
+      expect(res.status).not.toBe(200);
+    });
+
     test('Should not filter by other fields when filtering by listing ids', async () => {
       const targetListingId = listingsFixtures.ids?.[0];
       const targetMerchantId = merchantFixtures.ids?.[0];
