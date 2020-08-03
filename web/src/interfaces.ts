@@ -125,10 +125,18 @@ export interface Listing extends ListingPayload {
 }
 
 /**
+ * ListingQueryParams Interface that contains the possible query parameters
+ * for Listings.
+ */
+export interface ListingQueryParams extends Listing {
+  ids: string;
+}
+
+/**
  * ListingQuery Interface that contains the fields of the query that
  * would be sent to the server to query for listings.
  */
-export type ListingQuery = Partial<Listing>;
+export type ListingQuery = Partial<ListingQueryParams>;
 
 /**
  * CommitStatus type contains the different states of a Commit.
