@@ -71,6 +71,7 @@ interface SendItemModalProps {
  * A modal component that displays a customer's fulfilment details and an
  * 'INDICATE ITEM SENT' button.
  */
+// TODO: Handle click of 'INDICATE ITEM SENT' button.
 const SendItemModal: React.FC<SendItemModalProps> = ({
   isVisible,
   closeModal,

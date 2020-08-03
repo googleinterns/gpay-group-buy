@@ -59,6 +59,7 @@ const SAMPLE_FULFILMENT_DETAILS = {
 
 const {name, address, contactNumber} = SAMPLE_FULFILMENT_DETAILS;
 
+// TODO: Get customer's fulfilment details data from the server.
 const CustomerFulfilmentDetailsCard: React.FC = () => (
   <PaleGreenCard>
     <CustomerName>{name}</CustomerName>
