@@ -59,7 +59,7 @@ const SAMPLE_FULFILMENT_DETAILS = {
 
 const {name, address, contactNumber} = SAMPLE_FULFILMENT_DETAILS;
 
-const CustomerDeliveryDetailsCard: React.FC = () => (
+const CustomerFulfilmentDetailsCard: React.FC = () => (
   <PaleGreenCard>
     <CustomerName>{name}</CustomerName>
     <DetailsContainer>
@@ -75,4 +75,4 @@ const CustomerDeliveryDetailsCard: React.FC = () => (
   </PaleGreenCard>
 );
 
-export default CustomerDeliveryDetailsCard;
+export default CustomerFulfilmentDetailsCard;

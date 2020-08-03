@@ -19,7 +19,7 @@ import React from 'react';
 import CentralisedContainer from 'components/common/CentralisedContainer';
 import Modal from 'components/common/Modal';
 import RoundedButton from 'components/common/RoundedButton';
-import CustomerDeliveryDetailsCard from 'components/merchant/listing-details/CustomerDeliveryDetailsCard';
+import CustomerFulfilmentDetailsCard from 'components/merchant/listing-details/CustomerFulfilmentDetailsCard';
 import {X} from 'react-feather';
 import styled from 'styled-components';
 
@@ -68,7 +68,7 @@ interface SendItemModalProps {
 }
 
 /**
- * A modal component that displays a customer's delivery details and an
+ * A modal component that displays a customer's fulfilment details and an
  * 'INDICATE ITEM SENT' button.
  */
 const SendItemModal: React.FC<SendItemModalProps> = ({
@@ -79,7 +79,7 @@ const SendItemModal: React.FC<SendItemModalProps> = ({
     <OverlayModalCard>
       <CloseButton onClick={closeModal} />
       <Header>This customer is waiting for your item!</Header>
-      <CustomerDeliveryDetailsCard />
+      <CustomerFulfilmentDetailsCard />
       <TextContainer>
         Let them know that their item is on the way by clicking this button.
       </TextContainer>
