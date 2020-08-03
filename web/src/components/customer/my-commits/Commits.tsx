@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
-import {Commit, GroupedCommits} from 'interfaces';
+import {getAllListings} from 'api';
+import ListingCardWithCommitStatus from 'components/customer/my-commits/ListingCardWithCommitStatus';
+import {Commit, GroupedCommits, Listing} from 'interfaces';
+import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
 const CommitsContainer = styled.div`
@@ -33,10 +36,40 @@ interface CommitSectionProps {
   commits: Commit[];
 }
 
-// TODO: Change this to show horizontal listing cards
-const CommitSection: React.FC<CommitSectionProps> = ({commits}) => (
-  <>{JSON.stringify(commits)}</>
-);
+const CommitSection: React.FC<CommitSectionProps> = ({commits}) => {
+  const [listings, setListings] = useState<Listing[]>([]);
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      const listingIds = commits.map(commit => commit.listingId);
+      const listings = await getAllListings({ids: listingIds.join(',')});
+      setListings(listings);
+    };
+
+    fetchListings();
+  }, [commits]);
+
+  return (
+    <>
+      {listings.map((listing, idx) => (
+        <Link
+          to={{
+            pathname: `listing/${listing.id}`,
+            state: {
+              hasBack: true,
+            },
+          }}
+          key={idx}
+        >
+          <ListingCardWithCommitStatus
+            listing={listing}
+            commitStatus={commits[idx].commitStatus}
+          />
+        </Link>
+      ))}
+    </>
+  );
+};
 
 interface CommitsProps {
   commits: GroupedCommits;

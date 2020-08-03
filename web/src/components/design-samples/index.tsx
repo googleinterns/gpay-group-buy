@@ -20,10 +20,11 @@ import Card from 'components/common/Card';
 import CommitProgress from 'components/common/CommitProgress';
 import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
+import ListingCardWithCommitStatus from 'components/customer/my-commits/ListingCardWithCommitStatus';
 import MobilePromptSample from 'components/design-samples/MobilePromptSample';
 import PaidCustomerCollection from 'components/merchant/listing-details/PaidCustomerCollection';
 import {formatRFC3339} from 'date-fns';
-import {Commit, Money} from 'interfaces';
+import {Commit, Listing, Money} from 'interfaces';
 import Container from 'muicss/lib/react/container';
 
 const SAMPLE_IMG_URL = 'https://picsum.photos/seed/picsum/200/300';
@@ -37,6 +38,21 @@ const SAMPLE_OLD_PRICE: Money = {
   currency: 'USD',
   dollars: 121,
   cents: 0,
+};
+const SAMPLE_LISTING: Listing = {
+  merchantId: 1,
+  name: 'Some Listing',
+  price: SAMPLE_PRICE,
+  oldPrice: SAMPLE_OLD_PRICE,
+  imgUrl: SAMPLE_IMG_URL,
+  description: '',
+  deadline: SAMPLE_END_DATE,
+  minCommits: 100,
+  id: 1,
+  numCommits: 0,
+  numPaid: 0,
+  numCompleted: 0,
+  listingStatus: 'ongoing',
 };
 
 const SAMPLE_PAID_COMMITS: Commit[] = [
@@ -116,6 +132,22 @@ const DesignSamplesPage: React.FC = () => (
           <CommitProgress numCommits={70} minCommits={100} />
         </ListingCard>
       </StrippedCol>
+      <ListingCardWithCommitStatus
+        listing={SAMPLE_LISTING}
+        commitStatus="successful"
+      />
+      <ListingCardWithCommitStatus
+        listing={SAMPLE_LISTING}
+        commitStatus="paid"
+      />
+      <ListingCardWithCommitStatus
+        listing={SAMPLE_LISTING}
+        commitStatus="completed"
+      />
+      <ListingCardWithCommitStatus
+        listing={SAMPLE_LISTING}
+        commitStatus="unsuccessful"
+      />
       <StrippedCol xs={12}>
         <Card
           img={{

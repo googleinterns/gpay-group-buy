@@ -27,12 +27,14 @@ interface CardContainerProps {
 }
 
 const ImageContainer = styled.div`
+  position: relative;
   width: ${({width}: CardContainerProps) => width || '100%'};
   min-height: ${MIN_IMG_HEIGHT};
   height: ${({height}: CardContainerProps) => height || MIN_IMG_HEIGHT};
 `;
 
 const StyledCardImage = styled.img`
+  position: absolute;
   width: inherit;
   height: inherit;
   object-fit: cover;

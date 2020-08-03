@@ -77,7 +77,6 @@ const MerchantDetails: React.FC<MerchantDetailsProps> = ({merchantId}) => {
     fetchMerchant();
   }, [merchantId]);
 
-  // TODO: Update Link to redirect to merchant profile when it is up.
   return (
     <>
       {merchant && (
@@ -85,7 +84,16 @@ const MerchantDetails: React.FC<MerchantDetailsProps> = ({merchantId}) => {
           <MerchantIcon />
           <ContentContainer>
             <MerchantName>{merchant.name}</MerchantName>
-            <LinkButton to="/">View Merchant Profile</LinkButton>
+            <LinkButton
+              to={{
+                pathname: `/merchant-profile/${merchant.id}`,
+                state: {
+                  hasBack: true,
+                },
+              }}
+            >
+              View Merchant Profile
+            </LinkButton>
           </ContentContainer>
         </MerchantDetailsContainer>
       )}
