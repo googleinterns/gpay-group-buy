@@ -17,7 +17,12 @@
 import {Filter, ListingPayload, ListingResponse, OrderRule} from 'interfaces';
 
 import {LISTING_KIND} from '../constants/kinds';
-import {addEntity, getAllEntities, getEntity} from './datastore';
+import {
+  addEntity,
+  getAllEntities,
+  getAllEntitiesWithIds,
+  getEntity,
+} from './datastore';
 
 const addListing = async (
   listing: ListingPayload
@@ -36,7 +41,12 @@ const getAllListings = async (
 ): Promise<ListingResponse[]> =>
   getAllEntities(LISTING_KIND, filters, orderRules);
 
+const getAllListingsWithIds = async (
+  listingIds: number[]
+): Promise<ListingResponse[]> =>
+  getAllEntitiesWithIds(LISTING_KIND, listingIds);
+
 const getListing = async (listingId: number): Promise<ListingResponse> =>
   getEntity(LISTING_KIND, listingId);
 
-export default {addListing, getAllListings, getListing};
+export default {addListing, getAllListings, getAllListingsWithIds, getListing};

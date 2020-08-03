@@ -67,7 +67,7 @@ export const makeTransaction = async (
  * Returns an object with its id.
  * @param res The response object from datastore
  */
-const extractAndAppendId = (res: Entity) => {
+const extractAndAppendId = (res: Entity): Entity => {
   const {[datastore.KEY]: key, ...properties} = res;
   return {
     ...properties,
@@ -109,6 +109,42 @@ export const getEntity = async (
 export const getEntityInTransaction = async (kind: string, id: number) => (
   transaction: Transaction
 ) => getEntity(kind, id, transaction);
+
+/**
+ * A Datastore wrapper that gets a particular entity with the specified Kind and id.
+ * @param kind The Kind that is being retrieved
+ * @param ids The ids of the Entity being retrieved
+ * @param transaction Transaction that will carry out the retrieval
+ */
+export const getAllEntitiesWithIds = async (
+  kind: string,
+  ids: number[],
+  transaction?: Transaction
+): Promise<Entity[]> => {
+  const actor = transaction || datastore;
+
+  const keys = ids.map(id => datastore.key([kind, id]));
+
+  try {
+    const [res] = await actor.get(keys);
+    return res.map(extractAndAppendId);
+  } catch (err) {
+    throw new Error(`Failed to get ${ids} from ${kind}. ${err.message}`);
+  }
+};
+
+/**
+ * A higher order function.
+ * Returns a function that takes in a transaction object and gets
+ * the entities by id in the transaction.
+ * @param kind The Kind that is being retrieved
+ * @param id The id of the Entity being retrieved
+ */
+export const getAllEntitiesWithIdsInTransaction = async (
+  kind: string,
+  ids: number[]
+) => (transaction: Transaction) =>
+  getAllEntitiesWithIds(kind, ids, transaction);
 
 /**
  * A Datastore wrapper that gets all entities of a specified Kind.
