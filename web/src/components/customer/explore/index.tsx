@@ -46,7 +46,9 @@ const CustomerExplorePage: React.FC = () => {
 
   useEffect(() => {
     const fetchListings = async () => {
-      const listings = await getAllListings();
+      const listings = await getAllListings({
+        listingStatus: 'ongoing',
+      });
       setListings(listings);
     };
     fetchListings();
