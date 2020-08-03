@@ -47,7 +47,7 @@ const detailsRowStyle = css`
     margin-left: 5px;
 
     :first-child {
-      margin-left: 0px;
+      margin-left: 0;
     }
   }
 `;
