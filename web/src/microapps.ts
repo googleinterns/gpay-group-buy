@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
+import {isAfter, getMilliseconds} from 'date-fns';
+import {CustomerIdentity} from 'interfaces';
+
 /**
  * Microapps API.
  */
 const microapps = window.microapps;
+
+let cachedIdentity: CustomerIdentity;
 
 /**
  * Decodes a base64 microapps identity token.
@@ -29,11 +34,27 @@ export const decodeToken = (idToken: string) =>
 
 /**
  * Gets microapps identity token and its decoded form.
+ * Returns the cached identity if it exists and token has not expired,
+ * else, fetches a new identity token from the microapps API.
  */
-export const getIdentity = async () => {
+export const getIdentity = async (): Promise<CustomerIdentity> => {
+  const cachedTokenExpiry = cachedIdentity?.decodedToken.exp;
+  if (
+    cachedIdentity !== undefined &&
+    isAfter(cachedTokenExpiry, getMilliseconds(Date.now()))
+  ) {
+    return cachedIdentity;
+  }
+
   const idToken = await microapps.getIdentity();
   const decodedToken = decodeToken(idToken);
-  return {idToken, decodedToken};
+  const newIdentity = {
+    idToken,
+    decodedToken,
+  };
+
+  cachedIdentity = newIdentity;
+  return newIdentity;
 };
 
 export default microapps;

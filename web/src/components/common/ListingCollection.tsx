@@ -31,6 +31,7 @@ const ListingsContainer = styled.div`
 
 interface ListingProps {
   listing: Listing;
+  listingRootPath: string;
 }
 
 const ListingItem: React.FC<ListingProps> = ({
@@ -44,14 +45,15 @@ const ListingItem: React.FC<ListingProps> = ({
     minCommits,
     imgUrl,
   },
+  listingRootPath,
 }) => {
   return (
     <StrippedCol xs={isMobile ? 6 : 2} key={id}>
       <Link
         to={{
-          pathname: `listing/${id}`,
+          pathname: `${listingRootPath}listing/${id}`,
           state: {
-            fromExplore: true,
+            hasBack: true,
           },
         }}
       >
@@ -75,13 +77,21 @@ const ListingItem: React.FC<ListingProps> = ({
 
 interface ListingCollectionProps {
   listings: Listing[];
+  listingRootPath?: string;
 }
 
-const ListingCollection: React.FC<ListingCollectionProps> = ({listings}) => {
+const ListingCollection: React.FC<ListingCollectionProps> = ({
+  listings,
+  listingRootPath = '/',
+}) => {
   return (
     <ListingsContainer>
       {listings?.map(listing => (
-        <ListingItem listing={listing} key={listing.id} />
+        <ListingItem
+          listing={listing}
+          listingRootPath={listingRootPath}
+          key={listing.id}
+        />
       ))}
     </ListingsContainer>
   );

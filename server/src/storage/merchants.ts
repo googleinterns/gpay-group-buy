@@ -21,14 +21,14 @@
 
 import {MERCHANT_KIND} from '../constants/kinds';
 import {Filter, MerchantPayload, MerchantResponse} from '../interfaces';
-import {add, get, getAll} from './datastore';
+import {addEntity, getEntity, getAllEntities} from './datastore';
 
 const getMerchant = async (merchantId: number): Promise<MerchantResponse> =>
-  get(MERCHANT_KIND, merchantId);
+  getEntity(MERCHANT_KIND, merchantId);
 
 const getAllMerchants = async (
   filters?: Filter[]
-): Promise<MerchantResponse[]> => getAll(MERCHANT_KIND, filters);
+): Promise<MerchantResponse[]> => getAllEntities(MERCHANT_KIND, filters);
 
 const addMerchant = async (
   merchant: MerchantPayload
@@ -37,7 +37,9 @@ const addMerchant = async (
     property: 'firebaseUid',
     value: merchant.firebaseUid,
   };
-  const merchantId = await add(MERCHANT_KIND, merchant, [uniqueFirebaseUid]);
+  const merchantId = await addEntity(MERCHANT_KIND, merchant, [
+    uniqueFirebaseUid,
+  ]);
   return getMerchant(merchantId);
 };
 

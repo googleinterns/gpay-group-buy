@@ -29,6 +29,7 @@ import {
   ListingPayload,
   MerchantPayload,
   MerchantResponse,
+  ListingQuery,
   CommitPaymentPayload,
 } from 'interfaces';
 
@@ -140,9 +141,9 @@ export const addListing = async (
  * Fetches all Listings.
  * @param queryParams Query parameters used to filter listings to retrieve.
  */
-export const getAllListings = async (queryParams?: {
-  [key: string]: string;
-}): Promise<Listing[]> => {
+export const getAllListings = async (
+  queryParams?: ListingQuery
+): Promise<Listing[]> => {
   const endpoint = `${process.env.REACT_APP_SERVER_URL}/listings`;
   const res = queryParams
     ? await query(endpoint, queryParams)
@@ -167,7 +168,7 @@ export const getListing = async (listingId: number): Promise<Listing> => {
  * @param commitQuery Query params of the request
  */
 export const getCommits = async (
-  commitQuery: Partial<CommitQuery>
+  commitQuery: CommitQuery
 ): Promise<Commit[]> => {
   const res = await query(
     `${process.env.REACT_APP_SERVER_URL}/commits/`,

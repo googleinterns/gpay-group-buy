@@ -16,6 +16,34 @@
 
 import React from 'react';
 
-const Loading: React.FC = () => <div>Loading...</div>;
+import CentralisedContainer from 'components/common/CentralisedContainer';
+import Loader from 'react-loader-spinner';
+
+const DEFAULT_LOADER_WIDTH = 45;
+const BIG_LOADER_WIDTH = 75;
+
+interface LoadingProps {
+  big?: boolean;
+  className?: string; // Prop passed by styled-components wrapper
+}
+
+/**
+ * Loading component in a centralised container.
+ */
+const Loading: React.FC<LoadingProps> = ({big, className}) => {
+  const width = big ? BIG_LOADER_WIDTH : DEFAULT_LOADER_WIDTH;
+  const height = width / 2;
+
+  return (
+    <CentralisedContainer className={className}>
+      <Loader
+        type="ThreeDots"
+        color="var(--green)"
+        width={width}
+        height={height}
+      />
+    </CentralisedContainer>
+  );
+};
 
 export default Loading;
