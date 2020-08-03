@@ -16,8 +16,8 @@
 
 import React from 'react';
 
-import {useCommitsContext} from 'components/merchant/listing-details/contexts/CommitsContext';
 import PaidCustomerCard from 'components/merchant/listing-details/PaidCustomerCard';
+import {Commit} from 'interfaces';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -26,19 +26,22 @@ const Container = styled.div`
   overflow: scroll;
 `;
 
+interface PaidCustomerCollectionProps {
+  paidCommits: Commit[];
+}
+
 /**
  * A collection of PaidCustomerCard components showing customers who have
  * committed and paid for a successful listing.
  */
-const PaidCustomerCollection: React.FC = () => {
-  const paidCommits = useCommitsContext();
-  return (
-    <Container>
-      {paidCommits.map((_, key) => (
-        <PaidCustomerCard key={key} index={key} />
-      ))}
-    </Container>
-  );
-};
+const PaidCustomerCollection: React.FC<PaidCustomerCollectionProps> = ({
+  paidCommits,
+}) => (
+  <Container>
+    {paidCommits.map((paidCommit, key) => (
+      <PaidCustomerCard key={key} paidCommit={paidCommit} />
+    ))}
+  </Container>
+);
 
 export default PaidCustomerCollection;
