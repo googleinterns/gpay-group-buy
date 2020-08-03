@@ -17,9 +17,9 @@
 import React from 'react';
 
 import {useFormPropsContext} from 'components/common/contexts/FormPropsContext';
+import FormRow from 'components/common/FormRow';
 import MobilePrompt from 'components/common/MobilePrompt';
 import {useFulfilmentDetailsPromptContext} from 'components/customer/listing-details/contexts/FulfilmentDetailsPromptContext';
-import MobileFormRow from 'components/customer/listing-details/MobileFormRow';
 
 import {ReactComponent as DeliverySvg} from 'assets/customer/delivery.svg';
 
@@ -56,7 +56,7 @@ const FulfilmentDetailsPrompt: React.FC = () => {
       ]}
     >
       {fields.map((_, index) => (
-        <MobileFormRow index={index} key={index} />
+        <FormRow index={index} key={index} stacked />
       ))}
     </MobilePrompt>
   );
