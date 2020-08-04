@@ -25,6 +25,10 @@ import CommitFeedbackPromptContext from 'components/customer/listing-details/con
 import FulfilmentDetailsPromptProvider from 'components/customer/listing-details/contexts/FulfilmentDetailsPromptContext';
 import ListingDetailsContext from 'components/customer/listing-details/contexts/ListingDetailsContext';
 import FulfilmentDetailsPrompt from 'components/customer/listing-details/FulfulmentDetailsPrompt';
+import {
+  ListingLocation,
+  ListingParams,
+} from 'components/customer/listing-details/interfaces';
 import ListingDetails from 'components/customer/listing-details/ListingDetails';
 import {useHistory, useParams, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
@@ -43,23 +47,15 @@ const ContentContainer = styled.div`
   overflow: scroll;
 `;
 
-interface ListingParams {
-  listingId: string;
-}
-
-interface ListingLocation {
-  hasBack: boolean;
-}
-
 const ListingDetailsPage: React.FC = () => {
   const history = useHistory();
-  const location = useLocation<ListingLocation>();
+  const {state: locationState} = useLocation<ListingLocation>();
   const {listingId: listingIdStr} = useParams<ListingParams>();
 
   const listingId = Number(listingIdStr);
 
   const handleBack = () =>
-    location.state?.hasBack ? history.goBack() : history.push('/');
+    locationState?.hasBack ? history.goBack() : history.push('/');
 
   return (
     <CommitFeedbackPromptContext>
