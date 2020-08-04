@@ -17,6 +17,7 @@
 import React, {useContext, useState, useEffect, useCallback} from 'react';
 
 import {getCustomer as fetchCustomer, loginCustomer} from 'api';
+import useLocalStorage from 'components/common/hooks/useLocalStorage';
 import {Customer} from 'interfaces';
 import {getIdentity} from 'microapps';
 
@@ -48,6 +49,11 @@ const useCustomerContext = () => {
  * CustomerProvider provider with stateful customer info.
  */
 const CustomerProvider: React.FC = ({children}) => {
+  const [isExistingCustomer, setIsExistingCustomer] = useLocalStorage<boolean>(
+    'isExistingCustomer',
+    false
+  );
+
   const [idToken, setIdToken] = useState<string>();
 
   const [customer, setCustomer] = useState<Customer>();
@@ -61,13 +67,18 @@ const CustomerProvider: React.FC = ({children}) => {
 
     const customer = await loginCustomer({gpayId}, idToken);
     setCustomer(customer);
-  }, []);
+    setIsExistingCustomer(true);
+  }, [setIsExistingCustomer]);
+
+  useEffect(() => {
+    if (isExistingCustomer) {
+      login();
+    }
+  }, [isExistingCustomer, login]);
 
   useEffect(() => {
     if (idToken === undefined) {
       setCustomer(undefined);
-    } else {
-      login();
     }
   }, [idToken, login]);
 
