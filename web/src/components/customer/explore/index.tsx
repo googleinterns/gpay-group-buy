@@ -37,7 +37,7 @@ const CommitsBadgeContainer = styled.div`
   align-self: flex-end;
 `;
 
-const MyCommitsButtonContainer = styled.div`
+const HeaderRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -63,10 +63,10 @@ const CustomerExplorePage: React.FC = () => {
       <CommitsBadgeContainer>
         <CommitsBadge />
       </CommitsBadgeContainer>
-      <MyCommitsButtonContainer>
+      <HeaderRow>
         <h1>Explore</h1>
         <MyCommitButton />
-      </MyCommitsButtonContainer>
+      </HeaderRow>
       {isListingsLoading ? (
         <Loading />
       ) : (
