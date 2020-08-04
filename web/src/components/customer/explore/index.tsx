@@ -20,7 +20,6 @@ import {getAllListings} from 'api';
 import CommitsBadge from 'components/common/CommitsBadge';
 import ListingCollection from 'components/common/ListingCollection';
 import Loading from 'components/common/Loading';
-import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import {Listing} from 'interfaces';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
@@ -29,6 +28,7 @@ import styled from 'styled-components';
 
 const PageContainer = styled(Container)`
   padding-top: 20px;
+  padding-bottom: 20px;
 
   display: flex;
   flex-direction: column;
@@ -39,10 +39,6 @@ const CommitsBadgeContainer = styled.div`
 `;
 
 const CustomerExplorePage: React.FC = () => {
-  const {getCustomerWithLogin} = useCustomerContext();
-
-  const handleGetIdentity = async () => getCustomerWithLogin();
-
   const [isListingsLoading, setIsListingsLoading] = useState(true);
   const [listings, setListings] = useState<Listing[]>([]);
 
@@ -73,9 +69,6 @@ const CustomerExplorePage: React.FC = () => {
       ) : (
         <ListingCollection listings={listings} />
       )}
-      <Button color="primary" onClick={handleGetIdentity}>
-        Get Identity
-      </Button>
     </PageContainer>
   );
 };
