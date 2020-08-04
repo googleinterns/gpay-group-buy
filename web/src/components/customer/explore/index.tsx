@@ -19,7 +19,7 @@ import React, {useEffect, useState} from 'react';
 import {getAllListings} from 'api';
 import CommitsBadge from 'components/common/CommitsBadge';
 import ListingCollection from 'components/common/ListingCollection';
-import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
+import Loading from 'components/common/Loading';
 import {Listing} from 'interfaces';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
@@ -28,6 +28,7 @@ import styled from 'styled-components';
 
 const PageContainer = styled(Container)`
   padding-top: 20px;
+  padding-bottom: 20px;
 
   display: flex;
   flex-direction: column;
@@ -38,16 +39,16 @@ const CommitsBadgeContainer = styled.div`
 `;
 
 const CustomerExplorePage: React.FC = () => {
-  const {getCustomerWithLogin} = useCustomerContext();
-
-  const handleGetIdentity = async () => getCustomerWithLogin();
-
+  const [isListingsLoading, setIsListingsLoading] = useState(true);
   const [listings, setListings] = useState<Listing[]>([]);
 
   useEffect(() => {
     const fetchListings = async () => {
-      const listings = await getAllListings();
+      const listings = await getAllListings({
+        listingStatus: 'ongoing',
+      });
       setListings(listings);
+      setIsListingsLoading(false);
     };
     fetchListings();
   }, []);
@@ -63,10 +64,11 @@ const CustomerExplorePage: React.FC = () => {
         </Button>
       </Link>
       <h1>Explore</h1>
-      <ListingCollection listings={listings} />
-      <Button color="primary" onClick={handleGetIdentity}>
-        Get Identity
-      </Button>
+      {isListingsLoading ? (
+        <Loading />
+      ) : (
+        <ListingCollection listings={listings} />
+      )}
     </PageContainer>
   );
 };

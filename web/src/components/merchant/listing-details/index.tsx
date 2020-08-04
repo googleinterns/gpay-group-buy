@@ -14,19 +14,46 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
+import {getListing} from 'api';
 import MerchantPage from 'components/common/MerchantPage';
+import CommittedCustomerStatuses from 'components/merchant/listing-details/CommittedCustomerStatuses';
 import ListingDetails from 'components/merchant/listing-details/ListingDetails';
+import {Listing} from 'interfaces';
 import {useParams} from 'react-router-dom';
+import styled from 'styled-components';
+
+const ContentContainer = styled.div`
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: flex-start;
+`;
 
 const ListingDetailsPage: React.FC = () => {
   const {listingId: listingIdString} = useParams();
   const listingId = Number(listingIdString);
+  const [listing, setListing] = useState<Listing | undefined>();
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      const listing = await getListing(listingId);
+      setListing(listing);
+    };
+    fetchListings();
+  }, [listingId]);
 
   return (
     <MerchantPage>
-      <ListingDetails listingId={listingId} />
+      <ContentContainer>
+        {listing && <ListingDetails listing={listing} />}
+        {listing?.listingStatus === 'successful' && (
+          <CommittedCustomerStatuses listing={listing} />
+        )}
+      </ContentContainer>
     </MerchantPage>
   );
 };

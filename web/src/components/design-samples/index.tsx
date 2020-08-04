@@ -20,10 +20,12 @@ import Card from 'components/common/Card';
 import CommitProgress from 'components/common/CommitProgress';
 import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
+import ListingCardWithCommitStatus from 'components/customer/my-commits/ListingCardWithCommitStatus';
 import MobilePromptSample from 'components/design-samples/MobilePromptSample';
 import SendItemModalSample from 'components/design-samples/SendItemModalSample';
+import PaidCustomerCollection from 'components/merchant/listing-details/PaidCustomerCollection';
 import {formatRFC3339} from 'date-fns';
-import {Money} from 'interfaces';
+import {Commit, Listing, Money} from 'interfaces';
 import Container from 'muicss/lib/react/container';
 
 const SAMPLE_IMG_URL = 'https://picsum.photos/seed/picsum/200/300';
@@ -38,7 +40,60 @@ const SAMPLE_OLD_PRICE: Money = {
   dollars: 121,
   cents: 0,
 };
+const SAMPLE_LISTING: Listing = {
+  merchantId: 1,
+  name: 'Some Listing',
+  price: SAMPLE_PRICE,
+  oldPrice: SAMPLE_OLD_PRICE,
+  imgUrl: SAMPLE_IMG_URL,
+  description: '',
+  deadline: SAMPLE_END_DATE,
+  minCommits: 100,
+  id: 1,
+  numCommits: 0,
+  numPaid: 0,
+  numCompleted: 0,
+  listingStatus: 'ongoing',
+};
 
+const SAMPLE_PAID_COMMITS: Commit[] = [
+  {
+    commitStatus: 'successful',
+    createdAt: new Date('2020-07-17T10:29:30.639Z'),
+    listingId: 5068871128055808,
+    customerId: 5683780991844352,
+    fulfilmentDetails: {
+      name: 'Buyer Name',
+      contactNumber: '+911234567890',
+      address: 'Rainbow Land, Pusheen St',
+    },
+    id: 5759630718271488,
+  },
+  {
+    commitStatus: 'successful',
+    createdAt: new Date('2020-07-17T10:29:30.639Z'),
+    listingId: 5068871128055808,
+    customerId: 5683780991844352,
+    fulfilmentDetails: {
+      name: 'Slightly Longer Name',
+      contactNumber: '+911234567890',
+      address: 'Rainbow Land, Pusheen St',
+    },
+    id: 5759630718271488,
+  },
+  {
+    commitStatus: 'successful',
+    createdAt: new Date('2020-07-17T10:29:30.639Z'),
+    listingId: 5068871128055808,
+    customerId: 5683780991844352,
+    fulfilmentDetails: {
+      name: 'Very Very Longgggggggggggggggggg Buyer Name',
+      contactNumber: '+911234567890',
+      address: 'Rainbow Land, Pusheen St',
+    },
+    id: 5759630718271488,
+  },
+];
 const DesignSamplesPage: React.FC = () => (
   <Container>
     <h1>Design Samples</h1>
@@ -78,6 +133,22 @@ const DesignSamplesPage: React.FC = () => (
           <CommitProgress numCommits={70} minCommits={100} />
         </ListingCard>
       </StrippedCol>
+      <ListingCardWithCommitStatus
+        listing={SAMPLE_LISTING}
+        commitStatus="successful"
+      />
+      <ListingCardWithCommitStatus
+        listing={SAMPLE_LISTING}
+        commitStatus="paid"
+      />
+      <ListingCardWithCommitStatus
+        listing={SAMPLE_LISTING}
+        commitStatus="completed"
+      />
+      <ListingCardWithCommitStatus
+        listing={SAMPLE_LISTING}
+        commitStatus="unsuccessful"
+      />
       <StrippedCol xs={12}>
         <Card
           img={{
@@ -117,6 +188,10 @@ const DesignSamplesPage: React.FC = () => (
     <Container>
       <h2>Mobile Prompt</h2>
       <MobilePromptSample />
+    </Container>
+    <Container>
+      <h2>Paid Committed Customers</h2>
+      <PaidCustomerCollection paidCommits={SAMPLE_PAID_COMMITS} />
     </Container>
     <Container>
       <h2>Send Item Modal</h2>

@@ -20,9 +20,11 @@ import BackButton from 'components/common/BackButton';
 import CommitsBadge from 'components/common/CommitsBadge';
 import ActionBar from 'components/customer/listing-details/ActionBar';
 import CommitStatusPrompt from 'components/customer/listing-details/CommitFeedbackPrompt';
-import CommitContext from 'components/customer/listing-details/contexts/CommitContext';
-import CommitFeedbackPromptContext from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
-import ListingDetailsContext from 'components/customer/listing-details/contexts/ListingDetailsContext';
+import CommitProvider from 'components/customer/listing-details/contexts/CommitContext';
+import CommitFeedbackPromptProvider from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
+import FulfilmentDetailsPromptProvider from 'components/customer/listing-details/contexts/FulfilmentDetailsPromptContext';
+import ListingDetailsProvider from 'components/customer/listing-details/contexts/ListingDetailsContext';
+import FulfilmentDetailsPrompt from 'components/customer/listing-details/FulfulmentDetailsPrompt';
 import ListingDetails from 'components/customer/listing-details/ListingDetails';
 import {useHistory, useParams, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
@@ -46,7 +48,7 @@ interface ListingParams {
 }
 
 interface ListingLocation {
-  fromExplore: boolean;
+  hasBack: boolean;
 }
 
 const ListingDetailsPage: React.FC = () => {
@@ -57,24 +59,27 @@ const ListingDetailsPage: React.FC = () => {
   const listingId = Number(listingIdStr);
 
   const handleBack = () =>
-    location.state?.fromExplore ? history.goBack() : history.push('/');
+    location.state?.hasBack ? history.goBack() : history.push('/');
 
   return (
-    <CommitFeedbackPromptContext>
-      <CommitContext listingId={listingId}>
-        <ListingDetailsContext listingId={listingId}>
-          <PageContainer>
-            <BackButton pos="absolute" onClick={handleBack} />
-            <CommitsBadge pos="absolute" />
-            <ContentContainer>
-              <ListingDetails />
-            </ContentContainer>
-            <ActionBar />
-          </PageContainer>
-        </ListingDetailsContext>
-      </CommitContext>
+    <CommitFeedbackPromptProvider>
+      <CommitProvider listingId={listingId}>
+        <FulfilmentDetailsPromptProvider>
+          <ListingDetailsProvider listingId={listingId}>
+            <PageContainer>
+              <BackButton pos="absolute" onClick={handleBack} />
+              <CommitsBadge pos="absolute" />
+              <ContentContainer>
+                <ListingDetails />
+              </ContentContainer>
+              <ActionBar />
+            </PageContainer>
+          </ListingDetailsProvider>
+          <FulfilmentDetailsPrompt />
+        </FulfilmentDetailsPromptProvider>
+      </CommitProvider>
       <CommitStatusPrompt />
-    </CommitFeedbackPromptContext>
+    </CommitFeedbackPromptProvider>
   );
 };
 
