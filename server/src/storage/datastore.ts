@@ -351,19 +351,22 @@ export const updateEntity = async (
   updateRules: UpdateRule[],
   transaction?: Transaction
 ) => {
-  const actor = transaction || datastore;
-
   const key = datastore.key([kind, id]);
 
   try {
-    const [data] = await actor.get(key);
+    const [data] = await datastore.get(key);
     updateRules.forEach(updateRule => updateData(data, updateRule));
 
     const entity = {
       key,
       data,
     };
-    actor.update(entity);
+
+    if (transaction) {
+      transaction.update(entity);
+    } else {
+      await datastore.update(entity);
+    }
   } catch (err) {
     throw new Error(`Failed to update ${kind} ${id}. ${err.message}`);
   }

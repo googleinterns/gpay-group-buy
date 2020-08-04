@@ -20,9 +20,15 @@
  */
 export interface CustomerPayload {
   gpayId: string;
+  name?: string;
   contactNumber?: string; // E164 format
   address?: string;
 }
+
+/**
+ * Union type of the keys of CustomerPayload.
+ */
+export type CustomerPayloadKey = keyof CustomerPayload;
 
 /**
  * CustomerDatastoreReponse Interface that contains the fields of the Response that
