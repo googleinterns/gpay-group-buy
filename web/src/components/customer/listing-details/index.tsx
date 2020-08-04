@@ -20,10 +20,10 @@ import BackButton from 'components/common/BackButton';
 import CommitsBadge from 'components/common/CommitsBadge';
 import ActionBar from 'components/customer/listing-details/ActionBar';
 import CommitStatusPrompt from 'components/customer/listing-details/CommitFeedbackPrompt';
-import CommitContext from 'components/customer/listing-details/contexts/CommitContext';
-import CommitFeedbackPromptContext from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
+import CommitProvider from 'components/customer/listing-details/contexts/CommitContext';
+import CommitFeedbackPromptProvider from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
 import FulfilmentDetailsPromptProvider from 'components/customer/listing-details/contexts/FulfilmentDetailsPromptContext';
-import ListingDetailsContext from 'components/customer/listing-details/contexts/ListingDetailsContext';
+import ListingDetailsProvider from 'components/customer/listing-details/contexts/ListingDetailsContext';
 import FulfilmentDetailsPrompt from 'components/customer/listing-details/FulfulmentDetailsPrompt';
 import ListingDetails from 'components/customer/listing-details/ListingDetails';
 import {useHistory, useParams, useLocation} from 'react-router-dom';
@@ -62,10 +62,10 @@ const ListingDetailsPage: React.FC = () => {
     location.state?.hasBack ? history.goBack() : history.push('/');
 
   return (
-    <CommitFeedbackPromptContext>
-      <CommitContext listingId={listingId}>
+    <CommitFeedbackPromptProvider>
+      <CommitProvider listingId={listingId}>
         <FulfilmentDetailsPromptProvider>
-          <ListingDetailsContext listingId={listingId}>
+          <ListingDetailsProvider listingId={listingId}>
             <PageContainer>
               <BackButton pos="absolute" onClick={handleBack} />
               <CommitsBadge pos="absolute" />
@@ -74,12 +74,12 @@ const ListingDetailsPage: React.FC = () => {
               </ContentContainer>
               <ActionBar />
             </PageContainer>
-          </ListingDetailsContext>
+          </ListingDetailsProvider>
           <FulfilmentDetailsPrompt />
         </FulfilmentDetailsPromptProvider>
-      </CommitContext>
+      </CommitProvider>
       <CommitStatusPrompt />
-    </CommitFeedbackPromptContext>
+    </CommitFeedbackPromptProvider>
   );
 };
 
