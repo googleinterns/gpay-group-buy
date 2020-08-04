@@ -17,12 +17,20 @@
 import React, {useState} from 'react';
 
 import SendItemModal from 'components/merchant/listing-details/SendItemModal';
+import {Commit} from 'interfaces';
 import Button from 'muicss/lib/react/button';
 
-const SAMPLE_FULFILMENT_DETAILS = {
-  name: 'Customer Name',
-  address: 'Blk 252 Ang Mo Kio Ave 4 Singapore 560252',
-  contactNumber: '+65 8765 4321',
+const SAMPLE_COMMIT: Commit = {
+  createdAt: new Date('2020-07-22T12:48:28.390Z'),
+  customerId: 5683780991844352,
+  commitStatus: 'paid',
+  listingId: 5081054809423872,
+  id: 5635925325381632,
+  fulfilmentDetails: {
+    name: 'Customer Name',
+    address: 'Blk 252 Ang Mo Kio Ave 4 Singapore 560252',
+    contactNumber: '+65 8765 4321',
+  },
 };
 
 /**
@@ -42,7 +50,7 @@ const SendItemModalSample: React.FC = () => {
       <SendItemModal
         isVisible={isVisible}
         closeModal={onClickClose}
-        fulfilmentDetails={SAMPLE_FULFILMENT_DETAILS}
+        commit={SAMPLE_COMMIT}
       />
     </>
   );
