@@ -93,12 +93,21 @@ const editCommit = async (
   );
 
   const listingUpdateRules: UpdateRule[] = [];
-  if (fieldsToEdit.commitStatus === 'paid') {
-    listingUpdateRules.push({
-      property: 'numPaid',
-      op: 'add',
-      value: 1,
-    });
+  switch (fieldsToEdit.commitStatus) {
+    case 'paid':
+      listingUpdateRules.push({
+        property: 'numPaid',
+        op: 'add',
+        value: 1,
+      });
+      break;
+    case 'completed':
+      listingUpdateRules.push({
+        property: 'numCompleted',
+        op: 'add',
+        value: 1,
+      });
+      break;
   }
 
   await makeTransaction(

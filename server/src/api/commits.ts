@@ -19,6 +19,7 @@
  */
 
 import express, {Request, Response, NextFunction} from 'express';
+import _ from 'lodash';
 
 import {CommitRequest, CommitPaymentRequest} from '../interfaces';
 import customerAuth from '../middleware/customer-auth';
@@ -102,6 +103,42 @@ commitRouter.post(
       }
 
       const commit = await commitService.payForCommit(commitId, req.body);
+      res.status(200).json(commit);
+      // TODO: Add error handling with the appropriate response codes.
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+/**
+ * Handles patch requests to edit some fields of the commit with the specified commitId.
+ */
+commitRouter.patch(
+  '/:commitId',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {commitId: commitIdStr} = req.params;
+    const commitId = Number(commitIdStr);
+
+    try {
+      if (Number.isNaN(commitId)) {
+        throw {
+          status: 400,
+          message: 'Invalid commitId params.',
+        };
+      }
+
+      if (!_.isEqual(Object.keys(req.body), ['commitStatus'])) {
+        throw {
+          status: 400,
+          message: 'Only commitStatus can be modified.',
+        };
+      }
+
+      const commit = await commitService.editCommit(commitId, req.body);
+
+      const resourceUrl = `${process.env.SERVER_URL}/commits/${commit.id}`;
+      res.setHeader('Content-Location', resourceUrl);
       res.status(200).json(commit);
       // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
