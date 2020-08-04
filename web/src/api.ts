@@ -31,6 +31,7 @@ import {
   MerchantResponse,
   ListingQuery,
   CommitPaymentPayload,
+  CommitEditPayload,
 } from 'interfaces';
 
 /**
@@ -190,6 +191,29 @@ export const addCommit = async (
     `${process.env.REACT_APP_SERVER_URL}/commits/`,
     commitData,
     idToken
+  );
+  return res.json();
+};
+
+/**
+ * Edits the commit with the specified commitId.
+ * @param commitId Id of the commit to edit
+ * @param fieldsToEdit Fields of the commit to be edited
+ */
+export const editCommit = async (
+  commitId: number,
+  fieldsToEdit: CommitEditPayload
+) => {
+  const requestOptions = {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(fieldsToEdit),
+  };
+  const res = await fetch(
+    `${process.env.REACT_APP_SERVER_URL}/commits/${commitId}`,
+    requestOptions
   );
   return res.json();
 };
