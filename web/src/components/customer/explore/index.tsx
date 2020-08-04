@@ -20,10 +20,9 @@ import {getAllListings} from 'api';
 import CommitsBadge from 'components/common/CommitsBadge';
 import ListingCollection from 'components/common/ListingCollection';
 import Loading from 'components/common/Loading';
+import MyCommitButton from 'components/customer/explore/MyCommitsButton';
 import {Listing} from 'interfaces';
-import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
-import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
 const PageContainer = styled(Container)`
@@ -36,6 +35,12 @@ const PageContainer = styled(Container)`
 
 const CommitsBadgeContainer = styled.div`
   align-self: flex-end;
+`;
+
+const MyCommitsButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const CustomerExplorePage: React.FC = () => {
@@ -58,12 +63,10 @@ const CustomerExplorePage: React.FC = () => {
       <CommitsBadgeContainer>
         <CommitsBadge />
       </CommitsBadgeContainer>
-      <Link to="/commits">
-        <Button color="primary" variant="flat">
-          View My Commits
-        </Button>
-      </Link>
-      <h1>Explore</h1>
+      <MyCommitsButtonContainer>
+        <h1>Explore</h1>
+        <MyCommitButton />
+      </MyCommitsButtonContainer>
       {isListingsLoading ? (
         <Loading />
       ) : (
