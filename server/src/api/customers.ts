@@ -103,7 +103,7 @@ customerRouter.put(
 
     try {
       if (Number.isNaN(customerId)) {
-        throw new Error('Invalid customerId params.');
+        throw new Error('Invalid customerId.');
       }
 
       const modifiedCustomer = await customerService.updateCustomer(
