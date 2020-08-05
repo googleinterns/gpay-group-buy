@@ -31,7 +31,6 @@ import {
   MerchantResponse,
   ListingQuery,
   CommitPaymentPayload,
-  CommitEditPayload,
 } from 'interfaces';
 
 /**

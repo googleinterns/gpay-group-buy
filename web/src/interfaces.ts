@@ -183,11 +183,6 @@ export interface Commit extends CommitPayload, CommitPaymentPayload {
 }
 
 /**
- * CommitEditPayload Interface that contains the fields of a commit to be edited.
- */
-export type CommitEditPayload = Pick<Commit, 'commitStatus'>;
-
-/**
  * GroupedCommits type of commits grouped by their commit status.
  */
 export type GroupedCommits = {
