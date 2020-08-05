@@ -352,9 +352,9 @@ export const updateEntity = async (
   transaction?: Transaction
 ) => {
   const key = datastore.key([kind, id]);
+  const data = await getEntity(kind, id, transaction);
 
   try {
-    const [data] = await datastore.get(key);
     updateRules.forEach(updateRule => updateData(data, updateRule));
 
     const entity = {

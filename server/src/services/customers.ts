@@ -60,9 +60,6 @@ const updateCustomer = async (
   customerId: number,
   fieldsToUpdate: Partial<CustomerPayload>
 ) => {
-  // Check that customer exists
-  await customerStorage.getCustomer(customerId);
-
   // Check that request contains only allowed keys
   const allowedKeys: Set<CustomerPayloadKey> = new Set([
     'name',
