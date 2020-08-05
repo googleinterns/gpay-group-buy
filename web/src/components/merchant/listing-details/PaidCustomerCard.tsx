@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 
 import Card from 'components/common/Card';
 import RoundedButton from 'components/common/RoundedButton';
+import SendItemModal from 'components/merchant/listing-details/SendItemModal';
 import {Commit} from 'interfaces';
 import styled from 'styled-components';
 
 const CardWithLeftBorder = styled(Card)`
-  width: 300px;
+  width: 280px;
 
   border-left-color: var(--light-gray);
   border-left-style: solid;
@@ -51,15 +52,23 @@ interface PaidCustomerCardProps {
  * A card that shows the name of product recipient and a 'SEND ITEM' button.
  */
 const PaidCustomerCard: React.FC<PaidCustomerCardProps> = ({paidCommit}) => {
-  const {
-    fulfilmentDetails: {name},
-  } = paidCommit;
+  const {fulfilmentDetails} = paidCommit;
+  const {name} = fulfilmentDetails;
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+
   return (
     <CardWithLeftBorder>
       <Row>
         <div>{name}</div>
-        <SendItemButton color="bright-red">Send Item</SendItemButton>
+        <SendItemButton color="bright-red" onClick={() => setIsVisible(true)}>
+          Send Item
+        </SendItemButton>
       </Row>
+      <SendItemModal
+        isVisible={isVisible}
+        closeModal={() => setIsVisible(false)}
+        fulfilmentDetails={fulfilmentDetails}
+      />
     </CardWithLeftBorder>
   );
 };

@@ -39,6 +39,7 @@ const getAllCommits = async (
   const allowedKeys: Set<CommitPayloadKey> = new Set([
     'customerId',
     'listingId',
+    'commitStatus',
   ]);
   const filters: Filter[] = [];
   Object.keys(queryParams).forEach(key => {
