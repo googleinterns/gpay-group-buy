@@ -61,28 +61,28 @@ const CommitStatusDetails = styled.div`
 `;
 
 interface CommitStatusStatsProps {
-  colour: 'bright-red' | 'yellow' | 'green';
+  color: 'bright-red' | 'yellow' | 'green';
   label: ReactNode;
   count: number;
   commits?: Commit[];
 }
 
 const CommitStatusStats: React.FC<CommitStatusStatsProps> = ({
-  colour,
+  color,
   label,
   count,
   commits,
 }) => (
   <CommitStatusStatsContainer>
     <CommitStatusSummary>
-      <CommitStatusBullet color={colour}>&#8226;</CommitStatusBullet>
+      <CommitStatusBullet color={color}>&#8226;</CommitStatusBullet>
       <CommitStatusText>
         <div>{label}</div>
         <CommitStatusCount>{count}</CommitStatusCount>
       </CommitStatusText>
     </CommitStatusSummary>
     <CommitStatusDetails>
-      {commits && colour === 'bright-red' && (
+      {commits && color === 'bright-red' && (
         <PaidCustomerCollection paidCommits={commits} />
       )}
     </CommitStatusDetails>
@@ -123,17 +123,17 @@ const CommittedCustomerStatuses: React.FC<CommittedCustomerStatusesProps> = ({
   return (
     <CommittedCustomersStatuses>
       <CommitStatusStats
-        colour="green"
+        color="green"
         label="Completed"
         count={numCompleted}
       />
       <CommitStatusStats
-        colour="yellow"
+        color="yellow"
         label="Awaiting Payment"
         count={numCommits - numPaid}
       />
       <CommitStatusStats
-        colour="bright-red"
+        color="bright-red"
         label={<b>Pending Action</b>}
         count={numPaid - numCompleted}
         commits={paidCommits}
