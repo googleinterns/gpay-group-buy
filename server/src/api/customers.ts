@@ -85,10 +85,10 @@ customerRouter.post(
 );
 
 /**
- * Handles the PUT requests to modify an existing customer with the specified customerId.
+ * Handles the PATCH requests to modify an existing customer with the specified customerId.
  * If successful, returns the modified customer in the response body with code 200.
  */
-customerRouter.put(
+customerRouter.patch(
   '/:customerId',
   customerAuth,
   validateAndFormatPhoneNumber(
