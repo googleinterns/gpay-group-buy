@@ -22,8 +22,10 @@ import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
 import ListingCardWithCommitStatus from 'components/customer/my-commits/ListingCardWithCommitStatus';
 import MobilePromptSample from 'components/design-samples/MobilePromptSample';
+import SendItemModalSample from 'components/design-samples/SendItemModalSample';
+import PaidCustomerCollection from 'components/merchant/listing-details/PaidCustomerCollection';
 import {formatRFC3339} from 'date-fns';
-import {Money, Listing} from 'interfaces';
+import {Commit, Listing, Money} from 'interfaces';
 import Container from 'muicss/lib/react/container';
 
 const SAMPLE_IMG_URL = 'https://picsum.photos/seed/picsum/200/300';
@@ -54,6 +56,44 @@ const SAMPLE_LISTING: Listing = {
   listingStatus: 'ongoing',
 };
 
+const SAMPLE_PAID_COMMITS: Commit[] = [
+  {
+    commitStatus: 'successful',
+    createdAt: new Date('2020-07-17T10:29:30.639Z'),
+    listingId: 5068871128055808,
+    customerId: 5683780991844352,
+    fulfilmentDetails: {
+      name: 'Buyer Name',
+      contactNumber: '+911234567890',
+      address: 'Rainbow Land, Pusheen St',
+    },
+    id: 5759630718271488,
+  },
+  {
+    commitStatus: 'successful',
+    createdAt: new Date('2020-07-17T10:29:30.639Z'),
+    listingId: 5068871128055808,
+    customerId: 5683780991844352,
+    fulfilmentDetails: {
+      name: 'Slightly Longer Name',
+      contactNumber: '+911234567890',
+      address: 'Rainbow Land, Pusheen St',
+    },
+    id: 5759630718271488,
+  },
+  {
+    commitStatus: 'successful',
+    createdAt: new Date('2020-07-17T10:29:30.639Z'),
+    listingId: 5068871128055808,
+    customerId: 5683780991844352,
+    fulfilmentDetails: {
+      name: 'Very Very Longgggggggggggggggggg Buyer Name',
+      contactNumber: '+911234567890',
+      address: 'Rainbow Land, Pusheen St',
+    },
+    id: 5759630718271488,
+  },
+];
 const DesignSamplesPage: React.FC = () => (
   <Container>
     <h1>Design Samples</h1>
@@ -148,6 +188,14 @@ const DesignSamplesPage: React.FC = () => (
     <Container>
       <h2>Mobile Prompt</h2>
       <MobilePromptSample />
+    </Container>
+    <Container>
+      <h2>Paid Committed Customers</h2>
+      <PaidCustomerCollection paidCommits={SAMPLE_PAID_COMMITS} />
+    </Container>
+    <Container>
+      <h2>Send Item Modal</h2>
+      <SendItemModalSample />
     </Container>
   </Container>
 );

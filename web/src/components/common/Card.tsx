@@ -50,13 +50,14 @@ const CardContent = styled.div`
 interface CardProps {
   img?: Image;
   horizontal?: boolean;
+  className?: string; // Prop passed by styled-components wrapper.
 }
 
 /**
  * A base Card component that can also display images.
  */
-const Card: React.FC<CardProps> = ({img, horizontal, children}) => (
-  <CardContainer horizontal={horizontal}>
+const Card: React.FC<CardProps> = ({img, horizontal, children, className}) => (
+  <CardContainer horizontal={horizontal} className={className}>
     {img !== undefined && (
       <ImageContainer>
         <CardImage

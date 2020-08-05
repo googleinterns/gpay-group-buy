@@ -20,15 +20,14 @@ import {getAllListings} from 'api';
 import CommitsBadge from 'components/common/CommitsBadge';
 import ListingCollection from 'components/common/ListingCollection';
 import Loading from 'components/common/Loading';
-import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
+import MyCommitButton from 'components/customer/explore/MyCommitsButton';
 import {Listing} from 'interfaces';
-import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
-import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
 const PageContainer = styled(Container)`
   padding-top: 20px;
+  padding-bottom: 20px;
 
   display: flex;
   flex-direction: column;
@@ -38,11 +37,13 @@ const CommitsBadgeContainer = styled.div`
   align-self: flex-end;
 `;
 
+const HeaderRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const CustomerExplorePage: React.FC = () => {
-  const {getCustomerWithLogin} = useCustomerContext();
-
-  const handleGetIdentity = async () => getCustomerWithLogin();
-
   const [isListingsLoading, setIsListingsLoading] = useState(true);
   const [listings, setListings] = useState<Listing[]>([]);
 
@@ -62,20 +63,15 @@ const CustomerExplorePage: React.FC = () => {
       <CommitsBadgeContainer>
         <CommitsBadge />
       </CommitsBadgeContainer>
-      <Link to="/commits">
-        <Button color="primary" variant="flat">
-          View My Commits
-        </Button>
-      </Link>
-      <h1>Explore</h1>
+      <HeaderRow>
+        <h1>Explore</h1>
+        <MyCommitButton />
+      </HeaderRow>
       {isListingsLoading ? (
         <Loading />
       ) : (
         <ListingCollection listings={listings} />
       )}
-      <Button color="primary" onClick={handleGetIdentity}>
-        Get Identity
-      </Button>
     </PageContainer>
   );
 };

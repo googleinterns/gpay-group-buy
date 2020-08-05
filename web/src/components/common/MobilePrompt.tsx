@@ -14,30 +14,13 @@
  * limitations under the License.
  */
 
-import React, {useEffect} from 'react';
+import React from 'react';
 
+import Modal from 'components/common/Modal';
 import {NonEmptyArray} from 'interfaces';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
 import styled from 'styled-components';
-
-type PromptBackgroundProps = {
-  isVisible: boolean;
-};
-
-const PromptBackground = styled(Container)`
-  display: ${({isVisible}: PromptBackgroundProps) =>
-    isVisible ? 'block' : 'none'};
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9999; /* Ensure always on top */
-
-  background: rgba(0, 0, 0, 0.5);
-`;
 
 const OverlayPromptCard = styled(Container)`
   position: fixed;
@@ -94,20 +77,6 @@ const LinkButton = styled(Button)`
   }
 `;
 
-/* Prevent body scroll code from https://css-tricks.com/prevent-page-scrolling-when-a-modal-is-open/ */
-const disableBodyScroll = () => {
-  document.body.style.top = `-${window.scrollY}px`;
-  document.body.style.position = 'fixed';
-};
-
-const enableBodyScroll = () => {
-  const scrollY = document.body.style.top;
-  document.body.style.position = '';
-  document.body.style.top = '';
-  window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
-};
-/* End prevent body scroll code from https://css-tricks.com/prevent-page-scrolling-when-a-modal-is-open/ */
-
 interface ButtonDetails {
   name: string;
   onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -131,40 +100,28 @@ const MobilePrompt: React.FC<MobilePromptProps> = ({
   title,
   buttons,
   header,
-}) => {
-  useEffect(() => {
-    if (isVisible) {
-      disableBodyScroll();
-    } else {
-      enableBodyScroll();
-    }
-  }, [isVisible]);
-
-  useEffect(enableBodyScroll, []);
-
-  return (
-    <PromptBackground isVisible={isVisible} fluid>
-      <OverlayPromptCard fluid>
-        <PromptContent>
-          {header}
-          {title && <TitleText>{title}</TitleText>}
-          {children}
-        </PromptContent>
-        <ButtonRow>
-          {buttons.map(({name, onClick, disabled = false}, idx) => (
-            <LinkButton
-              key={idx}
-              onClick={onClick}
-              disabled={disabled}
-              variant="flat"
-            >
-              {name}
-            </LinkButton>
-          ))}
-        </ButtonRow>
-      </OverlayPromptCard>
-    </PromptBackground>
-  );
-};
+}) => (
+  <Modal isVisible={isVisible}>
+    <OverlayPromptCard fluid>
+      <PromptContent>
+        {header}
+        {title && <TitleText>{title}</TitleText>}
+        {children}
+      </PromptContent>
+      <ButtonRow>
+        {buttons.map(({name, onClick, disabled = false}, idx) => (
+          <LinkButton
+            key={idx}
+            onClick={onClick}
+            disabled={disabled}
+            variant="flat"
+          >
+            {name}
+          </LinkButton>
+        ))}
+      </ButtonRow>
+    </OverlayPromptCard>
+  </Modal>
+);
 
 export default MobilePrompt;
