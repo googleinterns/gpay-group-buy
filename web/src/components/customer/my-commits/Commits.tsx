@@ -34,9 +34,13 @@ const CommitsContainer = styled.div`
 `;
 interface CommitSectionProps {
   commits: Commit[];
+  directToPayment?: boolean;
 }
 
-const CommitSection: React.FC<CommitSectionProps> = ({commits}) => {
+const CommitSection: React.FC<CommitSectionProps> = ({
+  commits,
+  directToPayment,
+}) => {
   const [listings, setListings] = useState<Listing[]>([]);
 
   useEffect(() => {
@@ -57,6 +61,7 @@ const CommitSection: React.FC<CommitSectionProps> = ({commits}) => {
             pathname: `listing/${listing.id}`,
             state: {
               hasBack: true,
+              attemptPayment: directToPayment || false,
             },
           }}
           key={idx}
@@ -83,7 +88,7 @@ const Commits: React.FC<CommitsProps> = ({
 }) => (
   <CommitsContainer>
     <h2>Awaiting Payment</h2>
-    {successful && <CommitSection commits={successful} />}
+    {successful && <CommitSection commits={successful} directToPayment />}
     <h2>Ongoing</h2>
     {ongoing && <CommitSection commits={ongoing} />}
     <h2>History</h2>
