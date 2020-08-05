@@ -318,7 +318,7 @@ export const addEntityInTransaction = (
 const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
   const operation = updateRule.op || 'replace';
   let value = original?.[updateRule.property];
-  if (value === undefined) {
+  if (value === undefined && operation !== 'replace') {
     throw new Error(`Property to be updated does not exist on ${original}`);
   }
 

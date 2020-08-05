@@ -62,9 +62,7 @@ const updateCustomer = async (
 ) => {
   // Check that request contains only allowed keys
   const allowedKeys: Set<CustomerPayloadKey> = new Set([
-    'name',
-    'contactNumber',
-    'address',
+    'defaultFulfilmentDetails',
   ]);
   Object.keys(fieldsToUpdate).forEach(key => {
     if (!(allowedKeys as Set<string>).has(key)) {

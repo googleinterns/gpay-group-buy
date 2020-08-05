@@ -20,9 +20,7 @@
  */
 export interface CustomerPayload {
   gpayId: string;
-  name?: string;
-  contactNumber?: string; // E164 format
-  address?: string;
+  defaultFulfilmentDetails: FulfilmentDetails;
 }
 
 /**

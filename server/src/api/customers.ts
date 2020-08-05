@@ -92,14 +92,16 @@ customerRouter.patch(
   '/:customerId',
   customerAuth,
   validateAndFormatPhoneNumber(
-    (body: Partial<CustomerPayload>) => body.contactNumber,
+    (body: Partial<CustomerPayload>) =>
+      body.defaultFulfilmentDetails?.contactNumber,
     (body: Partial<CustomerPayload>, phoneNumber: string) =>
-      (body.contactNumber = phoneNumber)
+      body.defaultFulfilmentDetails &&
+      (body.defaultFulfilmentDetails.contactNumber = phoneNumber)
   ),
   async (req: Request, res: Response, next: NextFunction) => {
     const {customerId: customerIdStr} = req.params;
     const customerId = Number(customerIdStr);
-    const customerData = req.body;
+    const fieldsToUpdate = req.body;
 
     try {
       if (Number.isNaN(customerId)) {
@@ -108,7 +110,7 @@ customerRouter.patch(
 
       const modifiedCustomer = await customerService.updateCustomer(
         customerId,
-        customerData
+        fieldsToUpdate
       );
       res.status(200).send(modifiedCustomer);
       // TODO: Add error handling with the appropriate response codes.
