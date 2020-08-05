@@ -71,7 +71,7 @@ const CommitStatusStats: React.FC<CommitStatusStatsProps> = ({
   color,
   label,
   count,
-  commits,
+  children,
 }) => (
   <CommitStatusStatsContainer>
     <CommitStatusSummary>
@@ -81,11 +81,7 @@ const CommitStatusStats: React.FC<CommitStatusStatsProps> = ({
         <CommitStatusCount>{count}</CommitStatusCount>
       </CommitStatusText>
     </CommitStatusSummary>
-    <CommitStatusDetails>
-      {commits && color === 'bright-red' && (
-        <PaidCustomerCollection paidCommits={commits} />
-      )}
-    </CommitStatusDetails>
+    <CommitStatusDetails>{children}</CommitStatusDetails>
   </CommitStatusStatsContainer>
 );
 
@@ -122,11 +118,7 @@ const CommittedCustomerStatuses: React.FC<CommittedCustomerStatusesProps> = ({
 
   return (
     <CommittedCustomersStatuses>
-      <CommitStatusStats
-        color="green"
-        label="Completed"
-        count={numCompleted}
-      />
+      <CommitStatusStats color="green" label="Completed" count={numCompleted} />
       <CommitStatusStats
         color="yellow"
         label="Awaiting Payment"
@@ -136,8 +128,9 @@ const CommittedCustomerStatuses: React.FC<CommittedCustomerStatusesProps> = ({
         color="bright-red"
         label={<b>Pending Action</b>}
         count={numPaid - numCompleted}
-        commits={paidCommits}
-      />
+      >
+        {paidCommits && <PaidCustomerCollection paidCommits={paidCommits} />}
+      </CommitStatusStats>
     </CommittedCustomersStatuses>
   );
 };
