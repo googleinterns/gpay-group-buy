@@ -19,7 +19,7 @@
  */
 export interface ListingLocation {
   hasBack: boolean;
-  attemptPayment: boolean;
+  attemptPayment?: boolean;
 }
 
 /**
