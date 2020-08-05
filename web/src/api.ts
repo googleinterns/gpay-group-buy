@@ -196,29 +196,6 @@ export const addCommit = async (
 };
 
 /**
- * Edits the commit with the specified commitId.
- * @param commitId Id of the commit to edit
- * @param fieldsToEdit Fields of the commit to be edited
- */
-export const editCommit = async (
-  commitId: number,
-  fieldsToEdit: CommitEditPayload
-) => {
-  const requestOptions = {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(fieldsToEdit),
-  };
-  const res = await fetch(
-    `${process.env.REACT_APP_SERVER_URL}/commits/${commitId}`,
-    requestOptions
-  );
-  return res.json();
-};
-
-/**
  * Deletes a commit with the specified commitId.
  * @param commitId Id of the commit to delete
  * @param idToken Authentication token of customer
@@ -245,6 +222,18 @@ export const payForCommit = async (
     `${process.env.REACT_APP_SERVER_URL}/commits/${commitId}/pay`,
     paymentData,
     idToken
+  );
+  return res.json();
+};
+
+/**
+ * Completes the commit with the specified commitId.
+ * @param commitId Id of the commit to complete
+ */
+export const completeCommit = async (commitId: number) => {
+  const res = await fetch(
+    `${process.env.REACT_APP_SERVER_URL}/commits/${commitId}/complete`,
+    {method: 'POST'}
   );
   return res.json();
 };

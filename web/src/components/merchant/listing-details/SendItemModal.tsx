@@ -16,7 +16,7 @@
 
 import React from 'react';
 
-import {editCommit} from 'api';
+import {completeCommit} from 'api';
 import CentralisedContainer from 'components/common/CentralisedContainer';
 import Modal from 'components/common/Modal';
 import RoundedButton from 'components/common/RoundedButton';
@@ -65,7 +65,7 @@ const IndicateButton = styled(RoundedButton)`
 `;
 
 const indicateItemSent = async (commitId: number) => {
-  await editCommit(commitId, {commitStatus: 'completed'});
+  await completeCommit(commitId);
   window.location.reload(false);
 };
 
