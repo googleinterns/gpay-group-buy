@@ -135,7 +135,7 @@ commitRouter.patch(
         };
       }
 
-      const commit = await commitService.editCommit(commitId, req.body);
+      const commit = await commitService.updateCommit(commitId, req.body);
 
       const resourceUrl = `${process.env.SERVER_URL}/commits/${commit.id}`;
       res.setHeader('Content-Location', resourceUrl);

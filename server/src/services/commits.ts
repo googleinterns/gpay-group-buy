@@ -130,7 +130,7 @@ const payForCommit = async (
     commitStatus: 'paid',
   };
 
-  return editCommit(commitId, fieldsToEdit);
+  return updateCommit(commitId, fieldsToEdit);
 };
 
 /**
@@ -140,7 +140,7 @@ const payForCommit = async (
  * @param commitId Id of the commit to be edited
  * @param fieldsToEdit Fields of the commit to be edited
  */
-const editCommit = async (
+const updateCommit = async (
   commitId: number,
   fieldsToEdit: CommitEditPayload
 ) => {
@@ -166,7 +166,7 @@ const editCommit = async (
       throw new Error('Invalid commit status.');
   }
 
-  return commitStorage.editCommit(commitId, fieldsToEdit, commit.listingId);
+  return commitStorage.updateCommit(commitId, fieldsToEdit, commit.listingId);
 };
 
 /**
@@ -190,6 +190,6 @@ export default {
   getAllCommits,
   addCommit,
   payForCommit,
-  editCommit,
+  updateCommit,
   deleteCommit,
 };

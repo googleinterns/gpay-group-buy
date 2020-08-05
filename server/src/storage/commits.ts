@@ -79,7 +79,7 @@ const addCommit = async (
  * @param fieldsToEdit Fields of the commit to be edited
  * @param affectedListingId Id of the listing that might be affected
  */
-const editCommit = async (
+const updateCommit = async (
   commitId: number,
   fieldsToEdit: CommitEditPayload,
   affectedListingId: number
@@ -139,4 +139,4 @@ const deleteCommit = async (commitId: number, listingId: number) =>
     ])
   );
 
-export default {getCommit, getAllCommits, addCommit, editCommit, deleteCommit};
+export default {getCommit, getAllCommits, addCommit, updateCommit, deleteCommit};
