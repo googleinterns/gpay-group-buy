@@ -22,7 +22,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   max-width: 350px;
-  max-height: 100%;
+  max-height: inherit;
   overflow: scroll;
 `;
 

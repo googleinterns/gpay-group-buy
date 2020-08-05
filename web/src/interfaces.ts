@@ -169,7 +169,9 @@ export interface CommitPaymentPayload {
  * CommitQuery Interface that contains the fields of the query that
  * would be sent to the server to query for commits.
  */
-export type CommitQuery = Partial<CommitPayload>;
+export type CommitQuery = Partial<
+  Pick<Commit, 'customerId' | 'listingId' | 'commitStatus'>
+>;
 
 /**
  * Commit Interface that contains the fields of a Commit.

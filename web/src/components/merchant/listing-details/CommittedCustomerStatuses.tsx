@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 
-import {Listing} from 'interfaces';
+import {getCommits} from 'api';
+import PaidCustomerCollection from 'components/merchant/listing-details/PaidCustomerCollection';
+import {Commit, Listing} from 'interfaces';
 import styled from 'styled-components';
 
 const CommitStatusStatsContainer = styled.div`
+  margin-bottom: 40px;
+`;
+
+const CommitStatusSummary = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-
-  margin-bottom: 20px;
 `;
 
 const CommitStatusBullet = styled.div`
@@ -50,28 +54,39 @@ const CommitStatusCount = styled.div`
   font-weight: bold;
 `;
 
+const CommitStatusDetails = styled.div`
+  margin-left: 15px;
+  margin-top: 10px;
+  max-height: 60vh;
+`;
+
 interface CommitStatusStatsProps {
-  colour: 'bright-red' | 'yellow' | 'green';
+  color: 'bright-red' | 'yellow' | 'green';
   label: ReactNode;
   count: number;
+  commits?: Commit[];
 }
 
 const CommitStatusStats: React.FC<CommitStatusStatsProps> = ({
-  colour,
+  color,
   label,
   count,
+  children,
 }) => (
   <CommitStatusStatsContainer>
-    <CommitStatusBullet color={colour}>&#8226;</CommitStatusBullet>
-    <CommitStatusText>
-      <div>{label}</div>
-      <CommitStatusCount>{count}</CommitStatusCount>
-    </CommitStatusText>
+    <CommitStatusSummary>
+      <CommitStatusBullet color={color}>&#8226;</CommitStatusBullet>
+      <CommitStatusText>
+        <div>{label}</div>
+        <CommitStatusCount>{count}</CommitStatusCount>
+      </CommitStatusText>
+    </CommitStatusSummary>
+    <CommitStatusDetails>{children}</CommitStatusDetails>
   </CommitStatusStatsContainer>
 );
 
 const CommittedCustomersStatuses = styled.div`
-  max-height: 100%;
+  max-height: 85vh;
   width: max-content;
 `;
 
@@ -87,24 +102,35 @@ interface CommittedCustomerStatusesProps {
 const CommittedCustomerStatuses: React.FC<CommittedCustomerStatusesProps> = ({
   listing,
 }) => {
-  const {numCommits, numPaid, numCompleted} = listing;
+  const {id, numCommits, numPaid, numCompleted} = listing;
+  const [paidCommits, setPaidCommits] = useState<Commit[] | undefined>();
+
+  useEffect(() => {
+    const fetchPaidCommits = async () => {
+      const paidCommits = await getCommits({
+        listingId: id,
+        commitStatus: 'paid',
+      });
+      setPaidCommits(paidCommits);
+    };
+    fetchPaidCommits();
+  }, [id]);
+
   return (
     <CommittedCustomersStatuses>
+      <CommitStatusStats color="green" label="Completed" count={numCompleted} />
       <CommitStatusStats
-        colour="green"
-        label="Completed"
-        count={numCompleted}
-      />
-      <CommitStatusStats
-        colour="yellow"
+        color="yellow"
         label="Awaiting Payment"
         count={numCommits - numPaid}
       />
       <CommitStatusStats
-        colour="bright-red"
+        color="bright-red"
         label={<b>Pending Action</b>}
         count={numPaid - numCompleted}
-      />
+      >
+        {paidCommits && <PaidCustomerCollection paidCommits={paidCommits} />}
+      </CommitStatusStats>
     </CommittedCustomersStatuses>
   );
 };
