@@ -139,4 +139,10 @@ const deleteCommit = async (commitId: number, listingId: number) =>
     ])
   );
 
-export default {getCommit, getAllCommits, addCommit, updateCommit, deleteCommit};
+export default {
+  getCommit,
+  getAllCommits,
+  addCommit,
+  updateCommit,
+  deleteCommit,
+};

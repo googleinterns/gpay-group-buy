@@ -19,7 +19,6 @@
  */
 
 import express, {Request, Response, NextFunction} from 'express';
-import _ from 'lodash';
 
 import {CommitRequest, CommitPaymentRequest} from '../interfaces';
 import customerAuth from '../middleware/customer-auth';
@@ -112,10 +111,10 @@ commitRouter.post(
 );
 
 /**
- * Handles patch requests to edit some fields of the commit with the specified commitId.
+ * Handles post requests to complete the commit with the specified commitId.
  */
-commitRouter.patch(
-  '/:commitId',
+commitRouter.post(
+  '/:commitId/complete',
   async (req: Request, res: Response, next: NextFunction) => {
     const {commitId: commitIdStr} = req.params;
     const commitId = Number(commitIdStr);
@@ -128,14 +127,7 @@ commitRouter.patch(
         };
       }
 
-      if (!_.isEqual(Object.keys(req.body), ['commitStatus'])) {
-        throw {
-          status: 400,
-          message: 'Only commitStatus can be modified.',
-        };
-      }
-
-      const commit = await commitService.updateCommit(commitId, req.body);
+      const commit = await commitService.completeCommit(commitId);
 
       const resourceUrl = `${process.env.SERVER_URL}/commits/${commit.id}`;
       res.setHeader('Content-Location', resourceUrl);

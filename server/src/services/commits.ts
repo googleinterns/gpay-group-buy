@@ -125,46 +125,39 @@ const payForCommit = async (
   commitId: number,
   paymentData: CommitPaymentRequest
 ) => {
+  // Check that listing exists
+  const commit = await commitStorage.getCommit(commitId);
+
+  // Check that listing is successful
+  if (commit.commitStatus !== 'successful') {
+    throw new Error('Only successful commits can be paid.');
+  }
+
   const fieldsToEdit: CommitEditPayload = {
     ...paymentData,
     commitStatus: 'paid',
   };
 
-  return updateCommit(commitId, fieldsToEdit);
+  return commitStorage.updateCommit(commitId, fieldsToEdit, commit.listingId);
 };
 
 /**
- * Edits the commit with the specified commitId.
- * An error will be thrown if fieldsToEdit contains commitStatus which is not
- * exactly 1 state after the current commitStatus.
- * @param commitId Id of the commit to be edited
- * @param fieldsToEdit Fields of the commit to be edited
+ * Completes the commit with the specified commitId.
+ * An error will be thrown if the commit is not PAID.
+ * @param commitId Id of the commit to be deleted
  */
-const updateCommit = async (
-  commitId: number,
-  fieldsToEdit: CommitEditPayload
-) => {
-  // Check that listing exists.
+const completeCommit = async (commitId: number) => {
+  // Check that commit exists.
   const commit = await commitStorage.getCommit(commitId);
 
-  // Check that commitStatus moves forward by 1 state.
-  switch (fieldsToEdit.commitStatus) {
-    case 'paid':
-      if (commit.commitStatus !== 'successful') {
-        throw new Error('Only successful commits can be paid.');
-      }
-      break;
-    case 'completed':
-      if (commit.commitStatus !== 'paid') {
-        throw new Error('Only paid commits can be completed.');
-      }
-      break;
-    case undefined:
-      // Do nothing.
-      break;
-    default:
-      throw new Error('Invalid commit status.');
+  // Check that commit is paid for.
+  if (commit.commitStatus !== 'paid') {
+    throw new Error('Only paid commits can be completed.');
   }
+
+  const fieldsToEdit: CommitEditPayload = {
+    commitStatus: 'completed',
+  };
 
   return commitStorage.updateCommit(commitId, fieldsToEdit, commit.listingId);
 };
@@ -190,6 +183,6 @@ export default {
   getAllCommits,
   addCommit,
   payForCommit,
-  updateCommit,
+  completeCommit,
   deleteCommit,
 };
