@@ -17,6 +17,7 @@
 import React from 'react';
 
 import Card from 'components/common/Card';
+import {FulfilmentDetails} from 'interfaces';
 import {Home, Phone} from 'react-feather';
 import styled from 'styled-components';
 
@@ -49,18 +50,16 @@ const DetailsRow = styled.div`
 
 const DetailsText = styled.div`
   margin-left: 10px;
+  max-width: 250px;
 `;
 
-const SAMPLE_FULFILMENT_DETAILS = {
-  name: 'Customer Name',
-  address: 'Blk 252 Ang Mo Kio Ave 4 Singapore 560252',
-  contactNumber: '+65 8765 4321',
-};
+interface CustomerFulfilmentDetailsCardProps {
+  fulfilmentDetails: FulfilmentDetails;
+}
 
-const {name, address, contactNumber} = SAMPLE_FULFILMENT_DETAILS;
-
-// TODO: Get customer's fulfilment details data from the server.
-const CustomerFulfilmentDetailsCard: React.FC = () => (
+const CustomerFulfilmentDetailsCard: React.FC<CustomerFulfilmentDetailsCardProps> = ({
+  fulfilmentDetails: {name, address, contactNumber},
+}) => (
   <PaleGreenCard>
     <CustomerName>{name}</CustomerName>
     <DetailsContainer>

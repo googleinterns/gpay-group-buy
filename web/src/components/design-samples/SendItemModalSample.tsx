@@ -19,6 +19,12 @@ import React, {useState} from 'react';
 import SendItemModal from 'components/merchant/listing-details/SendItemModal';
 import Button from 'muicss/lib/react/button';
 
+const SAMPLE_FULFILMENT_DETAILS = {
+  name: 'Customer Name',
+  address: 'Blk 252 Ang Mo Kio Ave 4 Singapore 560252',
+  contactNumber: '+65 8765 4321',
+};
+
 /**
  * SendItemModalSample that shows how the SendItemModal looks like.
  */
@@ -33,7 +39,11 @@ const SendItemModalSample: React.FC = () => {
       <Button onClick={onClickOpen} color="primary">
         Open Modal
       </Button>
-      <SendItemModal isVisible={isVisible} closeModal={onClickClose} />
+      <SendItemModal
+        isVisible={isVisible}
+        closeModal={onClickClose}
+        fulfilmentDetails={SAMPLE_FULFILMENT_DETAILS}
+      />
     </>
   );
 };
