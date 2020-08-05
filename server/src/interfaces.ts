@@ -100,10 +100,10 @@ export interface CommitPayload
 export type CommitPayloadKey = keyof CommitPayload;
 
 /**
- * CommitEditPayload Interface that contains the fields of the payload that
- * would be sent to edit a Commit Entity.
+ * CommitUpdatePayload Interface that contains the fields of the payload that
+ * would be sent to update a Commit Entity.
  */
-export type CommitEditPayload = Partial<CommitPayload>;
+export type CommitUpdatePayload = Partial<CommitPayload>;
 
 /**
  * CommitResponse Interface that contains the fields of the Response that

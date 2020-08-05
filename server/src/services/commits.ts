@@ -23,7 +23,7 @@ import {
   StringKeyObject,
   CommitPayloadKey,
   CommitPaymentRequest,
-  CommitEditPayload,
+  CommitUpdatePayload,
 } from '../interfaces';
 import {commitStorage, listingStorage, customerStorage} from '../storage';
 
@@ -133,7 +133,7 @@ const payForCommit = async (
     throw new Error('Only successful commits can be paid.');
   }
 
-  const fieldsToEdit: CommitEditPayload = {
+  const fieldsToEdit: CommitUpdatePayload = {
     ...paymentData,
     commitStatus: 'paid',
   };
@@ -155,11 +155,11 @@ const completeCommit = async (commitId: number) => {
     throw new Error('Only paid commits can be completed.');
   }
 
-  const fieldsToEdit: CommitEditPayload = {
+  const fieldsToUpdate: CommitUpdatePayload = {
     commitStatus: 'completed',
   };
 
-  return commitStorage.updateCommit(commitId, fieldsToEdit, commit.listingId);
+  return commitStorage.updateCommit(commitId, fieldsToUpdate, commit.listingId);
 };
 
 /**

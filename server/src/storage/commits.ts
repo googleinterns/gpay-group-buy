@@ -19,7 +19,7 @@ import {
   Filter,
   CommitResponse,
   CommitPayload,
-  CommitEditPayload,
+  CommitUpdatePayload,
 } from '../interfaces';
 import {
   getEntity,
@@ -72,28 +72,28 @@ const addCommit = async (
 };
 
 /**
- * Edits a commit with the specified id according to the edit rules.
- * Returns the edited commit data.
- * Throws an error if edit is not successful.
- * @param commitId Id of the commit to be edited
- * @param fieldsToEdit Fields of the commit to be edited
+ * Updates a commit with the specified id according to the update rules.
+ * Returns the updated commit data.
+ * Throws an error if update is not successful.
+ * @param commitId Id of the commit to be updated
+ * @param fieldsToUpdate Fields of the commit to be updated
  * @param affectedListingId Id of the listing that might be affected
  */
 const updateCommit = async (
   commitId: number,
-  fieldsToEdit: CommitEditPayload,
+  fieldsToUpdate: CommitUpdatePayload,
   affectedListingId: number
 ): Promise<CommitResponse> => {
-  const commitEditRules: UpdateRule[] = Object.keys(fieldsToEdit).map(
+  const commitUpdateRules: UpdateRule[] = Object.keys(fieldsToUpdate).map(
     field => ({
       property: field,
       op: 'replace',
-      value: fieldsToEdit[field as keyof CommitEditPayload],
+      value: fieldsToUpdate[field as keyof CommitUpdatePayload],
     })
   );
 
   const listingUpdateRules: UpdateRule[] = [];
-  switch (fieldsToEdit.commitStatus) {
+  switch (fieldsToUpdate.commitStatus) {
     case 'paid':
       listingUpdateRules.push({
         property: 'numPaid',
@@ -111,7 +111,7 @@ const updateCommit = async (
   }
 
   await makeTransaction(
-    updateEntityInTransaction(COMMIT_KIND, commitId, commitEditRules),
+    updateEntityInTransaction(COMMIT_KIND, commitId, commitUpdateRules),
     updateEntityInTransaction(
       LISTING_KIND,
       affectedListingId,
