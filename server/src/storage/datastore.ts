@@ -268,7 +268,7 @@ const addEntityHelper = async (
 
   try {
     if (uniqueProperties === undefined) {
-      actor.insert(entity);
+      await actor.insert(entity);
     } else if (actor instanceof Datastore) {
       await insertUniqueEntity(kind, entity, uniqueProperties);
     } else if (actor instanceof Transaction) {
