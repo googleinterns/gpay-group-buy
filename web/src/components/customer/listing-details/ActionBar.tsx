@@ -25,6 +25,7 @@ import Container from 'muicss/lib/react/container';
 import {Plus} from 'react-feather';
 import {useLocation, useHistory} from 'react-router-dom';
 import styled from 'styled-components';
+import ShareButton from 'components/customer/listing-details/ShareButton';
 
 const ActionBarContainer = styled(Container)`
   display: flex;
@@ -40,7 +41,7 @@ const ActionButton = styled(Button)`
   align-items: center;
   justify-content: center;
 
-  min-width: 90%;
+  min-width: 70%;
   border-radius: 10px;
 
   text-transform: uppercase;
@@ -155,7 +156,12 @@ const ActionBar: React.FC = () => {
     setButton(getButton(buttonState));
   }, [buttonState, getButton]);
 
-  return <ActionBarContainer>{button}</ActionBarContainer>;
+  return (
+    <ActionBarContainer>
+      {button}
+      <ShareButton />
+    </ActionBarContainer>
+  );
 };
 
 export default ActionBar;

@@ -22,6 +22,8 @@ import {CustomerIdentity} from 'interfaces';
  */
 const microapps = window.microapps;
 
+const MICROAPP_BASE_URL = `https://microapps.google.com/${process.env.REACT_APP_SPOT_ID}`;
+
 let cachedIdentity: CustomerIdentity;
 
 /**
@@ -56,5 +58,38 @@ export const getIdentity = async (): Promise<CustomerIdentity> => {
   cachedIdentity = newIdentity;
   return newIdentity;
 };
+
+/**
+ * Encodes URL path according to the Spot URL rules.
+ * @param path Relative path of the app to be shared
+ */
+const encodeMicroappsUrl = (path?: string): string => {
+  if (path === undefined) {
+    return MICROAPP_BASE_URL;
+  }
+
+  // Get rid of the leading '/'
+  const pathLink = path.slice(1);
+
+  return `${MICROAPP_BASE_URL}?link=${encodeURIComponent(pathLink)}` ;
+};
+
+/**
+ * Triggers sharing of a specified path in the microapp.
+ * If path is not specified, MICROAPP_BASE_URL will be shared.
+ * @param title Sharing title
+ * @param text Sharing text
+ * @param path Relative path of the app to be shared
+ */
+export const requestSharing = async (
+  title?: string,
+  text?: string,
+  path?: string,
+): Promise<void> =>
+  microapps.requestSharing({
+    title,
+    text,
+    url: encodeMicroappsUrl(path),
+  });
 
 export default microapps;
