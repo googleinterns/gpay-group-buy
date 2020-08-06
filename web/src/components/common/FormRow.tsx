@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, {useCallback} from 'react';
 
 import {useFormPropsContext} from 'components/common/contexts/FormPropsContext';
 import Col from 'muicss/lib/react/col';
@@ -26,17 +26,39 @@ type FormInputStyle = 'flat' | 'shadow';
 interface RowProps {
   fullWidth: boolean;
   stacked?: boolean;
+  checkbox?: boolean;
 }
+
+const fullWidthRowStyle = css`
+  min-width: 100%;
+`;
 
 const inlineRowStyle = css`
   display: flex;
   flex-direction: row;
-  align-items: top;
-  justify-content: center;
+  justify-content: flex-start;
+
+  & > * {
+    margin: 0 0 0 1em;
+
+    :first-child {
+      margin: 0;
+    }
+  }
 `;
 
-const fullWidthRowStyle = css`
-  min-width: 100%;
+const reverseRowStyle = css`
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: baseline;
+
+  & > * {
+    margin: 0 1em 0 0;
+
+    :first-child {
+      margin: 0;
+    }
+  }
 `;
 
 const StyledRow = styled(Row)`
@@ -45,6 +67,7 @@ const StyledRow = styled(Row)`
   /* stylelint-disable value-keyword-case */
   ${({fullWidth}: RowProps) => fullWidth && fullWidthRowStyle};
   ${({stacked}: RowProps) => !stacked && inlineRowStyle};
+  ${({checkbox}: RowProps) => checkbox && reverseRowStyle};
   /* stylelint-enable value-keyword-case */
 `;
 
@@ -61,10 +84,6 @@ interface LabelProps {
 const inlineLabelStyle = css`
   width: 100px;
   height: 30px;
-  margin-right: 20px;
-
-  font-size: 14px;
-  vertical-align: middle;
 
   display: flex;
   flex-direction: column;
@@ -164,13 +183,11 @@ const FormRow: React.FC<FormRowProps> = ({
 }) => {
   const {fields, errors, register, validations} = useFormPropsContext();
   const {name, label, type} = fields[index];
-  return (
-    <StyledRow fullWidth={inputWidth === undefined} stacked={stacked}>
-      <StyledCol>
-        <Label stacked={stacked}>{label}</Label>
-      </StyledCol>
-      <StyledCol>
-        {type === 'textarea' ? (
+
+  const getInput = useCallback(() => {
+    switch (type) {
+      case 'textarea':
+        return (
           <TextArea
             name={name}
             rows={textAreaRows}
@@ -178,7 +195,18 @@ const FormRow: React.FC<FormRowProps> = ({
             inputWidth={inputWidth}
             inputStyle={inputStyle}
           />
-        ) : (
+        );
+      case 'checkbox':
+        return (
+          <Input
+            type={type}
+            name={name}
+            ref={register(validations[name])}
+            inputStyle={inputStyle}
+          />
+        );
+      default:
+        return (
           <Input
             type={type}
             name={name}
@@ -186,7 +214,19 @@ const FormRow: React.FC<FormRowProps> = ({
             inputWidth={inputWidth}
             inputStyle={inputStyle}
           />
-        )}
+        );
+    }
+  }, [type, name, validations, register, inputStyle, inputWidth, textAreaRows]);
+
+  const isStacked = type === 'checkbox' ? false : stacked;
+
+  return (
+    <StyledRow fullWidth={inputWidth === undefined} stacked={isStacked} checkbox={type === 'checkbox'}>
+      <StyledCol>
+        <Label stacked={isStacked}>{label}</Label>
+      </StyledCol>
+      <StyledCol>
+        {getInput()}
         <ErrorContainer>{errors.form[name]?.message}</ErrorContainer>
       </StyledCol>
     </StyledRow>

@@ -144,7 +144,7 @@ export const loginCustomer = async (
 
 export const updateCustomer = async (
   customerId: number,
-  customerData: CustomerPayload,
+  customerData: Partial<CustomerPayload>,
   idToken: string
 ): Promise<Customer> => {
   const res = await patchWithAuth(

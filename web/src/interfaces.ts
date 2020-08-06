@@ -195,7 +195,7 @@ export type GroupedCommits = {
  */
 export interface CustomerPayload {
   gpayId: string;
-  defaultFulfilmentDetails: FulfilmentDetails;
+  defaultFulfilmentDetails?: FulfilmentDetails;
 }
 
 /**

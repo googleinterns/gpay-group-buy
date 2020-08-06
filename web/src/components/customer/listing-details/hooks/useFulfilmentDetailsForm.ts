@@ -18,12 +18,16 @@ import {useCommitContext} from 'components/customer/listing-details/contexts/Com
 import {FulfilmentDetails} from 'interfaces';
 import {useForm} from 'react-hook-form';
 
+interface FulFilmentDetailsSubmittedValues extends FulfilmentDetails {
+  setDefault: boolean;
+}
+
 /**
  * useFulfilmentDetailsForm that contains all the logic and details concering
  * the Fulfilment Details form.
  */
 const useFulfilmentDetailsForm = () => {
-  const {formState, handleSubmit, register} = useForm<FulfilmentDetails>({
+  const { formState, handleSubmit, register } = useForm<FulFilmentDetailsSubmittedValues>({
     mode: 'onChange',
   });
   const {onPayment} = useCommitContext();
@@ -35,6 +39,11 @@ const useFulfilmentDetailsForm = () => {
       label: 'Delivery Address',
       name: 'address',
       type: 'textarea',
+    },
+    {
+      label: 'Use as default',
+      name: 'setDefault',
+      type: 'checkbox',
     },
   ];
 
@@ -49,12 +58,13 @@ const useFulfilmentDetailsForm = () => {
     },
     address: {
       required: true,
-    },
+    }
   };
   const disabled = !formState.isValid;
 
-  const onSubmit = handleSubmit(async (values: FulfilmentDetails) => {
-    return onPayment(values);
+  const onSubmit = handleSubmit(async (values: FulFilmentDetailsSubmittedValues) => {
+    const {setDefault, ...fulfilmentDetails} = values;
+    return onPayment(fulfilmentDetails, setDefault);
   });
 
   return {
