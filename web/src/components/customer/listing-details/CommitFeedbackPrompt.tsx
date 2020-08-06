@@ -17,6 +17,7 @@
 import React, {useState, useEffect} from 'react';
 
 import CommitsBadge from 'components/common/CommitsBadge';
+import Loading from 'components/common/Loading';
 import MobilePrompt from 'components/common/MobilePrompt';
 import {useCommitFeedbackPromptContext} from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
 
@@ -80,6 +81,17 @@ const CommitStatusPrompt: React.FC = () => {
             isVisible={isPromptVisible}
             onClose={onClose}
           />
+        );
+        break;
+      case 'loading':
+        setPrompt(
+          <MobilePrompt
+            title="Please wait..."
+            isVisible={isPromptVisible}
+            buttons={[]}
+          >
+            <Loading />
+          </MobilePrompt>
         );
         break;
       default:

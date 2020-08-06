@@ -137,6 +137,7 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
       return;
     }
 
+    onOpenPrompt('loading');
     const commit = await payForCommit(commitId, {fulfilmentDetails}, idToken);
     // TODO: Handle payment error
     await refetchCustomer();
