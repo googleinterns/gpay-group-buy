@@ -38,6 +38,10 @@ const CommitsBadgeContainer = styled.div`
   align-self: flex-end;
 `;
 
+const PageContent = styled.div`
+  padding-top: 20px;
+`;
+
 /**
  * Page containing all the commits of the current customer.
  */
@@ -72,8 +76,10 @@ const MyCommitsPage: React.FC = () => {
       <CommitsBadgeContainer>
         <CommitsBadge />
       </CommitsBadgeContainer>
-      <h1>My Commits</h1>
-      <Commits commits={commits} />
+      <PageContent>
+        <h1>My Commits</h1>
+        <Commits commits={commits} />
+      </PageContent>
     </PageContainer>
   );
 };
