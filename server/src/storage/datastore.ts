@@ -268,11 +268,19 @@ const addEntityHelper = async (
 
   try {
     if (uniqueProperties === undefined) {
-      actor.insert(entity);
-    } else if (actor instanceof Datastore) {
-      await insertUniqueEntity(kind, entity, uniqueProperties);
-    } else if (actor instanceof Transaction) {
-      await uniqueInsertInTransaction(kind, entity, uniqueProperties)(actor);
+      if (actor instanceof Datastore) {
+        await actor.insert(entity);
+      } else if (actor instanceof Transaction) {
+        // Do not await here because promise is resolved only after
+        // `await transaction.commit()` is called.
+        actor.insert(entity);
+      }
+    } else {
+      if (actor instanceof Datastore) {
+        await insertUniqueEntity(kind, entity, uniqueProperties);
+      } else if (actor instanceof Transaction) {
+        await uniqueInsertInTransaction(kind, entity, uniqueProperties)(actor);
+      }
     }
   } catch (err) {
     throw new Error(`Failed to add ${kind}. ${err.message}`);
