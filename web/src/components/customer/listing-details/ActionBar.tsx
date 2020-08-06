@@ -19,13 +19,13 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {useCommitContext} from 'components/customer/listing-details/contexts/CommitContext';
 import {useFulfilmentDetailsPromptContext} from 'components/customer/listing-details/contexts/FulfilmentDetailsPromptContext';
 import {ListingLocation} from 'components/customer/listing-details/interfaces';
+import ShareButton from 'components/customer/listing-details/ShareButton';
 import {CommitStatus} from 'interfaces';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
 import {Plus} from 'react-feather';
 import {useLocation, useHistory} from 'react-router-dom';
 import styled from 'styled-components';
-import ShareButton from 'components/customer/listing-details/ShareButton';
 
 const ActionBarContainer = styled(Container)`
   display: flex;

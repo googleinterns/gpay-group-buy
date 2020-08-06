@@ -16,12 +16,12 @@
 
 import React from 'react';
 
-import {Share2 as Share} from 'react-feather';
+import {useListingDetailsContext} from 'components/customer/listing-details/contexts/ListingDetailsContext';
+import {requestSharing} from 'microapps';
 import Button from 'muicss/lib/react/button';
+import {Share2 as Share} from 'react-feather';
+import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
-import { useListingDetailsContext } from 'components/customer/listing-details/contexts/ListingDetailsContext';
-import { requestSharing } from 'microapps';
-import { useLocation } from 'react-router-dom';
 
 const PROMO_TEXT = 'Check out this great deal I found on GPay Group Buy!';
 
@@ -44,20 +44,16 @@ const ShareButton: React.FC = () => {
   const {listing} = useListingDetailsContext();
 
   const onShare = () => {
-    requestSharing(
-      listing?.name,
-      PROMO_TEXT,
-      pathname,
-    );
+    requestSharing(listing?.name, PROMO_TEXT, pathname);
   };
 
   return (
     <>
-      {listing &&
+      {listing && (
         <StyledButton onClick={onShare} color="primary">
           <ShareIcon />
         </StyledButton>
-      }
+      )}
     </>
   );
 };

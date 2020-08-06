@@ -71,7 +71,7 @@ const encodeMicroappsUrl = (path?: string): string => {
   // Get rid of the leading '/'
   const pathLink = path.slice(1);
 
-  return `${MICROAPP_BASE_URL}?link=${encodeURIComponent(pathLink)}` ;
+  return `${MICROAPP_BASE_URL}?link=${encodeURIComponent(pathLink)}`;
 };
 
 /**
@@ -84,7 +84,7 @@ const encodeMicroappsUrl = (path?: string): string => {
 export const requestSharing = async (
   title?: string,
   text?: string,
-  path?: string,
+  path?: string
 ): Promise<void> =>
   microapps.requestSharing({
     title,
