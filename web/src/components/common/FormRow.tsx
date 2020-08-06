@@ -221,7 +221,11 @@ const FormRow: React.FC<FormRowProps> = ({
   const isStacked = type === 'checkbox' ? false : stacked;
 
   return (
-    <StyledRow fullWidth={inputWidth === undefined} stacked={isStacked} checkbox={type === 'checkbox'}>
+    <StyledRow
+      fullWidth={inputWidth === undefined}
+      stacked={isStacked}
+      checkbox={type === 'checkbox'}
+    >
       <StyledCol>
         <Label stacked={isStacked}>{label}</Label>
       </StyledCol>

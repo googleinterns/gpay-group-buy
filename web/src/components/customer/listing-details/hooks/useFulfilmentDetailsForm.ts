@@ -27,7 +27,9 @@ interface FulFilmentDetailsSubmittedValues extends FulfilmentDetails {
  * the Fulfilment Details form.
  */
 const useFulfilmentDetailsForm = () => {
-  const { formState, handleSubmit, register } = useForm<FulFilmentDetailsSubmittedValues>({
+  const {formState, handleSubmit, register} = useForm<
+    FulFilmentDetailsSubmittedValues
+  >({
     mode: 'onChange',
   });
   const {onPayment} = useCommitContext();
@@ -58,14 +60,16 @@ const useFulfilmentDetailsForm = () => {
     },
     address: {
       required: true,
-    }
+    },
   };
   const disabled = !formState.isValid;
 
-  const onSubmit = handleSubmit(async (values: FulFilmentDetailsSubmittedValues) => {
-    const {setDefault, ...fulfilmentDetails} = values;
-    return onPayment(fulfilmentDetails, setDefault);
-  });
+  const onSubmit = handleSubmit(
+    async (values: FulFilmentDetailsSubmittedValues) => {
+      const {setDefault, ...fulfilmentDetails} = values;
+      return onPayment(fulfilmentDetails, setDefault);
+    }
+  );
 
   return {
     fields,
