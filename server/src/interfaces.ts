@@ -167,6 +167,12 @@ export interface ListingPayload
     ListingComputedProperties {}
 
 /**
+ * ListingUpdatePayload Interface that contains the fields of the payload that
+ * would be sent to update a Listing Entity.
+ */
+export type ListingUpdatePayload = Partial<ListingPayload>;
+
+/**
  * ListingResponse Interface that contains the fields of the Response that
  * client side would receive.
  */
