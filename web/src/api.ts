@@ -142,14 +142,20 @@ export const loginCustomer = async (
   return res.json();
 };
 
+/**
+ * Updates the specified fields of a customer with the specified customerId.
+ * @param customerId Id of the customer to be updated
+ * @param fieldsToUpdate Data that we want to update
+ * @param idToken Authentication token of customer
+ */
 export const updateCustomer = async (
   customerId: number,
-  customerData: Partial<CustomerPayload>,
+  fieldsToUpdate: Partial<CustomerPayload>,
   idToken: string
 ): Promise<Customer> => {
   const res = await patchWithAuth(
     `${process.env.REACT_APP_SERVER_URL}/customers/${customerId}`,
-    customerData,
+    fieldsToUpdate,
     idToken
   );
 
