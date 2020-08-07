@@ -18,6 +18,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 
 import {useCommitContext} from 'components/customer/listing-details/contexts/CommitContext';
 import {useFulfilmentDetailsPromptContext} from 'components/customer/listing-details/contexts/FulfilmentDetailsPromptContext';
+import {useListingDetailsContext} from 'components/customer/listing-details/contexts/ListingDetailsContext';
 import {ListingLocation} from 'components/customer/listing-details/interfaces';
 import ShareButton from 'components/customer/listing-details/ShareButton';
 import {CommitStatus} from 'interfaces';
@@ -26,7 +27,6 @@ import Container from 'muicss/lib/react/container';
 import {Plus} from 'react-feather';
 import {useLocation, useHistory} from 'react-router-dom';
 import styled from 'styled-components';
-import { useListingDetailsContext } from 'components/customer/listing-details/contexts/ListingDetailsContext';
 
 const ActionBarContainer = styled(Container)`
   display: flex;
@@ -160,12 +160,12 @@ const ActionBar: React.FC = () => {
 
   return (
     <>
-      {listing &&
+      {listing && (
         <ActionBarContainer>
           {button}
           <ShareButton />
         </ActionBarContainer>
-      }
+      )}
     </>
   );
 };
