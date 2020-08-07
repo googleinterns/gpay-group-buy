@@ -64,7 +64,7 @@ const getListing = async (listingId: number): Promise<ListingResponse> =>
  * Throws an error if update is not successful.
  * @param listingId Id of the listing to be updated
  * @param fieldsToUpdate Fields of the listing to be updated
- * @param affectedListingId Id of the listing that might be affected
+ * @param affectedCommitIds Ids of the commits that might be affected
  */
 const updateListing = async (
   listingId: number,
