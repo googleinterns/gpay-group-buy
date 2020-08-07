@@ -99,7 +99,9 @@ const MyCommitsPage: React.FC = () => {
             header={<AuthenticationSvg />}
             button={{
               name: 'Login',
-              onClick: async () => {await getCustomerWithLogin()},
+              onClick: async () => {
+                await getCustomerWithLogin();
+              },
             }}
           />
         )}
