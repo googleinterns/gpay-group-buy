@@ -26,6 +26,7 @@ import Container from 'muicss/lib/react/container';
 import {Plus} from 'react-feather';
 import {useLocation, useHistory} from 'react-router-dom';
 import styled from 'styled-components';
+import { useListingDetailsContext } from 'components/customer/listing-details/contexts/ListingDetailsContext';
 
 const ActionBarContainer = styled(Container)`
   display: flex;
@@ -91,6 +92,7 @@ const ActionBar: React.FC = () => {
     onOpen: onOpenFulfilmentDetailsPrompt,
     isPromptVisible: isFulfilmentDetailsPromptVisible,
   } = useFulfilmentDetailsPromptContext();
+  const {listing} = useListingDetailsContext();
 
   const [buttonState, setButtonState] = useState<ActionButtonState>('initial');
   const [button, setButton] = useState(<></>);
@@ -157,10 +159,14 @@ const ActionBar: React.FC = () => {
   }, [buttonState, getButton]);
 
   return (
-    <ActionBarContainer>
-      {button}
-      <ShareButton />
-    </ActionBarContainer>
+    <>
+      {listing &&
+        <ActionBarContainer>
+          {button}
+          <ShareButton />
+        </ActionBarContainer>
+      }
+    </>
   );
 };
 
