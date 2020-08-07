@@ -35,7 +35,7 @@ const TitleText = styled.h2`
   max-width: 70%;
 
   font-weight: bolder;
-  font-size: 1.2rem;
+  font-size: 1.18rem;
   text-align: center;
 `;
 
@@ -55,6 +55,7 @@ const StyledButton = styled(Button)`
   border-radius: 999px; /* Ensure pill shape */
 
   font-weight: bold;
+  text-transform: capitalize;
 
   && {
     color: var(--green);
