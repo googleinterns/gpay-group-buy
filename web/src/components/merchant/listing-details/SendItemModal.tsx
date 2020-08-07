@@ -66,9 +66,9 @@ const IndicateButton = styled(RoundedButton)`
 
 const indicateItemSent = async (commitId: number) => {
   await completeCommit(commitId);
-  window.location.reload(false);
   // TODO(#200): Update paidCommits state instead of force refresh to show that
   // the commit that was completed no longer requires any action.
+  window.location.reload(false);
 };
 
 interface SendItemModalProps {
