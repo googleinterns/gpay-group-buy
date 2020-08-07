@@ -17,6 +17,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 
 import {useCommitContext} from 'components/customer/listing-details/contexts/CommitContext';
+import {useCommitFeedbackPromptContext} from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
 import {useFulfilmentDetailsPromptContext} from 'components/customer/listing-details/contexts/FulfilmentDetailsPromptContext';
 import {useListingDetailsContext} from 'components/customer/listing-details/contexts/ListingDetailsContext';
 import {ListingLocation} from 'components/customer/listing-details/interfaces';
@@ -88,11 +89,14 @@ const ActionBar: React.FC = () => {
   const {state: locationState, pathname} = useLocation<ListingLocation>();
 
   const {commitStatus, onCommit, onUncommit} = useCommitContext();
+  const {listing} = useListingDetailsContext();
   const {
     onOpen: onOpenFulfilmentDetailsPrompt,
     isPromptVisible: isFulfilmentDetailsPromptVisible,
   } = useFulfilmentDetailsPromptContext();
-  const {listing} = useListingDetailsContext();
+  const {
+    isPromptVisible: isCommitFeedbackPromptVisible,
+  } = useCommitFeedbackPromptContext();
 
   const [buttonState, setButtonState] = useState<ActionButtonState>('initial');
   const [button, setButton] = useState(<></>);
@@ -152,7 +156,11 @@ const ActionBar: React.FC = () => {
 
   useEffect(() => {
     setButtonState(commitStatusToButtonState(commitStatus));
-  }, [commitStatus, isFulfilmentDetailsPromptVisible]);
+  }, [
+    commitStatus,
+    isFulfilmentDetailsPromptVisible,
+    isCommitFeedbackPromptVisible,
+  ]);
 
   useEffect(() => {
     setButton(getButton(buttonState));

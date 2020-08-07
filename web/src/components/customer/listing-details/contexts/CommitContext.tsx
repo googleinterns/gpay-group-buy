@@ -89,7 +89,7 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
     const customer = await getCustomerWithLogin();
 
     if (customer === undefined || idToken === undefined) {
-      // TODO: Handle case when user refuse to login even after prompted
+      onOpenPrompt('require-login');
       return;
     }
 
@@ -115,7 +115,7 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
     const customer = await getCustomerWithLogin();
 
     if (customer === undefined || idToken === undefined) {
-      // TODO: Handle case when user refuse to login even after prompted
+      onOpenPrompt('require-login');
       return;
     }
 
@@ -133,7 +133,7 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
 
     await getCustomerWithLogin();
     if (idToken === undefined) {
-      // TODO: Handle case when user refuse to login even after prompted
+      onOpenPrompt('require-login');
       return;
     }
 
