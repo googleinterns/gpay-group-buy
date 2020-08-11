@@ -35,7 +35,7 @@ merchantRouter.get(
 
     try {
       if (Number.isNaN(merchantId)) {
-        throw new BadRequestError('Invalid merchantId params.');
+        throw new BadRequestError(`Invalid merchantId ${merchantIdStr}`);
       }
 
       const merchant = await merchantService.getMerchant(merchantId);

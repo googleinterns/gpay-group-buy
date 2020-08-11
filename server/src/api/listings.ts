@@ -48,7 +48,7 @@ listingRouter.get(
         }
 
         if (idsStr === '') {
-          throw new BadRequestError('ids cannot be empty.');
+          throw new BadRequestError('Query parameter ids cannot be empty.');
         }
 
         const ids = (idsStr as string).split(',').map(idStr => {
