@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import {Operator} from '@google-cloud/datastore/build/src/query';
+
 /**
  * CustomerPayload Interface that contains the fields of the payload that
  * would be sent to create a Customer Entity.
@@ -205,6 +207,7 @@ export interface MerchantResponse extends MerchantPayload {
 export interface Filter {
   property: string;
   value: any;
+  op?: Operator;
 }
 
 /**

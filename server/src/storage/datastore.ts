@@ -167,7 +167,7 @@ export const getAllEntities = async (
   try {
     let query = actor.createQuery(kind);
     filters?.forEach(filter => {
-      query = query.filter(filter.property, filter.value);
+      query = query.filter(filter.property, filter.op || '=', filter.value);
     });
 
     orderRules?.forEach(({property, descending}) => {

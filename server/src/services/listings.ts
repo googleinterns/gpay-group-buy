@@ -14,23 +14,16 @@
  * limitations under the License.
  */
 
-import schedule from 'node-schedule';
-
 import {DEFAULT_LISTING_PAYLOAD} from '../constants/default-payload';
 import {Filter, ListingRequest, ListingResponse} from '../interfaces';
 import {commitStorage, listingStorage} from '../storage';
 
-const addListing = async (
-  listing: ListingRequest
-): Promise<ListingResponse> => {
-  const addedListing = await listingStorage.addListing({
+const addListing = async (listing: ListingRequest): Promise<ListingResponse> =>
+  listingStorage.addListing({
     ...listing,
     ...DEFAULT_LISTING_PAYLOAD,
   });
-  const {id, deadline} = addedListing;
-  schedule.scheduleJob(deadline, () => updateListingSuccessStatus(id));
-  return addedListing;
-};
+
 const getAllListings = async (filters?: Filter[]): Promise<ListingResponse[]> =>
   listingStorage.getAllListings(filters);
 
@@ -42,17 +35,40 @@ const getAllListingsWithIds = async (
 const getListing = async (listingId: number): Promise<ListingResponse> =>
   listingStorage.getListing(listingId);
 
-const updateListingSuccessStatus = async (listingId: number) => {
-  const listing = await listingStorage.getListing(listingId);
+const updateListingSuccessStatus = async (listing: ListingResponse) => {
   const isSuccessful = listing.numCommits >= listing.minCommits;
   const affectedCommits = await commitStorage.getAllCommits([
     {property: 'listingId', value: listing.id},
   ]);
   return listingStorage.updateListing(
-    listingId,
+    listing.id,
     {listingStatus: isSuccessful ? 'successful' : 'unsuccessful'},
     affectedCommits.map(commit => commit.id)
   );
 };
 
-export default {addListing, getAllListings, getAllListingsWithIds, getListing};
+const updateListingSuccessStatuses = async (): Promise<ListingResponse[]> => {
+  const now = new Date();
+  const pastDeadlineFilter: Filter = {
+    property: 'deadline',
+    op: '<',
+    value: now,
+  };
+  const ongoingStatusFilter: Filter = {
+    property: 'listingStatus',
+    value: 'ongoing',
+  };
+  const listingsToUpdate = await listingStorage.getAllListings([
+    pastDeadlineFilter,
+    ongoingStatusFilter,
+  ]);
+  return Promise.all(listingsToUpdate.map(updateListingSuccessStatus));
+};
+
+export default {
+  addListing,
+  getAllListings,
+  getAllListingsWithIds,
+  getListing,
+  updateListingSuccessStatuses,
+};
