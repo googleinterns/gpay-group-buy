@@ -114,7 +114,8 @@ listingRouter.post(
  * Handles the post request to update status of outdated listings to 'successful'
  * or 'unsuccessful' based on whether or not the number of commits reach the
  * specified minimum. This endpoint is invoked by a scheduled cron job every day
- * at midnight according to Indian Standard Time (IST).
+ * at midnight according to Indian Standard Time (IST). The scheduler can be
+ * viewed/modified at https://pantheon.corp.google.com/cloudscheduler?project=gpay-group-buy.
  */
 listingRouter.post(
   '/outdated',
