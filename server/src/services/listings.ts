@@ -47,7 +47,9 @@ const updateListingSuccessStatus = async (listing: ListingResponse) => {
   );
 };
 
-const updateListingSuccessStatuses = async (): Promise<ListingResponse[]> => {
+const updateOutdatedListingSuccessStatuses = async (): Promise<
+  ListingResponse[]
+> => {
   const now = new Date();
   const pastDeadlineFilter: Filter = {
     property: 'deadline',
@@ -70,5 +72,5 @@ export default {
   getAllListings,
   getAllListingsWithIds,
   getListing,
-  updateListingSuccessStatuses,
+  updateOutdatedListingSuccessStatuses,
 };
