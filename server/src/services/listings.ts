@@ -28,7 +28,7 @@ const addListing = async (
     ...DEFAULT_LISTING_PAYLOAD,
   });
   const {id, deadline} = addedListing;
-  schedule.scheduleJob(deadline, () => updateListingSuccess(id));
+  schedule.scheduleJob(deadline, () => updateListingSuccessStatus(id));
   return addedListing;
 };
 const getAllListings = async (filters?: Filter[]): Promise<ListingResponse[]> =>
@@ -42,7 +42,7 @@ const getAllListingsWithIds = async (
 const getListing = async (listingId: number): Promise<ListingResponse> =>
   listingStorage.getListing(listingId);
 
-const updateListingSuccess = async (listingId: number) => {
+const updateListingSuccessStatus = async (listingId: number) => {
   const listing = await listingStorage.getListing(listingId);
   const isSuccessful = listing.numCommits >= listing.minCommits;
   const affectedCommits = await commitStorage.getAllCommits([
