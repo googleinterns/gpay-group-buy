@@ -134,12 +134,12 @@ const payForCommit = async (
     throw new Error('Only successful commits can be paid.');
   }
 
-  const fieldsToEdit: CommitUpdatePayload = {
+  const fieldsToUpdate: CommitUpdatePayload = {
     ...paymentData,
     commitStatus: 'paid',
   };
 
-  return commitStorage.updateCommit(commitId, fieldsToEdit, commit.listingId);
+  return commitStorage.updateCommit(commitId, fieldsToUpdate, commit.listingId);
 };
 
 /**
