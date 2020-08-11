@@ -80,11 +80,13 @@ const extractAndAppendId = (res: Entity): Entity => {
  * If transaction is not specified, gets using datastore.
  * @param kind The Kind that is being retrieved
  * @param id The id of the Entity being retrieved
+ * @param appendId A flag to indicate if id should be appended to Entity
  * @param transaction Transaction that will carry out the retrieval
  */
 export const getEntity = async (
   kind: string,
   id: number,
+  appendId = true,
   transaction?: Transaction
 ) => {
   const actor = transaction || datastore;
@@ -93,7 +95,7 @@ export const getEntity = async (
 
   try {
     const [res] = await actor.get(key);
-    return extractAndAppendId(res);
+    return appendId ? extractAndAppendId(res) : res;
   } catch (err) {
     throw new Error(`${kind} ${id} does not exist`);
   }
@@ -105,20 +107,25 @@ export const getEntity = async (
  * the entity in the transaction.
  * @param kind The Kind that is being retrieved
  * @param id The id of the Entity being retrieved
+ * @param appendId A flag to indicate if id should be appended to Entity
  */
-export const getEntityInTransaction = async (kind: string, id: number) => (
-  transaction: Transaction
-) => getEntity(kind, id, transaction);
+export const getEntityInTransaction = async (
+  kind: string,
+  id: number,
+  appendId = true
+) => (transaction: Transaction) => getEntity(kind, id, appendId, transaction);
 
 /**
  * A Datastore wrapper that gets a particular entity with the specified Kind and id.
  * @param kind The Kind that is being retrieved
  * @param ids The ids of the Entity being retrieved
+ * @param appendId A flag to indicate if id should be appended to each Entity
  * @param transaction Transaction that will carry out the retrieval
  */
 export const getAllEntitiesWithIds = async (
   kind: string,
   ids: number[],
+  appendId = true,
   transaction?: Transaction
 ): Promise<Entity[]> => {
   const actor = transaction || datastore;
@@ -127,7 +134,7 @@ export const getAllEntitiesWithIds = async (
 
   try {
     const [res] = await actor.get(keys);
-    return res.map(extractAndAppendId);
+    return appendId ? res.map(extractAndAppendId) : res;
   } catch (err) {
     throw new Error(`Failed to get ${ids} from ${kind}. ${err.message}`);
   }
@@ -139,12 +146,14 @@ export const getAllEntitiesWithIds = async (
  * the entities by id in the transaction.
  * @param kind The Kind that is being retrieved
  * @param id The id of the Entity being retrieved
+ * @param appendId A flag to indicate if id should be appended to each Entity
  */
 export const getAllEntitiesWithIdsInTransaction = async (
   kind: string,
-  ids: number[]
+  ids: number[],
+  appendId = true
 ) => (transaction: Transaction) =>
-  getAllEntitiesWithIds(kind, ids, transaction);
+  getAllEntitiesWithIds(kind, ids, appendId, transaction);
 
 /**
  * A Datastore wrapper that gets all entities of a specified Kind.
@@ -154,12 +163,14 @@ export const getAllEntitiesWithIdsInTransaction = async (
  * @param orderRules Any order rules that will be used to sort the query result.
  * If an orderRule doesn't have a descending property specified, the default
  * direction is ascending.
+ * @param appendId A flag to indicate if id should be appended to each Entity
  * @param transaction Transaction that will carry out the query
  */
 export const getAllEntities = async (
   kind: string,
   filters?: Filter[],
   orderRules?: OrderRule[],
+  appendId = true,
   transaction?: Transaction
 ) => {
   const actor = transaction || datastore;
@@ -175,7 +186,7 @@ export const getAllEntities = async (
     });
 
     const [res] = await actor.runQuery(query);
-    const resWithId = res.map(item => extractAndAppendId(item));
+    const resWithId = appendId ? res.map(extractAndAppendId) : res;
     return resWithId;
   } catch (err) {
     throw new Error(`Failed to get entities of ${kind}.`);
@@ -191,13 +202,15 @@ export const getAllEntities = async (
  * @param orderRules Any order rules that will be used to sort the query result.
  * If an orderRule doesn't have a descending property specified, the default
  * direction is ascending.
+ * @param appendId A flag to indicate if id should be appended to each Entity
  */
 export const getAllEntitiesInTransaction = async (
   kind: string,
   filters?: Filter[],
-  orderRules?: OrderRule[]
+  orderRules?: OrderRule[],
+  appendId = true
 ) => (transaction: Transaction) =>
-  getAllEntities(kind, filters, orderRules, transaction);
+  getAllEntities(kind, filters, orderRules, appendId, transaction);
 
 /**
  * A higher order function.
@@ -352,7 +365,7 @@ export const updateEntity = async (
   transaction?: Transaction
 ) => {
   const key = datastore.key([kind, id]);
-  const data = await getEntity(kind, id, transaction);
+  const data = await getEntity(kind, id, false, transaction);
 
   try {
     updateRules.forEach(updateRule => updateData(data, updateRule));
