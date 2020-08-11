@@ -24,7 +24,7 @@ import {getIdentity} from 'microapps';
 interface AuthenticatedCustomer {
   customer: Customer | undefined;
   idToken: string | undefined;
-};
+}
 
 type ContextType =
   | {
@@ -66,8 +66,8 @@ const CustomerProvider: React.FC = ({children}) => {
   const login = useCallback(async (): Promise<AuthenticatedCustomer> => {
     const identity = await getIdentity();
     if (identity === undefined) {
-      return {customer: undefined, idToken: undefined}
-    };
+      return {customer: undefined, idToken: undefined};
+    }
 
     const {
       idToken,
