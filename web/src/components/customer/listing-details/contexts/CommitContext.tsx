@@ -85,7 +85,7 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
   }, [listingId, customer]);
 
   const onCommit = async () => {
-    const {customer, idToken} = await getCustomerWithLogin(true);
+    const {customer, idToken} = await getCustomerWithLogin();
 
     if (customer === undefined || idToken === undefined) {
       console.log(customer, idToken);

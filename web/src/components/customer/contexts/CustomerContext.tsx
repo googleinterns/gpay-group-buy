@@ -30,7 +30,7 @@ type ContextType =
   | {
       idToken: string | undefined;
       customer: Customer | undefined;
-      getCustomerWithLogin: (x?: boolean) => Promise<AuthenticatedCustomer>;
+      getCustomerWithLogin: () => Promise<AuthenticatedCustomer>;
       refetchCustomer: () => Promise<void>;
     }
   | undefined;
