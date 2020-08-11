@@ -23,6 +23,7 @@ import {Router, Request, Response, NextFunction} from 'express';
 import {MerchantPayload} from '../interfaces';
 import merchantAuth from '../middleware/merchant-auth';
 import {merchantService} from '../services';
+import {BadRequestError} from '../utils/http-errors';
 
 const merchantRouter: Router = Router();
 
@@ -34,7 +35,7 @@ merchantRouter.get(
 
     try {
       if (Number.isNaN(merchantId)) {
-        throw new Error('Invalid merchantId params.');
+        throw new BadRequestError('Invalid merchantId params.');
       }
 
       const merchant = await merchantService.getMerchant(merchantId);

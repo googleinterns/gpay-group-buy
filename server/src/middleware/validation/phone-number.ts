@@ -18,6 +18,7 @@ import {Request, Response, NextFunction} from 'express';
 import {PhoneNumberUtil, PhoneNumberFormat} from 'google-libphonenumber';
 
 import {REGION_CODE_IN} from '../../constants/common';
+import {BadRequestError} from '../../utils/http-errors';
 
 type PhoneNumberGetter = (body: any) => string | undefined;
 type PhoneNumberSetter = (body: any, phoneNumber: string) => void;
@@ -48,7 +49,7 @@ const validateAndFormatPhoneNumber = (
       if (
         !phoneUtil.isValidNumberForRegion(parsedPhoneNumber, REGION_CODE_IN)
       ) {
-        throw new Error('Invalid phone number.');
+        throw new BadRequestError('Invalid phone number.');
       }
 
       const formattedPhoneNumber = phoneUtil.format(

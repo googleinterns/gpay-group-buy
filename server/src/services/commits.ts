@@ -26,6 +26,7 @@ import {
   CommitUpdatePayload,
 } from '../interfaces';
 import {commitStorage, listingStorage, customerStorage} from '../storage';
+import {BadRequestError} from '../utils/http-errors';
 
 /**
  * Retrieves all commits.
@@ -44,7 +45,7 @@ const getAllCommits = async (
   const filters: Filter[] = [];
   Object.keys(queryParams).forEach(key => {
     if (!(allowedKeys as Set<string>).has(key)) {
-      throw new Error(`${key} is not a valid query parameter.`);
+      throw new BadRequestError(`${key} is not a valid query parameter.`);
     }
 
     let value = queryParams[key];
@@ -54,7 +55,9 @@ const getAllCommits = async (
       case 'listingId':
         value = Number(value);
         if (Number.isNaN(value)) {
-          throw new Error(`Invalid filter value provided for ${key}.`);
+          throw new BadRequestError(
+            `Invalid filter value provided for ${key}.`
+          );
         }
         break;
     }
@@ -82,14 +85,14 @@ const addCommit = async (
 
   // Check that listing is ongoing
   if (listing.listingStatus !== 'ongoing') {
-    throw new Error(
+    throw new BadRequestError(
       `Not allowed to commit to ${listing.listingStatus} listing.`
     );
   }
 
   // Check that customer has not used up max num of commits
   if (customer.numUsedCommits >= MAX_NUM_COMMITS) {
-    throw new Error(
+    throw new BadRequestError(
       `Customer has reached max number of ${MAX_NUM_COMMITS} commits used.`
     );
   }
@@ -131,7 +134,7 @@ const payForCommit = async (
 
   // Check that listing is successful
   if (commit.commitStatus !== 'successful') {
-    throw new Error('Only successful commits can be paid.');
+    throw new BadRequestError('Only successful commits can be paid.');
   }
 
   const fieldsToUpdate: CommitUpdatePayload = {
@@ -174,7 +177,9 @@ const deleteCommit = async (commitId: number) => {
   const commit = await commitStorage.getCommit(commitId);
 
   if (commit.commitStatus !== 'ongoing') {
-    throw new Error('Only ongoing commits are allowed to be deleted.');
+    throw new BadRequestError(
+      'Only ongoing commits are allowed to be deleted.'
+    );
   }
 
   return commitStorage.deleteCommit(commitId, commit.listingId);

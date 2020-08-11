@@ -28,6 +28,8 @@ import {
   listingRouter,
   merchantRouter,
 } from './api';
+import errorHandler from './middleware/error-handler';
+import {NotFoundError} from './utils/http-errors';
 
 const app: express.Application = express();
 const router: express.Router = express.Router();
@@ -51,32 +53,13 @@ app.use(
 );
 app.use(router);
 
-// This handles server errors.
-app.use(
-  (
-    err: any,
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) => {
-    res.status(err.status || 500).send({
-      error: {
-        status: err.status || 500,
-        message: err.message || 'Internal Server Error',
-      },
-    });
-  }
-);
-
 // This handles routing errors.
-app.use(
-  (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    res.status(404).send({
-      status: 404,
-      error: 'Not Found',
-    });
-  }
-);
+app.use(() => {
+  throw new NotFoundError('Not Found');
+});
+
+// Handles the sending the error messages to client.
+app.use(errorHandler);
 
 const localPort = process.env.NODE_ENV === 'test' ? 5001 : 5000;
 const port = process.env.PORT || localPort;

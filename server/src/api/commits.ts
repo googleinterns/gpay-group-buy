@@ -24,6 +24,7 @@ import {CommitRequest, CommitPaymentRequest} from '../interfaces';
 import customerAuth from '../middleware/customer-auth';
 import validateAndFormatPhoneNumber from '../middleware/validation/phone-number';
 import {commitService} from '../services';
+import {BadRequestError} from '../utils/http-errors';
 
 const commitRouter = express.Router();
 
@@ -36,15 +37,13 @@ commitRouter.get(
     try {
       const queryParams = req.query;
       if (Object.keys(queryParams).length === 0) {
-        res.sendStatus(400);
-        return;
+        throw new BadRequestError('Query params not specified.');
       }
       // TODO: Parse queryParams json to make it CommitPayload type in runtime, which
       // throws the appropriate type errors.
       // Right now services is handling the type casting and throwing of errors.
       const commits = await commitService.getAllCommits(queryParams);
       res.status(200).json(commits);
-      // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);
     }
@@ -71,7 +70,6 @@ commitRouter.post(
       res.setHeader('Content-Location', resourceUrl);
       res.location(resourceUrl);
       res.status(201).send(addedCommit);
-      // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);
     }
@@ -98,12 +96,11 @@ commitRouter.post(
 
     try {
       if (Number.isNaN(commitId)) {
-        throw new Error('Invalid commitId params.');
+        throw new BadRequestError(`Invalid commitId ${commitIdStr}`);
       }
 
       const commit = await commitService.payForCommit(commitId, req.body);
       res.status(200).json(commit);
-      // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);
     }
@@ -151,12 +148,11 @@ commitRouter.delete(
 
     try {
       if (Number.isNaN(commitId)) {
-        throw new Error('Invalid commitId params.');
+        throw new BadRequestError(`Invalid commitId ${commitIdStr}`);
       }
 
       await commitService.deleteCommit(commitId);
       res.sendStatus(204);
-      // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);
     }

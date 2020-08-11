@@ -18,6 +18,7 @@ import {Request, Response, NextFunction} from 'express';
 import admin from 'firebase-admin';
 
 import {merchantService} from '../services';
+import {UnauthorizedError} from '../utils/http-errors';
 
 admin.initializeApp();
 
@@ -35,7 +36,7 @@ const merchantAuth = async (
 ) => {
   try {
     if (!req.headers.authorization) {
-      throw new Error('Missing Authorization header.');
+      throw new UnauthorizedError('Missing Authorization header.');
     }
 
     const [_, firebaseIdToken] = req.headers.authorization.split(' ');
@@ -43,7 +44,7 @@ const merchantAuth = async (
 
     const verify = (firebaseUid: string): void => {
       if (firebaseUid !== verifiedFirebaseUid) {
-        throw new Error('Invalid bearer token.');
+        throw new UnauthorizedError('Invalid bearer token.');
       }
     };
 
@@ -58,7 +59,6 @@ const merchantAuth = async (
 
     next();
   } catch (err) {
-    err.status = 401;
     next(err);
   }
 };
