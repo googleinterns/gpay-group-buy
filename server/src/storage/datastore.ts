@@ -261,25 +261,27 @@ const addEntityHelper = async (
   uniqueProperties?: Filter[],
   transaction?: Transaction
 ): Promise<() => number> => {
-  const actor = transaction || datastore;
-
   const key = datastore.key(kind);
   const entity = {key, data};
 
   try {
-    if (uniqueProperties === undefined) {
-      if (actor instanceof Datastore) {
-        await actor.insert(entity);
-      } else if (actor instanceof Transaction) {
+    if (transaction !== undefined) {
+      if (uniqueProperties !== undefined) {
+        await uniqueInsertInTransaction(
+          kind,
+          entity,
+          uniqueProperties
+        )(transaction);
+      } else {
         // Do not await here because promise is resolved only after
         // `await transaction.commit()` is called.
-        actor.insert(entity);
+        transaction.insert(entity);
       }
     } else {
-      if (actor instanceof Datastore) {
+      if (uniqueProperties !== undefined) {
         await insertUniqueEntity(kind, entity, uniqueProperties);
-      } else if (actor instanceof Transaction) {
-        await uniqueInsertInTransaction(kind, entity, uniqueProperties)(actor);
+      } else {
+        await datastore.insert(entity);
       }
     }
   } catch (err) {
