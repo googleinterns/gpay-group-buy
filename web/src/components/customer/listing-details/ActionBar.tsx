@@ -18,7 +18,9 @@ import React, {useState, useEffect, useCallback} from 'react';
 
 import {useCommitContext} from 'components/customer/listing-details/contexts/CommitContext';
 import {useFulfilmentDetailsPromptContext} from 'components/customer/listing-details/contexts/FulfilmentDetailsPromptContext';
+import {useListingDetailsContext} from 'components/customer/listing-details/contexts/ListingDetailsContext';
 import {ListingLocation} from 'components/customer/listing-details/interfaces';
+import ShareButton from 'components/customer/listing-details/ShareButton';
 import {CommitStatus} from 'interfaces';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
@@ -40,7 +42,7 @@ const ActionButton = styled(Button)`
   align-items: center;
   justify-content: center;
 
-  min-width: 90%;
+  min-width: 70%;
   border-radius: 10px;
 
   text-transform: uppercase;
@@ -90,6 +92,7 @@ const ActionBar: React.FC = () => {
     onOpen: onOpenFulfilmentDetailsPrompt,
     isPromptVisible: isFulfilmentDetailsPromptVisible,
   } = useFulfilmentDetailsPromptContext();
+  const {listing} = useListingDetailsContext();
 
   const [buttonState, setButtonState] = useState<ActionButtonState>('initial');
   const [button, setButton] = useState(<></>);
@@ -155,7 +158,16 @@ const ActionBar: React.FC = () => {
     setButton(getButton(buttonState));
   }, [buttonState, getButton]);
 
-  return <ActionBarContainer>{button}</ActionBarContainer>;
+  return (
+    <>
+      {listing && (
+        <ActionBarContainer>
+          {button}
+          <ShareButton />
+        </ActionBarContainer>
+      )}
+    </>
+  );
 };
 
 export default ActionBar;
