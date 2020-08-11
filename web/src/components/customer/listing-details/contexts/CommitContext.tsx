@@ -56,7 +56,6 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
 }) => {
   const {
     customer,
-    idToken,
     getCustomerWithLogin,
     refetchCustomer,
   } = useCustomerContext();
@@ -86,10 +85,11 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
   }, [listingId, customer]);
 
   const onCommit = async () => {
-    const customer = await getCustomerWithLogin();
+    const {customer, idToken} = await getCustomerWithLogin();
 
     if (customer === undefined || idToken === undefined) {
-      // TODO: Handle case when user refuse to login even after prompted
+      console.log(customer, idToken);
+      onOpenPrompt('require-login');
       return;
     }
 
@@ -112,10 +112,10 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
       return;
     }
 
-    const customer = await getCustomerWithLogin();
+    const {customer, idToken} = await getCustomerWithLogin();
 
     if (customer === undefined || idToken === undefined) {
-      // TODO: Handle case when user refuse to login even after prompted
+      onOpenPrompt('require-login');
       return;
     }
 
@@ -131,9 +131,9 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
       return;
     }
 
-    await getCustomerWithLogin();
+    const {idToken} = await getCustomerWithLogin();
     if (idToken === undefined) {
-      // TODO: Handle case when user refuse to login even after prompted
+      onOpenPrompt('require-login');
       return;
     }
 
