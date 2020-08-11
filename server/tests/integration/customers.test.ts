@@ -46,8 +46,7 @@ describe('Customers endpoints', () => {
 
     const res = await request(app).get(`/customers/${customerId}`);
 
-    // TODO: Test for actual error status codes when implemented
-    expect(res.status).not.toBe(200);
+    expect(res.status).toBe(404);
     expect(res.body).toHaveProperty('error');
     expect(res.body.error.message).toBe(
       `Customer ${customerId} does not exist`
