@@ -19,6 +19,7 @@ import React, {useState, useEffect} from 'react';
 import {getCommits} from 'api';
 import BackButton from 'components/common/BackButton';
 import CommitsBadge from 'components/common/CommitsBadge';
+import ErrorDisplay from 'components/common/ErrorDisplay';
 import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import Commits from 'components/customer/my-commits/Commits';
 import {GroupedCommits} from 'interfaces';
@@ -27,15 +28,31 @@ import {useHistory} from 'react-router-dom';
 import styled from 'styled-components';
 import {groupByCommitStatus} from 'utils/commit-status';
 
+import {ReactComponent as AuthenticationSvg} from 'assets/customer/authentication.svg';
+
 const PageContainer = styled(Container)`
   padding-top: 20px;
+  min-height: 100vh;
 
   display: flex;
   flex-direction: column;
 `;
 
+const StyledErrorDisplay = styled(ErrorDisplay)`
+  height: 100%;
+  flex: 1;
+`;
+
 const CommitsBadgeContainer = styled.div`
   align-self: flex-end;
+`;
+
+const PageContent = styled.div`
+  padding-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 `;
 
 /**
@@ -72,8 +89,23 @@ const MyCommitsPage: React.FC = () => {
       <CommitsBadgeContainer>
         <CommitsBadge />
       </CommitsBadgeContainer>
-      <h1>My Commits</h1>
-      <Commits commits={commits} />
+      <PageContent>
+        <h1>My Commits</h1>
+        {customer ? (
+          <Commits commits={commits} />
+        ) : (
+          <StyledErrorDisplay
+            title="You are not logged in. Please login to continue."
+            header={<AuthenticationSvg />}
+            button={{
+              name: 'Login',
+              onClick: async () => {
+                await getCustomerWithLogin();
+              },
+            }}
+          />
+        )}
+      </PageContent>
     </PageContainer>
   );
 };

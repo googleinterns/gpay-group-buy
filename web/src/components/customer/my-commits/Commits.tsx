@@ -28,8 +28,17 @@ const CommitsContainer = styled.div`
 
   word-break: break-word;
 
-  & > h2 {
-    font-size: 1.4em;
+  h2 {
+    font-size: 1.3em;
+    margin: 10px 0;
+  }
+
+  & > section {
+    margin-top: 8px;
+
+    :first-child {
+      margin-top: 0;
+    }
   }
 `;
 interface CommitSectionProps {
@@ -87,14 +96,20 @@ const Commits: React.FC<CommitsProps> = ({
   commits: {ongoing, successful, paid, completed, unsuccessful},
 }) => (
   <CommitsContainer>
-    <h2>Awaiting Payment</h2>
-    {successful && <CommitSection commits={successful} directToPayment />}
-    <h2>Ongoing</h2>
-    {ongoing && <CommitSection commits={ongoing} />}
-    <h2>History</h2>
-    {paid && <CommitSection commits={paid} />}
-    {completed && <CommitSection commits={completed} />}
-    {unsuccessful && <CommitSection commits={unsuccessful} />}
+    <section>
+      <h2>Awaiting Payment</h2>
+      {successful && <CommitSection commits={successful} directToPayment />}
+    </section>
+    <section>
+      <h2>Ongoing</h2>
+      {ongoing && <CommitSection commits={ongoing} />}
+    </section>
+    <section>
+      <h2>History</h2>
+      {paid && <CommitSection commits={paid} />}
+      {completed && <CommitSection commits={completed} />}
+      {unsuccessful && <CommitSection commits={unsuccessful} />}
+    </section>
   </CommitsContainer>
 );
 
