@@ -17,7 +17,6 @@
 import React from 'react';
 
 import Modal from 'components/common/Modal';
-import {NonEmptyArray} from 'interfaces';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
 import styled from 'styled-components';
@@ -86,7 +85,7 @@ interface ButtonDetails {
 interface MobilePromptProps {
   isVisible: boolean;
   title: string;
-  buttons: NonEmptyArray<ButtonDetails>;
+  buttons: ButtonDetails[];
   header?: JSX.Element;
 }
 

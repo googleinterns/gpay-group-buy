@@ -63,3 +63,8 @@ input:focus {
 textarea:focus {
   outline: none;
 }
+
+h1 {
+  font-weight: bold;
+  font-size: 2em;
+}
