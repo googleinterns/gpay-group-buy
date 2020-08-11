@@ -38,9 +38,7 @@ describe('Merchants endpoints', () => {
 
       expect(res.status).toBe(400);
       expect(res.body).toHaveProperty('error');
-      expect(res.body.error.message).toBe(
-        `Invalid merchantId ${merchantId}`
-      );
+      expect(res.body.error.message).toBe(`Invalid merchantId ${merchantId}`);
     });
 
     test('Should not fetch by non-existent merchantId', async () => {

@@ -30,4 +30,27 @@ describe('Customers endpoints', () => {
       expect(res.body).toMatchObject(expectedCustomerData);
     });
   });
+
+  test('Should not fetch by invalid id param', async () => {
+    const customerId = 'invalid-customer-id-type';
+
+    const res = await request(app).get(`/customers/${customerId}`);
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('error');
+    expect(res.body.error.message).toBe(`Invalid customerId ${customerId}`);
+  });
+
+  test('Should not fetch by non-existent customerId', async () => {
+    const customerId = customerFixtures.ids.length + 1;
+
+    const res = await request(app).get(`/customers/${customerId}`);
+
+    // TODO: Test for actual error status codes when implemented
+    expect(res.status).not.toBe(200);
+    expect(res.body).toHaveProperty('error');
+    expect(res.body.error.message).toBe(
+      `Customer ${customerId} does not exist`
+    );
+  });
 });
