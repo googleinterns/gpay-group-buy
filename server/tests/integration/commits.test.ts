@@ -17,9 +17,15 @@
 import request from 'supertest';
 
 import app from '../../src';
+import customerAuth from '../../src/middleware/customer-auth';
 import commitFixtures from '../fixtures/commits';
 import customerFixtures from '../fixtures/customers';
 import listingFixtures from '../fixtures/listings';
+
+// Mock customerAuth middleware
+jest.mock('../../src/middleware/customer-auth', () => {
+  return jest.fn((req, res, next) => next());
+});
 
 describe('Commits endpoints', () => {
   describe('GET /commits', () => {
@@ -97,6 +103,44 @@ describe('Commits endpoints', () => {
       expect(res.body.error.message).toBe(
         'Invalid filter value provided for customerId.'
       );
+    });
+  });
+
+  describe('POST /commits', () => {
+    test('Should require customer auth', async () => {
+      await request(app).post('/commits');
+
+      expect(customerAuth).toHaveBeenCalled();
+    });
+  });
+
+  describe('POST /commits/:commitId/pay', () => {
+    test('Should require customer auth', async () => {
+      const commitId = commitFixtures.ids?.[0];
+
+      await request(app).post(`/commits/${commitId}/pay`);
+
+      expect(customerAuth).toHaveBeenCalled();
+    });
+  });
+
+  describe('POST /commits/:commitId/complete', () => {
+    test('Should require customer auth', async () => {
+      const commitId = commitFixtures.ids?.[0];
+
+      await request(app).post(`/commits/${commitId}/complete`);
+
+      expect(customerAuth).toHaveBeenCalled();
+    });
+  });
+
+  describe('DELETE /commits', () => {
+    test('Should require customer auth', async () => {
+      const commitId = commitFixtures.ids?.[0];
+
+      await request(app).delete(`/commits/${commitId}`);
+
+      expect(customerAuth).toHaveBeenCalled();
     });
   });
 });
