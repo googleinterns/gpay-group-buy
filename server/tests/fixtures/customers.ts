@@ -19,18 +19,27 @@
  */
 const data = [
   {
-    address: 'Blk 42, Serangoon Road, #01-22',
-    contactNumber: '+6591234567',
+    defaultFulfilmentDetails: {
+      name: 'John Doe',
+      address: 'Blk 42, Serangoon Road, #01-22',
+      contactNumber: '+911234567890',
+    },
     gpayId: 1,
   },
   {
-    address: 'Blk 2, Ang Mo Kio Ave 10, #18-02',
-    contactNumber: '+6593320321',
+    defaultFulfilmentDetails: {
+      name: 'Mary Jane',
+      address: 'Blk 2, Ang Mo Kio Ave 10, #18-02',
+      contactNumber: '+910987654321',
+    },
     gpayId: 2,
   },
   {
-    address: 'Blk 7, Pasir Ris St 72, #05-01',
-    contactNumber: '+6581045287',
+    defaultFulfilmentDetails: {
+      name: 'Polar Bear',
+      address: 'Blk 7, Pasir Ris St 72, #05-01',
+      contactNumber: '+911029384756',
+    },
     gpayId: 3,
   },
 ];
