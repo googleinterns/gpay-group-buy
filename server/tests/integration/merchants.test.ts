@@ -36,10 +36,9 @@ describe('Merchants endpoints', () => {
 
       const res = await request(app).get(`/merchants/${merchantId}`);
 
-      // TODO: Test for actual error status codes when implemented
-      expect(res.status).not.toBe(200);
+      expect(res.status).toBe(400);
       expect(res.body).toHaveProperty('error');
-      expect(res.body.error.message).toBe('Invalid merchantId params.');
+      expect(res.body.error.message).toBe(`Invalid merchantId ${merchantId}`);
     });
 
     test('Should not fetch by non-existent merchantId', async () => {

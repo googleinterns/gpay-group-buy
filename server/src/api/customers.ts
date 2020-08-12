@@ -22,7 +22,9 @@ import {Router, Request, Response, NextFunction} from 'express';
 
 import {CustomerPayload} from '../interfaces';
 import customerAuth from '../middleware/customer-auth';
+import validateAndFormatPhoneNumber from '../middleware/validation/phone-number';
 import {customerService} from '../services';
+import {BadRequestError} from '../utils/http-errors';
 
 const customerRouter = Router();
 
@@ -34,7 +36,7 @@ customerRouter.get(
 
     try {
       if (Number.isNaN(customerId)) {
-        throw new Error('Invalid customerId params.');
+        throw new BadRequestError(`Invalid customerId ${customerIdStr}`);
       }
 
       const customer = await customerService.getCustomer(customerId);
@@ -76,7 +78,41 @@ customerRouter.post(
       res.setHeader('Content-Location', resourceUrl);
       res.location(resourceUrl);
       res.status(201).send(addedCustomer);
-      // TODO: Add error handling with the appropriate response codes.
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+/**
+ * Handles the PATCH requests to modify an existing customer with the specified customerId.
+ * If successful, returns the modified customer in the response body with code 200.
+ */
+customerRouter.patch(
+  '/:customerId',
+  customerAuth,
+  validateAndFormatPhoneNumber(
+    (body: Partial<CustomerPayload>) =>
+      body.defaultFulfilmentDetails?.contactNumber,
+    (body: Partial<CustomerPayload>, phoneNumber: string) =>
+      body.defaultFulfilmentDetails &&
+      (body.defaultFulfilmentDetails.contactNumber = phoneNumber)
+  ),
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {customerId: customerIdStr} = req.params;
+    const customerId = Number(customerIdStr);
+    const fieldsToUpdate = req.body;
+
+    try {
+      if (Number.isNaN(customerId)) {
+        throw new BadRequestError(`Invalid customerId ${customerIdStr}`);
+      }
+
+      const modifiedCustomer = await customerService.updateCustomer(
+        customerId,
+        fieldsToUpdate
+      );
+      res.status(200).send(modifiedCustomer);
     } catch (error) {
       return next(error);
     }

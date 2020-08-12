@@ -22,9 +22,13 @@ import {Operator} from '@google-cloud/datastore/build/src/query';
  */
 export interface CustomerPayload {
   gpayId: string;
-  contactNumber?: string; // E164 format
-  address?: string;
+  defaultFulfilmentDetails: FulfilmentDetails;
 }
+
+/**
+ * Union type of the keys of CustomerPayload.
+ */
+export type CustomerPayloadKey = keyof CustomerPayload;
 
 /**
  * CustomerDatastoreReponse Interface that contains the fields of the Response that
@@ -102,10 +106,10 @@ export interface CommitPayload
 export type CommitPayloadKey = keyof CommitPayload;
 
 /**
- * CommitEditPayload Interface that contains the fields of the payload that
- * would be sent to edit a Commit Entity.
+ * CommitUpdatePayload Interface that contains the fields of the payload that
+ * would be sent to update a Commit Entity.
  */
-export type CommitEditPayload = Partial<CommitPayload>;
+export type CommitUpdatePayload = Partial<CommitPayload>;
 
 /**
  * CommitResponse Interface that contains the fields of the Response that

@@ -22,6 +22,7 @@ import MobilePrompt from 'components/common/MobilePrompt';
 import {useCommitFeedbackPromptContext} from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
 
 import {ReactComponent as CelebrateSvg} from 'assets/celebrate.svg';
+import {ReactComponent as NotifySvg} from 'assets/customer/notify.svg';
 import {ReactComponent as PaymentSvg} from 'assets/customer/payment.svg';
 
 interface PromptProps {
@@ -92,6 +93,21 @@ const CommitStatusPrompt: React.FC = () => {
           >
             <Loading />
           </MobilePrompt>
+        );
+        break;
+      case 'require-login':
+        setPrompt(
+          <MobilePrompt
+            title="You need to be logged in to perform this action."
+            header={<NotifySvg />}
+            isVisible={isPromptVisible}
+            buttons={[
+              {
+                name: 'Dismiss',
+                onClick: onClose,
+              },
+            ]}
+          />
         );
         break;
       default:

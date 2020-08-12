@@ -226,6 +226,18 @@ export const payForCommit = async (
 };
 
 /**
+ * Completes the commit with the specified commitId.
+ * @param commitId Id of the commit to complete
+ */
+export const completeCommit = async (commitId: number) => {
+  const res = await fetch(
+    `${process.env.REACT_APP_SERVER_URL}/commits/${commitId}/complete`,
+    {method: 'POST'}
+  );
+  return res.json();
+};
+
+/**
  * Retrieves all merchants from the database.
  * @param queryParams Query parameters used to filter merchants to retrieve
  */

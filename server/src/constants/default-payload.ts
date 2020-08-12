@@ -21,8 +21,11 @@ import {CommitStatus, ListingComputedProperties} from '../interfaces';
  * to be stored in the database.
  */
 export const DEFAULT_CUSTOMER_PAYLOAD = {
-  contactNumber: '',
-  address: '',
+  defaultFulfilmentDetails: {
+    name: '',
+    address: '',
+    contactNumber: '',
+  },
 };
 
 /**
