@@ -15,7 +15,11 @@
  */
 
 import {DEFAULT_CUSTOMER_PAYLOAD} from '../constants/default-payload';
-import {CustomerResponse, CustomerPayload} from '../interfaces';
+import {
+  CustomerResponse,
+  CustomerPayload,
+  CustomerPayloadKey,
+} from '../interfaces';
 import {customerStorage} from '../storage';
 
 const getCustomer = async (customerId: number): Promise<CustomerResponse> =>
@@ -45,4 +49,33 @@ const addCustomer = async (
     ...customer,
   });
 
-export default {getCustomer, getCustomerWithGpayId, addCustomer};
+/**
+ * Updates a customer with the specified customerId by modifying the fields in fieldsToUpdate.
+ * Throws an error if fieldsToUpdate contains fields that are not allowed to be modified,
+ * or if the customer does not exist.
+ * @param customerId Id of the customer to update
+ * @param fieldsToUpdate Fields of the customer to be updated
+ */
+const updateCustomer = async (
+  customerId: number,
+  fieldsToUpdate: Partial<CustomerPayload>
+) => {
+  // Check that request contains only allowed keys
+  const allowedKeys: Set<CustomerPayloadKey> = new Set([
+    'defaultFulfilmentDetails',
+  ]);
+  Object.keys(fieldsToUpdate).forEach(key => {
+    if (!(allowedKeys as Set<string>).has(key)) {
+      throw new Error(`${key} field cannot be modified.`);
+    }
+  });
+
+  return customerStorage.updateCustomer(customerId, fieldsToUpdate);
+};
+
+export default {
+  getCustomer,
+  getCustomerWithGpayId,
+  addCustomer,
+  updateCustomer,
+};

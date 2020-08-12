@@ -21,11 +21,16 @@ import useLocalStorage from 'components/common/hooks/useLocalStorage';
 import {Customer} from 'interfaces';
 import {getIdentity} from 'microapps';
 
+interface AuthenticatedCustomer {
+  customer: Customer | undefined;
+  idToken: string | undefined;
+}
+
 type ContextType =
   | {
       idToken: string | undefined;
       customer: Customer | undefined;
-      getCustomerWithLogin: () => Promise<Customer | undefined>;
+      getCustomerWithLogin: () => Promise<AuthenticatedCustomer>;
       refetchCustomer: () => Promise<void>;
     }
   | undefined;
@@ -58,7 +63,12 @@ const CustomerProvider: React.FC = ({children}) => {
 
   const [customer, setCustomer] = useState<Customer>();
 
-  const login = useCallback(async () => {
+  const login = useCallback(async (): Promise<AuthenticatedCustomer> => {
+    const identity = await getIdentity();
+    if (identity === undefined) {
+      return {customer: undefined, idToken: undefined};
+    }
+
     const {
       idToken,
       decodedToken: {sub: gpayId},
@@ -68,6 +78,8 @@ const CustomerProvider: React.FC = ({children}) => {
     const customer = await loginCustomer({gpayId}, idToken);
     setCustomer(customer);
     setIsExistingCustomer(true);
+
+    return {customer, idToken};
   }, [setIsExistingCustomer]);
 
   useEffect(() => {
@@ -84,13 +96,12 @@ const CustomerProvider: React.FC = ({children}) => {
 
   /**
    * Gets current customer. Attempts a login if customer is undefined.
-   * @param attemptLogin Whether to attempt a login when customer is undefined
    */
-  const getCustomerWithLogin = async () => {
+  const getCustomerWithLogin = async (): Promise<AuthenticatedCustomer> => {
     if (customer === undefined) {
-      await login();
+      return login();
     }
-    return customer;
+    return {customer, idToken};
   };
 
   /**

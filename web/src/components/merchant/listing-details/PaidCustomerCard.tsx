@@ -52,8 +52,9 @@ interface PaidCustomerCardProps {
  * A card that shows the name of product recipient and a 'SEND ITEM' button.
  */
 const PaidCustomerCard: React.FC<PaidCustomerCardProps> = ({paidCommit}) => {
-  const {fulfilmentDetails} = paidCommit;
-  const {name} = fulfilmentDetails;
+  const {
+    fulfilmentDetails: {name},
+  } = paidCommit;
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   return (
@@ -67,7 +68,7 @@ const PaidCustomerCard: React.FC<PaidCustomerCardProps> = ({paidCommit}) => {
       <SendItemModal
         isVisible={isVisible}
         closeModal={() => setIsVisible(false)}
-        fulfilmentDetails={fulfilmentDetails}
+        commit={paidCommit}
       />
     </CardWithLeftBorder>
   );

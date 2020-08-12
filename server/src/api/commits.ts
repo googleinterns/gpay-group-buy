@@ -111,6 +111,35 @@ commitRouter.post(
 );
 
 /**
+ * Handles post requests to complete the commit with the specified commitId.
+ */
+commitRouter.post(
+  '/:commitId/complete',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {commitId: commitIdStr} = req.params;
+    const commitId = Number(commitIdStr);
+
+    try {
+      if (Number.isNaN(commitId)) {
+        throw {
+          status: 400,
+          message: 'Invalid commitId params.',
+        };
+      }
+
+      const commit = await commitService.completeCommit(commitId);
+
+      const resourceUrl = `${process.env.SERVER_URL}/commits/${commit.id}`;
+      res.setHeader('Content-Location', resourceUrl);
+      res.status(200).json(commit);
+      // TODO: Add error handling with the appropriate response codes.
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+/**
  * Handles the delete requests to delete a commit with the specified commitId.
  */
 commitRouter.delete(

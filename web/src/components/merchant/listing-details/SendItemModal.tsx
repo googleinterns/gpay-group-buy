@@ -16,11 +16,12 @@
 
 import React from 'react';
 
+import {completeCommit} from 'api';
 import CentralisedContainer from 'components/common/CentralisedContainer';
 import Modal from 'components/common/Modal';
 import RoundedButton from 'components/common/RoundedButton';
 import CustomerFulfilmentDetailsCard from 'components/merchant/listing-details/CustomerFulfilmentDetailsCard';
-import {FulfilmentDetails} from 'interfaces';
+import {Commit} from 'interfaces';
 import {X} from 'react-feather';
 import styled from 'styled-components';
 
@@ -63,21 +64,27 @@ const IndicateButton = styled(RoundedButton)`
   width: 370px;
 `;
 
+const indicateItemSent = async (commitId: number) => {
+  await completeCommit(commitId);
+  // TODO(#200): Update paidCommits state instead of force refresh to show that
+  // the commit that was completed no longer requires any action.
+  window.location.reload(false);
+};
+
 interface SendItemModalProps {
   isVisible: boolean;
   closeModal: () => void;
-  fulfilmentDetails: FulfilmentDetails;
+  commit: Commit;
 }
 
 /**
  * A modal component that displays a customer's fulfilment details and an
  * 'INDICATE ITEM SENT' button.
  */
-// TODO: Handle click of 'INDICATE ITEM SENT' button.
 const SendItemModal: React.FC<SendItemModalProps> = ({
   isVisible,
   closeModal,
-  fulfilmentDetails,
+  commit: {id, fulfilmentDetails},
 }) => (
   <Modal isVisible={isVisible}>
     <OverlayModalCard>
@@ -87,7 +94,9 @@ const SendItemModal: React.FC<SendItemModalProps> = ({
       <TextContainer>
         Let them know that their item is on the way by clicking this button.
       </TextContainer>
-      <IndicateButton color="bright-red">Indicate item sent</IndicateButton>
+      <IndicateButton color="bright-red" onClick={() => indicateItemSent(id)}>
+        Indicate item sent
+      </IndicateButton>
     </OverlayModalCard>
   </Modal>
 );
