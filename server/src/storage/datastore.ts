@@ -113,7 +113,8 @@ export const getEntityInTransaction = async (
   kind: string,
   id: number,
   shouldAppendId = true
-) => (transaction: Transaction) => getEntity(kind, id, shouldAppendId, transaction);
+) => (transaction: Transaction) =>
+  getEntity(kind, id, shouldAppendId, transaction);
 
 /**
  * A Datastore wrapper that gets a particular entity with the specified Kind and id.
