@@ -35,7 +35,7 @@ const getAllListingsWithIds = async (
 const getListing = async (listingId: number): Promise<ListingResponse> =>
   listingStorage.getListing(listingId);
 
-const updateListingSuccessStatus = async (listing: ListingResponse) => {
+const updateListingOutcomeStatus = async (listing: ListingResponse) => {
   const isSuccessful = listing.numCommits >= listing.minCommits;
   const affectedCommits = await commitStorage.getAllCommits([
     {property: 'listingId', value: listing.id},
@@ -47,7 +47,7 @@ const updateListingSuccessStatus = async (listing: ListingResponse) => {
   );
 };
 
-const updateOutdatedListingSuccessStatuses = async (): Promise<
+const updateOutdatedListingOutcomeStatuses = async (): Promise<
   ListingResponse[]
 > => {
   const now = new Date();
@@ -64,7 +64,7 @@ const updateOutdatedListingSuccessStatuses = async (): Promise<
     pastDeadlineFilter,
     ongoingStatusFilter,
   ]);
-  return Promise.all(listingsToUpdate.map(updateListingSuccessStatus));
+  return Promise.all(listingsToUpdate.map(updateListingOutcomeStatus));
 };
 
 export default {
@@ -72,5 +72,5 @@ export default {
   getAllListings,
   getAllListingsWithIds,
   getListing,
-  updateOutdatedListingSuccessStatuses,
+  updateOutdatedListingOutcomeStatuses,
 };

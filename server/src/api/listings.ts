@@ -121,7 +121,7 @@ listingRouter.post(
   '/outdated',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const updatedListings = await listingService.updateOutdatedListingSuccessStatuses();
+      const updatedListings = await listingService.updateOutdatedListingOutcomeStatuses();
       res.status(200);
       res.json(updatedListings);
       // TODO(#115): Add error handling with the appropriate response codes.
