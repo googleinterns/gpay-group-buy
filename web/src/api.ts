@@ -56,6 +56,28 @@ const postWithAuth = async (
 };
 
 /**
+ * Helper function that wraps the fetch call to make a patch request with Auth headers.
+ * @param endpoint Endpoint of the request
+ * @param data Request body data
+ * @param token Auth token
+ */
+const patchWithAuth = async (
+  endpoint: string,
+  data: object,
+  token: string
+): Promise<Response> => {
+  const requestOptions = {
+    method: 'PATCH',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  };
+  return fetch(endpoint, requestOptions);
+};
+
+/**
  * Helper method that wraps the fetch call to make a delete request with Auth headers.
  * @param endpoint Endpoint of the request
  * @param token Auth token
@@ -114,6 +136,26 @@ export const loginCustomer = async (
   const res = await postWithAuth(
     `${process.env.REACT_APP_SERVER_URL}/customers`,
     customerData,
+    idToken
+  );
+
+  return res.json();
+};
+
+/**
+ * Updates the specified fields of a customer with the specified customerId.
+ * @param customerId Id of the customer to be updated
+ * @param fieldsToUpdate Data that we want to update
+ * @param idToken Authentication token of customer
+ */
+export const updateCustomer = async (
+  customerId: number,
+  fieldsToUpdate: Partial<CustomerPayload>,
+  idToken: string
+): Promise<Customer> => {
+  const res = await patchWithAuth(
+    `${process.env.REACT_APP_SERVER_URL}/customers/${customerId}`,
+    fieldsToUpdate,
     idToken
   );
 
