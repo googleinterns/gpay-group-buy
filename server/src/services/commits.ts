@@ -163,7 +163,12 @@ const completeCommit = async (commitId: number) => {
     commitStatus: 'completed',
   };
 
-  return commitStorage.updateCommit(commitId, fieldsToUpdate, commit.listingId);
+  const updatedCommit = await commitStorage.updateCommit(
+    commitId,
+    fieldsToUpdate,
+    commit.listingId
+  );
+  return updatedCommit;
 };
 
 /**

@@ -45,6 +45,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "firebase-admin": "^8.12.1",
+    "google-auth-library": "^6.0.6",
     "google-libphonenumber": "^3.2.10",
     "guid-typescript": "^1.0.9",
     "jsonwebtoken": "^8.5.1",
