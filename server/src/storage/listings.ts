@@ -14,15 +14,24 @@
  * limitations under the License.
  */
 
-import {Filter, ListingPayload, ListingResponse, OrderRule} from 'interfaces';
+import {
+  Filter,
+  ListingPayload,
+  ListingResponse,
+  ListingUpdatePayload,
+  OrderRule,
+} from 'interfaces';
 
-import {LISTING_KIND} from '../constants/kinds';
+import {LISTING_KIND, COMMIT_KIND} from '../constants/kinds';
 import {
   addEntity,
   getAllEntities,
   getAllEntitiesWithIds,
   getEntity,
+  makeTransaction,
+  updateEntityInTransaction,
 } from './datastore';
+import {UpdateRule} from './interfaces';
 
 const addListing = async (
   listing: ListingPayload
@@ -49,4 +58,51 @@ const getAllListingsWithIds = async (
 const getListing = async (listingId: number): Promise<ListingResponse> =>
   getEntity(LISTING_KIND, listingId);
 
-export default {addListing, getAllListings, getAllListingsWithIds, getListing};
+/**
+ * Updates a listing with the specified id according to the update rules.
+ * Returns the updated listing data.
+ * Throws an error if update is not successful.
+ * @param listingId Id of the listing to be updated
+ * @param fieldsToUpdate Fields of the listing to be updated
+ * @param affectedCommitIds Ids of the commits that might be affected
+ */
+const updateListing = async (
+  listingId: number,
+  fieldsToUpdate: ListingUpdatePayload,
+  affectedCommitIds: number[]
+): Promise<ListingResponse> => {
+  const listingUpdateRules: UpdateRule[] = Object.keys(fieldsToUpdate).map(
+    field => ({
+      property: field,
+      op: 'replace',
+      value: fieldsToUpdate[field as keyof ListingUpdatePayload],
+    })
+  );
+
+  const commitUpdateRules: UpdateRule[] = [];
+  if (
+    fieldsToUpdate.listingStatus === 'successful' ||
+    fieldsToUpdate.listingStatus === 'unsuccessful'
+  ) {
+    commitUpdateRules.push({
+      property: 'commitStatus',
+      value: fieldsToUpdate.listingStatus,
+    });
+  }
+
+  await makeTransaction(
+    updateEntityInTransaction(LISTING_KIND, listingId, listingUpdateRules),
+    ...affectedCommitIds.map(commitId =>
+      updateEntityInTransaction(COMMIT_KIND, commitId, commitUpdateRules)
+    )
+  );
+  return getListing(listingId);
+};
+
+export default {
+  addListing,
+  getAllListings,
+  getAllListingsWithIds,
+  getListing,
+  updateListing,
+};

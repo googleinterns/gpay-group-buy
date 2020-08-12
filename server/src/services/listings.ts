@@ -16,7 +16,7 @@
 
 import {DEFAULT_LISTING_PAYLOAD} from '../constants/default-payload';
 import {Filter, ListingRequest, ListingResponse} from '../interfaces';
-import {listingStorage} from '../storage';
+import {commitStorage, listingStorage} from '../storage';
 
 const addListing = async (listing: ListingRequest): Promise<ListingResponse> =>
   listingStorage.addListing({
@@ -35,4 +35,42 @@ const getAllListingsWithIds = async (
 const getListing = async (listingId: number): Promise<ListingResponse> =>
   listingStorage.getListing(listingId);
 
-export default {addListing, getAllListings, getAllListingsWithIds, getListing};
+const updateListingOutcomeStatus = async (listing: ListingResponse) => {
+  const isSuccessful = listing.numCommits >= listing.minCommits;
+  const affectedCommits = await commitStorage.getAllCommits([
+    {property: 'listingId', value: listing.id},
+  ]);
+  return listingStorage.updateListing(
+    listing.id,
+    {listingStatus: isSuccessful ? 'successful' : 'unsuccessful'},
+    affectedCommits.map(commit => commit.id)
+  );
+};
+
+const updateOutdatedListingOutcomeStatuses = async (): Promise<
+  ListingResponse[]
+> => {
+  const now = new Date();
+  const pastDeadlineFilter: Filter = {
+    property: 'deadline',
+    op: '<',
+    value: now,
+  };
+  const ongoingStatusFilter: Filter = {
+    property: 'listingStatus',
+    value: 'ongoing',
+  };
+  const listingsToUpdate = await listingStorage.getAllListings([
+    pastDeadlineFilter,
+    ongoingStatusFilter,
+  ]);
+  return Promise.all(listingsToUpdate.map(updateListingOutcomeStatus));
+};
+
+export default {
+  addListing,
+  getAllListings,
+  getAllListingsWithIds,
+  getListing,
+  updateOutdatedListingOutcomeStatuses,
+};
