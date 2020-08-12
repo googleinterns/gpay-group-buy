@@ -116,7 +116,8 @@ describe('Commits endpoints', () => {
 
   describe('POST /commits/:commitId/pay', () => {
     test('Should require customer auth', async () => {
-      const commitId = commitFixtures.ids?.[0];
+      // Does not have to exist since we are just testing that auth is called
+      const commitId = 999;
 
       await request(app).post(`/commits/${commitId}/pay`);
 
@@ -126,7 +127,8 @@ describe('Commits endpoints', () => {
 
   describe('POST /commits/:commitId/complete', () => {
     test('Should require customer auth', async () => {
-      const commitId = commitFixtures.ids?.[0];
+      // Does not have to exist since we are just testing that auth is called
+      const commitId = 999;
 
       await request(app).post(`/commits/${commitId}/complete`);
 
@@ -136,7 +138,8 @@ describe('Commits endpoints', () => {
 
   describe('DELETE /commits', () => {
     test('Should require customer auth', async () => {
-      const commitId = commitFixtures.ids?.[0];
+      // Does not have to exist since we are just testing that auth is called
+      const commitId = 999;
 
       await request(app).delete(`/commits/${commitId}`);
 
