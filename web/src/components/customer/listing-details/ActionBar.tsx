@@ -17,11 +17,16 @@
 import React, {useState, useEffect, useCallback} from 'react';
 
 import {useCommitContext} from 'components/customer/listing-details/contexts/CommitContext';
+import {useCommitFeedbackPromptContext} from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
 import {useFulfilmentDetailsPromptContext} from 'components/customer/listing-details/contexts/FulfilmentDetailsPromptContext';
+import {useListingDetailsContext} from 'components/customer/listing-details/contexts/ListingDetailsContext';
+import {ListingLocation} from 'components/customer/listing-details/interfaces';
+import ShareButton from 'components/customer/listing-details/ShareButton';
 import {CommitStatus} from 'interfaces';
 import Button from 'muicss/lib/react/button';
 import Container from 'muicss/lib/react/container';
 import {Plus} from 'react-feather';
+import {useLocation, useHistory} from 'react-router-dom';
 import styled from 'styled-components';
 
 const ActionBarContainer = styled(Container)`
@@ -38,7 +43,7 @@ const ActionButton = styled(Button)`
   align-items: center;
   justify-content: center;
 
-  min-width: 90%;
+  min-width: 70%;
   border-radius: 10px;
 
   text-transform: uppercase;
@@ -80,14 +85,26 @@ const commitStatusToButtonState = (
  * ActionBar that contains a button to commit/uncommit/pay a listing.
  */
 const ActionBar: React.FC = () => {
+  const history = useHistory();
+  const {state: locationState, pathname} = useLocation<ListingLocation>();
+
   const {commitStatus, onCommit, onUncommit} = useCommitContext();
+  const {listing} = useListingDetailsContext();
   const {
     onOpen: onOpenFulfilmentDetailsPrompt,
     isPromptVisible: isFulfilmentDetailsPromptVisible,
   } = useFulfilmentDetailsPromptContext();
+  const {
+    isPromptVisible: isCommitFeedbackPromptVisible,
+  } = useCommitFeedbackPromptContext();
 
   const [buttonState, setButtonState] = useState<ActionButtonState>('initial');
   const [button, setButton] = useState(<></>);
+
+  if (locationState?.attemptPayment && buttonState === 'awaitingPayment') {
+    history.replace(pathname, {...locationState, attemptPayment: false});
+    onOpenFulfilmentDetailsPrompt();
+  }
 
   const getButton = useCallback(
     (buttonState: ActionButtonState): JSX.Element => {
@@ -139,13 +156,26 @@ const ActionBar: React.FC = () => {
 
   useEffect(() => {
     setButtonState(commitStatusToButtonState(commitStatus));
-  }, [commitStatus, isFulfilmentDetailsPromptVisible]);
+  }, [
+    commitStatus,
+    isFulfilmentDetailsPromptVisible,
+    isCommitFeedbackPromptVisible,
+  ]);
 
   useEffect(() => {
     setButton(getButton(buttonState));
   }, [buttonState, getButton]);
 
-  return <ActionBarContainer>{button}</ActionBarContainer>;
+  return (
+    <>
+      {listing && (
+        <ActionBarContainer>
+          {button}
+          <ShareButton />
+        </ActionBarContainer>
+      )}
+    </>
+  );
 };
 
 export default ActionBar;

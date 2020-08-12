@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import {MERCHANT_ROOT} from 'constants/routes';
+
 import React from 'react';
 
 import ListingCollection from 'components/common/ListingCollection';
@@ -67,7 +69,10 @@ const ListingsPage: React.FC = () => {
               </AddListingButton>
             </ButtonContainer>
             <ListingsContainer>
-              <ListingCollection listings={listings} />
+              <ListingCollection
+                listings={listings}
+                listingRootPath={MERCHANT_ROOT}
+              />
             </ListingsContainer>
           </>
         ))}

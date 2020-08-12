@@ -22,6 +22,7 @@ import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
 import ListingCardWithCommitStatus from 'components/customer/my-commits/ListingCardWithCommitStatus';
 import MobilePromptSample from 'components/design-samples/MobilePromptSample';
+import SendItemModalSample from 'components/design-samples/SendItemModalSample';
 import PaidCustomerCollection from 'components/merchant/listing-details/PaidCustomerCollection';
 import {formatRFC3339} from 'date-fns';
 import {Commit, Listing, Money} from 'interfaces';
@@ -191,6 +192,10 @@ const DesignSamplesPage: React.FC = () => (
     <Container>
       <h2>Paid Committed Customers</h2>
       <PaidCustomerCollection paidCommits={SAMPLE_PAID_COMMITS} />
+    </Container>
+    <Container>
+      <h2>Send Item Modal</h2>
+      <SendItemModalSample />
     </Container>
   </Container>
 );

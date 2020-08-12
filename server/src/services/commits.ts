@@ -23,7 +23,7 @@ import {
   StringKeyObject,
   CommitPayloadKey,
   CommitPaymentRequest,
-  CommitEditPayload,
+  CommitUpdatePayload,
 } from '../interfaces';
 import {commitStorage, listingStorage, customerStorage} from '../storage';
 
@@ -39,6 +39,7 @@ const getAllCommits = async (
   const allowedKeys: Set<CommitPayloadKey> = new Set([
     'customerId',
     'listingId',
+    'commitStatus',
   ]);
   const filters: Filter[] = [];
   Object.keys(queryParams).forEach(key => {
@@ -133,12 +134,33 @@ const payForCommit = async (
     throw new Error('Only successful commits can be paid.');
   }
 
-  const fieldsToEdit: CommitEditPayload = {
+  const fieldsToUpdate: CommitUpdatePayload = {
     ...paymentData,
     commitStatus: 'paid',
   };
 
-  return commitStorage.editCommit(commitId, fieldsToEdit, commit.listingId);
+  return commitStorage.updateCommit(commitId, fieldsToUpdate, commit.listingId);
+};
+
+/**
+ * Completes the commit with the specified commitId.
+ * An error will be thrown if the commit is not PAID.
+ * @param commitId Id of the commit to be deleted
+ */
+const completeCommit = async (commitId: number) => {
+  // Check that commit exists.
+  const commit = await commitStorage.getCommit(commitId);
+
+  // Check that commit is paid for.
+  if (commit.commitStatus !== 'paid') {
+    throw new Error('Only paid commits can be completed.');
+  }
+
+  const fieldsToUpdate: CommitUpdatePayload = {
+    commitStatus: 'completed',
+  };
+
+  return commitStorage.updateCommit(commitId, fieldsToUpdate, commit.listingId);
 };
 
 /**
@@ -158,4 +180,10 @@ const deleteCommit = async (commitId: number) => {
   return commitStorage.deleteCommit(commitId, commit.listingId);
 };
 
-export default {getAllCommits, addCommit, payForCommit, deleteCommit};
+export default {
+  getAllCommits,
+  addCommit,
+  payForCommit,
+  completeCommit,
+  deleteCommit,
+};

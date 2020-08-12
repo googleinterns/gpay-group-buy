@@ -19,7 +19,7 @@ import {
   Filter,
   CommitResponse,
   CommitPayload,
-  CommitEditPayload,
+  CommitUpdatePayload,
 } from '../interfaces';
 import {
   getEntity,
@@ -72,37 +72,46 @@ const addCommit = async (
 };
 
 /**
- * Edits a commit with the specified id according to the edit rules.
- * Returns the edited commit data.
- * Throws an error if edit is not successful.
- * @param commitId Id of the commit to be edited
- * @param fieldsToEdit Fields of the commit to be edited
+ * Updates a commit with the specified id according to the update rules.
+ * Returns the updated commit data.
+ * Throws an error if update is not successful.
+ * @param commitId Id of the commit to be updated
+ * @param fieldsToUpdate Fields of the commit to be updated
  * @param affectedListingId Id of the listing that might be affected
  */
-const editCommit = async (
+const updateCommit = async (
   commitId: number,
-  fieldsToEdit: CommitEditPayload,
+  fieldsToUpdate: CommitUpdatePayload,
   affectedListingId: number
 ): Promise<CommitResponse> => {
-  const commitEditRules: UpdateRule[] = Object.keys(fieldsToEdit).map(
+  const commitUpdateRules: UpdateRule[] = Object.keys(fieldsToUpdate).map(
     field => ({
       property: field,
       op: 'replace',
-      value: fieldsToEdit[field as keyof CommitEditPayload],
+      value: fieldsToUpdate[field as keyof CommitUpdatePayload],
     })
   );
 
   const listingUpdateRules: UpdateRule[] = [];
-  if (fieldsToEdit.commitStatus === 'paid') {
-    listingUpdateRules.push({
-      property: 'numPaid',
-      op: 'add',
-      value: 1,
-    });
+  switch (fieldsToUpdate.commitStatus) {
+    case 'paid':
+      listingUpdateRules.push({
+        property: 'numPaid',
+        op: 'add',
+        value: 1,
+      });
+      break;
+    case 'completed':
+      listingUpdateRules.push({
+        property: 'numCompleted',
+        op: 'add',
+        value: 1,
+      });
+      break;
   }
 
   await makeTransaction(
-    updateEntityInTransaction(COMMIT_KIND, commitId, commitEditRules),
+    updateEntityInTransaction(COMMIT_KIND, commitId, commitUpdateRules),
     updateEntityInTransaction(
       LISTING_KIND,
       affectedListingId,
@@ -130,4 +139,10 @@ const deleteCommit = async (commitId: number, listingId: number) =>
     ])
   );
 
-export default {getCommit, getAllCommits, addCommit, editCommit, deleteCommit};
+export default {
+  getCommit,
+  getAllCommits,
+  addCommit,
+  updateCommit,
+  deleteCommit,
+};
