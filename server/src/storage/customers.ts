@@ -21,7 +21,8 @@ import {
   CustomerPayload,
   CustomerDatastoreReponse,
 } from '../interfaces';
-import {getEntity, getAllEntities, addEntity} from './datastore';
+import {getEntity, getAllEntities, addEntity, updateEntity} from './datastore';
+import {UpdateRule} from './interfaces';
 
 /**
  * Gets number of commits used by the specified customer and
@@ -110,4 +111,31 @@ const addCustomer = async (
   return getCustomer(customerId);
 };
 
-export default {addCustomer, getCustomer, getCustomerWithGpayId};
+/**
+ * Updates a customer with the specified customerId with the fieldsToUpdate.
+ * Returns the updated customer if update is successful.
+ * Throws an error otherwise.
+ * @param customerId
+ * @param fieldsToUpdate
+ */
+const updateCustomer = async (
+  customerId: number,
+  fieldsToUpdate: Partial<CustomerPayload>
+): Promise<CustomerResponse> => {
+  const customerUpdateRules: UpdateRule[] = Object.keys(fieldsToUpdate).map(
+    field => ({
+      property: field,
+      op: 'replace',
+      value: fieldsToUpdate[field as keyof CustomerPayload],
+    })
+  );
+  await updateEntity(CUSTOMER_KIND, customerId, customerUpdateRules);
+  return getCustomer(customerId);
+};
+
+export default {
+  addCustomer,
+  getCustomer,
+  getCustomerWithGpayId,
+  updateCustomer,
+};
