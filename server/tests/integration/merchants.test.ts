@@ -17,8 +17,8 @@
 import request from 'supertest';
 
 import app from '../../src';
-import merchantFixtures from '../fixtures/merchants';
 import merchantAuth from '../../src/middleware/merchant-auth';
+import merchantFixtures from '../fixtures/merchants';
 
 // Mock merchantAuth middleware
 jest.mock('../../src/middleware/merchant-auth', () => {
