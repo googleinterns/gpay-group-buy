@@ -19,12 +19,11 @@ import {Entity} from '@google-cloud/datastore/build/src/entity';
 
 import {Filter, OrderRule, StringKeyObject} from '../interfaces';
 import {
-  NotFoundError,
-  InternalServerError,
-  ConflictError,
-  HttpError,
-  BadRequestError,
-} from '../utils/http-errors';
+  StorageError,
+  EntityNotFoundError,
+  EntityAlreadyExistsError,
+  PropertyMismatchError,
+} from '../utils/storage-errors';
 import {UpdateRule} from './interfaces';
 
 const datastore = new Datastore();
@@ -104,13 +103,13 @@ export const getEntity = async (
   try {
     const [res] = await actor.get(key);
     if (res === undefined) {
-      throw new NotFoundError(`${kind} ${id} does not exist`);
+      throw new EntityNotFoundError(`${kind} ${id} does not exist`);
     }
 
     return shouldAppendId ? extractAndAppendId(res) : res;
   } catch (err) {
-    if (err instanceof HttpError) throw err;
-    throw new InternalServerError(err.message);
+    if (err instanceof StorageError) throw err;
+    throw new StorageError(err.message);
   }
 };
 
@@ -150,7 +149,7 @@ export const getAllEntitiesWithIds = async (
     const [res] = await actor.get(keys);
     return shouldAppendId ? res.map(extractAndAppendId) : res;
   } catch (err) {
-    throw new InternalServerError(
+    throw new StorageError(
       `Failed to get entities with ids ${ids}. ${err.message}`
     );
   }
@@ -205,9 +204,7 @@ export const getAllEntities = async (
     const resWithId = shouldAppendId ? res.map(extractAndAppendId) : res;
     return resWithId;
   } catch (err) {
-    throw new InternalServerError(
-      `Failed to get entities of ${kind}. ${err.message}`
-    );
+    throw new StorageError(`Failed to get entities of ${kind}. ${err.message}`);
   }
 };
 
@@ -254,7 +251,7 @@ const uniqueInsertInTransaction = (
     const properties = uniqueProperties
       .map(unique => unique.property)
       .join(', ');
-    throw new ConflictError(
+    throw new EntityAlreadyExistsError(
       `Another entity with the same ${properties} already exists.`
     );
   }
@@ -316,13 +313,15 @@ const addEntityHelper = async (
       }
     }
   } catch (err) {
-    if (err instanceof HttpError) throw err;
+    if (err instanceof StorageError) throw err;
 
     switch (err.status) {
       case 'ALREADY_EXISTS':
-        throw new ConflictError(`Failed to add ${kind}. ${err.message}`);
+        throw new EntityAlreadyExistsError(
+          `Failed to add ${kind}. ${err.message}`
+        );
       default:
-        throw new InternalServerError(`Failed to add ${kind}. ${err.message}`);
+        throw new StorageError(`Failed to add ${kind}. ${err.message}`);
     }
   }
   return () => Number(key.id);
@@ -367,7 +366,7 @@ const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
   const operation = updateRule.op || 'replace';
   let value = original?.[updateRule.property];
   if (value === undefined && operation !== 'replace') {
-    throw new BadRequestError(
+    throw new PropertyMismatchError(
       `Property to be updated does not exist on ${original}`
     );
   }
@@ -418,13 +417,13 @@ export const updateEntity = async (
       await datastore.update(entity);
     }
   } catch (err) {
-    if (err instanceof HttpError) throw err;
+    if (err instanceof StorageError) throw err;
 
     switch (err.status) {
       case 'NOT_FOUND':
-        throw new NotFoundError(`${kind} ${id} does not exist`);
+        throw new EntityNotFoundError(`${kind} ${id} does not exist`);
       default:
-        throw new InternalServerError(
+        throw new StorageError(
           `Failed to update ${kind} ${id}. ${err.message}`
         );
     }
@@ -467,9 +466,9 @@ export const deleteEntity = async (
   } catch (err) {
     switch (err.status) {
       case 'NOT_FOUND':
-        throw new NotFoundError(`${kind} ${id} does not exist`);
+        throw new EntityNotFoundError(`${kind} ${id} does not exist`);
       default:
-        throw new InternalServerError(
+        throw new StorageError(
           `Failed to delete ${kind} ${id}. ${err.message}`
         );
     }
