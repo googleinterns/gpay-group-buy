@@ -17,8 +17,14 @@
 import request from 'supertest';
 
 import app from '../../src';
+import merchantAuth from '../../src/middleware/merchant-auth';
 import listingsFixtures from '../fixtures/listings';
 import merchantFixtures from '../fixtures/merchants';
+
+// Mock merchantAuth middleware
+jest.mock('../../src/middleware/merchant-auth', () => {
+  return jest.fn((req, res, next) => next());
+});
 
 describe('Listings endpoints', () => {
   describe('GET /listings', () => {
@@ -125,6 +131,14 @@ describe('Listings endpoints', () => {
       expect(res.body.error.message).toBe(
         'Query parameter ids cannot be empty.'
       );
+    });
+  });
+
+  describe('POST /listings', () => {
+    test('Should require merchant auth', async () => {
+      await request(app).post('/merchants');
+
+      expect(merchantAuth).toHaveBeenCalled();
     });
   });
 });
