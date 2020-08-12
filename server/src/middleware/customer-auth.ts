@@ -23,6 +23,8 @@ import jwt, {
 } from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
 
+import {UnauthorizedError, InternalServerError} from '../utils/http-errors';
+
 const client = jwksClient({
   jwksUri: 'https://www.googleapis.com/oauth2/v3/certs',
 });
@@ -55,31 +57,32 @@ const customerAuth = async (
   res: Response,
   next: NextFunction
 ) => {
-  const authHeader = req.headers.authorization;
-  const idToken = authHeader?.split(' ')?.[1];
-  if (idToken === undefined) {
-    res.status(401).send('Missing Authorization token.');
-    return;
-  }
-
-  if (process.env.OAUTH_CLIENT_ID === undefined) {
-    res.status(500).send('Missing OAuth Client Id.');
-    return;
-  }
-
-  const options: VerifyOptions = {
-    audience: process.env.OAUTH_CLIENT_ID,
-    issuer: ['https://accounts.google.com', 'accounts.google.com'],
-  };
-
-  jwt.verify(idToken, getKey, options, (err, decoded) => {
-    if (err) {
-      res.status(401).send(err);
-      return;
+  try {
+    const authHeader = req.headers.authorization;
+    const idToken = authHeader?.split(' ')?.[1];
+    if (idToken === undefined) {
+      throw new UnauthorizedError('Missing Authorization token.');
     }
-    req.decodedCustomer = decoded;
-    next();
-  });
+
+    if (process.env.OAUTH_CLIENT_ID === undefined) {
+      throw new InternalServerError('Missing OAuth Client Id.');
+    }
+
+    const options: VerifyOptions = {
+      audience: process.env.OAUTH_CLIENT_ID,
+      issuer: ['https://accounts.google.com', 'accounts.google.com'],
+    };
+
+    jwt.verify(idToken, getKey, options, (err, decoded) => {
+      if (err) {
+        throw new UnauthorizedError(err.message);
+      }
+      req.decodedCustomer = decoded;
+      next();
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
 export default customerAuth;

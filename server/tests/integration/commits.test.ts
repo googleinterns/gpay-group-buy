@@ -80,8 +80,7 @@ describe('Commits endpoints', () => {
         createdAt: '2020-06-29T03:34:00.000Z',
       });
 
-      // TODO: Test for actual error status codes when implemented
-      expect(res.status).not.toBe(200);
+      expect(res.status).toBe(400);
       expect(res.body).toHaveProperty('error');
       expect(res.body.error.message).toBe(
         'createdAt is not a valid query parameter.'
@@ -93,8 +92,7 @@ describe('Commits endpoints', () => {
         customerId: 'invalid-customer-id-type',
       });
 
-      // TODO: Test for actual error status codes when implemented
-      expect(res.status).not.toBe(200);
+      expect(res.status).toBe(400);
       expect(res.body).toHaveProperty('error');
       expect(res.body.error.message).toBe(
         'Invalid filter value provided for customerId.'

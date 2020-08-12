@@ -16,7 +16,11 @@
 
 import React, {useContext, useState} from 'react';
 
-type PromptContent = 'successful-commit' | 'successful-payment' | 'loading';
+type PromptContent =
+  | 'successful-commit'
+  | 'successful-payment'
+  | 'loading'
+  | 'require-login';
 
 type ContextType =
   | {

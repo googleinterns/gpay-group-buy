@@ -71,8 +71,7 @@ describe('Listings endpoints', () => {
           ids: [invalidListingId],
         });
 
-      // TODO: Test for actual error status codes when implemented
-      expect(res.status).not.toBe(200);
+      expect(res.status).toBe(400);
       expect(res.body).toHaveProperty('error');
       expect(res.body.error.message).toBe(
         `Invalid listingId ${invalidListingId}`
@@ -93,8 +92,7 @@ describe('Listings endpoints', () => {
           ids: listingIds.join(','),
         });
 
-      // TODO: Test for actual error status codes when implemented
-      expect(res.status).not.toBe(200);
+      expect(res.status).toBe(400);
       expect(res.body).toHaveProperty('error');
       expect(res.body.error.message).toBe(
         `Invalid listingId ${invalidListingId}`
@@ -111,6 +109,10 @@ describe('Listings endpoints', () => {
       });
 
       expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe(
+        'Cannot query by other fields if ids is specified.'
+      );
     });
 
     test('Should not filter by empty listing ids', async () => {
@@ -119,6 +121,10 @@ describe('Listings endpoints', () => {
       });
 
       expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe(
+        'Query parameter ids cannot be empty.'
+      );
     });
   });
 });
