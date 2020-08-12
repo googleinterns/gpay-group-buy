@@ -118,10 +118,7 @@ commitRouter.post(
 
     try {
       if (Number.isNaN(commitId)) {
-        throw {
-          status: 400,
-          message: 'Invalid commitId params.',
-        };
+        throw new BadRequestError(`Invalid commitId ${commitIdStr}`);
       }
 
       const commit = await commitService.completeCommit(commitId);
@@ -129,7 +126,6 @@ commitRouter.post(
       const resourceUrl = `${process.env.SERVER_URL}/commits/${commit.id}`;
       res.setHeader('Content-Location', resourceUrl);
       res.status(200).json(commit);
-      // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);
     }

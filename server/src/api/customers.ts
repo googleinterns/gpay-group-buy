@@ -105,7 +105,7 @@ customerRouter.patch(
 
     try {
       if (Number.isNaN(customerId)) {
-        throw new Error('Invalid customerId.');
+        throw new BadRequestError(`Invalid customerId ${customerIdStr}`);
       }
 
       const modifiedCustomer = await customerService.updateCustomer(
@@ -113,7 +113,6 @@ customerRouter.patch(
         fieldsToUpdate
       );
       res.status(200).send(modifiedCustomer);
-      // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);
     }
