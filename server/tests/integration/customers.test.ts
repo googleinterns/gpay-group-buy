@@ -69,7 +69,7 @@ describe('Customers endpoints', () => {
 
     // TODO: Add test for 'Should create a new customer if customer does not exist'
     // when difference in behaviour for transactions betweem Datastore in Firestore
-    // mode and the Datastore emulator
+    // mode and the Datastore emulator is resolved.
 
     test('Should fetch customer if customer already exists', async () => {
       const expectedCustomerData = customerFixtures.responseData?.[0];

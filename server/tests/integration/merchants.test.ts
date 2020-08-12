@@ -18,6 +18,12 @@ import request from 'supertest';
 
 import app from '../../src';
 import merchantFixtures from '../fixtures/merchants';
+import merchantAuth from '../../src/middleware/merchant-auth';
+
+// Mock merchantAuth middleware
+jest.mock('../../src/middleware/merchant-auth', () => {
+  return jest.fn((req, res, next) => next());
+});
 
 describe('Merchants endpoints', () => {
   describe('GET /merchants', () => {
@@ -52,5 +58,17 @@ describe('Merchants endpoints', () => {
         `Merchant ${merchantId} does not exist`
       );
     });
+  });
+
+  describe('POST /merchants', () => {
+    test('Should require merchant auth', async () => {
+      await request(app).post('/merchants');
+
+      expect(merchantAuth).toHaveBeenCalled();
+    });
+
+    // TODO: Add test for creating merchants when difference in behaviour
+    // for transactions betweem Datastore in Firestore mode and the
+    // Datastore emulator is resolved.
   });
 });
