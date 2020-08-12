@@ -24,6 +24,7 @@ import {CustomerPayload} from '../interfaces';
 import customerAuth from '../middleware/customer-auth';
 import validateAndFormatPhoneNumber from '../middleware/validation/phone-number';
 import {customerService} from '../services';
+import {BadRequestError} from '../utils/http-errors';
 
 const customerRouter = Router();
 
@@ -35,7 +36,7 @@ customerRouter.get(
 
     try {
       if (Number.isNaN(customerId)) {
-        throw new Error('Invalid customerId params.');
+        throw new BadRequestError(`Invalid customerId ${customerIdStr}`);
       }
 
       const customer = await customerService.getCustomer(customerId);
@@ -77,7 +78,6 @@ customerRouter.post(
       res.setHeader('Content-Location', resourceUrl);
       res.location(resourceUrl);
       res.status(201).send(addedCustomer);
-      // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);
     }
@@ -105,7 +105,7 @@ customerRouter.patch(
 
     try {
       if (Number.isNaN(customerId)) {
-        throw new Error('Invalid customerId.');
+        throw new BadRequestError(`Invalid customerId ${customerIdStr}`);
       }
 
       const modifiedCustomer = await customerService.updateCustomer(
@@ -113,7 +113,6 @@ customerRouter.patch(
         fieldsToUpdate
       );
       res.status(200).send(modifiedCustomer);
-      // TODO: Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);
     }

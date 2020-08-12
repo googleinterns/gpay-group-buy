@@ -22,6 +22,7 @@ import {Router, Request, Response, NextFunction} from 'express';
 
 import merchantAuth from '../middleware/merchant-auth';
 import {listingService} from '../services';
+import {BadRequestError} from '../utils/http-errors';
 
 const listingRouter = Router();
 
@@ -40,15 +41,20 @@ listingRouter.get(
        */
       const {ids: idsStr} = req.query;
       if (idsStr !== undefined) {
-        if (Object.keys(req.query).length > 1 || idsStr === '') {
-          res.sendStatus(400);
-          return;
+        if (Object.keys(req.query).length > 1) {
+          throw new BadRequestError(
+            'Cannot query by other fields if ids is specified.'
+          );
+        }
+
+        if (idsStr === '') {
+          throw new BadRequestError('Query parameter ids cannot be empty.');
         }
 
         const ids = (idsStr as string).split(',').map(idStr => {
           const id = Number(idStr);
           if (Number.isNaN(id)) {
-            throw new Error(`Invalid listingId ${idStr}`);
+            throw new BadRequestError(`Invalid listingId ${idStr}`);
           }
           return id;
         });
@@ -80,6 +86,10 @@ listingRouter.get(
     const listingId = Number(listingIdStr);
 
     try {
+      if (Number.isNaN(listingId)) {
+        throw new BadRequestError(`Invalid listingId ${listingIdStr}`);
+      }
+
       const listing = await listingService.getListing(listingId);
       res.send(listing);
     } catch (error) {
@@ -103,7 +113,6 @@ listingRouter.post(
       res.location(resourceUrl);
       res.status(201);
       res.json(listing);
-      // TODO(#115): Add error handling with the appropriate response codes.
     } catch (error) {
       return next(error);
     }
