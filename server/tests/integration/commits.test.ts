@@ -20,10 +20,7 @@ import app from '../../src';
 import commitFixtures from '../fixtures/commits';
 import customerFixtures from '../fixtures/customers';
 import listingFixtures from '../fixtures/listings';
-import {
-  customerAuth,
-  restoreCustomerAuth,
-} from '../mocks/customer-auth';
+import {customerAuth, restoreCustomerAuth} from '../mocks/customer-auth';
 
 // Mock customerAuth middleware
 jest.mock('../../src/middleware/customer-auth');

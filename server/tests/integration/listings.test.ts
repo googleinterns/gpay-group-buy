@@ -19,10 +19,7 @@ import request from 'supertest';
 import app from '../../src';
 import listingsFixtures from '../fixtures/listings';
 import merchantFixtures from '../fixtures/merchants';
-import {
-  merchantAuth,
-  restoreMerchantAuth,
-} from '../mocks/merchant-auth';
+import {merchantAuth, restoreMerchantAuth} from '../mocks/merchant-auth';
 
 // Mock merchantAuth middleware
 jest.mock('../../src/middleware/merchant-auth');

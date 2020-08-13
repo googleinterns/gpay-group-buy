@@ -99,7 +99,7 @@ describe('Customers endpoints', () => {
         const expectedCustomerData = customerFixtures.responseData?.[0];
         const gpayId = expectedCustomerData.gpayId;
 
-        const res = await request(app).post('/customers').send({ gpayId });
+        const res = await request(app).post('/customers').send({gpayId});
 
         expect(res.status).toBe(200);
         expect(res.body).toMatchObject(expectedCustomerData);
