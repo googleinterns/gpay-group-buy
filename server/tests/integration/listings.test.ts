@@ -17,13 +17,19 @@
 import request from 'supertest';
 
 import app from '../../src';
-import merchantAuth from '../../src/middleware/merchant-auth';
 import listingsFixtures from '../fixtures/listings';
 import merchantFixtures from '../fixtures/merchants';
+import {
+  merchantAuth,
+  restoreMerchantAuth,
+} from '../mocks/merchant-auth';
 
 // Mock merchantAuth middleware
-jest.mock('../../src/middleware/merchant-auth', () => {
-  return jest.fn((req, res, next) => next());
+jest.mock('../../src/middleware/merchant-auth');
+
+// Disable customer auth mock implementation by default
+beforeAll(() => {
+  restoreMerchantAuth();
 });
 
 describe('Listings endpoints', () => {
@@ -140,9 +146,17 @@ describe('Listings endpoints', () => {
 
   describe('POST /listings', () => {
     test('Should require merchant auth', async () => {
-      await request(app).post('/merchants');
+      await request(app).post('/listings');
 
       expect(merchantAuth).toHaveBeenCalled();
+    });
+
+    test('Should reject if merchant auth is not provided', async () => {
+      const res = await request(app).post('/listings');
+
+      expect(res.status).toBe(401);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe('Missing Authorization header.');
     });
   });
 });

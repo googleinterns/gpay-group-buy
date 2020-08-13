@@ -17,12 +17,19 @@
 import request from 'supertest';
 
 import app from '../../src';
-import customerAuth from '../../src/middleware/customer-auth';
 import customerFixtures from '../fixtures/customers';
+import {
+  mockCustomerAuth,
+  customerAuth,
+  restoreCustomerAuth,
+} from '../mocks/customer-auth';
 
 // Mock customerAuth middleware
-jest.mock('../../src/middleware/customer-auth', () => {
-  return jest.fn((req, res, next) => next());
+jest.mock('../../src/middleware/customer-auth');
+
+// Disable customer auth mock implementation by default
+beforeAll(() => {
+  restoreCustomerAuth();
 });
 
 describe('Customers endpoints', () => {
@@ -68,91 +75,122 @@ describe('Customers endpoints', () => {
     test('Should require customer auth', async () => {
       await request(app).post('/customers');
 
-      expect(customerAuth).toHaveBeenCalled();
+      expect(customerAuth).toHaveBeenCalledTimes(1);
     });
 
-    // TODO: Add test for 'Should create a new customer if customer does not exist'
-    // when difference in behaviour for transactions between Datastore in Firestore
-    // mode and the Datastore emulator is resolved.
+    test('Should reject if customer auth is not provided', async () => {
+      const res = await request(app).post('/customers');
 
-    test('Should fetch customer if customer already exists', async () => {
-      const expectedCustomerData = customerFixtures.responseData?.[0];
-      const gpayId = expectedCustomerData.gpayId;
+      expect(res.status).toBe(401);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe('Missing Authorization token.');
+    });
 
-      const res = await request(app).post('/customers').send({gpayId});
+    describe('Authenticated requests', () => {
+      beforeEach(() => {
+        mockCustomerAuth();
+      });
 
-      expect(res.status).toBe(200);
-      expect(res.body).toMatchObject(expectedCustomerData);
+      // TODO: Add test for 'Should create a new customer if customer does not exist'
+      // when difference in behaviour for transactions between Datastore in Firestore
+      // mode and the Datastore emulator is resolved.
+
+      test('Should fetch customer if customer already exists', async () => {
+        const expectedCustomerData = customerFixtures.responseData?.[0];
+        const gpayId = expectedCustomerData.gpayId;
+
+        const res = await request(app).post('/customers').send({ gpayId });
+
+        expect(res.status).toBe(200);
+        expect(res.body).toMatchObject(expectedCustomerData);
+      });
     });
   });
 
   describe('PATCH /customers', () => {
     test('Should require customer auth', async () => {
-      const customerId = customerFixtures.ids?.[0];
+      // Does not have to exist since we are just testing that auth works
+      const customerId = 999;
 
       await request(app).patch(`/customers/${customerId}`);
 
-      expect(customerAuth).toHaveBeenCalled();
+      expect(customerAuth).toHaveBeenCalledTimes(1);
     });
 
-    test('Should modify an existing customer', async () => {
-      const originalCustomerData = customerFixtures.responseData?.[0];
-      const customerId = originalCustomerData.id;
-      const defaultFulfilmentDetails = {
-        name: 'Pusheen Takoyaki',
-        address: 'Disneyland',
-        contactNumber: '+911234567890',
-      };
-      const expectedCustomerData = {
-        ...originalCustomerData,
-        defaultFulfilmentDetails,
-      };
-
-      const res = await request(app).patch(`/customers/${customerId}`).send({
-        defaultFulfilmentDetails,
-      });
-
-      expect(res.status).toBe(200);
-      expect(res.body).toMatchObject(expectedCustomerData);
-    });
-
-    test('Should reject requests with invalid id param', async () => {
-      const customerId = 'invalid-customer-id-type';
+    test('Should reject if customer auth is not provided', async () => {
+      // Does not have to exist since we are just testing that auth works
+      const customerId = 999;
 
       const res = await request(app).patch(`/customers/${customerId}`);
 
-      expect(res.status).toBe(400);
+      expect(res.status).toBe(401);
       expect(res.body).toHaveProperty('error');
-      expect(res.body.error.message).toBe(`Invalid customerId ${customerId}`);
+      expect(res.body.error.message).toBe('Missing Authorization token.');
     });
 
-    test('Should reject requests with non-existent customerId', async () => {
-      const customerId = customerFixtures.ids.length + 1;
-
-      const res = await request(app).patch(`/customers/${customerId}`);
-
-      expect(res.status).toBe(404);
-      expect(res.body).toHaveProperty('error');
-      expect(res.body.error.message).toBe(
-        `Customer ${customerId} does not exist`
-      );
-    });
-
-    test('Should reject requests with invalid phone number', async () => {
-      const customerId = customerFixtures.ids?.[0];
-      const defaultFulfilmentDetails = {
-        name: 'Pusheen Takoyaki',
-        address: 'Disneyland',
-        contactNumber: '+6591234567',
-      };
-
-      const res = await request(app).patch(`/customers/${customerId}`).send({
-        defaultFulfilmentDetails,
+    describe('Authenticated requests', () => {
+      beforeEach(() => {
+        mockCustomerAuth();
       });
 
-      expect(res.status).toBe(400);
-      expect(res.body).toHaveProperty('error');
-      expect(res.body.error.message).toBe('Invalid phone number.');
+      test('Should modify an existing customer', async () => {
+        const originalCustomerData = customerFixtures.responseData?.[0];
+        const customerId = originalCustomerData.id;
+        const defaultFulfilmentDetails = {
+          name: 'Pusheen Takoyaki',
+          address: 'Disneyland',
+          contactNumber: '+911234567890',
+        };
+        const expectedCustomerData = {
+          ...originalCustomerData,
+          defaultFulfilmentDetails,
+        };
+
+        const res = await request(app).patch(`/customers/${customerId}`).send({
+          defaultFulfilmentDetails,
+        });
+
+        expect(res.status).toBe(200);
+        expect(res.body).toMatchObject(expectedCustomerData);
+      });
+
+      test('Should reject requests with invalid id param', async () => {
+        const customerId = 'invalid-customer-id-type';
+
+        const res = await request(app).patch(`/customers/${customerId}`);
+
+        expect(res.status).toBe(400);
+        expect(res.body).toHaveProperty('error');
+        expect(res.body.error.message).toBe(`Invalid customerId ${customerId}`);
+      });
+
+      test('Should reject requests with non-existent customerId', async () => {
+        const customerId = customerFixtures.ids.length + 1;
+
+        const res = await request(app).patch(`/customers/${customerId}`);
+
+        expect(res.status).toBe(404);
+        expect(res.body).toHaveProperty('error');
+        expect(res.body.error.message).toBe(
+          `Customer ${customerId} does not exist`
+        );
+      });
+
+      test('Should reject requests with invalid phone number', async () => {
+        const customerId = customerFixtures.ids?.[0];
+        const defaultFulfilmentDetails = {
+          name: 'Pusheen Takoyaki',
+          address: 'Disneyland',
+          contactNumber: '+6591234567',
+        };
+        const res = await request(app).patch(`/customers/${customerId}`).send({
+          defaultFulfilmentDetails,
+        });
+
+        expect(res.status).toBe(400);
+        expect(res.body).toHaveProperty('error');
+        expect(res.body.error.message).toBe('Invalid phone number.');
+      });
     });
   });
 });

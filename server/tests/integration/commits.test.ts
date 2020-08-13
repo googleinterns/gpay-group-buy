@@ -17,14 +17,20 @@
 import request from 'supertest';
 
 import app from '../../src';
-import customerAuth from '../../src/middleware/customer-auth';
 import commitFixtures from '../fixtures/commits';
 import customerFixtures from '../fixtures/customers';
 import listingFixtures from '../fixtures/listings';
+import {
+  customerAuth,
+  restoreCustomerAuth,
+} from '../mocks/customer-auth';
 
 // Mock customerAuth middleware
-jest.mock('../../src/middleware/customer-auth', () => {
-  return jest.fn((req, res, next) => next());
+jest.mock('../../src/middleware/customer-auth');
+
+// Disable customer auth mock implementation by default
+beforeAll(() => {
+  restoreCustomerAuth();
 });
 
 describe('Commits endpoints', () => {
@@ -111,10 +117,21 @@ describe('Commits endpoints', () => {
   });
 
   describe('POST /commits', () => {
-    test('Should require customer auth', async () => {
+    test('Should call customer auth', async () => {
       await request(app).post('/commits');
 
-      expect(customerAuth).toHaveBeenCalled();
+      expect(customerAuth).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should reject if customer auth is not provided', async () => {
+      // Does not have to exist since we are just testing that auth is called
+      const commitId = 999;
+
+      const res = await request(app).post(`/commits/${commitId}/pay`);
+
+      expect(res.status).toBe(401);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe('Missing Authorization token.');
     });
   });
 
@@ -125,7 +142,7 @@ describe('Commits endpoints', () => {
 
       await request(app).post(`/commits/${commitId}/pay`);
 
-      expect(customerAuth).toHaveBeenCalled();
+      expect(customerAuth).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -136,7 +153,7 @@ describe('Commits endpoints', () => {
 
       await request(app).delete(`/commits/${commitId}`);
 
-      expect(customerAuth).toHaveBeenCalled();
+      expect(customerAuth).toHaveBeenCalledTimes(1);
     });
   });
 });
