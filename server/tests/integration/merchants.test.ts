@@ -72,7 +72,7 @@ describe('Merchants endpoints', () => {
     });
 
     // TODO: Add test for creating merchants when difference in behaviour
-    // for transactions betweem Datastore in Firestore mode and the
+    // for transactions between Datastore in Firestore mode and the
     // Datastore emulator is resolved.
   });
 });
