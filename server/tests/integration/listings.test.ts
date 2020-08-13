@@ -27,6 +27,10 @@ jest.mock('../../src/middleware/merchant-auth', () => {
 });
 
 describe('Listings endpoints', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('GET /listings', () => {
     test('Should fetch all listings', async () => {
       const expectedListingData = listingsFixtures.responseData;

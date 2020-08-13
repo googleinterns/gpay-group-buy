@@ -26,6 +26,10 @@ jest.mock('../../src/middleware/customer-auth', () => {
 });
 
 describe('Customers endpoints', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('GET /customers', () => {
     test('Should fetch a single customer', async () => {
       const expectedCustomerData = customerFixtures.responseData?.[0];

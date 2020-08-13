@@ -28,6 +28,10 @@ jest.mock('../../src/middleware/customer-auth', () => {
 });
 
 describe('Commits endpoints', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('GET /commits', () => {
     test('Should not be able to fetch all commits', async () => {
       const res = await request(app).get('/commits');
@@ -120,17 +124,6 @@ describe('Commits endpoints', () => {
       const commitId = 999;
 
       await request(app).post(`/commits/${commitId}/pay`);
-
-      expect(customerAuth).toHaveBeenCalled();
-    });
-  });
-
-  describe('POST /commits/:commitId/complete', () => {
-    test('Should require customer auth', async () => {
-      // Does not have to exist since we are just testing that auth is called
-      const commitId = 999;
-
-      await request(app).post(`/commits/${commitId}/complete`);
 
       expect(customerAuth).toHaveBeenCalled();
     });
