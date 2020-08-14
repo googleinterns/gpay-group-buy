@@ -26,7 +26,7 @@ import {
   CommitUpdatePayload,
 } from '../interfaces';
 import {commitStorage, listingStorage, customerStorage} from '../storage';
-import {BadRequestError} from '../utils/http-errors';
+import {BadRequestError, InternalServerError} from '../utils/http-errors';
 import {encodeMicroappsUrl, sendMessage} from '../utils/spot-api';
 
 /**
@@ -169,23 +169,42 @@ const completeCommit = async (commitId: number) => {
     fieldsToUpdate,
     commit.listingId
   );
-  await sendCommitCompletedMessage(updatedCommit);
+  await sendCommitMessage(updatedCommit);
   return updatedCommit;
 };
 
 /**
  * A helper function that sends a message to customer, notifying them that their
- * commit has been completed. It uses Spot Messages API.
- * @param commit The commit that has been completed
+ * commit status has changed to 'successful', 'unsuccessful' or 'completed'.
+ * It uses Spot Messages API.
+ * @param commit The updated commit whose new status is to be notified to customer
  */
-const sendCommitCompletedMessage = async (commit: CommitResponse) => {
+const sendCommitMessage = async (commit: CommitResponse) => {
   const listing = await listingStorage.getListing(commit.listingId);
   const customer = await customerStorage.getCustomer(commit.customerId);
+
+  let text = '';
+  switch (commit.commitStatus) {
+    case 'successful':
+      text = 'Group Buy is successful! Please proceed to payment.';
+      break;
+    case 'unsuccessful':
+      text =
+        "Unfortunately, Group Buy is unsuccessful as there weren't enough buyers.";
+      break;
+    case 'completed':
+      text = 'Your item has been delivered by the merchant!';
+      break;
+    default:
+      throw new InternalServerError(
+        'Invalid commitStatus for sending a message.'
+      );
+  }
 
   const completeCommitMessage = {
     imageUrl: listing.imgUrl,
     title: listing.name,
-    text: 'Your item has been delivered by the merchant!',
+    text,
     actions: [
       {
         label: 'View Listing',
@@ -229,4 +248,5 @@ export default {
   payForCommit,
   completeCommit,
   deleteCommit,
+  sendCommitMessage,
 };
