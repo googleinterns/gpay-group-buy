@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
+interface ValidatedRequest {
+  body: any;
+  params: { [key: string]: any };
+}
+
 declare namespace Express {
   interface Request {
-    decodedCustomer?: object;
+    validated: ValidatedRequest;
+    decodedCustomer?: null | { [key: string]: any } | string;
   }
 }
