@@ -4,7 +4,8 @@ env_variables:
   GOOGLE_CLOUD_PROJECT: "gpay-group-buy"
   SERVER_URL: "https://api-dot-gpay-group-buy.an.r.appspot.com"
   WEB_URL: "https://gpay-group-buy.an.r.appspot.com"
-  SPOT_MERCHANT_ID: 14116337401048649233
+  SPOT_MERCHANT_ID: BCR2DN6T3P5NDAKX
+  SPOT_MICROAPP_ID: 14116337401048649233
   OAUTH_CLIENT_ID: <Secret>
 includes:
   - app.secret.yaml

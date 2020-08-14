@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-export const MESSAGES_API_ENDPOINT =
-  'https://microapps.googleapis.com/v1alpha/merchants/BCR2DN6T3P5NDAKX/messages';
+export const MESSAGES_API_ENDPOINT = `https://microapps.googleapis.com/v1alpha/merchants/${process.env.SPOT_MERCHANT_ID}/messages`;
 export const MESSAGES_SCOPE =
   'https://www.googleapis.com/auth/microapps.messages';
-export const MICROAPP_BASE_URL =
-  'https://microapps.google.com/14116337401048649233';
+export const MICROAPP_BASE_URL = `https://microapps.google.com/${process.env.SPOT_MICROAPP_ID}`;
