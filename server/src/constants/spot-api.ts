@@ -18,5 +18,5 @@ export const MESSAGES_API_ENDPOINT =
   'https://microapps.googleapis.com/v1alpha/merchants/BCR2DN6T3P5NDAKX/messages';
 export const MESSAGES_SCOPE =
   'https://www.googleapis.com/auth/microapps.messages';
-export const MICROAPPS_BASE_URL =
-  'https://microapps.google.com/1411633740104864923';
+export const MICROAPP_BASE_URL =
+  'https://microapps.google.com/14116337401048649233';

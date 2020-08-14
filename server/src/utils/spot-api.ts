@@ -19,27 +19,8 @@ import {JWT} from 'google-auth-library';
 import {
   MESSAGES_API_ENDPOINT,
   MESSAGES_SCOPE,
-  MICROAPPS_BASE_URL,
-} from '../constants/spot-messages-api';
-
-const SAMPLE_MESSAGE: Message = {
-  imageUrl: 'https://media.rs-online.com/t_large/Y1747323-01.jpg',
-  title: 'Hey there!!',
-  text: 'Coffee to start your morning...',
-  actions: [
-    {
-      label: 'Order Coffee',
-      url: MICROAPPS_BASE_URL,
-    },
-  ],
-  recipients: [
-    {
-      phoneNumber: {
-        number: '+65 83053587',
-      },
-    },
-  ],
-};
+  MICROAPP_BASE_URL,
+} from '../constants/spot-api';
 
 interface ActionButton {
   label: string;
@@ -60,17 +41,32 @@ interface Message {
   recipients: PhoneNumberRecipient[];
 }
 
+const spotClient = new JWT({
+  email: process.env.SERVICE_ACCOUNT_CLIENT_EMAIL,
+  key: process.env.SERVICE_ACCOUNT_PRIVATE_KEY,
+  scopes: [MESSAGES_SCOPE],
+});
+
 /**
+ * A function that sends a message to the customer using Spot Messages API.
+ * @param message The message to be sent
  */
-export const sendMessage = async (message: Message = SAMPLE_MESSAGE) => {
-  const client = new JWT({
-    email: process.env.SERVICE_ACCOUNT_CLIENT_EMAIL,
-    key: process.env.SERVICE_ACCOUNT_PRIVATE_KEY,
-    scopes: [MESSAGES_SCOPE],
-  });
-  return client.request({
+export const sendMessage = async (message: Message) => {
+  return spotClient.request({
     url: MESSAGES_API_ENDPOINT,
     method: 'POST',
     data: JSON.stringify(message),
   });
+};
+
+/**
+ * Encodes URL path according to the Spot URL rules.
+ * @param path Relative path of the app to be shared
+ */
+export const encodeMicroappsUrl = (path?: string): string => {
+  if (path === undefined || path === '/') {
+    return MICROAPP_BASE_URL;
+  }
+
+  return `${MICROAPP_BASE_URL}?link=${encodeURIComponent(path)}`;
 };

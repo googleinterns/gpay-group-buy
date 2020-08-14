@@ -27,6 +27,7 @@ import {
 } from '../interfaces';
 import {commitStorage, listingStorage, customerStorage} from '../storage';
 import {BadRequestError} from '../utils/http-errors';
+import {encodeMicroappsUrl, sendMessage} from '../utils/spot-api';
 
 /**
  * Retrieves all commits.
@@ -168,7 +169,39 @@ const completeCommit = async (commitId: number) => {
     fieldsToUpdate,
     commit.listingId
   );
+  await sendCommitCompletedMessage(updatedCommit);
   return updatedCommit;
+};
+
+/**
+ * A helper function that sends a message to customer, notifying them that their
+ * commit has been completed. It uses Spot Messages API.
+ * @param commit The commit that has been completed
+ */
+const sendCommitCompletedMessage = async (commit: CommitResponse) => {
+  const listing = await listingStorage.getListing(commit.listingId);
+  const customer = await customerStorage.getCustomer(commit.customerId);
+
+  const completeCommitMessage = {
+    imageUrl: listing.imgUrl,
+    title: listing.name,
+    text: 'Your item has been delivered by the merchant!',
+    actions: [
+      {
+        label: 'View Listing',
+        url: encodeMicroappsUrl(`listing/${listing.id}`),
+      },
+    ],
+    recipients: [
+      {
+        phoneNumber: {
+          number: customer.gpayContactNumber,
+        },
+      },
+    ],
+  };
+
+  return sendMessage(completeCommitMessage);
 };
 
 /**

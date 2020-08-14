@@ -20,6 +20,9 @@
  */
 export interface CustomerPayload {
   gpayId: string;
+  // Phone number in the format of country code appended by national number (as defined
+  // by the International Telecommunication Union (ITU)) and separated by space.
+  gpayContactNumber: string;
   defaultFulfilmentDetails: FulfilmentDetails;
 }
 
