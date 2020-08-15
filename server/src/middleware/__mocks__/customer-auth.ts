@@ -14,34 +14,34 @@
  * limitations under the License.
  */
 
-import * as merchantAuthOriginal from '../../src/middleware/merchant-auth';
+// Imported for typing purposes
+import type customerAuthMiddleware from '../customer-auth';
+
+const customerAuthOriginalImpl = jest.requireActual('../customer-auth').default;
+
+const customerAuthMockedImpl: typeof customerAuthMiddleware = (
+  req,
+  res,
+  next
+) => {
+  req.decodedCustomer = {sub: 'some-random-sub'};
+  next();
+};
+
+export const customerAuth = jest.fn(customerAuthMockedImpl);
 
 /**
- * Mocked instance of merchantAuth.
+ * Apply mock implementation of customer auth once.
  */
-export const merchantAuth = (merchantAuthOriginal as jest.Mocked<
-  typeof merchantAuthOriginal
->).default;
-
-/**
- * Apply mock implementation of merchant auth once.
- */
-export const mockMerchantAuth = () => {
-  merchantAuth.mockImplementationOnce(
-    jest.fn((req, res, next) => {
-      next();
-      return Promise.resolve();
-    })
-  );
+export const mockCustomerAuth = () => {
+  customerAuth.mockImplementationOnce(customerAuthMockedImpl);
 };
 
 /**
  * Remove fake implementations of mocks and restore actual implementation.
  */
-export const restoreMerchantAuth = () => {
-  const actualImplementation = jest.requireActual(
-    '../../src/middleware/merchant-auth'
-  ).default;
-
-  merchantAuth.mockImplementation(actualImplementation);
+export const restoreCustomerAuth = () => {
+  customerAuth.mockImplementation(customerAuthOriginalImpl);
 };
+
+export default customerAuth;

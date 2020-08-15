@@ -17,13 +17,24 @@
 import request from 'supertest';
 
 import app from '../../src';
+import * as mockedCustomerAuth from '../../src/middleware/__mocks__/customer-auth';
+import * as customerAuthMiddleware from '../../src/middleware/customer-auth';
 import commitFixtures from '../fixtures/commits';
 import customerFixtures from '../fixtures/customers';
 import listingFixtures from '../fixtures/listings';
-import {customerAuth, restoreCustomerAuth} from '../mocks/customer-auth';
 
-// Mock customerAuth middleware
+// Mock middlewares
 jest.mock('../../src/middleware/customer-auth');
+
+const {
+  customerAuth,
+  restoreCustomerAuth,
+} = customerAuthMiddleware as typeof mockedCustomerAuth;
+
+// Disable customer auth mock implementation by default
+beforeAll(() => {
+  restoreCustomerAuth();
+});
 
 // Disable customer auth mock implementation by default
 beforeAll(() => {

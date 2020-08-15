@@ -17,15 +17,18 @@
 import request from 'supertest';
 
 import app from '../../src';
+import * as mockedMerchantAuth from '../../src/middleware/__mocks__/merchant-auth';
+import * as merchantAuthMiddleware from '../../src/middleware/merchant-auth';
 import merchantFixtures from '../fixtures/merchants';
-import {
+
+// Mock middlewares
+jest.mock('../../src/middleware/merchant-auth');
+
+const {
   mockMerchantAuth,
   merchantAuth,
   restoreMerchantAuth,
-} from '../mocks/merchant-auth';
-
-// Mock merchantAuth middleware
-jest.mock('../../src/middleware/merchant-auth');
+} = merchantAuthMiddleware as typeof mockedMerchantAuth;
 
 // Disable customer auth mock implementation by default
 beforeAll(() => {
