@@ -148,7 +148,7 @@ describe('Listings endpoints', () => {
   });
 
   describe('POST /listings', () => {
-    test('Should require merchant auth', async () => {
+    test('Should call merchant auth', async () => {
       await request(app).post('/listings');
 
       expect(merchantAuth).toHaveBeenCalled();

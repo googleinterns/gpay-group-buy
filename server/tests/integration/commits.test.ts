@@ -132,6 +132,25 @@ describe('Commits endpoints', () => {
     });
 
     test('Should reject if customer auth is not provided', async () => {
+      const res = await request(app).post('/commits');
+
+      expect(res.status).toBe(401);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe('Missing Authorization token.');
+    });
+  });
+
+  describe('POST /commits/:commitId/pay', () => {
+    test('Should call customer auth', async () => {
+      // Does not have to exist since we are just testing that auth is called
+      const commitId = 999;
+
+      await request(app).post(`/commits/${commitId}/pay`);
+
+      expect(customerAuth).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should reject if customer auth is not provided', async () => {
       // Does not have to exist since we are just testing that auth is called
       const commitId = 999;
 
@@ -143,25 +162,25 @@ describe('Commits endpoints', () => {
     });
   });
 
-  describe('POST /commits/:commitId/pay', () => {
-    test('Should require customer auth', async () => {
-      // Does not have to exist since we are just testing that auth is called
-      const commitId = 999;
-
-      await request(app).post(`/commits/${commitId}/pay`);
-
-      expect(customerAuth).toHaveBeenCalledTimes(1);
-    });
-  });
-
   describe('DELETE /commits', () => {
-    test('Should require customer auth', async () => {
+    test('Should call customer auth', async () => {
       // Does not have to exist since we are just testing that auth is called
       const commitId = 999;
 
       await request(app).delete(`/commits/${commitId}`);
 
       expect(customerAuth).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should reject if customer auth is not provided', async () => {
+      // Does not have to exist since we are just testing that auth is called
+      const commitId = 999;
+
+      const res = await request(app).delete(`/commits/${commitId}`);
+
+      expect(res.status).toBe(401);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe('Missing Authorization token.');
     });
   });
 });

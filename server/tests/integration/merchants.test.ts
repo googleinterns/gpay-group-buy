@@ -75,7 +75,7 @@ describe('Merchants endpoints', () => {
   });
 
   describe('POST /merchants', () => {
-    test('Should require merchant auth', async () => {
+    test('Should call merchant auth', async () => {
       await request(app).post('/merchants');
 
       expect(merchantAuth).toHaveBeenCalled();

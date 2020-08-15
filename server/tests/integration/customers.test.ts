@@ -75,7 +75,7 @@ describe('Customers endpoints', () => {
   });
 
   describe('POST /customers', () => {
-    test('Should require customer auth', async () => {
+    test('Should call customer auth', async () => {
       await request(app).post('/customers');
 
       expect(customerAuth).toHaveBeenCalledTimes(1);
@@ -111,7 +111,7 @@ describe('Customers endpoints', () => {
   });
 
   describe('PATCH /customers', () => {
-    test('Should require customer auth', async () => {
+    test('Should call customer auth', async () => {
       // Does not have to exist since we are just testing that auth works
       const customerId = 999;
 
