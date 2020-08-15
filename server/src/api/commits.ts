@@ -71,14 +71,19 @@ commitRouter.post(
     };
     next();
   },
-  customerAccessControl(async (req: Request) => {
-    const customerId = Number(req.validated.body.customerId);
-    const customer = await customerService.getCustomer(customerId);
-    return customer.gpayId;
-  }),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const customerId = Number(req.validated.body.customerId);
+      const customer = await customerService.getCustomer(customerId);
+      req.authorizedCustomerGPayId = customer.gpayId;
+      next();
+    } catch (err) {
+      next(err);
+    }
+  },
+  customerAccessControl,
   async (req: Request, res: Response, next: NextFunction) => {
     const commitData = req.validated.body as CommitRequest;
-
     try {
       const addedCommit = await commitService.addCommit(commitData);
       const resourceUrl = `${process.env.SERVER_URL}/commits/${addedCommit.id}`;
@@ -117,11 +122,19 @@ commitRouter.post(
     };
     next();
   },
-  customerAccessControl(async (req: Request) => {
-    const commit = await commitService.getCommit(req.validated.params.commitId);
-    const customer = await customerService.getCustomer(commit.customerId);
-    return customer.gpayId;
-  }),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const commit = await commitService.getCommit(
+        req.validated.params.commitId
+      );
+      const customer = await customerService.getCustomer(commit.customerId);
+      req.authorizedCustomerGPayId = customer.gpayId;
+      next();
+    } catch (err) {
+      next(err);
+    }
+  },
+  customerAccessControl,
   async (req: Request, res: Response, next: NextFunction) => {
     const {commitId} = req.validated.params;
     const paymentRequest: CommitPaymentRequest = req.validated.body;
@@ -179,11 +192,19 @@ commitRouter.delete(
     };
     next();
   },
-  customerAccessControl(async (req: Request) => {
-    const commit = await commitService.getCommit(req.validated.params.commitId);
-    const customer = await customerService.getCustomer(commit.customerId);
-    return customer.gpayId;
-  }),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const commit = await commitService.getCommit(
+        req.validated.params.commitId
+      );
+      const customer = await customerService.getCustomer(commit.customerId);
+      req.authorizedCustomerGPayId = customer.gpayId;
+      next();
+    } catch (err) {
+      next(err);
+    }
+  },
+  customerAccessControl,
   async (req: Request, res: Response, next: NextFunction) => {
     const {commitId} = req.validated.params;
 

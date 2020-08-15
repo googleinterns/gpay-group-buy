@@ -63,7 +63,11 @@ customerRouter.post(
     req.validated = req;
     next();
   },
-  customerAccessControl((req: Request) => req.validated.body.gpayId),
+  async (req: Request, res: Response, next: NextFunction) => {
+    req.authorizedCustomerGPayId = req.validated.body.gpayId;
+    next();
+  },
+  customerAccessControl,
   async (req: Request, res: Response, next: NextFunction) => {
     const customerData: CustomerPayload = req.validated.body;
 
@@ -118,12 +122,18 @@ customerRouter.patch(
     };
     next();
   },
-  customerAccessControl(async (req: Request) => {
-    const customer = await customerService.getCustomer(
-      req.validated.params.customerId
-    );
-    return customer.gpayId;
-  }),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const customer = await customerService.getCustomer(
+        req.validated.params.customerId
+      );
+      req.authorizedCustomerGPayId = customer.gpayId;
+      next();
+    } catch (err) {
+      next(err);
+    }
+  },
+  customerAccessControl,
   async (req: Request, res: Response, next: NextFunction) => {
     const {customerId} = req.validated.params;
     const fieldsToUpdate = req.validated.body;

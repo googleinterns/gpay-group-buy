@@ -23,5 +23,6 @@ declare namespace Express {
   interface Request {
     validated: ValidatedRequest;
     decodedCustomer?: null | { [key: string]: any } | string;
+    authorizedCustomerGPayId?: string;
   }
 }

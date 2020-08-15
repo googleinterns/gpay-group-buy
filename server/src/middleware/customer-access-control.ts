@@ -16,44 +16,52 @@
 
 import {Request, Response, NextFunction} from 'express';
 
-import {UnauthorizedError, ForbiddenError} from '../utils/http-errors';
+import {
+  UnauthorizedError,
+  ForbiddenError,
+  InternalServerError,
+} from '../utils/http-errors';
 
 /**
  * Authorizes a customer.
+ * Requires req.authorizedCustomerGpayId to be set in order for this
+ * access control middleware to work.
  * @params getGpayIdOfAuthorizedCustomer Getter function to get gpayId of
  * an authorized customer
  */
 const customerAccessControl = (
-  getGpayIdOfAuthorizedCustomer: (req: Request) => string | Promise<string>
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const decodedIdTokenOfCurrCustomer = req.decodedCustomer;
-      if (
-        decodedIdTokenOfCurrCustomer === undefined ||
-        decodedIdTokenOfCurrCustomer === null
-      ) {
-        throw new UnauthorizedError('Invalid Authorization token format.');
-      }
-
-      const {sub: gpayIdOfCurrCustomer} = decodedIdTokenOfCurrCustomer;
-      if (gpayIdOfCurrCustomer === undefined) {
-        throw new UnauthorizedError('User cannot be identified.');
-      }
-
-      const gpayIdOfAuthorizedCustomer = await getGpayIdOfAuthorizedCustomer(
-        req
-      );
-      if (gpayIdOfCurrCustomer !== gpayIdOfAuthorizedCustomer) {
-        throw new ForbiddenError(
-          'Not allowed to modify or access requested resource.'
-        );
-      }
-      next();
-    } catch (err) {
-      next(err);
+  try {
+    const decodedIdTokenOfCurrCustomer = req.decodedCustomer;
+    if (
+      decodedIdTokenOfCurrCustomer === undefined ||
+      decodedIdTokenOfCurrCustomer === null
+    ) {
+      throw new UnauthorizedError('Invalid Authorization token format.');
     }
-  };
+
+    const {sub: gpayIdOfCurrCustomer} = decodedIdTokenOfCurrCustomer;
+    if (gpayIdOfCurrCustomer === undefined) {
+      throw new UnauthorizedError('User cannot be identified.');
+    }
+
+    const gpayIdOfAuthorizedCustomer = req.authorizedCustomerGPayId;
+    if (gpayIdOfAuthorizedCustomer === undefined) {
+      throw new InternalServerError('req.authorizedCustomerGPayId is not set.');
+    }
+
+    if (gpayIdOfCurrCustomer !== gpayIdOfAuthorizedCustomer) {
+      throw new ForbiddenError(
+        'Not allowed to modify or access requested resource.'
+      );
+    }
+    next();
+  } catch (err) {
+    next(err);
+  }
 };
 
 export default customerAccessControl;
