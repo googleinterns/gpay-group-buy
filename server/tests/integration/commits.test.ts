@@ -17,7 +17,9 @@
 import request from 'supertest';
 
 import app from '../../src';
+import * as mockedCustomerAccessControl from '../../src/middleware/__mocks__/customer-access-control';
 import * as mockedCustomerAuth from '../../src/middleware/__mocks__/customer-auth';
+import * as customerAccessControlMiddleware from '../../src/middleware/customer-access-control';
 import * as customerAuthMiddleware from '../../src/middleware/customer-auth';
 import commitFixtures from '../fixtures/commits';
 import customerFixtures from '../fixtures/customers';
@@ -25,11 +27,18 @@ import listingFixtures from '../fixtures/listings';
 
 // Mock middlewares
 jest.mock('../../src/middleware/customer-auth');
+jest.mock('../../src/middleware/customer-access-control');
 
 const {
   customerAuth,
   restoreCustomerAuth,
+  mockCustomerAuth,
 } = customerAuthMiddleware as typeof mockedCustomerAuth;
+
+const {
+  customerAccessControl,
+  restoreCustomerAccessControl,
+} = customerAccessControlMiddleware as typeof mockedCustomerAccessControl;
 
 // Disable customer auth mock implementation by default
 beforeAll(() => {
@@ -176,6 +185,15 @@ describe('Commits endpoints', () => {
       expect(res.status).toBe(401);
       expect(res.body).toHaveProperty('error');
       expect(res.body.error.message).toBe('Missing Authorization token.');
+    });
+
+    test('Should require customer access control', async () => {
+      mockCustomerAuth();
+      const commitId = commitFixtures.ids?.[0];
+
+      await request(app).delete(`/commits/${commitId}`);
+
+      expect(customerAccessControl).toHaveBeenCalledTimes(1);
     });
   });
 });
