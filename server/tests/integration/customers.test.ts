@@ -99,7 +99,7 @@ describe('Customers endpoints', () => {
       expect(res.body.error.message).toBe('Missing Authorization token.');
     });
 
-    test('Should require customer access control', async () => {
+    test('Should call customer access control', async () => {
       mockCustomerAuth();
 
       await request(app).post('/customers');
@@ -115,7 +115,7 @@ describe('Customers endpoints', () => {
 
       const res = await request(app).post('/customers').send({gpayId});
 
-      // expect(res.status).toBe(403);
+      expect(res.status).toBe(403);
       expect(res.body).toHaveProperty('error');
       expect(res.body.error.message).toBe(
         'Not allowed to modify or access requested resource.'
@@ -165,7 +165,7 @@ describe('Customers endpoints', () => {
       expect(res.body.error.message).toBe('Missing Authorization token.');
     });
 
-    test('Should require customer access control', async () => {
+    test('Should call customer access control', async () => {
       mockCustomerAuth();
       const customerId = customerFixtures.ids?.[0];
 

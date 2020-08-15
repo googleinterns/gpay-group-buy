@@ -43,6 +43,7 @@ const {
 // Disable customer auth mock implementation by default
 beforeAll(() => {
   restoreCustomerAuth();
+  restoreCustomerAccessControl();
 });
 
 describe('Commits endpoints', () => {
@@ -142,6 +143,36 @@ describe('Commits endpoints', () => {
       expect(res.body).toHaveProperty('error');
       expect(res.body.error.message).toBe('Missing Authorization token.');
     });
+
+    test('Should call customer access control', async () => {
+      mockCustomerAuth();
+      const customerId = customerFixtures.ids?.[0];
+      const listingId = listingFixtures.ids?.[0];
+
+      await request(app).post('/commits').send({
+        customerId,
+        listingId,
+      });
+
+      expect(customerAccessControl).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should reject if customer access control fails', async () => {
+      mockCustomerAuth();
+      const customerId = customerFixtures.ids?.[0];
+      const listingId = listingFixtures.ids?.[0];
+
+      const res = await request(app).post('/commits').send({
+        customerId,
+        listingId,
+      });
+
+      expect(res.status).toBe(403);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe(
+        'Not allowed to modify or access requested resource.'
+      );
+    });
   });
 
   describe('POST /commits/:commitId/pay', () => {
@@ -163,6 +194,32 @@ describe('Commits endpoints', () => {
       expect(res.status).toBe(401);
       expect(res.body).toHaveProperty('error');
       expect(res.body.error.message).toBe('Missing Authorization token.');
+    });
+
+    test('Should call customer access control', async () => {
+      mockCustomerAuth();
+      const commitId = commitFixtures.ids?.[0];
+
+      await request(app).post(`/commits/${commitId}/pay`).send({
+        fulfilmentDetails: {},
+      });
+
+      expect(customerAccessControl).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should reject if customer access control fails', async () => {
+      mockCustomerAuth();
+      const commitId = commitFixtures.ids?.[0];
+
+      const res = await request(app).post(`/commits/${commitId}/pay`).send({
+        fulfilmentDetails: {},
+      });
+
+      expect(res.status).toBe(403);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe(
+        'Not allowed to modify or access requested resource.'
+      );
     });
   });
 
@@ -187,13 +244,26 @@ describe('Commits endpoints', () => {
       expect(res.body.error.message).toBe('Missing Authorization token.');
     });
 
-    test('Should require customer access control', async () => {
+    test('Should call customer access control', async () => {
       mockCustomerAuth();
       const commitId = commitFixtures.ids?.[0];
 
       await request(app).delete(`/commits/${commitId}`);
 
       expect(customerAccessControl).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should reject if customer access control fails', async () => {
+      mockCustomerAuth();
+      const commitId = commitFixtures.ids?.[0];
+
+      const res = await request(app).delete(`/commits/${commitId}`);
+
+      expect(res.status).toBe(403);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe(
+        'Not allowed to modify or access requested resource.'
+      );
     });
   });
 });
