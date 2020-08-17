@@ -18,11 +18,7 @@ import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import {useCommitContext} from 'components/customer/listing-details/contexts/CommitContext';
 import {FulfilmentDetails} from 'interfaces';
 import {useForm} from 'react-hook-form';
-
-const formatContactNumber = (contactNum: string) => {
-  const [_, nationalNumber] = contactNum.split(' ');
-  return nationalNumber;
-};
+import {getNationalNumber} from 'utils/phone-number';
 
 interface FulFilmentDetailsSubmittedValues extends FulfilmentDetails {
   setDefault: boolean;
@@ -52,11 +48,12 @@ const useFulfilmentDetailsForm = () => {
       label: 'Contact Number',
       name: 'contactNumber',
       type: 'number',
-      defaultValue: formatContactNumber(
-        customer?.defaultFulfilmentDetails.contactNumber ||
-          customer?.gpayContactNumber ||
-          ''
-      ),
+      defaultValue:
+        customer &&
+        getNationalNumber(
+          customer.defaultFulfilmentDetails.contactNumber ||
+            customer.gpayContactNumber
+        ),
     },
     {
       label: 'Delivery Address',
