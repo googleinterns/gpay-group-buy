@@ -22,13 +22,13 @@ import CommitsBadge from 'components/common/CommitsBadge';
 import ErrorDisplay from 'components/common/ErrorDisplay';
 import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import Commits from 'components/customer/my-commits/Commits';
-import {GroupedCommits} from 'interfaces';
+import {Commit} from 'interfaces';
 import Container from 'muicss/lib/react/container';
 import {useHistory} from 'react-router-dom';
 import styled from 'styled-components';
-import {groupByCommitStatus} from 'utils/commit-status';
 
 import {ReactComponent as AuthenticationSvg} from 'assets/customer/authentication.svg';
+import {ReactComponent as EmptySvg} from 'assets/customer/empty.svg';
 
 const PageContainer = styled(Container)`
   padding-top: 20px;
@@ -55,15 +55,10 @@ const PageContent = styled.div`
   flex: 1;
 `;
 
-/**
- * Page containing all the commits of the current customer.
- */
-const MyCommitsPage: React.FC = () => {
+const MyCommitsContent: React.FC = () => {
   const {customer, getCustomerWithLogin} = useCustomerContext();
 
-  const [commits, setCommits] = useState<GroupedCommits>({});
-
-  const history = useHistory();
+  const [commits, setCommits] = useState<Commit[]>([]);
 
   useEffect(() => {
     const fetchCommits = async () => {
@@ -75,11 +70,42 @@ const MyCommitsPage: React.FC = () => {
       const fetchedCommits = await getCommits({
         customerId: customer.id,
       });
-      setCommits(groupByCommitStatus(fetchedCommits));
+      setCommits(fetchedCommits);
     };
 
     fetchCommits();
   }, [customer, getCustomerWithLogin]);
+
+  if (!customer) {
+    return (
+      <StyledErrorDisplay
+        title="You are not logged in. Please login to continue."
+        header={<AuthenticationSvg />}
+        button={{
+          name: 'Login',
+          onClick: async () => {
+            await getCustomerWithLogin();
+          },
+        }}
+      />
+    );
+  } else if (commits.length === 0) {
+    return (
+      <StyledErrorDisplay
+        title="You have no commits yet."
+        header={<EmptySvg />}
+      />
+    );
+  } else {
+    return <Commits commits={commits} />;
+  }
+};
+
+/**
+ * Page containing all the commits of the current customer.
+ */
+const MyCommitsPage: React.FC = () => {
+  const history = useHistory();
 
   const handleBack = () => history.goBack();
 
@@ -91,20 +117,7 @@ const MyCommitsPage: React.FC = () => {
       </CommitsBadgeContainer>
       <PageContent>
         <h1>My Commits</h1>
-        {customer ? (
-          <Commits commits={commits} />
-        ) : (
-          <StyledErrorDisplay
-            title="You are not logged in. Please login to continue."
-            header={<AuthenticationSvg />}
-            button={{
-              name: 'Login',
-              onClick: async () => {
-                await getCustomerWithLogin();
-              },
-            }}
-          />
-        )}
+        <MyCommitsContent />
       </PageContent>
     </PageContainer>
   );
