@@ -15,7 +15,7 @@
  */
 
 import {Request, Response, NextFunction} from 'express';
-import {PhoneNumberUtil, PhoneNumberFormat} from 'google-libphonenumber';
+import {PhoneNumberUtil} from 'google-libphonenumber';
 
 import {REGION_CODE_IN} from '../../constants/common';
 import {BadRequestError} from '../../utils/http-errors';
