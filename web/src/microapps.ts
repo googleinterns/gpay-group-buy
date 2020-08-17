@@ -25,7 +25,7 @@ const microapps = window.microapps;
 const MICROAPP_BASE_URL = `https://microapps.google.com/${process.env.REACT_APP_SPOT_ID}`;
 
 let cachedIdentity: CustomerIdentity;
-let cachedDecodedPhoneNumberToken: any; // eslint-ignore-line @typescript-eslint/no-explicit-any
+let cachedDecodedPhoneNumberToken: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 /**
  * Decodes a base64 microapps identity token.
