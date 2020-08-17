@@ -25,6 +25,7 @@ const data = [
       contactNumber: '+91 1234567890',
     },
     gpayId: 1,
+    gpayContactNumber: '+91 1234567890',
   },
   {
     defaultFulfilmentDetails: {
@@ -33,6 +34,7 @@ const data = [
       contactNumber: '+91 0987654321',
     },
     gpayId: 2,
+    gpayContactNumber: '+91 0987654321',
   },
   {
     defaultFulfilmentDetails: {
@@ -41,6 +43,7 @@ const data = [
       contactNumber: '+91 1029384756',
     },
     gpayId: 3,
+    gpayContactNumber: '+91 1029384756',
   },
 ];
 

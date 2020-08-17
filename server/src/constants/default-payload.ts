@@ -26,6 +26,7 @@ export const DEFAULT_CUSTOMER_PAYLOAD = {
     address: '',
     contactNumber: '',
   },
+  gpayContactNumber: '',
 };
 
 /**
