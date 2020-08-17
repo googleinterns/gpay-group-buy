@@ -22,7 +22,7 @@ const data = [
     defaultFulfilmentDetails: {
       name: 'John Doe',
       address: 'Blk 42, Serangoon Road, #01-22',
-      contactNumber: '+911234567890',
+      contactNumber: '+91 1234567890',
     },
     gpayId: 1,
   },
@@ -30,7 +30,7 @@ const data = [
     defaultFulfilmentDetails: {
       name: 'Mary Jane',
       address: 'Blk 2, Ang Mo Kio Ave 10, #18-02',
-      contactNumber: '+910987654321',
+      contactNumber: '+91 0987654321',
     },
     gpayId: 2,
   },
@@ -38,7 +38,7 @@ const data = [
     defaultFulfilmentDetails: {
       name: 'Polar Bear',
       address: 'Blk 7, Pasir Ris St 72, #05-01',
-      contactNumber: '+911029384756',
+      contactNumber: '+91 1029384756',
     },
     gpayId: 3,
   },
