@@ -40,6 +40,8 @@ const PromptContent = styled.section`
 
   padding-top: 18px;
 
+  text-align: center;
+
   & > * {
     margin: 6px 0 6px 0;
   }
