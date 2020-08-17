@@ -15,11 +15,43 @@
  */
 
 /**
+ * A generic decoded JWT from the microapps API.
+ * Note that this is not exhaustive and only needed fields are typed.
+ */
+export interface DecodedToken {
+  exp: number; // The time the token expires, represented in Unix time (integer seconds)
+}
+
+/**
+ * A decoded Phone Number Token from the microapps API.
+ * Note that this is not exhaustive and only needed fields are typed.
+ * For the exhaustive list,
+ * refer to: https://developers.google.com/pay/spot/eap/reference/phonenumber-api
+ */
+export interface DecodedPhoneNumberToken extends DecodedToken {
+  // contactNumber format is E.123 international notation
+  // Note that the national phone number portion will only contain digits (no spaces)
+  // Eg: +91 1234567890
+  phone_number: string;
+}
+
+/**
+ * A decoded Identity Token from the microapps API.
+ * Note that this is not exhaustive and only needed fields are typed.
+ * For the exhaustive list,
+ * refer to: https://developers.google.com/pay/spot/eap/reference/identity-api
+ */
+export interface DecodedIdentityToken extends DecodedToken {
+  sub: string; // Unique identifier for a user in GPay
+  name: string;
+}
+
+/**
  * CustomerIdentity object that contains the customer identity token and its decoded form.
  */
 export interface CustomerIdentity {
   idToken: string;
-  decodedToken: any;
+  decodedToken: DecodedIdentityToken;
 }
 
 /**

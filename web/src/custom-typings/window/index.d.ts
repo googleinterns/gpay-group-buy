@@ -16,7 +16,21 @@
 
 declare global {
   interface Window {
-    microapps: any;
+    microapps: {
+      getIdentity: (options?: {
+        nonce?: string;
+        skipPrompt?: boolean;
+      }) => Promise<string>;
+      getPhoneNumber: (options?: {
+        nonce?: string;
+        skipPrompt?: boolean;
+      }) => Promise<string>;
+      requestSharing: (options?: {
+        text?: string;
+        url?: string;
+        title?: string;
+      }) => Promise<void>;
+    };
   }
 }
 
