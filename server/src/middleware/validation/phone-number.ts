@@ -20,8 +20,10 @@ import {PhoneNumberUtil} from 'google-libphonenumber';
 import {REGION_CODE_IN} from '../../constants/common';
 import {BadRequestError} from '../../utils/http-errors';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type PhoneNumberGetter = (body: any) => string | undefined;
 type PhoneNumberSetter = (body: any, phoneNumber: string) => void;
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 
