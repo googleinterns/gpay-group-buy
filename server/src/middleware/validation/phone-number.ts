@@ -23,11 +23,13 @@ import {BadRequestError} from '../../utils/http-errors';
 type PhoneNumberGetter = (body: any) => string | undefined;
 type PhoneNumberSetter = (body: any, phoneNumber: string) => void;
 
-const e164Format = PhoneNumberFormat.E164;
 const phoneUtil = PhoneNumberUtil.getInstance();
 
 /**
- * Validates and format a phone number.
+ * Middleware that validates and format a phone number.
+ * The resultant phone number format is E.123 international notation.
+ * Note that the national phone number portion will only contain digits (no spaces).
+ * Eg: +91 1234567890
  */
 const validateAndFormatPhoneNumber = (
   getPhoneNumber: PhoneNumberGetter,
@@ -52,10 +54,9 @@ const validateAndFormatPhoneNumber = (
         throw new BadRequestError('Invalid phone number.');
       }
 
-      const formattedPhoneNumber = phoneUtil.format(
-        parsedPhoneNumber,
-        e164Format
-      );
+      const countryCode = parsedPhoneNumber.getCountryCodeOrDefault();
+      const nationalNUmber = parsedPhoneNumber.getNationalNumberOrDefault();
+      const formattedPhoneNumber = `+${countryCode} ${nationalNUmber}`;
       setPhoneNumber(req.body, formattedPhoneNumber);
       next();
     } catch (err) {
