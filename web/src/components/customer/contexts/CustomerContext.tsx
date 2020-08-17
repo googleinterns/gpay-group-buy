@@ -19,7 +19,7 @@ import React, {useContext, useState, useEffect, useCallback} from 'react';
 import {getCustomer as fetchCustomer, loginCustomer} from 'api';
 import useLocalStorage from 'components/common/hooks/useLocalStorage';
 import {Customer} from 'interfaces';
-import {getIdentity} from 'microapps';
+import {getIdentity, getPhoneNumber} from 'microapps';
 
 interface AuthenticatedCustomer {
   customer: Customer | undefined;
@@ -69,13 +69,16 @@ const CustomerProvider: React.FC = ({children}) => {
       return {customer: undefined, idToken: undefined};
     }
 
+    const gpayContactNumber = (await getPhoneNumber()) || '';
+    // TODO: Handle customer refuse to provide phone number case
+
     const {
       idToken,
       decodedToken: {sub: gpayId},
-    } = await getIdentity();
+    } = identity;
     setIdToken(idToken);
 
-    const customer = await loginCustomer({gpayId}, idToken);
+    const customer = await loginCustomer({gpayId, gpayContactNumber}, idToken);
     setCustomer(customer);
     setIsExistingCustomer(true);
 

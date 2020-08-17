@@ -25,14 +25,15 @@ const microapps = window.microapps;
 const MICROAPP_BASE_URL = `https://microapps.google.com/${process.env.REACT_APP_SPOT_ID}`;
 
 let cachedIdentity: CustomerIdentity;
+let cachedDecodedPhoneNumberToken: any;
 
 /**
  * Decodes a base64 microapps identity token.
  * Method taken from https://developers.google.com/pay/spot/eap/reference/identity-api#full_example.
- * @param idToken The token to be decoded
+ * @param token The token to be decoded
  */
-export const decodeToken = (idToken: string) =>
-  JSON.parse(atob(idToken.split('.')[1]));
+export const decodeToken = (token: string) =>
+  JSON.parse(atob(token.split('.')[1]));
 
 /**
  * Gets microapps identity token and its decoded form.
@@ -91,5 +92,23 @@ export const requestSharing = async (
     text,
     url: encodeMicroappsUrl(path),
   });
+
+/**
+ * Gets GPay phone number of user.
+ * Returns the cached phone number if it exists and has not expired,
+ * else, fetches a new identity token from the microapps API.
+ */
+export const getPhoneNumber = async () => {
+  const cachedTokenExpiry = cachedDecodedPhoneNumberToken?.exp;
+  if (
+    cachedDecodedPhoneNumberToken === undefined ||
+    isAfter(getMilliseconds(Date.now()), cachedTokenExpiry)
+  ) {
+    const phoneNumberToken = await microapps.getPhoneNumber();
+    cachedDecodedPhoneNumberToken = decodeToken(phoneNumberToken);
+  }
+
+  return cachedDecodedPhoneNumberToken.phone_number;
+};
 
 export default microapps;

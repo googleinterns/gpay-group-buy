@@ -61,7 +61,10 @@ export type PriceFontSize = Omit<FontSize, 'small'>;
 export interface FulfilmentDetails {
   name: string;
   address: string;
-  contactNumber: string; // E164 format
+  // contactNumber format is E.123 international notation
+  // Note that the national phone number portion will only contain digits (no spaces)
+  // Eg: +91 1234567890
+  contactNumber: string;
 }
 
 /**
@@ -196,6 +199,10 @@ export type GroupedCommits = {
 export interface CustomerPayload {
   gpayId: string;
   defaultFulfilmentDetails?: FulfilmentDetails;
+  // gpayContactNumber format is E.123 international notation
+  // Note that the national phone number portion will only contain digits (no spaces)
+  // Eg: +91 1234567890
+  gpayContactNumber: string;
 }
 
 /**
