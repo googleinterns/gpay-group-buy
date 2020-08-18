@@ -199,7 +199,7 @@ describe('Customers endpoints', () => {
         const defaultFulfilmentDetails = {
           name: 'Pusheen Takoyaki',
           address: 'Disneyland',
-          contactNumber: '+911234567890',
+          contactNumber: '+91 1234567890',
         };
         const expectedCustomerData = {
           ...originalCustomerData,
@@ -241,7 +241,7 @@ describe('Customers endpoints', () => {
         const defaultFulfilmentDetails = {
           name: 'Pusheen Takoyaki',
           address: 'Disneyland',
-          contactNumber: '+6591234567',
+          contactNumber: '+65 91234567',
         };
 
         const res = await request(app).patch(`/customers/${customerId}`).send({
