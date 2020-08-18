@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
+import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import {useCommitContext} from 'components/customer/listing-details/contexts/CommitContext';
 import {FulfilmentDetails} from 'interfaces';
 import {useForm} from 'react-hook-form';
+import {getNationalNumber} from 'utils/phone-number';
 
 interface FulFilmentDetailsSubmittedValues extends FulfilmentDetails {
   setDefault: boolean;
@@ -33,14 +35,31 @@ const useFulfilmentDetailsForm = () => {
     mode: 'onChange',
   });
   const {onPayment} = useCommitContext();
+  const {customer} = useCustomerContext();
 
   const fields = [
-    {label: 'Name', name: 'name', type: 'text'},
-    {label: 'Contact Number', name: 'contactNumber', type: 'number'},
+    {
+      label: 'Name',
+      name: 'name',
+      type: 'text',
+      defaultValue: customer?.defaultFulfilmentDetails.name,
+    },
+    {
+      label: 'Contact Number',
+      name: 'contactNumber',
+      type: 'number',
+      defaultValue:
+        customer &&
+        getNationalNumber(
+          customer.defaultFulfilmentDetails.contactNumber ||
+            customer.gpayContactNumber
+        ),
+    },
     {
       label: 'Delivery Address',
       name: 'address',
       type: 'textarea',
+      defaultValue: customer?.defaultFulfilmentDetails.address,
     },
     {
       label: 'Use as default',
