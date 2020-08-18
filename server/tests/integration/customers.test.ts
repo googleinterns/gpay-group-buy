@@ -186,6 +186,7 @@ describe('Customers endpoints', () => {
           address: 'Disneyland',
           contactNumber: '+6591234567',
         };
+
         const res = await request(app).patch(`/customers/${customerId}`).send({
           defaultFulfilmentDetails,
         });

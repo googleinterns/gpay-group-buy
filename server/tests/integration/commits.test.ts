@@ -36,11 +36,6 @@ beforeAll(() => {
   restoreCustomerAuth();
 });
 
-// Disable customer auth mock implementation by default
-beforeAll(() => {
-  restoreCustomerAuth();
-});
-
 describe('Commits endpoints', () => {
   beforeEach(() => {
     jest.clearAllMocks();
