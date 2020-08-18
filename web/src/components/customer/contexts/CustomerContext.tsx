@@ -19,7 +19,7 @@ import React, {useContext, useState, useEffect, useCallback} from 'react';
 import {getCustomer as fetchCustomer, loginCustomer} from 'api';
 import useLocalStorage from 'components/common/hooks/useLocalStorage';
 import {Customer} from 'interfaces';
-import {getIdentity} from 'microapps';
+import {getIdentity, getPhoneNumber} from 'microapps';
 
 interface AuthenticatedCustomer {
   customer: Customer | undefined;
@@ -65,17 +65,18 @@ const CustomerProvider: React.FC = ({children}) => {
 
   const login = useCallback(async (): Promise<AuthenticatedCustomer> => {
     const identity = await getIdentity();
-    if (identity === undefined) {
+    const gpayContactNumber = await getPhoneNumber();
+    if (identity === undefined || gpayContactNumber === undefined) {
       return {customer: undefined, idToken: undefined};
     }
 
     const {
       idToken,
       decodedToken: {sub: gpayId},
-    } = await getIdentity();
+    } = identity;
     setIdToken(idToken);
 
-    const customer = await loginCustomer({gpayId}, idToken);
+    const customer = await loginCustomer({gpayId, gpayContactNumber}, idToken);
     setCustomer(customer);
     setIsExistingCustomer(true);
 

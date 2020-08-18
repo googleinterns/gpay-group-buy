@@ -33,6 +33,7 @@ interface Field {
   label: string;
   name: string;
   type: string;
+  defaultValue?: string | number;
 }
 
 type ContextType =

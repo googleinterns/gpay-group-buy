@@ -99,7 +99,7 @@ const deleteWithAuth = async (endpoint: string, token: string) => {
  */
 const query = async (
   endpoint: string,
-  queryParams: Record<string, any>
+  queryParams: Record<string, unknown>
 ): Promise<Response> => {
   const strParams: Record<string, string> = {};
   Object.keys(queryParams).forEach(
@@ -107,7 +107,7 @@ const query = async (
   );
 
   const url = new URL(endpoint);
-  const params = new URLSearchParams(queryParams).toString();
+  const params = new URLSearchParams(strParams).toString();
   url.search = params;
 
   return fetch(url.toString());

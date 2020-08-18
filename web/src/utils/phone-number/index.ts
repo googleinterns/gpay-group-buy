@@ -14,26 +14,16 @@
  * limitations under the License.
  */
 
-declare global {
-  interface Window {
-    microapps: {
-      getIdentity: (options?: {
-        nonce?: string;
-        skipPrompt?: boolean;
-      }) => Promise<string>;
-      getPhoneNumber: (options?: {
-        nonce?: string;
-        skipPrompt?: boolean;
-      }) => Promise<string>;
-      requestSharing: (options?: {
-        text?: string;
-        url?: string;
-        title?: string;
-      }) => Promise<void>;
-    };
-  }
-}
-
-// Export nothing.
-// Added because we can only `declare global` in files that has import or export.
-export {};
+/**
+ * Simple function that retrieves the national number of the input phone number,
+ * with the assumption that the input phone number follows our standard phone
+ * number format.
+ * Eg input: '+91 1234567890'
+ * Eg output: '1234567890'
+ * @param phoneNumber Phone number in E.123 international notation with no spaces
+ * for the national phone number portion
+ */
+export const getNationalNumber = (phoneNumber: string): string => {
+  const [_, nationalNumber] = phoneNumber.split(' ');
+  return nationalNumber;
+};

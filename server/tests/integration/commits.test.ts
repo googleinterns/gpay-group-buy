@@ -17,11 +17,40 @@
 import request from 'supertest';
 
 import app from '../../src';
+import * as mockedCustomerAccessControl from '../../src/middleware/__mocks__/customer-access-control';
+import * as mockedCustomerAuth from '../../src/middleware/__mocks__/customer-auth';
+import * as customerAccessControlMiddleware from '../../src/middleware/customer-access-control';
+import * as customerAuthMiddleware from '../../src/middleware/customer-auth';
 import commitFixtures from '../fixtures/commits';
 import customerFixtures from '../fixtures/customers';
 import listingFixtures from '../fixtures/listings';
 
+// Mock middlewares
+jest.mock('../../src/middleware/customer-auth');
+jest.mock('../../src/middleware/customer-access-control');
+
+const {
+  customerAuth,
+  restoreCustomerAuth,
+  mockCustomerAuth,
+} = customerAuthMiddleware as typeof mockedCustomerAuth;
+
+const {
+  customerAccessControl,
+  restoreCustomerAccessControl,
+} = customerAccessControlMiddleware as typeof mockedCustomerAccessControl;
+
+// Disable customer auth mock implementation by default
+beforeAll(() => {
+  restoreCustomerAuth();
+  restoreCustomerAccessControl();
+});
+
 describe('Commits endpoints', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('GET /commits', () => {
     test('Should not be able to fetch all commits', async () => {
       const res = await request(app).get('/commits');
@@ -96,6 +125,144 @@ describe('Commits endpoints', () => {
       expect(res.body).toHaveProperty('error');
       expect(res.body.error.message).toBe(
         'Invalid filter value provided for customerId.'
+      );
+    });
+  });
+
+  describe('POST /commits', () => {
+    test('Should call customer auth', async () => {
+      await request(app).post('/commits');
+
+      expect(customerAuth).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should reject if customer auth is not provided', async () => {
+      const res = await request(app).post('/commits');
+
+      expect(res.status).toBe(401);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe('Missing Authorization token.');
+    });
+
+    test('Should call customer access control', async () => {
+      mockCustomerAuth();
+      const customerId = customerFixtures.ids?.[0];
+      const listingId = listingFixtures.ids?.[0];
+
+      await request(app).post('/commits').send({
+        customerId,
+        listingId,
+      });
+
+      expect(customerAccessControl).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should reject if customer access control fails', async () => {
+      mockCustomerAuth();
+      const customerId = customerFixtures.ids?.[0];
+      const listingId = listingFixtures.ids?.[0];
+
+      const res = await request(app).post('/commits').send({
+        customerId,
+        listingId,
+      });
+
+      expect(res.status).toBe(403);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe(
+        'Not allowed to modify or access requested resource.'
+      );
+    });
+  });
+
+  describe('POST /commits/:commitId/pay', () => {
+    test('Should call customer auth', async () => {
+      // Does not have to exist since we are just testing that auth is called
+      const commitId = 999;
+
+      await request(app).post(`/commits/${commitId}/pay`);
+
+      expect(customerAuth).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should reject if customer auth is not provided', async () => {
+      // Does not have to exist since we are just testing that auth is called
+      const commitId = 999;
+
+      const res = await request(app).post(`/commits/${commitId}/pay`);
+
+      expect(res.status).toBe(401);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe('Missing Authorization token.');
+    });
+
+    test('Should call customer access control', async () => {
+      mockCustomerAuth();
+      const commitId = commitFixtures.ids?.[0];
+
+      await request(app).post(`/commits/${commitId}/pay`).send({
+        fulfilmentDetails: {},
+      });
+
+      expect(customerAccessControl).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should reject if customer access control fails', async () => {
+      mockCustomerAuth();
+      const commitId = commitFixtures.ids?.[0];
+
+      const res = await request(app).post(`/commits/${commitId}/pay`).send({
+        fulfilmentDetails: {},
+      });
+
+      expect(res.status).toBe(403);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe(
+        'Not allowed to modify or access requested resource.'
+      );
+    });
+  });
+
+  describe('DELETE /commits', () => {
+    test('Should call customer auth', async () => {
+      // Does not have to exist since we are just testing that auth is called
+      const commitId = 999;
+
+      await request(app).delete(`/commits/${commitId}`);
+
+      expect(customerAuth).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should reject if customer auth is not provided', async () => {
+      // Does not have to exist since we are just testing that auth is called
+      const commitId = 999;
+
+      const res = await request(app).delete(`/commits/${commitId}`);
+
+      expect(res.status).toBe(401);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe('Missing Authorization token.');
+    });
+
+    test('Should call customer access control', async () => {
+      mockCustomerAuth();
+      const commitId = commitFixtures.ids?.[0];
+
+      await request(app).delete(`/commits/${commitId}`);
+
+      expect(customerAccessControl).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should reject if customer access control fails', async () => {
+      mockCustomerAuth();
+      const commitId = commitFixtures.ids?.[0];
+
+      const res = await request(app).delete(`/commits/${commitId}`);
+
+      expect(res.status).toBe(403);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe(
+        'Not allowed to modify or access requested resource.'
       );
     });
   });

@@ -29,6 +29,7 @@ import {
   merchantRouter,
 } from './api';
 import errorHandler from './middleware/error-handler';
+import errorMapper from './middleware/error-mapper';
 import {NotFoundError} from './utils/http-errors';
 
 const app: express.Application = express();
@@ -58,8 +59,8 @@ app.use(() => {
   throw new NotFoundError('Not Found');
 });
 
-// Handles the sending the error messages to client.
-app.use(errorHandler);
+// Handles the sending of error messages to client.
+app.use(errorMapper, errorHandler);
 
 const localPort = process.env.NODE_ENV === 'test' ? 5001 : 5000;
 const port = process.env.PORT || localPort;

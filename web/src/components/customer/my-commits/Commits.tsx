@@ -18,9 +18,10 @@ import React, {useState, useEffect} from 'react';
 
 import {getAllListings} from 'api';
 import ListingCardWithCommitStatus from 'components/customer/my-commits/ListingCardWithCommitStatus';
-import {Commit, GroupedCommits, Listing} from 'interfaces';
+import {Commit, Listing} from 'interfaces';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
+import {groupByCommitStatus} from 'utils/commit-status';
 
 const CommitsContainer = styled.div`
   display: flex;
@@ -86,31 +87,45 @@ const CommitSection: React.FC<CommitSectionProps> = ({
 };
 
 interface CommitsProps {
-  commits: GroupedCommits;
+  commits: Commit[];
 }
 
 /**
  * Contains the content of the My Commits page.
  */
-const Commits: React.FC<CommitsProps> = ({
-  commits: {ongoing, successful, paid, completed, unsuccessful},
-}) => (
-  <CommitsContainer>
-    <section>
-      <h2>Awaiting Payment</h2>
-      {successful && <CommitSection commits={successful} directToPayment />}
-    </section>
-    <section>
-      <h2>Ongoing</h2>
-      {ongoing && <CommitSection commits={ongoing} />}
-    </section>
-    <section>
-      <h2>History</h2>
-      {paid && <CommitSection commits={paid} />}
-      {completed && <CommitSection commits={completed} />}
-      {unsuccessful && <CommitSection commits={unsuccessful} />}
-    </section>
-  </CommitsContainer>
-);
+const Commits: React.FC<CommitsProps> = ({commits}) => {
+  const {
+    ongoing,
+    successful,
+    paid,
+    completed,
+    unsuccessful,
+  } = groupByCommitStatus(commits);
+
+  return (
+    <CommitsContainer>
+      {successful && (
+        <section>
+          <h2>Awaiting Payment</h2>
+          <CommitSection commits={successful} directToPayment />
+        </section>
+      )}
+      {ongoing && (
+        <section>
+          <h2>Ongoing</h2>
+          <CommitSection commits={ongoing} />
+        </section>
+      )}
+      {(paid || completed || unsuccessful) && (
+        <section>
+          <h2>History</h2>
+          {paid && <CommitSection commits={paid} />}
+          {completed && <CommitSection commits={completed} />}
+          {unsuccessful && <CommitSection commits={unsuccessful} />}
+        </section>
+      )}
+    </CommitsContainer>
+  );
+};
 
 export default Commits;
