@@ -15,7 +15,12 @@
  */
 
 import {isAfter, getMilliseconds} from 'date-fns';
-import {CustomerIdentity} from 'interfaces';
+import {
+  CustomerIdentity,
+  DecodedPhoneNumberToken,
+  DecodedToken,
+  DecodedIdentityToken,
+} from 'interfaces';
 
 /**
  * Microapps API.
@@ -25,14 +30,14 @@ const microapps = window.microapps;
 const MICROAPP_BASE_URL = `https://microapps.google.com/${process.env.REACT_APP_SPOT_ID}`;
 
 let cachedIdentity: CustomerIdentity;
-let cachedDecodedPhoneNumberToken: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+let cachedDecodedPhoneNumberToken: DecodedPhoneNumberToken;
 
 /**
  * Decodes a base64 microapps identity token.
  * Method taken from https://developers.google.com/pay/spot/eap/reference/identity-api#full_example.
  * @param token The token to be decoded
  */
-export const decodeToken = (token: string) =>
+export const decodeToken = (token: string): DecodedToken =>
   JSON.parse(atob(token.split('.')[1]));
 
 /**
@@ -50,7 +55,7 @@ export const getIdentity = async (): Promise<CustomerIdentity> => {
   }
 
   const idToken = await microapps.getIdentity();
-  const decodedToken = decodeToken(idToken);
+  const decodedToken = decodeToken(idToken) as DecodedIdentityToken;
   const newIdentity = {
     idToken,
     decodedToken,
@@ -105,7 +110,9 @@ export const getPhoneNumber = async () => {
     isAfter(getMilliseconds(Date.now()), cachedTokenExpiry)
   ) {
     const phoneNumberToken = await microapps.getPhoneNumber();
-    cachedDecodedPhoneNumberToken = decodeToken(phoneNumberToken);
+    cachedDecodedPhoneNumberToken = decodeToken(
+      phoneNumberToken
+    ) as DecodedPhoneNumberToken;
   }
 
   return cachedDecodedPhoneNumberToken.phone_number;
