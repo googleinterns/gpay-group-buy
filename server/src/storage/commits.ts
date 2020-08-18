@@ -101,13 +101,22 @@ const updateCommit = async (
         value: 1,
       });
       break;
-    case 'completed':
+    case 'completed': {
       listingUpdateRules.push({
         property: 'numCompleted',
         op: 'add',
         value: 1,
       });
+
+      const affectedListing = await getEntity(LISTING_KIND, affectedListingId);
+      if (affectedListing.numCompleted + 1 === affectedListing.numCommits) {
+        listingUpdateRules.push({
+          property: 'listingStatus',
+          value: 'completed',
+        });
+      }
       break;
+    }
   }
 
   await makeTransaction(
