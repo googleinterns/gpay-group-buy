@@ -190,7 +190,7 @@ const sendCommitMessage = async (commit: CommitResponse) => {
       break;
     case 'unsuccessful':
       text =
-        "Unfortunately, Group Buy is unsuccessful as there weren't enough buyers.";
+        "Unfortunately, Group Buy was unsuccessful as there weren't enough buyers.";
       break;
     case 'completed':
       text = 'Your item has been delivered by the merchant!';
