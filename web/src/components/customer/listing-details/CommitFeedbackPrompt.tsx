@@ -107,7 +107,12 @@ const CommitStatusPrompt: React.FC = () => {
                 onClick: onClose,
               },
             ]}
-          />
+          >
+            <p>
+              Please sign in to Group Buy with your Google account and grant us
+              access to your Google Pay phone number.
+            </p>
+          </MobilePrompt>
         );
         break;
       default:

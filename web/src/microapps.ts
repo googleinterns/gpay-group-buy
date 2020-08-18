@@ -44,8 +44,9 @@ export const decodeToken = (token: string): DecodedToken =>
  * Gets microapps identity token and its decoded form.
  * Returns the cached identity if it exists and token has not expired,
  * else, fetches a new identity token from the microapps API.
+ * Returns undefined if calling the getIdentity API fails.
  */
-export const getIdentity = async (): Promise<CustomerIdentity> => {
+export const getIdentity = async (): Promise<CustomerIdentity | undefined> => {
   const cachedTokenExpiry = cachedIdentity?.decodedToken.exp;
   if (
     cachedIdentity !== undefined &&
@@ -54,15 +55,19 @@ export const getIdentity = async (): Promise<CustomerIdentity> => {
     return cachedIdentity;
   }
 
-  const idToken = await microapps.getIdentity();
-  const decodedToken = decodeToken(idToken) as DecodedIdentityToken;
-  const newIdentity = {
-    idToken,
-    decodedToken,
-  };
+  try {
+    const idToken = await microapps.getIdentity();
+    const decodedToken = decodeToken(idToken) as DecodedIdentityToken;
+    const newIdentity = {
+      idToken,
+      decodedToken,
+    };
 
-  cachedIdentity = newIdentity;
-  return newIdentity;
+    cachedIdentity = newIdentity;
+    return newIdentity;
+  } catch {
+    return;
+  }
 };
 
 /**
@@ -102,20 +107,26 @@ export const requestSharing = async (
  * Gets GPay phone number of user.
  * Returns the cached phone number if it exists and has not expired,
  * else, fetches a new identity token from the microapps API.
+ * Returns undefined if calling the getPhoneNumber API fails.
  */
-export const getPhoneNumber = async () => {
+export const getPhoneNumber = async (): Promise<string | undefined> => {
   const cachedTokenExpiry = cachedDecodedPhoneNumberToken?.exp;
   if (
-    cachedDecodedPhoneNumberToken === undefined ||
-    isAfter(getMilliseconds(Date.now()), cachedTokenExpiry)
+    cachedDecodedPhoneNumberToken !== undefined &&
+    isAfter(cachedTokenExpiry, getMilliseconds(Date.now()))
   ) {
+    return cachedDecodedPhoneNumberToken.phone_number;
+  }
+
+  try {
     const phoneNumberToken = await microapps.getPhoneNumber();
     cachedDecodedPhoneNumberToken = decodeToken(
       phoneNumberToken
     ) as DecodedPhoneNumberToken;
+    return cachedDecodedPhoneNumberToken.phone_number;
+  } catch {
+    return;
   }
-
-  return cachedDecodedPhoneNumberToken.phone_number;
 };
 
 export default microapps;

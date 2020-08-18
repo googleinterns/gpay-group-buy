@@ -65,12 +65,10 @@ const CustomerProvider: React.FC = ({children}) => {
 
   const login = useCallback(async (): Promise<AuthenticatedCustomer> => {
     const identity = await getIdentity();
-    if (identity === undefined) {
+    const gpayContactNumber = await getPhoneNumber();
+    if (identity === undefined || gpayContactNumber === undefined) {
       return {customer: undefined, idToken: undefined};
     }
-
-    const gpayContactNumber = (await getPhoneNumber()) || '';
-    // TODO: Handle customer refuse to provide phone number case
 
     const {
       idToken,
