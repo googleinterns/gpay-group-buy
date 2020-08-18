@@ -22,8 +22,10 @@ import {Operator} from '@google-cloud/datastore/build/src/query';
  */
 export interface CustomerPayload {
   gpayId: string;
-  // Phone number in the format of country code appended by national number (as defined
-  // by the International Telecommunication Union (ITU)) and separated by space.
+  // gpayContactNumber is in E.123 international notation.
+  // Whitespace should be used between country code and national number.
+  // National number should contain only digits and no spaces.
+  // e.g. +91 1234567890
   gpayContactNumber: string;
   defaultFulfilmentDetails: FulfilmentDetails;
 }
