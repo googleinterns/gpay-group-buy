@@ -29,6 +29,13 @@ import {commitStorage, listingStorage, customerStorage} from '../storage';
 import {BadRequestError} from '../utils/http-errors';
 
 /**
+ * Retrieves commit with the specified commitId.
+ * @param commitId Id of the commit to retrieve
+ */
+const getCommit = async (commitId: number) =>
+  await commitStorage.getCommit(commitId);
+
+/**
  * Retrieves all commits.
  * If query paramaters are provided, will retrieve all commits satisfying
  * the query parameters.
@@ -186,6 +193,7 @@ const deleteCommit = async (commitId: number) => {
 };
 
 export default {
+  getCommit,
   getAllCommits,
   addCommit,
   payForCommit,

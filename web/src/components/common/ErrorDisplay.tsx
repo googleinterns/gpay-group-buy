@@ -20,11 +20,17 @@ import CentralisedContainer from 'components/common/CentralisedContainer';
 import Button from 'muicss/lib/react/button';
 import styled from 'styled-components';
 
+const StyledCentralisedContainer = styled(CentralisedContainer)`
+  width: 100%;
+`;
+
 const ErrorContent = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  width: 100%;
 
   & > * {
     margin: 6px 0 6px 0;
@@ -85,7 +91,7 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
   header,
   className,
 }) => (
-  <CentralisedContainer className={className}>
+  <StyledCentralisedContainer className={className}>
     <ErrorContent>
       {header}
       {title && <TitleText>{title}</TitleText>}
@@ -98,7 +104,7 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
         </StyledButton>
       </ButtonRow>
     )}
-  </CentralisedContainer>
+  </StyledCentralisedContainer>
 );
 
 export default ErrorDisplay;

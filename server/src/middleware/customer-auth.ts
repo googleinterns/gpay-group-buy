@@ -52,11 +52,7 @@ const getKey: GetPublicKeyOrSecret = (
 /**
  * Authenticates a customer.
  */
-const customerAuth = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const customerAuth = (req: Request, res: Response, next: NextFunction) => {
   try {
     const authHeader = req.headers.authorization;
     const idToken = authHeader?.split(' ')?.[1];

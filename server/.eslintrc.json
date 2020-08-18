@@ -31,7 +31,10 @@
         "**/?(*.)+(spec|test).+(ts|tsx|js)"
       ],
       "rules": {
-        "node/no-unpublished-import": 0
+        "node/no-unpublished-import": 0,
+        // Disable because we need this for TS typecasting so that
+        // we can access the helper functions in our mocks.
+        "jest/no-mocks-import": 0
       }
     }
   ]
