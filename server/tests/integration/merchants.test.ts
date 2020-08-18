@@ -17,9 +17,29 @@
 import request from 'supertest';
 
 import app from '../../src';
+import * as mockedMerchantAuth from '../../src/middleware/__mocks__/merchant-auth';
+import * as merchantAuthMiddleware from '../../src/middleware/merchant-auth';
 import merchantFixtures from '../fixtures/merchants';
 
+// Mock middlewares
+jest.mock('../../src/middleware/merchant-auth');
+
+const {
+  mockMerchantAuth,
+  merchantAuth,
+  restoreMerchantAuth,
+} = merchantAuthMiddleware as typeof mockedMerchantAuth;
+
+// Disable customer auth mock implementation by default
+beforeAll(() => {
+  restoreMerchantAuth();
+});
+
 describe('Merchants endpoints', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('GET /merchants', () => {
     test('Should fetch a single merchant', async () => {
       const expectedMerchantData = merchantFixtures.responseData?.[0];
@@ -51,6 +71,32 @@ describe('Merchants endpoints', () => {
       expect(res.body.error.message).toBe(
         `Merchant ${merchantId} does not exist`
       );
+    });
+  });
+
+  describe('POST /merchants', () => {
+    test('Should call merchant auth', async () => {
+      await request(app).post('/merchants');
+
+      expect(merchantAuth).toHaveBeenCalled();
+    });
+
+    test('Should reject if merchant auth is not provided', async () => {
+      const res = await request(app).post('/merchants');
+
+      expect(res.status).toBe(401);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe('Missing Authorization header.');
+    });
+
+    describe('Authenticated requests', () => {
+      beforeEach(() => {
+        mockMerchantAuth();
+      });
+
+      // TODO: Add test for creating merchants when difference in behaviour
+      // for transactions between Datastore in Firestore mode and the
+      // Datastore emulator is resolved.
     });
   });
 });
