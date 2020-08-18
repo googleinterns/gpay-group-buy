@@ -21,6 +21,7 @@
 import {Router, Request, Response, NextFunction} from 'express';
 
 import {CustomerPayload} from '../interfaces';
+import customerAccessControl from '../middleware/customer-access-control';
 import customerAuth from '../middleware/customer-auth';
 import validateAndFormatPhoneNumber from '../middleware/validation/phone-number';
 import {customerService} from '../services';
@@ -58,7 +59,17 @@ customerRouter.post(
   '/',
   customerAuth,
   async (req: Request, res: Response, next: NextFunction) => {
-    const customerData: CustomerPayload = req.body;
+    // TODO: Ensure that req.body is of type CustomerPayload
+    req.validated = req;
+    next();
+  },
+  async (req: Request, res: Response, next: NextFunction) => {
+    req.authorizedCustomerGPayId = req.validated.body.gpayId;
+    next();
+  },
+  customerAccessControl,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const customerData: CustomerPayload = req.validated.body;
 
     try {
       // Customers are unique by their gpayId, so we will retrieve
@@ -101,13 +112,33 @@ customerRouter.patch(
   async (req: Request, res: Response, next: NextFunction) => {
     const {customerId: customerIdStr} = req.params;
     const customerId = Number(customerIdStr);
-    const fieldsToUpdate = req.body;
+
+    if (Number.isNaN(customerId)) {
+      return next(new BadRequestError(`Invalid customerId ${customerIdStr}`));
+    }
+    req.validated = {
+      ...req,
+      params: {customerId},
+    };
+    next();
+  },
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const customer = await customerService.getCustomer(
+        req.validated.params.customerId
+      );
+      req.authorizedCustomerGPayId = customer.gpayId;
+      next();
+    } catch (err) {
+      next(err);
+    }
+  },
+  customerAccessControl,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {customerId} = req.validated.params;
+    const fieldsToUpdate = req.validated.body;
 
     try {
-      if (Number.isNaN(customerId)) {
-        throw new BadRequestError(`Invalid customerId ${customerIdStr}`);
-      }
-
       const modifiedCustomer = await customerService.updateCustomer(
         customerId,
         fieldsToUpdate

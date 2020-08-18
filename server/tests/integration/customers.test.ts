@@ -17,22 +17,32 @@
 import request from 'supertest';
 
 import app from '../../src';
+import * as mockedCustomerAccessControl from '../../src/middleware/__mocks__/customer-access-control';
 import * as mockedCustomerAuth from '../../src/middleware/__mocks__/customer-auth';
+import * as customerAccessControlMiddleware from '../../src/middleware/customer-access-control';
 import * as customerAuthMiddleware from '../../src/middleware/customer-auth';
 import customerFixtures from '../fixtures/customers';
 
 // Mock middlewares
 jest.mock('../../src/middleware/customer-auth');
+jest.mock('../../src/middleware/customer-access-control');
 
 const {
-  mockCustomerAuth,
   customerAuth,
   restoreCustomerAuth,
+  mockCustomerAuth,
 } = customerAuthMiddleware as typeof mockedCustomerAuth;
 
-// Disable customer auth mock implementation by default
+const {
+  customerAccessControl,
+  restoreCustomerAccessControl,
+  mockCustomerAccessControl,
+} = customerAccessControlMiddleware as typeof mockedCustomerAccessControl;
+
+// Disable customer auth and access control mock implementation by default
 beforeAll(() => {
   restoreCustomerAuth();
+  restoreCustomerAccessControl();
 });
 
 describe('Customers endpoints', () => {
@@ -89,9 +99,33 @@ describe('Customers endpoints', () => {
       expect(res.body.error.message).toBe('Missing Authorization token.');
     });
 
+    test('Should call customer access control', async () => {
+      mockCustomerAuth();
+
+      await request(app).post('/customers');
+
+      expect(customerAccessControl).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should reject if customer is not authorized', async () => {
+      mockCustomerAuth();
+
+      const expectedCustomerData = customerFixtures.responseData?.[0];
+      const gpayId = expectedCustomerData.gpayId;
+
+      const res = await request(app).post('/customers').send({gpayId});
+
+      expect(res.status).toBe(403);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe(
+        'Not allowed to modify or access requested resource.'
+      );
+    });
+
     describe('Authenticated requests', () => {
       beforeEach(() => {
         mockCustomerAuth();
+        mockCustomerAccessControl();
       });
 
       // TODO: Add test for 'Should create a new customer if customer does not exist'
@@ -131,9 +165,32 @@ describe('Customers endpoints', () => {
       expect(res.body.error.message).toBe('Missing Authorization token.');
     });
 
+    test('Should call customer access control', async () => {
+      mockCustomerAuth();
+      const customerId = customerFixtures.ids?.[0];
+
+      await request(app).patch(`/customers/${customerId}`);
+
+      expect(customerAccessControl).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should reject if customer is not authorized', async () => {
+      mockCustomerAuth();
+      const customerId = customerFixtures.ids?.[0];
+
+      const res = await request(app).patch(`/customers/${customerId}`);
+
+      expect(res.status).toBe(403);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe(
+        'Not allowed to modify or access requested resource.'
+      );
+    });
+
     describe('Authenticated requests', () => {
       beforeEach(() => {
         mockCustomerAuth();
+        mockCustomerAccessControl();
       });
 
       test('Should modify an existing customer', async () => {
