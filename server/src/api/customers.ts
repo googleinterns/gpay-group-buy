@@ -50,10 +50,12 @@ customerRouter.get(
 
 /**
  * Endpoint for the "logging in" of customers.
- * If the customer exists, return the customer details in the
- * response body with code 200.
- * Else, add the customer and return the added customer details
- * in the response body with code 201.
+ * If the customer does not exists, add the customer and return the
+ * added customer details in the response body with code 201.
+ * Else if the customer exists, we check if the provided gpayContactNumber
+ * matches the gpayContactNumber of the existing customer, and update it
+ * if it does not match. The endpoint then returns the customer details in
+ * the response body with code 200.
  */
 customerRouter.post(
   '/',
