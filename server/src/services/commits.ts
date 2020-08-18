@@ -30,6 +30,13 @@ import {BadRequestError, InternalServerError} from '../utils/http-errors';
 import {encodeMicroappsUrl, sendMessage} from '../utils/spot-api';
 
 /**
+ * Retrieves commit with the specified commitId.
+ * @param commitId Id of the commit to retrieve
+ */
+const getCommit = async (commitId: number) =>
+  await commitStorage.getCommit(commitId);
+
+/**
  * Retrieves all commits.
  * If query paramaters are provided, will retrieve all commits satisfying
  * the query parameters.
@@ -243,6 +250,7 @@ const deleteCommit = async (commitId: number) => {
 };
 
 export default {
+  getCommit,
   getAllCommits,
   addCommit,
   payForCommit,
