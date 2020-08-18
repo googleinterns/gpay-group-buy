@@ -16,7 +16,13 @@
 
 import React, {useContext, useState, useEffect} from 'react';
 
-import {getCommits, addCommit, deleteCommit, payForCommit} from 'api';
+import {
+  getCommits,
+  addCommit,
+  deleteCommit,
+  payForCommit,
+  updateCustomer,
+} from 'api';
 import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import {useCommitFeedbackPromptContext} from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
 import {CommitStatus, FulfilmentDetails} from 'interfaces';
@@ -26,7 +32,10 @@ type ContextType =
       commitStatus: CommitStatus | undefined;
       onCommit: () => Promise<void>;
       onUncommit: () => Promise<void>;
-      onPayment: (fulfilmentDetails: FulfilmentDetails) => Promise<void>;
+      onPayment: (
+        fulfilmentDetails: FulfilmentDetails,
+        setDefault?: boolean
+      ) => Promise<void>;
     }
   | undefined;
 
@@ -126,13 +135,16 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
     setCommitStatus(undefined);
   };
 
-  const onPayment = async (fulfilmentDetails: FulfilmentDetails) => {
+  const onPayment = async (
+    fulfilmentDetails: FulfilmentDetails,
+    setDefault?: boolean
+  ) => {
     if (commitId === undefined) {
       return;
     }
 
-    const {idToken} = await getCustomerWithLogin();
-    if (idToken === undefined) {
+    const {customer, idToken} = await getCustomerWithLogin();
+    if (customer === undefined || idToken === undefined) {
       onOpenPrompt('require-login');
       return;
     }
@@ -140,6 +152,14 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
     onOpenPrompt('loading');
     const commit = await payForCommit(commitId, {fulfilmentDetails}, idToken);
     // TODO: Handle payment error
+
+    if (setDefault) {
+      await updateCustomer(
+        customer.id,
+        {defaultFulfilmentDetails: fulfilmentDetails},
+        idToken
+      );
+    }
     await refetchCustomer();
     setCommitStatus(commit.commitStatus);
     onOpenPrompt('successful-payment');
