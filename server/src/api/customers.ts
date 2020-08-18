@@ -50,14 +50,22 @@ customerRouter.get(
 
 /**
  * Endpoint for the "logging in" of customers.
- * If the customer exists, return the customer details in the
- * response body with code 200.
- * Else, add the customer and return the added customer details
- * in the response body with code 201.
+ * If the customer does not exists, add the customer and return the
+ * added customer details in the response body with code 201.
+ * Else if the customer exists, we check if the provided gpayContactNumber
+ * matches the gpayContactNumber of the existing customer, and update it
+ * if it does not match. The endpoint then returns the customer details in
+ * the response body with code 200.
  */
 customerRouter.post(
   '/',
   customerAuth,
+  validateAndFormatPhoneNumber(
+    (body: Partial<CustomerPayload>) => body.gpayContactNumber,
+    (body: Partial<CustomerPayload>, phoneNumber: string) =>
+      (body.gpayContactNumber = phoneNumber),
+    false
+  ),
   async (req: Request, res: Response, next: NextFunction) => {
     // TODO: Ensure that req.body is of type CustomerPayload
     req.validated = req;
@@ -74,10 +82,24 @@ customerRouter.post(
     try {
       // Customers are unique by their gpayId, so we will retrieve
       // the customer using their gpay Id.
-      const existingCustomer = await customerService.getCustomerWithGpayId(
+      let existingCustomer = await customerService.getCustomerWithGpayId(
         customerData.gpayId
       );
       if (existingCustomer !== null) {
+        // Update gpayContactNumber if it does not match
+        const {gpayContactNumber} = customerData;
+        if (
+          gpayContactNumber &&
+          existingCustomer.gpayContactNumber !== gpayContactNumber
+        ) {
+          existingCustomer = await customerService.updateCustomer(
+            existingCustomer.id,
+            {
+              gpayContactNumber,
+            }
+          );
+        }
+
         const resourceUrl = `${process.env.SERVER_URL}/customers/${existingCustomer.id}`;
         res.setHeader('Content-Location', resourceUrl);
         res.status(200).send(existingCustomer);

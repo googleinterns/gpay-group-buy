@@ -32,10 +32,15 @@ const phoneUtil = PhoneNumberUtil.getInstance();
  * The resultant phone number format is E.123 international notation.
  * Note that the national phone number portion will only contain digits (no spaces).
  * Eg: +91 1234567890
+ * @params getPhoneNumber Getter function for getting the phone number from req body
+ * @params setPhoneNumber Setter function for setting the phone number to req body
+ * @params requireIndiaRegion Indicates if we should check if the phone number is
+ * local to India region.
  */
 const validateAndFormatPhoneNumber = (
   getPhoneNumber: PhoneNumberGetter,
-  setPhoneNumber: PhoneNumberSetter
+  setPhoneNumber: PhoneNumberSetter,
+  requireIndiaRegion = true
 ) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -50,9 +55,11 @@ const validateAndFormatPhoneNumber = (
         REGION_CODE_IN
       );
 
-      if (
-        !phoneUtil.isValidNumberForRegion(parsedPhoneNumber, REGION_CODE_IN)
-      ) {
+      const isValidNumber = requireIndiaRegion
+        ? phoneUtil.isValidNumberForRegion(parsedPhoneNumber, REGION_CODE_IN)
+        : phoneUtil.isValidNumber(parsedPhoneNumber);
+
+      if (!isValidNumber) {
         throw new BadRequestError('Invalid phone number.');
       }
 
