@@ -26,8 +26,6 @@ import {
  * Authorizes a customer.
  * Requires req.authorizedCustomerGpayId to be set in order for this
  * access control middleware to work.
- * @params getGpayIdOfAuthorizedCustomer Getter function to get gpayId of
- * an authorized customer
  */
 const customerAccessControl = (
   req: Request,
