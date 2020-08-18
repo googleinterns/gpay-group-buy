@@ -17,10 +17,23 @@
 import httpMocks from 'node-mocks-http';
 import sinon from 'sinon';
 
+import * as mockedMerchantAuth from '../../../../src/middleware/__mocks__/merchant-auth';
+import * as merchantAuth from '../../../../src/middleware/merchant-auth';
 import validateAndFormatListing from '../../../../src/middleware/validation/listing';
 import {BadRequestError} from '../../../../src/utils/http-errors';
 
+// Mock middlewares
+jest.mock('../../../../src/middleware/merchant-auth');
+
+const {
+  mockMerchantAuth,
+} = merchantAuth as typeof mockedMerchantAuth;
+
 describe('Listing validation', () => {
+  beforeAll(() => {
+    mockMerchantAuth();
+  });
+
   const validListing = {
     merchantId: 5075408403824640,
     name: 'Google Nest Mini',

@@ -101,7 +101,7 @@ listingRouter.get(
 
 listingRouter.post(
   '/',
-  // merchantAuth,
+  merchantAuth,
   validateAndFormatListing,
   async (req: Request, res: Response, next: NextFunction) => {
     const listingData = req.validated.body;
