@@ -21,6 +21,7 @@
 import {Router, Request, Response, NextFunction} from 'express';
 
 import merchantAuth from '../middleware/merchant-auth';
+import validateAndFormatListing from '../middleware/validation/listing';
 import {listingService} from '../services';
 import {BadRequestError} from '../utils/http-errors';
 
@@ -100,12 +101,10 @@ listingRouter.get(
 
 listingRouter.post(
   '/',
-  merchantAuth,
+  // merchantAuth,
+  validateAndFormatListing,
   async (req: Request, res: Response, next: NextFunction) => {
-    const listingData = req.body;
-    // Parse JSON object into the correct types of ListingPayload properties.
-    listingData.deadline = new Date(listingData.deadline);
-
+    const listingData = req.validated.body;
     try {
       const listing = await listingService.addListing(listingData);
       const resourceUrl = `${process.env.SERVER_URL}/listings/${listing.id}`;
