@@ -62,8 +62,8 @@ describe('Listing validation', () => {
   //   });
   // });
 
-  describe('Listing with invalid deadline', () => {
-    const listingWithInvalidDeadline = {
+  describe('Listing with deadline not a date string', () => {
+    const listingWithDeadlineNotDateString = {
       ...validListing,
       deadline: 'deadline',
     };
@@ -72,7 +72,31 @@ describe('Listing validation', () => {
       const req = httpMocks.createRequest({
         method: 'POST',
         url: '/listings',
-        body: listingWithInvalidDeadline,
+        body: listingWithDeadlineNotDateString,
+      });
+      const res = httpMocks.createResponse();
+      const next = sinon.spy();
+
+      validateAndFormatListing(req, res, next);
+      expect(
+        next.calledWithExactly(
+          new BadRequestError('Listing deadline is not a valid date.')
+        )
+      );
+    });
+  });
+
+  describe('Listing with deadline an invalid date string', () => {
+    const listingWithDeadlineNotDateString = {
+      ...validListing,
+      deadline: '2019-02-29',
+    };
+
+    test('Should throw an error', () => {
+      const req = httpMocks.createRequest({
+        method: 'POST',
+        url: '/listings',
+        body: listingWithDeadlineNotDateString,
       });
       const res = httpMocks.createResponse();
       const next = sinon.spy();
