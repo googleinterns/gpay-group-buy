@@ -16,7 +16,7 @@
 
 /**
  * Simple function that retrieves the national number of the input phone number,
- * with the assumption tha the input phone number follows our standard phone
+ * with the assumption that the input phone number follows our standard phone
  * number format.
  * Eg input: '+91 1234567890'
  * Eg output: '1234567890'
