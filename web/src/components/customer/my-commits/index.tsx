@@ -28,7 +28,7 @@ import {useHistory} from 'react-router-dom';
 import styled from 'styled-components';
 
 import {ReactComponent as AuthenticationSvg} from 'assets/customer/authentication.svg';
-import {ReactComponent as EmptySvg} from 'assets/customer/empty.svg';
+import {ReactComponent as EmptyContentSvg} from 'assets/customer/empty-content.svg';
 
 const PageContainer = styled(Container)`
   padding-top: 20px;
@@ -93,7 +93,7 @@ const MyCommitsContent: React.FC = () => {
     return (
       <StyledErrorDisplay
         title="You have no commits yet."
-        header={<EmptySvg />}
+        header={<EmptyContentSvg />}
       />
     );
   } else {
