@@ -22,6 +22,11 @@ import {Operator} from '@google-cloud/datastore/build/src/query';
  */
 export interface CustomerPayload {
   gpayId: string;
+  // gpayContactNumber is in E.123 international notation.
+  // Whitespace should be used between country code and national number.
+  // National number should contain only digits and no spaces.
+  // e.g. +91 1234567890
+  gpayContactNumber: string;
   defaultFulfilmentDetails: FulfilmentDetails;
 }
 
@@ -80,7 +85,10 @@ export interface CommitRequest {
 interface FulfilmentDetails {
   name: string;
   address: string;
-  contactNumber: string; // E164 format
+  // contactNumber format is E.123 international notation
+  // Note that the national phone number portion will only contain digits (no spaces)
+  // Eg: +91 1234567890
+  contactNumber: string;
 }
 
 /**

@@ -21,9 +21,10 @@
 import express, {Request, Response, NextFunction} from 'express';
 
 import {CommitRequest, CommitPaymentRequest} from '../interfaces';
+import customerAccessControl from '../middleware/customer-access-control';
 import customerAuth from '../middleware/customer-auth';
 import validateAndFormatPhoneNumber from '../middleware/validation/phone-number';
-import {commitService} from '../services';
+import {commitService, customerService} from '../services';
 import {BadRequestError} from '../utils/http-errors';
 
 const commitRouter = express.Router();
@@ -57,13 +58,32 @@ commitRouter.post(
   '/',
   customerAuth,
   async (req: Request, res: Response, next: NextFunction) => {
-    // TODO: Parse req.body json to make it CommitRequest type in runtime.
-    // Right now I am forcing it to be of the correct types.
-    const commitData: CommitRequest = {
-      customerId: Number(req.body.customerId),
-      listingId: Number(req.body.listingId),
-    };
+    const {customerId: customerIdStr, listingId: listingIdStr} = req.body;
+    const customerId = Number(customerIdStr);
+    const listingId = Number(listingIdStr);
 
+    if (Number.isNaN(customerId) || Number.isNaN(listingId)) {
+      return next(new BadRequestError('Invalid request body'));
+    }
+    req.validated = {
+      ...req,
+      body: {customerId, listingId},
+    };
+    next();
+  },
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const customerId = Number(req.validated.body.customerId);
+      const customer = await customerService.getCustomer(customerId);
+      req.authorizedCustomerGPayId = customer.gpayId;
+      next();
+    } catch (err) {
+      next(err);
+    }
+  },
+  customerAccessControl,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const commitData = req.validated.body as CommitRequest;
     try {
       const addedCommit = await commitService.addCommit(commitData);
       const resourceUrl = `${process.env.SERVER_URL}/commits/${addedCommit.id}`;
@@ -91,15 +111,36 @@ commitRouter.post(
     const {commitId: commitIdStr} = req.params;
     const commitId = Number(commitIdStr);
 
+    if (Number.isNaN(commitId)) {
+      return next(new BadRequestError(`Invalid commitId ${commitIdStr}`));
+    }
+
     // TODO: Parse req.body json to make it CommitPaymentRequest type in runtime.
-    // TODO: Ensure that the commit belongs to the authenticated customer.
+    req.validated = {
+      ...req,
+      params: {commitId},
+    };
+    next();
+  },
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const commit = await commitService.getCommit(
+        req.validated.params.commitId
+      );
+      const customer = await customerService.getCustomer(commit.customerId);
+      req.authorizedCustomerGPayId = customer.gpayId;
+      next();
+    } catch (err) {
+      next(err);
+    }
+  },
+  customerAccessControl,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {commitId} = req.validated.params;
+    const paymentRequest: CommitPaymentRequest = req.validated.body;
 
     try {
-      if (Number.isNaN(commitId)) {
-        throw new BadRequestError(`Invalid commitId ${commitIdStr}`);
-      }
-
-      const commit = await commitService.payForCommit(commitId, req.body);
+      const commit = await commitService.payForCommit(commitId, paymentRequest);
       res.status(200).json(commit);
     } catch (error) {
       return next(error);
@@ -142,11 +183,32 @@ commitRouter.delete(
     const {commitId: commitIdStr} = req.params;
     const commitId = Number(commitIdStr);
 
+    if (Number.isNaN(commitId)) {
+      return next(new BadRequestError(`Invalid commitId ${commitIdStr}`));
+    }
+    req.validated = {
+      ...req,
+      params: {commitId},
+    };
+    next();
+  },
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
-      if (Number.isNaN(commitId)) {
-        throw new BadRequestError(`Invalid commitId ${commitIdStr}`);
-      }
+      const commit = await commitService.getCommit(
+        req.validated.params.commitId
+      );
+      const customer = await customerService.getCustomer(commit.customerId);
+      req.authorizedCustomerGPayId = customer.gpayId;
+      next();
+    } catch (err) {
+      next(err);
+    }
+  },
+  customerAccessControl,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {commitId} = req.validated.params;
 
+    try {
       await commitService.deleteCommit(commitId);
       res.sendStatus(204);
     } catch (error) {

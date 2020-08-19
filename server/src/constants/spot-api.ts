@@ -14,26 +14,7 @@
  * limitations under the License.
  */
 
-declare global {
-  interface Window {
-    microapps: {
-      getIdentity: (options?: {
-        nonce?: string;
-        skipPrompt?: boolean;
-      }) => Promise<string>;
-      getPhoneNumber: (options?: {
-        nonce?: string;
-        skipPrompt?: boolean;
-      }) => Promise<string>;
-      requestSharing: (options?: {
-        text?: string;
-        url?: string;
-        title?: string;
-      }) => Promise<void>;
-    };
-  }
-}
-
-// Export nothing.
-// Added because we can only `declare global` in files that has import or export.
-export {};
+export const MESSAGES_API_ENDPOINT = `https://microapps.googleapis.com/v1alpha/merchants/${process.env.SPOT_MERCHANT_ID}/messages`;
+export const MESSAGES_SCOPE =
+  'https://www.googleapis.com/auth/microapps.messages';
+export const MICROAPP_BASE_URL = `https://microapps.google.com/${process.env.SPOT_MICROAPP_ID}`;

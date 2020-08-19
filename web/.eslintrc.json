@@ -14,6 +14,9 @@
   "rules": {
     // Permits comparing to null with "==" to check for null or undefined
     "eqeqeq": [2, "allow-null"],
+    "@typescript-eslint/no-unused-vars": [1, {
+      "varsIgnorePattern": "^_"
+    }],
     "import/order": [
       "error",
       {

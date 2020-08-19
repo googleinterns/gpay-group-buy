@@ -18,6 +18,12 @@ import {Datastore, Transaction} from '@google-cloud/datastore';
 import {Entity} from '@google-cloud/datastore/build/src/entity';
 
 import {Filter, OrderRule, StringKeyObject} from '../interfaces';
+import {
+  StorageError,
+  EntityNotFoundError,
+  EntityAlreadyExistsError,
+  PropertyMismatchError,
+} from '../utils/storage-errors';
 import {UpdateRule} from './interfaces';
 
 const datastore = new Datastore();
@@ -53,8 +59,9 @@ export const makeTransaction = async (
     await transaction.commit();
   } catch (err) {
     await transaction.rollback();
-    throw new Error(`Transaction failed. ${err.message}`);
+    throw err;
   }
+
   return resArr.map(res => {
     if (res === undefined) return res;
     return res();
@@ -95,9 +102,14 @@ export const getEntity = async (
 
   try {
     const [res] = await actor.get(key);
+    if (res === undefined) {
+      throw new EntityNotFoundError(`${kind} ${id} does not exist`);
+    }
+
     return shouldAppendId ? extractAndAppendId(res) : res;
   } catch (err) {
-    throw new Error(`${kind} ${id} does not exist`);
+    if (err instanceof StorageError) throw err;
+    throw new StorageError(err.message);
   }
 };
 
@@ -137,7 +149,9 @@ export const getAllEntitiesWithIds = async (
     const [res] = await actor.get(keys);
     return shouldAppendId ? res.map(extractAndAppendId) : res;
   } catch (err) {
-    throw new Error(`Failed to get ${ids} from ${kind}. ${err.message}`);
+    throw new StorageError(
+      `Failed to get entities with ids ${ids}. ${err.message}`
+    );
   }
 };
 
@@ -190,7 +204,7 @@ export const getAllEntities = async (
     const resWithId = shouldAppendId ? res.map(extractAndAppendId) : res;
     return resWithId;
   } catch (err) {
-    throw new Error(`Failed to get entities of ${kind}.`);
+    throw new StorageError(`Failed to get entities of ${kind}. ${err.message}`);
   }
 };
 
@@ -237,7 +251,7 @@ const uniqueInsertInTransaction = (
     const properties = uniqueProperties
       .map(unique => unique.property)
       .join(', ');
-    throw new Error(
+    throw new EntityAlreadyExistsError(
       `Another entity with the same ${properties} already exists.`
     );
   }
@@ -299,7 +313,16 @@ const addEntityHelper = async (
       }
     }
   } catch (err) {
-    throw new Error(`Failed to add ${kind}. ${err.message}`);
+    if (err instanceof StorageError) throw err;
+
+    switch (err.status) {
+      case 'ALREADY_EXISTS':
+        throw new EntityAlreadyExistsError(
+          `Failed to add ${kind}. ${err.message}`
+        );
+      default:
+        throw new StorageError(`Failed to add ${kind}. ${err.message}`);
+    }
   }
   return () => Number(key.id);
 };
@@ -343,7 +366,9 @@ const updateData = (original: StringKeyObject, updateRule: UpdateRule) => {
   const operation = updateRule.op || 'replace';
   let value = original?.[updateRule.property];
   if (value === undefined && operation !== 'replace') {
-    throw new Error(`Property to be updated does not exist on ${original}`);
+    throw new PropertyMismatchError(
+      `Property to be updated does not exist on ${original}`
+    );
   }
 
   switch (operation) {
@@ -392,7 +417,16 @@ export const updateEntity = async (
       await datastore.update(entity);
     }
   } catch (err) {
-    throw new Error(`Failed to update ${kind} ${id}. ${err.message}`);
+    if (err instanceof StorageError) throw err;
+
+    switch (err.status) {
+      case 'NOT_FOUND':
+        throw new EntityNotFoundError(`${kind} ${id} does not exist`);
+      default:
+        throw new StorageError(
+          `Failed to update ${kind} ${id}. ${err.message}`
+        );
+    }
   }
 };
 
@@ -430,7 +464,14 @@ export const deleteEntity = async (
   try {
     actor.delete(key);
   } catch (err) {
-    throw new Error(`Failed to delete ${kind} ${id}. ${err.message}`);
+    switch (err.status) {
+      case 'NOT_FOUND':
+        throw new EntityNotFoundError(`${kind} ${id} does not exist`);
+      default:
+        throw new StorageError(
+          `Failed to delete ${kind} ${id}. ${err.message}`
+        );
+    }
   }
 };
 
