@@ -87,7 +87,7 @@ describe('Date validation', () => {
   });
 
   describe('Listing with no deadline', () => {
-    const {deadline, ...listingWithNoDeadline} = validListing;
+    const {deadline: _, ...listingWithNoDeadline} = validListing;
 
     test('Should throw an error', () => {
       const req = createAddListingRequest(listingWithNoDeadline);
