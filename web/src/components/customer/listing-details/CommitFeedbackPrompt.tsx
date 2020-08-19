@@ -115,6 +115,21 @@ const CommitStatusPrompt: React.FC = () => {
           </MobilePrompt>
         );
         break;
+      case 'error':
+        setPrompt(
+          <MobilePrompt
+            title="Something went wrong, please try again later."
+            header={<NotifySvg />}
+            isVisible={isPromptVisible}
+            buttons={[
+              {
+                name: 'Dismiss',
+                onClick: onClose,
+              },
+            ]}
+          />
+        );
+        break;
       default:
         throw new Error('Unsupported prompt content.');
     }
