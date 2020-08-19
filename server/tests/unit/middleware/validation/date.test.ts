@@ -60,6 +60,29 @@ describe('Date validation', () => {
     /* eslint-enable @typescript-eslint/no-explicit-any */
   );
 
+  const createAddListingRequest = (listing: any) =>
+    httpMocks.createRequest({
+      method: 'POST',
+      url: '/listings',
+      body: listing,
+    });
+  const res = httpMocks.createResponse();
+  const next = sinon.spy();
+
+  describe('Valid listing deadline', () => {
+    const listingWithFormattedDeadline = {
+      ...validListing,
+      deadline: new Date(validListing.deadline),
+    };
+
+    test('Should format deadline into Date object', () => {
+      const req = createAddListingRequest(validListing);
+      validateAndFormatListingDeadline(req, res, next);
+      expect(req.body).toEqual(listingWithFormattedDeadline);
+      expect(req.body.deadline).toBeInstanceOf(Date);
+    });
+  });
+
   describe('Listing deadline not a date string', () => {
     const listingWithDeadlineNotDateString = {
       ...validListing,
@@ -67,14 +90,7 @@ describe('Date validation', () => {
     };
 
     test('Should throw an error', () => {
-      const req = httpMocks.createRequest({
-        method: 'POST',
-        url: '/listings',
-        body: listingWithDeadlineNotDateString,
-      });
-      const res = httpMocks.createResponse();
-      const next = sinon.spy();
-
+      const req = createAddListingRequest(listingWithDeadlineNotDateString);
       expect(() => validateAndFormatListingDeadline(req, res, next)).toThrow(
         new BadRequestError('Invalid date.')
       );
@@ -82,20 +98,13 @@ describe('Date validation', () => {
   });
 
   describe('Listing deadline an invalid date string', () => {
-    const listingWithDeadlineNotDateString = {
+    const listingWithDeadlineInvalidDate = {
       ...validListing,
       deadline: '2019-02-29T00:00:00.000Z',
     };
 
     test('Should throw an error', () => {
-      const req = httpMocks.createRequest({
-        method: 'POST',
-        url: '/listings',
-        body: listingWithDeadlineNotDateString,
-      });
-      const res = httpMocks.createResponse();
-      const next = sinon.spy();
-
+      const req = createAddListingRequest(listingWithDeadlineInvalidDate);
       expect(() => validateAndFormatListingDeadline(req, res, next)).toThrow(
         new BadRequestError('Invalid date.')
       );
@@ -103,20 +112,13 @@ describe('Date validation', () => {
   });
 
   describe('Listing deadline a valid date string in the wrong format', () => {
-    const listingWithDeadlineNotDateString = {
+    const listingWithDeadlineInWrongFormat = {
       ...validListing,
       deadline: '29-02-2020',
     };
 
     test('Should throw an error', () => {
-      const req = httpMocks.createRequest({
-        method: 'POST',
-        url: '/listings',
-        body: listingWithDeadlineNotDateString,
-      });
-      const res = httpMocks.createResponse();
-      const next = sinon.spy();
-
+      const req = createAddListingRequest(listingWithDeadlineInWrongFormat);
       expect(() => validateAndFormatListingDeadline(req, res, next)).toThrow(
         new BadRequestError('Invalid date.')
       );
