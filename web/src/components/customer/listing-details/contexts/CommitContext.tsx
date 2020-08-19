@@ -97,23 +97,26 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
     const {customer, idToken} = await getCustomerWithLogin();
 
     if (customer === undefined || idToken === undefined) {
-      console.log(customer, idToken);
       onOpenPrompt('require-login');
       return;
     }
 
-    const commit = await addCommit(
-      {
-        listingId,
-        customerId: customer.id,
-      },
-      idToken
-    );
-    // TODO: Handle addition error
-    setCommitId(commit.id);
-    await refetchCustomer();
-    setCommitStatus(commit.commitStatus);
-    onOpenPrompt('successful-commit');
+    try {
+      const commit = await addCommit(
+        {
+          listingId,
+          customerId: customer.id,
+        },
+        idToken
+      );
+
+      setCommitId(commit.id);
+      await refetchCustomer();
+      setCommitStatus(commit.commitStatus);
+      onOpenPrompt('successful-commit');
+    } catch {
+      onOpenPrompt('error');
+    }
   };
 
   const onUncommit = async () => {
@@ -128,11 +131,15 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
       return;
     }
 
-    await deleteCommit(commitId, idToken);
-    // TODO: Handle deletion error
-    setCommitId(undefined);
-    await refetchCustomer();
-    setCommitStatus(undefined);
+    try {
+      await deleteCommit(commitId, idToken);
+
+      setCommitId(undefined);
+      await refetchCustomer();
+      setCommitStatus(undefined);
+    } catch {
+      onOpenPrompt('error');
+    }
   };
 
   const onPayment = async (
@@ -150,19 +157,22 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
     }
 
     onOpenPrompt('loading');
-    const commit = await payForCommit(commitId, {fulfilmentDetails}, idToken);
-    // TODO: Handle payment error
+    try {
+      const commit = await payForCommit(commitId, {fulfilmentDetails}, idToken);
 
-    if (setDefault) {
-      await updateCustomer(
-        customer.id,
-        {defaultFulfilmentDetails: fulfilmentDetails},
-        idToken
-      );
+      if (setDefault) {
+        await updateCustomer(
+          customer.id,
+          {defaultFulfilmentDetails: fulfilmentDetails},
+          idToken
+        );
+      }
+      await refetchCustomer();
+      setCommitStatus(commit.commitStatus);
+      onOpenPrompt('successful-payment');
+    } catch {
+      onOpenPrompt('error');
     }
-    await refetchCustomer();
-    setCommitStatus(commit.commitStatus);
-    onOpenPrompt('successful-payment');
   };
 
   const value = {
