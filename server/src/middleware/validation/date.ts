@@ -15,30 +15,33 @@
  */
 
 import {Request, Response, NextFunction} from 'express';
+import moment from 'moment';
 
 import {BadRequestError} from '../../utils/http-errors';
 
-const validateAndFormatDeadline = (dateString: string) => {
-  const timestamp = Date.parse(dateString);
-  if (Number.isNaN(timestamp)) {
-    throw new BadRequestError('Listing deadline is not a valid date.');
-  }
-  return new Date(timestamp);
-};
+/* eslint-disable @typescript-eslint/no-explicit-any */
+type DateGetter = (body: any) => string | undefined;
+type DateSetter = (body: any, date: Date) => void;
+/* eslint-ensable @typescript-eslint/no-explicit-any */
 
-const validateAndFormatListing = (
+const validateAndFormatDate = (getDate: DateGetter, setDate: DateSetter) => (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const listing = req.body;
-    listing.deadline = validateAndFormatDeadline(req.body.deadline);
-    req.validated.body = listing;
+  const dateString = getDate(req.body);
+  if (dateString === undefined) {
     next();
-  } catch (err) {
-    next(err);
+    return;
   }
+
+  const dateMoment = moment(dateString);
+  if (!dateMoment.isValid()) {
+    throw new BadRequestError('Invalid date.');
+  }
+
+  setDate(req.body, dateMoment.toDate());
+  next();
 };
 
-export default validateAndFormatListing;
+export default validateAndFormatDate;

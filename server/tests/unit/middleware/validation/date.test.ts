@@ -19,17 +19,15 @@ import sinon from 'sinon';
 
 import * as mockedMerchantAuth from '../../../../src/middleware/__mocks__/merchant-auth';
 import * as merchantAuth from '../../../../src/middleware/merchant-auth';
-import validateAndFormatListing from '../../../../src/middleware/validation/listing';
+import validateAndFormatDate from '../../../../src/middleware/validation/date';
 import {BadRequestError} from '../../../../src/utils/http-errors';
 
 // Mock middlewares
 jest.mock('../../../../src/middleware/merchant-auth');
 
-const {
-  mockMerchantAuth,
-} = merchantAuth as typeof mockedMerchantAuth;
+const {mockMerchantAuth} = merchantAuth as typeof mockedMerchantAuth;
 
-describe('Listing validation', () => {
+describe('Date validation', () => {
   beforeAll(() => {
     mockMerchantAuth();
   });
@@ -54,15 +52,15 @@ describe('Listing validation', () => {
     deadline: '2020-08-06T20:42:00.000Z',
     minCommits: 10,
   };
-  // describe('Valid listing', () => {
-  //   const validListing = {};
-  //
-  //   test('Should return validated listing', () => {
-  //
-  //   });
-  // });
 
-  describe('Listing with deadline not a date string', () => {
+  const validateAndFormatListingDeadline = validateAndFormatDate(
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    (body: any) => body.deadline,
+    (body: any, date: Date) => (body.deadline = date)
+    /* eslint-enable @typescript-eslint/no-explicit-any */
+  );
+
+  describe('Listing deadline not a date string', () => {
     const listingWithDeadlineNotDateString = {
       ...validListing,
       deadline: 'deadline',
@@ -77,19 +75,16 @@ describe('Listing validation', () => {
       const res = httpMocks.createResponse();
       const next = sinon.spy();
 
-      validateAndFormatListing(req, res, next);
-      expect(
-        next.calledWithExactly(
-          new BadRequestError('Listing deadline is not a valid date.')
-        )
+      expect(() => validateAndFormatListingDeadline(req, res, next)).toThrow(
+        new BadRequestError('Invalid date.')
       );
     });
   });
 
-  describe('Listing with deadline an invalid date string', () => {
+  describe('Listing deadline an invalid date string', () => {
     const listingWithDeadlineNotDateString = {
       ...validListing,
-      deadline: '2019-02-29',
+      deadline: '2019-02-29T00:00:00.000Z',
     };
 
     test('Should throw an error', () => {
@@ -101,11 +96,29 @@ describe('Listing validation', () => {
       const res = httpMocks.createResponse();
       const next = sinon.spy();
 
-      validateAndFormatListing(req, res, next);
-      expect(
-        next.calledWithExactly(
-          new BadRequestError('Listing deadline is not a valid date.')
-        )
+      expect(() => validateAndFormatListingDeadline(req, res, next)).toThrow(
+        new BadRequestError('Invalid date.')
+      );
+    });
+  });
+
+  describe('Listing deadline a valid date string in the wrong format', () => {
+    const listingWithDeadlineNotDateString = {
+      ...validListing,
+      deadline: '29-02-2020',
+    };
+
+    test('Should throw an error', () => {
+      const req = httpMocks.createRequest({
+        method: 'POST',
+        url: '/listings',
+        body: listingWithDeadlineNotDateString,
+      });
+      const res = httpMocks.createResponse();
+      const next = sinon.spy();
+
+      expect(() => validateAndFormatListingDeadline(req, res, next)).toThrow(
+        new BadRequestError('Invalid date.')
       );
     });
   });
