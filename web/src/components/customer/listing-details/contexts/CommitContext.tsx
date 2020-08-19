@@ -26,6 +26,8 @@ import {
 import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import {useCommitFeedbackPromptContext} from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
 import {CommitStatus, FulfilmentDetails} from 'interfaces';
+import {ConflictError} from 'utils/errors';
+import {MaxCommitsExceededError} from 'utils/errors/commits';
 
 type ContextType =
   | {
@@ -114,8 +116,17 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
       await refetchCustomer();
       setCommitStatus(commit.commitStatus);
       onOpenPrompt('successful-commit');
-    } catch {
-      onOpenPrompt('error');
+    } catch (err) {
+      if (err instanceof ConflictError) {
+        // We will let conflict errors pass because customer
+        // might not have been logged in yet when they click
+        // on the Commit button.
+        return;
+      } else if (err instanceof MaxCommitsExceededError) {
+        onOpenPrompt('max-commits-exceeded');
+      } else {
+        onOpenPrompt('error');
+      }
     }
   };
 
