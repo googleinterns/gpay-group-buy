@@ -118,10 +118,7 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
       onOpenPrompt('successful-commit');
     } catch (err) {
       if (err instanceof ConflictError) {
-        // We will let conflict errors pass because customer
-        // might not have been logged in yet when they click
-        // on the Commit button.
-        return;
+        onOpenPrompt('already-committed');
       } else if (err instanceof MaxCommitsExceededError) {
         onOpenPrompt('max-commits-exceeded');
       } else {

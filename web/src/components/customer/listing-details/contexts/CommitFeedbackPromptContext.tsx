@@ -22,7 +22,8 @@ type PromptContent =
   | 'loading'
   | 'require-login'
   | 'error'
-  | 'max-commits-exceeded';
+  | 'max-commits-exceeded'
+  | 'already-committed';
 
 type ContextType =
   | {
