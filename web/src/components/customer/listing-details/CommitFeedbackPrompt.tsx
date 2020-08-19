@@ -24,6 +24,7 @@ import {useCommitFeedbackPromptContext} from 'components/customer/listing-detail
 import {ReactComponent as CelebrateSvg} from 'assets/celebrate.svg';
 import {ReactComponent as NotifySvg} from 'assets/customer/notify.svg';
 import {ReactComponent as PaymentSvg} from 'assets/customer/payment.svg';
+import {ReactComponent as SadSvg} from 'assets/customer/sad.svg';
 
 interface PromptProps {
   isVisible: boolean;
@@ -79,6 +80,16 @@ const CommitStatusPrompt: React.FC = () => {
           <Prompt
             title="You have successfully paid for your item!"
             header={<PaymentSvg />}
+            isVisible={isPromptVisible}
+            onClose={onClose}
+          />
+        );
+        break;
+      case 'max-commits-exceeded':
+        setPrompt(
+          <Prompt
+            title="Sorry, you do not have enough commits left."
+            header={<SadSvg />}
             isVisible={isPromptVisible}
             onClose={onClose}
           />

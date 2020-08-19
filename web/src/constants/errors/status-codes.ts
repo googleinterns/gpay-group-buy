@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-import {MAX_NUM_COMMITS} from 'constants/customer';
-
-export const GENERIC_ERROR =
-  'Oops, something went wrong. Please try again later!';
-
-export const NO_MERCHANT_WITH_FIREBASE_UID =
-  'There is no user registered with Firebase User ID';
-
-export const EXCEEDED_MAX_COMMITS = `Customer has reached max number of ${MAX_NUM_COMMITS} commits used.`;
+export const BAD_REQUEST_ERROR_CODE = 400;
+export const UNAUTHROIZED_ERROR_CODE = 401;
+export const FORBIDDEN_ERROR_CODE = 403;
+export const NOT_FOUND_ERROR_CODE = 404;
+export const CONFLICT_ERROR_CODE = 409;
+export const INTERNAL_SERVER_ERROR_CODE = 500;
