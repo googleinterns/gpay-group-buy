@@ -20,7 +20,8 @@ type PromptContent =
   | 'successful-commit'
   | 'successful-payment'
   | 'loading'
-  | 'require-login';
+  | 'require-login'
+  | 'error';
 
 type ContextType =
   | {

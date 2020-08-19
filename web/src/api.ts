@@ -99,7 +99,7 @@ const deleteWithAuth = async (endpoint: string, token: string) => {
  */
 const query = async (
   endpoint: string,
-  queryParams: Record<string, any>
+  queryParams: Record<string, unknown>
 ): Promise<Response> => {
   const strParams: Record<string, string> = {};
   Object.keys(queryParams).forEach(
@@ -107,7 +107,7 @@ const query = async (
   );
 
   const url = new URL(endpoint);
-  const params = new URLSearchParams(queryParams).toString();
+  const params = new URLSearchParams(strParams).toString();
   url.search = params;
 
   return fetch(url.toString());
@@ -233,7 +233,13 @@ export const addCommit = async (
     commitData,
     idToken
   );
-  return res.json();
+
+  const resData = await res.json();
+
+  if (!res.ok) {
+    throw new Error(resData.error?.message);
+  }
+  return resData;
 };
 
 /**
@@ -242,10 +248,16 @@ export const addCommit = async (
  * @param idToken Authentication token of customer
  */
 export const deleteCommit = async (commitId: number, idToken: string) => {
-  await deleteWithAuth(
+  const res = await deleteWithAuth(
     `${process.env.REACT_APP_SERVER_URL}/commits/${commitId}`,
     idToken
   );
+
+  if (!res.ok) {
+    const resData = await res.json();
+    throw new Error(resData.error?.message);
+  }
+  return;
 };
 
 /**
@@ -264,7 +276,13 @@ export const payForCommit = async (
     paymentData,
     idToken
   );
-  return res.json();
+
+  const resData = await res.json();
+
+  if (!res.ok) {
+    throw new Error(resData.error?.message);
+  }
+  return resData;
 };
 
 /**

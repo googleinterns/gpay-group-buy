@@ -182,7 +182,7 @@ const FormRow: React.FC<FormRowProps> = ({
   inputStyle = 'flat',
 }) => {
   const {fields, errors, register, validations} = useFormPropsContext();
-  const {name, label, type} = fields[index];
+  const {name, label, type, defaultValue} = fields[index];
 
   const getInput = useCallback(() => {
     switch (type) {
@@ -194,6 +194,7 @@ const FormRow: React.FC<FormRowProps> = ({
             ref={register(validations[name])}
             inputWidth={inputWidth}
             inputStyle={inputStyle}
+            defaultValue={defaultValue}
           />
         );
       case 'checkbox':
@@ -213,10 +214,20 @@ const FormRow: React.FC<FormRowProps> = ({
             ref={register(validations[name])}
             inputWidth={inputWidth}
             inputStyle={inputStyle}
+            defaultValue={defaultValue}
           />
         );
     }
-  }, [type, name, validations, register, inputStyle, inputWidth, textAreaRows]);
+  }, [
+    type,
+    name,
+    validations,
+    register,
+    inputStyle,
+    inputWidth,
+    textAreaRows,
+    defaultValue,
+  ]);
 
   const isStacked = type === 'checkbox' ? false : stacked;
 

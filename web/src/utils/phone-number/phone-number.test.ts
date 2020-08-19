@@ -14,26 +14,15 @@
  * limitations under the License.
  */
 
-declare global {
-  interface Window {
-    microapps: {
-      getIdentity: (options?: {
-        nonce?: string;
-        skipPrompt?: boolean;
-      }) => Promise<string>;
-      getPhoneNumber: (options?: {
-        nonce?: string;
-        skipPrompt?: boolean;
-      }) => Promise<string>;
-      requestSharing: (options?: {
-        text?: string;
-        url?: string;
-        title?: string;
-      }) => Promise<void>;
-    };
-  }
-}
+import {getNationalNumber} from 'utils/phone-number';
 
-// Export nothing.
-// Added because we can only `declare global` in files that has import or export.
-export {};
+describe('getNationalNumber', () => {
+  test('it should extract national number accurately', () => {
+    const numberInputs = ['+91 1234567890', '+65 81234567'];
+    const expectedValues = ['1234567890', '81234567'];
+
+    numberInputs.forEach((numberInput, idx) => {
+      expect(getNationalNumber(numberInput)).toBe(expectedValues[idx]);
+    });
+  });
+});

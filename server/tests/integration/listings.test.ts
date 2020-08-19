@@ -17,10 +17,29 @@
 import request from 'supertest';
 
 import app from '../../src';
+import * as mockedMerchantAuth from '../../src/middleware/__mocks__/merchant-auth';
+import * as merchantAuthMiddleware from '../../src/middleware/merchant-auth';
 import listingsFixtures from '../fixtures/listings';
 import merchantFixtures from '../fixtures/merchants';
 
+// Mock middlewares
+jest.mock('../../src/middleware/merchant-auth');
+
+const {
+  merchantAuth,
+  restoreMerchantAuth,
+} = merchantAuthMiddleware as typeof mockedMerchantAuth;
+
+// Disable customer auth mock implementation by default
+beforeAll(() => {
+  restoreMerchantAuth();
+});
+
 describe('Listings endpoints', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('GET /listings', () => {
     test('Should fetch all listings', async () => {
       const expectedListingData = listingsFixtures.responseData;
@@ -125,6 +144,22 @@ describe('Listings endpoints', () => {
       expect(res.body.error.message).toBe(
         'Query parameter ids cannot be empty.'
       );
+    });
+  });
+
+  describe('POST /listings', () => {
+    test('Should call merchant auth', async () => {
+      await request(app).post('/listings');
+
+      expect(merchantAuth).toHaveBeenCalled();
+    });
+
+    test('Should reject if merchant auth is not provided', async () => {
+      const res = await request(app).post('/listings');
+
+      expect(res.status).toBe(401);
+      expect(res.body).toHaveProperty('error');
+      expect(res.body.error.message).toBe('Missing Authorization header.');
     });
   });
 });

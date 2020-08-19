@@ -14,8 +14,16 @@
  * limitations under the License.
  */
 
-import React from 'react';
-
-const LandingPage: React.FC = () => <div>Merchant Landing Page</div>;
-
-export default LandingPage;
+/**
+ * Simple function that retrieves the national number of the input phone number,
+ * with the assumption that the input phone number follows our standard phone
+ * number format.
+ * Eg input: '+91 1234567890'
+ * Eg output: '1234567890'
+ * @param phoneNumber Phone number in E.123 international notation with no spaces
+ * for the national phone number portion
+ */
+export const getNationalNumber = (phoneNumber: string): string => {
+  const [_, nationalNumber] = phoneNumber.split(' ');
+  return nationalNumber;
+};

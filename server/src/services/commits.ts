@@ -26,7 +26,15 @@ import {
   CommitUpdatePayload,
 } from '../interfaces';
 import {commitStorage, listingStorage, customerStorage} from '../storage';
-import {BadRequestError} from '../utils/http-errors';
+import {BadRequestError, InternalServerError} from '../utils/http-errors';
+import {encodeMicroappsUrl, sendMessage} from '../utils/spot-api';
+
+/**
+ * Retrieves commit with the specified commitId.
+ * @param commitId Id of the commit to retrieve
+ */
+const getCommit = async (commitId: number) =>
+  await commitStorage.getCommit(commitId);
 
 /**
  * Retrieves all commits.
@@ -163,7 +171,63 @@ const completeCommit = async (commitId: number) => {
     commitStatus: 'completed',
   };
 
-  return commitStorage.updateCommit(commitId, fieldsToUpdate, commit.listingId);
+  const updatedCommit = await commitStorage.updateCommit(
+    commitId,
+    fieldsToUpdate,
+    commit.listingId
+  );
+  await sendCommitMessage(updatedCommit);
+  return updatedCommit;
+};
+
+/**
+ * A helper function that sends a message to customer, notifying them that their
+ * commit status has changed to 'successful', 'unsuccessful' or 'completed'.
+ * It uses Spot Messages API.
+ * @param commit The updated commit whose new status is to be notified to customer
+ */
+const sendCommitMessage = async (commit: CommitResponse) => {
+  const listing = await listingStorage.getListing(commit.listingId);
+  const customer = await customerStorage.getCustomer(commit.customerId);
+
+  let text = '';
+  switch (commit.commitStatus) {
+    case 'successful':
+      text = 'Group Buy is successful! Please proceed to payment.';
+      break;
+    case 'unsuccessful':
+      text =
+        "Unfortunately, Group Buy was unsuccessful as there weren't enough buyers.";
+      break;
+    case 'completed':
+      text = 'Your item has been delivered by the merchant!';
+      break;
+    default:
+      throw new InternalServerError(
+        'Invalid commitStatus for sending a message.'
+      );
+  }
+
+  const completeCommitMessage = {
+    imageUrl: listing.imgUrl,
+    title: listing.name,
+    text,
+    actions: [
+      {
+        label: 'View Listing',
+        url: encodeMicroappsUrl(`listing/${listing.id}`),
+      },
+    ],
+    recipients: [
+      {
+        phoneNumber: {
+          number: customer.gpayContactNumber,
+        },
+      },
+    ],
+  };
+
+  return sendMessage(completeCommitMessage);
 };
 
 /**
@@ -186,9 +250,11 @@ const deleteCommit = async (commitId: number) => {
 };
 
 export default {
+  getCommit,
   getAllCommits,
   addCommit,
   payForCommit,
   completeCommit,
   deleteCommit,
+  sendCommitMessage,
 };
