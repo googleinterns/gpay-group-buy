@@ -29,12 +29,15 @@ export const formatMoney = ({currency, dollars, cents}: Money): string => {
 
 /**
  * Formats value number and currency string into Money type. If the number has more
- * than 2 decimal places, it will be rounded down to 2 decimal places.
+ * than 2 decimal places, it will be rounded to the nearest 2 decimal places.
  * @param number The value of the Money in number type, can also be in exponential form
  * @param currency The 3-letter currency code defined in ISO 4217
  */
-export const parseMoney = (value: number, currency: string): Money => ({
-  currency,
-  dollars: Math.floor(value),
-  cents: Math.floor((value % 1) * 100),
-});
+export const parseMoney = (value: number, currency: string): Money => {
+  const valueInCents = Math.round(value * 100);
+  return {
+    currency,
+    dollars: Math.floor(valueInCents / 100),
+    cents: Math.round(valueInCents % 100),
+  };
+};
