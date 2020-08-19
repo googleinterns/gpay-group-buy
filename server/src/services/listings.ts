@@ -17,6 +17,7 @@
 import {DEFAULT_LISTING_PAYLOAD} from '../constants/default-payload';
 import {Filter, ListingRequest, ListingResponse} from '../interfaces';
 import {commitStorage, listingStorage} from '../storage';
+import {commitService} from './index';
 
 const addListing = async (listing: ListingRequest): Promise<ListingResponse> =>
   listingStorage.addListing({
@@ -40,11 +41,18 @@ const updateListingOutcomeStatus = async (listing: ListingResponse) => {
   const affectedCommits = await commitStorage.getAllCommits([
     {property: 'listingId', value: listing.id},
   ]);
-  return listingStorage.updateListing(
+  const updatedListing = await listingStorage.updateListing(
     listing.id,
     {listingStatus: isSuccessful ? 'successful' : 'unsuccessful'},
     affectedCommits.map(commit => commit.id)
   );
+  await Promise.all(
+    affectedCommits.map(commit => {
+      commit.commitStatus = updatedListing.listingStatus;
+      return commitService.sendCommitMessage(commit);
+    })
+  );
+  return updatedListing;
 };
 
 const updateOutdatedListingOutcomeStatuses = async (): Promise<
