@@ -194,9 +194,8 @@ const FormRow: React.FC<FormRowProps> = ({
             ref={register(validations[name])}
             inputWidth={inputWidth}
             inputStyle={inputStyle}
-          >
-            {defaultValue}
-          </TextArea>
+            defaultValue={defaultValue}
+          />
         );
       case 'checkbox':
         return (
