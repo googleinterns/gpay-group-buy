@@ -83,6 +83,17 @@ describe('Date validation', () => {
     });
   });
 
+  describe('Listing with no deadline', () => {
+    const {deadline, ...listingWithNoDeadline} = validListing;
+
+    test('Should throw an error', () => {
+      const req = createAddListingRequest(listingWithNoDeadline);
+      expect(() => validateAndFormatListingDeadline(req, res, next)).toThrow(
+        new BadRequestError('Date is undefined.')
+      );
+    });
+  });
+
   describe('Listing deadline not a date string', () => {
     const listingWithDeadlineNotDateString = {
       ...validListing,

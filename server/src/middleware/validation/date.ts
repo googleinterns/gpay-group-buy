@@ -31,8 +31,7 @@ const validateAndFormatDate = (getDate: DateGetter, setDate: DateSetter) => (
 ) => {
   const dateString = getDate(req.body);
   if (dateString === undefined) {
-    next();
-    return;
+    throw new BadRequestError('Date is undefined.');
   }
 
   const dateMoment = moment(dateString);
