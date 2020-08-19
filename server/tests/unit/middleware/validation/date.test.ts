@@ -21,6 +21,7 @@ import * as mockedMerchantAuth from '../../../../src/middleware/__mocks__/mercha
 import * as merchantAuth from '../../../../src/middleware/merchant-auth';
 import validateAndFormatDate from '../../../../src/middleware/validation/date';
 import {BadRequestError} from '../../../../src/utils/http-errors';
+import listingFixtures from '../../../fixtures/listings';
 
 // Mock middlewares
 jest.mock('../../../../src/middleware/merchant-auth');
@@ -32,26 +33,7 @@ describe('Date validation', () => {
     mockMerchantAuth();
   });
 
-  const validListing = {
-    merchantId: 5075408403824640,
-    name: 'Google Nest Mini',
-    price: {
-      currency: 'INR',
-      dollars: 4299,
-      cents: 0,
-    },
-    oldPrice: {
-      currency: 'INR',
-      dollars: 4499,
-      cents: 0,
-    },
-    imgUrl:
-      'https://images.unsplash.com/photo-1528310263469-da619c84a9a3?ixlib=rb-1.2.1&auto=format&fit=crop&w=684&q=80',
-    description:
-      'Google Nest Mini sed nisi lacus sed viverra tellus in hac habitasse platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus at augue eget arcu dictum.',
-    deadline: '2020-08-06T20:42:00.000Z',
-    minCommits: 10,
-  };
+  const validListing = listingFixtures.data[0];
 
   const validateAndFormatListingDeadline = validateAndFormatDate(
     /* eslint-disable @typescript-eslint/no-explicit-any */
