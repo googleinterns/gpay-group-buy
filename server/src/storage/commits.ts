@@ -101,13 +101,25 @@ const updateCommit = async (
         value: 1,
       });
       break;
-    case 'completed':
+    case 'completed': {
       listingUpdateRules.push({
         property: 'numCompleted',
         op: 'add',
         value: 1,
       });
+
+      // Check if the number of completed listings will be equal to the total
+      // number of commits. If so, it means that all the commits will have been
+      // completed, and so the listing status should become 'completed'.
+      const affectedListing = await getEntity(LISTING_KIND, affectedListingId);
+      if (affectedListing.numCompleted + 1 === affectedListing.numCommits) {
+        listingUpdateRules.push({
+          property: 'listingStatus',
+          value: 'completed',
+        });
+      }
       break;
+    }
   }
 
   await makeTransaction(
