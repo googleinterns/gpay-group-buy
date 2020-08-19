@@ -71,7 +71,10 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
     refetchCustomer,
   } = useCustomerContext();
 
-  const {onOpen: onOpenPrompt} = useCommitFeedbackPromptContext();
+  const {
+    onOpen: onOpenPrompt,
+    onClose: onClosePrompt,
+  } = useCommitFeedbackPromptContext();
 
   const [commitStatus, setCommitStatus] = useState<CommitStatus>();
   const [commitId, setCommitId] = useState<number | undefined>();
@@ -103,6 +106,7 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
       return;
     }
 
+    onOpenPrompt('loading');
     try {
       const commit = await addCommit(
         {
@@ -139,12 +143,14 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
       return;
     }
 
+    onOpenPrompt('loading');
     try {
       await deleteCommit(commitId, idToken);
 
       setCommitId(undefined);
       await refetchCustomer();
       setCommitStatus(undefined);
+      onClosePrompt();
     } catch {
       onOpenPrompt('error');
     }
