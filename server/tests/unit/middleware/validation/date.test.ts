@@ -60,12 +60,15 @@ describe('Date validation', () => {
     /* eslint-enable @typescript-eslint/no-explicit-any */
   );
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const createAddListingRequest = (listing: any) =>
     httpMocks.createRequest({
       method: 'POST',
       url: '/listings',
       body: listing,
     });
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+
   const res = httpMocks.createResponse();
   const next = sinon.spy();
 
