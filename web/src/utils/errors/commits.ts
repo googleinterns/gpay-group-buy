@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-import {MAX_NUM_COMMITS} from 'constants/customer';
+import {BadRequestError} from 'utils/errors';
 
-export const GENERIC_ERROR =
-  'Oops, something went wrong. Please try again later!';
-
-export const NO_MERCHANT_WITH_FIREBASE_UID =
-  'There is no user registered with Firebase User ID';
-
-export const EXCEEDED_MAX_COMMITS = `Customer has reached max number of ${MAX_NUM_COMMITS} commits used.`;
+export class MaxCommitsExceededError extends BadRequestError {}
