@@ -233,7 +233,13 @@ export const addCommit = async (
     commitData,
     idToken
   );
-  return res.json();
+
+  const resData = await res.json();
+
+  if (!res.ok) {
+    throw new Error(resData.error?.message);
+  }
+  return resData;
 };
 
 /**
@@ -242,10 +248,16 @@ export const addCommit = async (
  * @param idToken Authentication token of customer
  */
 export const deleteCommit = async (commitId: number, idToken: string) => {
-  await deleteWithAuth(
+  const res = await deleteWithAuth(
     `${process.env.REACT_APP_SERVER_URL}/commits/${commitId}`,
     idToken
   );
+
+  if (!res.ok) {
+    const resData = await res.json();
+    throw new Error(resData.error?.message);
+  }
+  return;
 };
 
 /**
@@ -264,7 +276,13 @@ export const payForCommit = async (
     paymentData,
     idToken
   );
-  return res.json();
+
+  const resData = await res.json();
+
+  if (!res.ok) {
+    throw new Error(resData.error?.message);
+  }
+  return resData;
 };
 
 /**
