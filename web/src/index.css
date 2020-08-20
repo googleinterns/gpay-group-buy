@@ -68,3 +68,12 @@ h1 {
   font-weight: bold;
   font-size: 2em;
 }
+
+.mui-btn--primary, .mui-btn--primary:focus {
+  background-color: var(--green);
+}
+
+.mui-btn--is-disabled, .mui-btn:disabled {
+  background-color: var(--gray);
+  color: white;
+}

@@ -147,8 +147,7 @@ const ActionBar: React.FC = () => {
         case 'awaitingDelivery':
           return <ActionButton disabled>Waiting for Delivery</ActionButton>;
         default:
-          // TODO: Deal with delivered case ActionButtonState
-          return <></>;
+          return <ActionButton disabled>Item Delivered</ActionButton>;
       }
     },
     [onCommit, onUncommit, onOpenFulfilmentDetailsPrompt]
