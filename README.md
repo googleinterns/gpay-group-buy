@@ -52,7 +52,7 @@ Apache header:
 
 ## Useful Links
 
-- One-Pager Writeup: [go/gpay-group-buy](go/gpay-group-buy)
-- UI Mock: [go/gpay-group-buy-ui](go/gpay-group-buy-ui)
-- Design Doc: [go/gpay-group-buy-design-doc](go/gpay-group-buy-design-doc)
-- Demo Slides: [go/gpay-group-buy-slides](go/gpay-group-buy-slides)
+- One-Pager Writeup: [go/gpay-group-buy](http://go/gpay-group-buy)
+- UI Mock: [go/gpay-group-buy-ui](http://go/gpay-group-buy-ui)
+- Design Doc: [go/gpay-group-buy-design-doc](http://go/gpay-group-buy-design-doc)
+- Demo Slides: [go/gpay-group-buy-slides](http://go/gpay-group-buy-slides)
