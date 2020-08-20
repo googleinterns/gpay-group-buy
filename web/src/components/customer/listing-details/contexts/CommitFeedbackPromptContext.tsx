@@ -21,7 +21,9 @@ type PromptContent =
   | 'successful-payment'
   | 'loading'
   | 'require-login'
-  | 'error';
+  | 'error'
+  | 'max-commits-exceeded'
+  | 'already-committed';
 
 type ContextType =
   | {

@@ -25,6 +25,8 @@ import {useHistory} from 'react-router-dom';
 import {ReactComponent as CelebrateSvg} from 'assets/celebrate.svg';
 import {ReactComponent as NotifySvg} from 'assets/customer/notify.svg';
 import {ReactComponent as PaymentSvg} from 'assets/customer/payment.svg';
+import {ReactComponent as SadSvg} from 'assets/customer/sad.svg';
+import {ReactComponent as ThinkingSvg} from 'assets/customer/thinking.svg';
 
 interface PromptProps {
   isVisible: boolean;
@@ -87,6 +89,31 @@ const CommitStatusPrompt: React.FC = () => {
             header={<PaymentSvg />}
             isVisible={isPromptVisible}
             onClose={onClose}
+          />
+        );
+        break;
+      case 'max-commits-exceeded':
+        setPrompt(
+          <Prompt
+            title="Sorry, you do not have enough commits left."
+            header={<SadSvg />}
+            isVisible={isPromptVisible}
+            onClose={onClose}
+          />
+        );
+        break;
+      case 'already-committed':
+        setPrompt(
+          <MobilePrompt
+            title="You are already committed to this listing."
+            header={<ThinkingSvg />}
+            isVisible={isPromptVisible}
+            buttons={[
+              {
+                name: 'Dismiss',
+                onClick: onClose,
+              },
+            ]}
           />
         );
         break;
