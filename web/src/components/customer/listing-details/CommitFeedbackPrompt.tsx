@@ -20,6 +20,7 @@ import CommitsBadge from 'components/common/CommitsBadge';
 import Loading from 'components/common/Loading';
 import MobilePrompt from 'components/common/MobilePrompt';
 import {useCommitFeedbackPromptContext} from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
+import {useHistory} from 'react-router-dom';
 
 import {ReactComponent as CelebrateSvg} from 'assets/celebrate.svg';
 import {ReactComponent as NotifySvg} from 'assets/customer/notify.svg';
@@ -34,24 +35,29 @@ interface PromptProps {
   onClose: () => void;
 }
 
-const Prompt: React.FC<PromptProps> = ({onClose, ...props}) => (
-  <MobilePrompt
-    {...props}
-    buttons={[
-      {
-        name: 'Manage',
-        // TODO: Link to My Commits page onClick instead
-        onClick: onClose,
-      },
-      {
-        name: 'Dismiss',
-        onClick: onClose,
-      },
-    ]}
-  >
-    <CommitsBadge />
-  </MobilePrompt>
-);
+const Prompt: React.FC<PromptProps> = ({onClose, ...props}) => {
+  const history = useHistory();
+
+  const onClickManage = () => history.push('/commits');
+
+  return (
+    <MobilePrompt
+      {...props}
+      buttons={[
+        {
+          name: 'Manage',
+          onClick: onClickManage,
+        },
+        {
+          name: 'Dismiss',
+          onClick: onClose,
+        },
+      ]}
+    >
+      <CommitsBadge />
+    </MobilePrompt>
+  );
+};
 
 /**
  * CommitStatusPrompt that shows the appropriate feedback prompt to the customer.
