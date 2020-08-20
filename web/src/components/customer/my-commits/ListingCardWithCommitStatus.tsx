@@ -20,6 +20,11 @@ import ListingCard from 'components/common/ListingCard';
 import StrippedCol from 'components/common/StrippedCol';
 import CommitStatusBadge from 'components/customer/my-commits/CommitStatusBadge';
 import {Listing, CommitStatus} from 'interfaces';
+import styled from 'styled-components';
+
+const StyledCommitStatusBadge = styled(CommitStatusBadge)`
+  align-self: flex-end;
+`;
 
 interface ListingCardProps {
   listing: Listing;
@@ -43,7 +48,7 @@ const ListingCardWithCommitStatus: React.FC<ListingCardProps> = ({
       horizontal
       childrenPos="right"
     >
-      <CommitStatusBadge commitStatus={commitStatus} />
+      <StyledCommitStatusBadge commitStatus={commitStatus} />
     </ListingCard>
   </StrippedCol>
 );
