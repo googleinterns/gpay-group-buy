@@ -16,8 +16,7 @@
 
 import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import {useCommitContext} from 'components/customer/listing-details/contexts/CommitContext';
-import {FulfilmentDetails, DecodedIdentityToken} from 'interfaces';
-import {decodeToken} from 'microapps';
+import {FulfilmentDetails} from 'interfaces';
 import {useForm} from 'react-hook-form';
 import {getNationalNumber} from 'utils/phone-number';
 
@@ -36,12 +35,9 @@ const useFulfilmentDetailsForm = () => {
     mode: 'onChange',
   });
   const {onPayment} = useCommitContext();
-  const {customer, idToken} = useCustomerContext();
+  const {customer, identity} = useCustomerContext();
 
-  const customerName =
-    idToken !== undefined
-      ? (decodeToken(idToken) as DecodedIdentityToken).name
-      : '';
+  const customerName = identity ? identity.decodedToken.name : '';
 
   const fields = [
     {

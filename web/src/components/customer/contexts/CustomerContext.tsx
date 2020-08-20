@@ -18,7 +18,7 @@ import React, {useContext, useState, useEffect, useCallback} from 'react';
 
 import {getCustomer as fetchCustomer, loginCustomer} from 'api';
 import useLocalStorage from 'components/common/hooks/useLocalStorage';
-import {Customer} from 'interfaces';
+import {Customer, CustomerIdentity} from 'interfaces';
 import {getIdentity, getPhoneNumber} from 'microapps';
 
 interface AuthenticatedCustomer {
@@ -28,7 +28,7 @@ interface AuthenticatedCustomer {
 
 type ContextType =
   | {
-      idToken: string | undefined;
+      identity: CustomerIdentity | undefined;
       customer: Customer | undefined;
       getCustomerWithLogin: () => Promise<AuthenticatedCustomer>;
       refetchCustomer: () => Promise<void>;
@@ -59,7 +59,7 @@ const CustomerProvider: React.FC = ({children}) => {
     false
   );
 
-  const [idToken, setIdToken] = useState<string>();
+  const [identity, setIdentity] = useState<CustomerIdentity>();
 
   const [customer, setCustomer] = useState<Customer>();
 
@@ -70,12 +70,10 @@ const CustomerProvider: React.FC = ({children}) => {
       return {customer: undefined, idToken: undefined};
     }
 
-    const {
-      idToken,
-      decodedToken: {sub: gpayId},
-    } = identity;
-    setIdToken(idToken);
+    const {idToken, decodedToken} = identity;
+    setIdentity({idToken, decodedToken});
 
+    const {sub: gpayId} = decodedToken;
     const customer = await loginCustomer({gpayId, gpayContactNumber}, idToken);
     setCustomer(customer);
     setIsExistingCustomer(true);
@@ -90,10 +88,10 @@ const CustomerProvider: React.FC = ({children}) => {
   }, [isExistingCustomer, login]);
 
   useEffect(() => {
-    if (idToken === undefined) {
+    if (identity === undefined) {
       setCustomer(undefined);
     }
-  }, [idToken, login]);
+  }, [identity, login]);
 
   /**
    * Gets current customer. Attempts a login if customer is undefined.
@@ -102,7 +100,7 @@ const CustomerProvider: React.FC = ({children}) => {
     if (customer === undefined) {
       return login();
     }
-    return {customer, idToken};
+    return {customer, idToken: identity?.idToken};
   };
 
   /**
@@ -120,7 +118,7 @@ const CustomerProvider: React.FC = ({children}) => {
   };
 
   const value = {
-    idToken,
+    identity,
     customer,
     getCustomerWithLogin,
     refetchCustomer,
