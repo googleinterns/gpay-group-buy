@@ -69,7 +69,10 @@ h1 {
   font-size: 2em;
 }
 
-.mui-btn--primary, .mui-btn--primary:focus {
+.mui-btn--primary,
+.mui-btn--primary:focus,
+.mui-btn--primary:active,
+.mui-btn--primary:hover {
   background-color: var(--green);
 }
 

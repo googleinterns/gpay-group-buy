@@ -77,6 +77,7 @@ const LinkButton = styled(Button)`
 
   && {
     color: var(--green);
+    background: none;
   }
 `;
 
