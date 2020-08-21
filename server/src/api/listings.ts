@@ -21,6 +21,7 @@
 import {Router, Request, Response, NextFunction} from 'express';
 
 import merchantAuth from '../middleware/merchant-auth';
+import validateAndFormatDate from '../middleware/validation/date';
 import {listingService} from '../services';
 import {BadRequestError} from '../utils/http-errors';
 
@@ -101,11 +102,14 @@ listingRouter.get(
 listingRouter.post(
   '/',
   merchantAuth,
+  validateAndFormatDate(
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    (body: any) => body.deadline,
+    (body: any, date: Date) => (body.deadline = date)
+    /* eslint-ensable @typescript-eslint/no-explicit-any */
+  ),
   async (req: Request, res: Response, next: NextFunction) => {
     const listingData = req.body;
-    // Parse JSON object into the correct types of ListingPayload properties.
-    listingData.deadline = new Date(listingData.deadline);
-
     try {
       const listing = await listingService.addListing(listingData);
       const resourceUrl = `${process.env.SERVER_URL}/listings/${listing.id}`;
