@@ -15,7 +15,7 @@ The project consists of 2 parts:
 | App                    | Description                                                              |
 |------------------------|--------------------------------------------------------------------------|
 | Customer Spot Microapp | Customers can explore listings, commit to listings and pay for listings. |
-| Merchant Web App       | Merchant can create listings and manage listings.                        |
+| Merchant Web App       | Merchants can create listings and manage listings.                        |
 
 
 ## Folder Structure
