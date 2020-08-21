@@ -17,7 +17,9 @@
 import {
   GENERIC_ERROR,
   NO_MERCHANT_WITH_FIREBASE_UID,
+  EXCEEDED_MAX_COMMITS,
 } from 'constants/errors/server-errors';
+import {CONFLICT_ERROR_CODE} from 'constants/errors/status-codes';
 
 import {
   Commit,
@@ -32,6 +34,8 @@ import {
   ListingQuery,
   CommitPaymentPayload,
 } from 'interfaces';
+import {ConflictError} from 'utils/errors';
+import {MaxCommitsExceededError} from 'utils/errors/commits';
 
 /**
  * Helper function that wraps the fetch call to make a post request with Auth headers.
@@ -233,7 +237,20 @@ export const addCommit = async (
     commitData,
     idToken
   );
-  return res.json();
+
+  const resData = await res.json();
+
+  if (!res.ok) {
+    const errMsg = resData.error?.message;
+    if (res.status === CONFLICT_ERROR_CODE) {
+      throw new ConflictError(errMsg);
+    } else if (errMsg === EXCEEDED_MAX_COMMITS) {
+      throw new MaxCommitsExceededError(errMsg);
+    } else {
+      throw new Error(errMsg);
+    }
+  }
+  return resData;
 };
 
 /**
@@ -242,10 +259,16 @@ export const addCommit = async (
  * @param idToken Authentication token of customer
  */
 export const deleteCommit = async (commitId: number, idToken: string) => {
-  await deleteWithAuth(
+  const res = await deleteWithAuth(
     `${process.env.REACT_APP_SERVER_URL}/commits/${commitId}`,
     idToken
   );
+
+  if (!res.ok) {
+    const resData = await res.json();
+    throw new Error(resData.error?.message);
+  }
+  return;
 };
 
 /**
@@ -264,7 +287,13 @@ export const payForCommit = async (
     paymentData,
     idToken
   );
-  return res.json();
+
+  const resData = await res.json();
+
+  if (!res.ok) {
+    throw new Error(resData.error?.message);
+  }
+  return resData;
 };
 
 /**

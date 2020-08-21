@@ -53,7 +53,13 @@ const detailsRowStyle = css`
 `;
 
 const ChildrenContainer = styled.div`
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+`;
+
+const DetailsContent = styled.div`
+  flex: auto;
 `;
 
 const Details = styled.div`
@@ -113,10 +119,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
       <CardContent>
         <DeadlineTag deadline={endDate} />
         <Details childrenPos={childrenPos}>
-          <div>
+          <DetailsContent>
             <ListingName>{listingName}</ListingName>
             <ListingPrice price={price} oldPrice={oldPrice} />
-          </div>
+          </DetailsContent>
           <ChildrenContainer>{children}</ChildrenContainer>
         </Details>
       </CardContent>

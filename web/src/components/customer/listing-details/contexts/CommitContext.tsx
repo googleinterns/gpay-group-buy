@@ -26,6 +26,8 @@ import {
 import {useCustomerContext} from 'components/customer/contexts/CustomerContext';
 import {useCommitFeedbackPromptContext} from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
 import {CommitStatus, FulfilmentDetails} from 'interfaces';
+import {ConflictError} from 'utils/errors';
+import {MaxCommitsExceededError} from 'utils/errors/commits';
 
 type ContextType =
   | {
@@ -69,7 +71,10 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
     refetchCustomer,
   } = useCustomerContext();
 
-  const {onOpen: onOpenPrompt} = useCommitFeedbackPromptContext();
+  const {
+    onOpen: onOpenPrompt,
+    onClose: onClosePrompt,
+  } = useCommitFeedbackPromptContext();
 
   const [commitStatus, setCommitStatus] = useState<CommitStatus>();
   const [commitId, setCommitId] = useState<number | undefined>();
@@ -97,23 +102,33 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
     const {customer, idToken} = await getCustomerWithLogin();
 
     if (customer === undefined || idToken === undefined) {
-      console.log(customer, idToken);
       onOpenPrompt('require-login');
       return;
     }
 
-    const commit = await addCommit(
-      {
-        listingId,
-        customerId: customer.id,
-      },
-      idToken
-    );
-    // TODO: Handle addition error
-    setCommitId(commit.id);
-    await refetchCustomer();
-    setCommitStatus(commit.commitStatus);
-    onOpenPrompt('successful-commit');
+    onOpenPrompt('loading');
+    try {
+      const commit = await addCommit(
+        {
+          listingId,
+          customerId: customer.id,
+        },
+        idToken
+      );
+
+      setCommitId(commit.id);
+      await refetchCustomer();
+      setCommitStatus(commit.commitStatus);
+      onOpenPrompt('successful-commit');
+    } catch (err) {
+      if (err instanceof ConflictError) {
+        onOpenPrompt('already-committed');
+      } else if (err instanceof MaxCommitsExceededError) {
+        onOpenPrompt('max-commits-exceeded');
+      } else {
+        onOpenPrompt('error');
+      }
+    }
   };
 
   const onUncommit = async () => {
@@ -128,11 +143,17 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
       return;
     }
 
-    await deleteCommit(commitId, idToken);
-    // TODO: Handle deletion error
-    setCommitId(undefined);
-    await refetchCustomer();
-    setCommitStatus(undefined);
+    onOpenPrompt('loading');
+    try {
+      await deleteCommit(commitId, idToken);
+
+      setCommitId(undefined);
+      await refetchCustomer();
+      setCommitStatus(undefined);
+      onClosePrompt();
+    } catch {
+      onOpenPrompt('error');
+    }
   };
 
   const onPayment = async (
@@ -150,19 +171,22 @@ const CommitContextProvider: React.FC<CommitContextProps> = ({
     }
 
     onOpenPrompt('loading');
-    const commit = await payForCommit(commitId, {fulfilmentDetails}, idToken);
-    // TODO: Handle payment error
+    try {
+      const commit = await payForCommit(commitId, {fulfilmentDetails}, idToken);
 
-    if (setDefault) {
-      await updateCustomer(
-        customer.id,
-        {defaultFulfilmentDetails: fulfilmentDetails},
-        idToken
-      );
+      if (setDefault) {
+        await updateCustomer(
+          customer.id,
+          {defaultFulfilmentDetails: fulfilmentDetails},
+          idToken
+        );
+      }
+      await refetchCustomer();
+      setCommitStatus(commit.commitStatus);
+      onOpenPrompt('successful-payment');
+    } catch {
+      onOpenPrompt('error');
     }
-    await refetchCustomer();
-    setCommitStatus(commit.commitStatus);
-    onOpenPrompt('successful-payment');
   };
 
   const value = {

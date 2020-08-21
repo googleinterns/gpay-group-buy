@@ -72,7 +72,7 @@ describe('parseMoney', () => {
       },
       {
         currency: 'USD',
-        value: 0.49,
+        value: 99.99,
       },
       {
         currency: 'SGD',
@@ -99,8 +99,8 @@ describe('parseMoney', () => {
       },
       {
         currency: 'USD',
-        dollars: 0,
-        cents: 49,
+        dollars: 99,
+        cents: 99,
       },
       {
         currency: 'SGD',
@@ -109,8 +109,8 @@ describe('parseMoney', () => {
       },
       {
         currency: 'INR',
-        dollars: 1,
-        cents: 99,
+        dollars: 2,
+        cents: 0,
       },
       {
         currency: 'INR',

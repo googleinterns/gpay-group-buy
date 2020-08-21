@@ -36,10 +36,11 @@ const grayedStyle = css`
 
 const BadgeContainer = styled.div`
   min-width: 3em;
-  max-width: fit-content;
+  max-width: 6em;
   padding: 0.5em 1em;
   border-radius: 15px;
 
+  word-break: normal;
   text-transform: uppercase;
   font-weight: bold;
   text-align: center;
@@ -81,6 +82,7 @@ const getBadgeText = (commitStatus: CommitStatus) => {
 
 interface CommitStatusBadgeProps {
   commitStatus: CommitStatus;
+  className?: string; // Prop passed by styled-components wrapper.
 }
 
 /**
@@ -88,8 +90,9 @@ interface CommitStatusBadgeProps {
  */
 const CommitStatusBadge: React.FC<CommitStatusBadgeProps> = ({
   commitStatus,
+  className,
 }) => (
-  <BadgeContainer commitStatus={commitStatus}>
+  <BadgeContainer commitStatus={commitStatus} className={className}>
     {getBadgeText(commitStatus)}
   </BadgeContainer>
 );

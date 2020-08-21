@@ -20,10 +20,13 @@ import CommitsBadge from 'components/common/CommitsBadge';
 import Loading from 'components/common/Loading';
 import MobilePrompt from 'components/common/MobilePrompt';
 import {useCommitFeedbackPromptContext} from 'components/customer/listing-details/contexts/CommitFeedbackPromptContext';
+import {useHistory} from 'react-router-dom';
 
 import {ReactComponent as CelebrateSvg} from 'assets/celebrate.svg';
 import {ReactComponent as NotifySvg} from 'assets/customer/notify.svg';
 import {ReactComponent as PaymentSvg} from 'assets/customer/payment.svg';
+import {ReactComponent as SadSvg} from 'assets/customer/sad.svg';
+import {ReactComponent as ThinkingSvg} from 'assets/customer/thinking.svg';
 
 interface PromptProps {
   isVisible: boolean;
@@ -32,24 +35,29 @@ interface PromptProps {
   onClose: () => void;
 }
 
-const Prompt: React.FC<PromptProps> = ({onClose, ...props}) => (
-  <MobilePrompt
-    {...props}
-    buttons={[
-      {
-        name: 'Manage',
-        // TODO: Link to My Commits page onClick instead
-        onClick: onClose,
-      },
-      {
-        name: 'Dismiss',
-        onClick: onClose,
-      },
-    ]}
-  >
-    <CommitsBadge />
-  </MobilePrompt>
-);
+const Prompt: React.FC<PromptProps> = ({onClose, ...props}) => {
+  const history = useHistory();
+
+  const onClickManage = () => history.push('/commits');
+
+  return (
+    <MobilePrompt
+      {...props}
+      buttons={[
+        {
+          name: 'Manage',
+          onClick: onClickManage,
+        },
+        {
+          name: 'Dismiss',
+          onClick: onClose,
+        },
+      ]}
+    >
+      <CommitsBadge />
+    </MobilePrompt>
+  );
+};
 
 /**
  * CommitStatusPrompt that shows the appropriate feedback prompt to the customer.
@@ -84,6 +92,31 @@ const CommitStatusPrompt: React.FC = () => {
           />
         );
         break;
+      case 'max-commits-exceeded':
+        setPrompt(
+          <Prompt
+            title="Sorry, you do not have enough commits left."
+            header={<SadSvg />}
+            isVisible={isPromptVisible}
+            onClose={onClose}
+          />
+        );
+        break;
+      case 'already-committed':
+        setPrompt(
+          <MobilePrompt
+            title="You are already committed to this listing."
+            header={<ThinkingSvg />}
+            isVisible={isPromptVisible}
+            buttons={[
+              {
+                name: 'Dismiss',
+                onClick: onClose,
+              },
+            ]}
+          />
+        );
+        break;
       case 'loading':
         setPrompt(
           <MobilePrompt
@@ -113,6 +146,21 @@ const CommitStatusPrompt: React.FC = () => {
               access to your Google Pay phone number.
             </p>
           </MobilePrompt>
+        );
+        break;
+      case 'error':
+        setPrompt(
+          <MobilePrompt
+            title="Something went wrong, please try again later."
+            header={<NotifySvg />}
+            isVisible={isPromptVisible}
+            buttons={[
+              {
+                name: 'Dismiss',
+                onClick: onClose,
+              },
+            ]}
+          />
         );
         break;
       default:

@@ -40,7 +40,9 @@ const PromptContent = styled.section`
 
   padding-top: 18px;
 
-  text-align: center;
+  & > p {
+    text-align: center;
+  }
 
   & > * {
     margin: 6px 0 6px 0;
@@ -75,6 +77,7 @@ const LinkButton = styled(Button)`
 
   && {
     color: var(--green);
+    background: none;
   }
 `;
 

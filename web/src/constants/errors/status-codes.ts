@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-import React from 'react';
-
-const LandingPage: React.FC = () => <div>Merchant Landing Page</div>;
-
-export default LandingPage;
+export const BAD_REQUEST_ERROR_CODE = 400;
+export const UNAUTHROIZED_ERROR_CODE = 401;
+export const FORBIDDEN_ERROR_CODE = 403;
+export const NOT_FOUND_ERROR_CODE = 404;
+export const CONFLICT_ERROR_CODE = 409;
+export const INTERNAL_SERVER_ERROR_CODE = 500;
