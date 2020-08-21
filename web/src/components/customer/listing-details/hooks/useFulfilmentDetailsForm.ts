@@ -35,14 +35,16 @@ const useFulfilmentDetailsForm = () => {
     mode: 'onChange',
   });
   const {onPayment} = useCommitContext();
-  const {customer} = useCustomerContext();
+  const {customer, identity} = useCustomerContext();
+
+  const customerName = identity ? identity.decodedToken.name : '';
 
   const fields = [
     {
       label: 'Name',
       name: 'name',
       type: 'text',
-      defaultValue: customer?.defaultFulfilmentDetails.name,
+      defaultValue: customer?.defaultFulfilmentDetails.name || customerName,
     },
     {
       label: 'Contact Number',
