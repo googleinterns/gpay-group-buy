@@ -62,7 +62,9 @@ describe('Date validation', () => {
 
     test('Should format deadline into Date object', () => {
       const req = createAddListingRequest(validListing);
+
       validateAndFormatListingDeadline(req, res, next);
+
       expect(req.body).toEqual(listingWithFormattedDeadline);
       expect(req.body.deadline).toBeInstanceOf(Date);
     });
@@ -73,6 +75,7 @@ describe('Date validation', () => {
 
     test('Should throw an error', () => {
       const req = createAddListingRequest(listingWithNoDeadline);
+
       expect(() => validateAndFormatListingDeadline(req, res, next)).toThrow(
         new BadRequestError('Date is undefined.')
       );
@@ -87,6 +90,7 @@ describe('Date validation', () => {
 
     test('Should throw an error', () => {
       const req = createAddListingRequest(listingWithDeadlineNotDateString);
+
       expect(() => validateAndFormatListingDeadline(req, res, next)).toThrow(
         new BadRequestError('Invalid date.')
       );
@@ -101,6 +105,7 @@ describe('Date validation', () => {
 
     test('Should throw an error', () => {
       const req = createAddListingRequest(listingWithDeadlineInvalidDate);
+
       expect(() => validateAndFormatListingDeadline(req, res, next)).toThrow(
         new BadRequestError('Invalid date.')
       );
@@ -115,6 +120,7 @@ describe('Date validation', () => {
 
     test('Should throw an error', () => {
       const req = createAddListingRequest(listingWithDeadlineInWrongFormat);
+
       expect(() => validateAndFormatListingDeadline(req, res, next)).toThrow(
         new BadRequestError('Invalid date.')
       );
