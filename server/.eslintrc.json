@@ -8,6 +8,9 @@
     "import"
   ],
   "rules": {
+    "@typescript-eslint/no-unused-vars": [1, {
+      "varsIgnorePattern": "^_"
+    }],
     "import/order": [
       "error",
       {
