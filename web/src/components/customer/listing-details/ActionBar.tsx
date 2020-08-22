@@ -146,6 +146,8 @@ const ActionBar: React.FC = () => {
           );
         case 'awaitingDelivery':
           return <ActionButton disabled>Waiting for Delivery</ActionButton>;
+        case 'unsuccessful':
+          return <ActionButton disabled>Deadline Past</ActionButton>;
         default:
           return <ActionButton disabled>Item Delivered</ActionButton>;
       }
