@@ -51,7 +51,7 @@
     "guid-typescript": "^1.0.9",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^1.8.1",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "node-fetch": "^2.6.0",
     "node-mocks-http": "^1.8.1",
     "portfinder": "^1.0.26",
